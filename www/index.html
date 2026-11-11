@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#0F766E">
-<title>قوة الحوض — تمارين كيجل</title>
+<title>عافيتي — تمارين قاع الحوض وعادات صحية</title>
 <style>
 :root{
   --bg:#F6F4EF;--card:#FFFFFF;--ink:#1C2321;--muted:#6B7470;--line:#E6E2D9;
@@ -699,8 +699,8 @@ function renderOnb(){
   const bar='<div class="steps">'+Array.from({length:N},(_,i)=>`<i class="${i<=st?'on':''}"></i>`).join('')+'</div>';
   let h='';
   if(st===0){
-    h=`<div style="height:6vh"></div>${ILL.pelvis}<h1>قوة الحوض</h1>
-    <p class="muted">برنامج مقنّن لتمارين كيجل مدته 180 يومًا. مدرّب موقّت يخبرك متى تضغط ومتى تسترخي — والاهتزاز يقودك والهاتف في جيبك.</p>
+    h=`<div style="height:6vh"></div>${ILL.pelvis}<h1>عافيتي</h1>
+    <p class="muted">رفيقك اليومي لصحة أفضل: برنامج تمارين قاع الحوض (كيجل) لمدة 180 يومًا، مع عادات الماء والقلب والإقلاع عن التدخين. مدرّب موقّت يخبرك متى تضغط ومتى تسترخي — والاهتزاز يقودك والهاتف في جيبك.</p>
     <div class="card small"><b>خصوصية كاملة:</b> لا حساب، لا إعلانات، كل بياناتك على جهازك فقط.</div>
     <button class="btn accent" id="nx">ابدأ رحلتك</button>${CREDIT}`;
   } else if(st===1){
@@ -1097,7 +1097,7 @@ function renderSettings(){
    <div class="set"><span class="small muted">مواعيد اليوم</span><span class="small" style="text-align:left">${smokeSlots().map(hm).join(' · ')}</span></div>
    <p class="small muted" style="margin:8px 0 0">يصلك إشعار عند بداية كل فترة، وإشعار عند انتهائها مع زرّي «أكملتها» و«لم أكملها».</p>
   </div>
-  <h2>ويدجت الشاشة الرئيسية</h2><div class="card"><p class="small" style="margin:0">اضغط مطولًا على مكان فارغ في الشاشة الرئيسية للجوال ← <b>الأدوات (Widgets)</b> ← ابحث عن <b>قوة الحوض</b> واسحبه للشاشة. يعرض سلسلتك وجلسات اليوم والماء، وتبدأ منه جلسة أو تضيف كوب ماء بلمسة.</p></div>
+  <h2>ويدجت الشاشة الرئيسية</h2><div class="card"><p class="small" style="margin:0">اضغط مطولًا على مكان فارغ في الشاشة الرئيسية للجوال ← <b>الأدوات (Widgets)</b> ← ابحث عن <b>عافيتي</b> واسحبه للشاشة. يعرض سلسلتك وجلسات اليوم والماء، وتبدأ منه جلسة أو تضيف كوب ماء بلمسة.</p></div>
   <h2>التمرين</h2><div class="card">
    <div class="set"><span>الاهتزاز التوجيهي</span>${sw('haptics',S.haptics)}</div>
    <div class="set"><span>الإرشاد الصوتي</span>${sw('voice',S.voice)}</div>
@@ -1112,7 +1112,7 @@ function renderSettings(){
    <p class="small muted">كل بياناتك محفوظة على هذا الجهاز فقط. لا حسابات، لا إعلانات، ولا يُرسل أي شيء لأي خادم.</p>
    <button class="btn ghost" id="wipe" style="color:var(--danger)">حذف كل البيانات والبدء من جديد</button></div>
   <div class="warn small">هذا التطبيق أداة لياقة عامة وليس منتجًا طبيًا، ولا يشخّص أو يعالج أي حالة. استشر طبيبًا عند وجود ألم أو أعراض مزمنة أو جراحة حديثة. توقف فورًا إذا شعرت بألم.</div>
-  <p class="center small muted" style="margin-bottom:0">قوة الحوض · الإصدار 1.0</p>${CREDIT}`;
+  <p class="center small muted" style="margin-bottom:0">عافيتي · الإصدار 2.0</p>${CREDIT}`;
   app.querySelectorAll('[data-sw]').forEach(b=>b.onclick=async()=>{
     const k=b.dataset.sw; S[k]=!S[k]; save();
     if(k==='remindersOn'){ if(S.remindersOn) await notifPermission(); await scheduleReminders(); toast(S.remindersOn?'تم تفعيل التذكيرات':'تم إيقاف التذكيرات'); }

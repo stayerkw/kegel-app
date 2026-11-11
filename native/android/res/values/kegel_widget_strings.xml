@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="w_title">قوة الحوض</string>
+    <string name="w_title">عافيتي</string>
     <string name="w_day_fmt">اليوم %1$s من 180</string>
     <string name="w_streak_lbl">أيام متتالية</string>
     <string name="w_sessions_lbl">جلسات اليوم</string>
