@@ -9,3 +9,7 @@
 - كل دفع إلى `main` يبني APK تلقائيًا وينشره في Releases.
 
 **تحميل آخر إصدار:** `releases/latest/download/kegel.apk`
+
+## الخطوط والأيقونات
+- الخط: IBM Plex Sans Arabic — رخصة SIL Open Font License 1.1 (مدمج في `www/fonts`).
+- الأيقونات: Phosphor Icons (MIT) و Health Icons (CC0) — healthicons.org.
