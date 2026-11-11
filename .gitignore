@@ -1,5 +1,5 @@
 node_modules/
-android/
+/android/
 *.jks
 *.apk
 www/capacitor.js

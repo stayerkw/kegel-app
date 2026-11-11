@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="w_title">قوة الحوض</string>
+    <string name="w_day_fmt">اليوم %1$s من 180</string>
+    <string name="w_streak_lbl">أيام متتالية</string>
+    <string name="w_sessions_lbl">جلسات اليوم</string>
+    <string name="w_water_lbl">أكواب الماء</string>
+    <string name="w_go">ابدأ الجلسة</string>
+    <string name="w_extra">جلسة إضافية</string>
+    <string name="w_add_water">+ كوب ماء</string>
+    <string name="w_desc">سلسلتك وجلسات اليوم والماء، مع بدء جلسة بلمسة</string>
+</resources>
