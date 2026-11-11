@@ -121,6 +121,12 @@ body.dark .ic-badge{color:#5EEAD4}
 .confetti{position:fixed;left:50%;top:150px;width:0;height:0;pointer-events:none;z-index:25}
 .confetti i{position:absolute;width:8px;height:12px;border-radius:2px;opacity:0;animation:burst 1.5s cubic-bezier(.16,1,.3,1) forwards}
 @keyframes burst{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(var(--r))}}
+.cups{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 12px;color:var(--accent)}
+.cups svg{width:24px;height:30px}.cups .lv{fill:var(--accent2);opacity:0;transform:scaleY(0);transform-origin:50% 100%;transform-box:fill-box;transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .2s}
+.cups .full .lv{opacity:.85;transform:scaleY(1)}
+.cups svg:not(.full){color:var(--line)}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;background:var(--accentSoft);color:var(--accent);margin-inline-start:6px;font-weight:600}
+select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
 .credit{display:flex;align-items:center;justify-content:center;gap:8px;margin:18px 0 6px;color:var(--muted);font-size:13px}
 .credit b{color:var(--ink)}
 @media (prefers-reduced-motion:reduce){
@@ -143,7 +149,7 @@ body.dark .ic-badge{color:#5EEAD4}
 const Cap = window.Capacitor;
 const isNative = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform());
 const plug = n => { if(!isNative) return null; if(Cap.registerPlugin) return Cap.registerPlugin(n); return (Cap.Plugins&&Cap.Plugins[n])||null; };
-const LN = plug('LocalNotifications'), HP = plug('Haptics'), APP = plug('App'), KA = plug('KeepAwake');
+const LN = plug('LocalNotifications'), HP = plug('Haptics'), APP = plug('App'), KA = plug('KeepAwake'), WB = plug('WidgetBridge');
 
 const Haptic = {
   heavy(){ if(!S.haptics) return; if(HP) HP.impact({style:'HEAVY'}).catch(()=>{}); else vib(70); },
@@ -165,9 +171,12 @@ function speak(t){
 /* ============ التخزين ============ */
 const KEY='kegel_v1';
 const DEF={v:1,onboarded:false,goals:[],level:1,reminders:['07:00','13:00','21:00'],remindersOn:true,haptics:true,voice:false,dark:false,
-  progDay:1,dayDoneOn:null,logs:[],ach:{},suggestAdvance:false,warned:false,startDate:null};
+  progDay:1,dayDoneOn:null,logs:[],ach:{},suggestAdvance:false,warned:false,startDate:null,smartRem:true,water:null,waterLog:{}};
+const defWater=()=>({on:true,goal:8,ml:250,from:'08:00',to:'22:00',every:120});
 let S;
 try{ S=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'{}')); }catch(e){ S=Object.assign({},DEF); }
+function fixState(){ if(!S.water) S.water=defWater(); if(!S.waterLog) S.waterLog={}; if(S.smartRem===undefined) S.smartRem=true; }
+fixState();
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 
 /* ============ التاريخ ============ */
@@ -311,26 +320,55 @@ async function notifPermission(){
   if(!LN) return 'web';
   try{ let p=await LN.checkPermissions(); if(p.display!=='granted') p=await LN.requestPermissions(); return p.display; }catch(e){ return 'error'; }
 }
+/* التذكير الذكي: يتعلّم وقت كل جلسة من آخر 21 يومًا ويذكّرك قبله بعشر دقائق */
+function learnedSlots(){
+  const need=planFor(S.progDay).n, map=need===2?[0,2]:[0,1,2], by={}, cut=addDays(today(),-21), slots=[[],[],[]];
+  S.logs.filter(l=>l.kind==='daily'&&!l.skipped&&l.date>=cut).forEach(l=>(by[l.date]=by[l.date]||[]).push(l.ts));
+  Object.values(by).forEach(a=>a.sort((x,y)=>x-y).slice(0,need).forEach((ts,i)=>{ const t=new Date(ts); slots[map[i]].push(t.getHours()*60+t.getMinutes()); }));
+  return slots;
+}
+function effectiveTimes(){
+  const sl=S.smartRem?learnedSlots():[[],[],[]];
+  return S.reminders.map((t,i)=>{
+    const a=sl[i].slice().sort((x,y)=>x-y);
+    if(a.length<4) return {t,learned:false};
+    let m=a[Math.floor(a.length/2)]-10; m=Math.max(0,Math.round(m/5)*5);
+    return {t:pad(Math.floor(m/60))+':'+pad(m%60),learned:true};
+  });
+}
+const WMSG=[['وقت كوب ماء','كوب الآن يحافظ على نشاطك وصحة مثانتك.'],['اشرب كوبًا من الماء','الترطيب المنتظم يقلل تهيّج المثانة.'],['استراحة ماء','كوب واحد الآن يقرّبك من هدفك اليومي.'],['لا تنسَ الماء','وزّع شربك على اليوم بدل كمية كبيرة مرة واحدة.']];
+const waterToday=()=>S.waterLog[today()]||0;
+function waterSlots(){ const [fh,fm]=S.water.from.split(':').map(Number),[th,tm]=S.water.to.split(':').map(Number), out=[]; for(let m=fh*60+fm;m<=th*60+tm;m+=S.water.every) out.push(m); return out; }
+let _rs; function reschedule(){ clearTimeout(_rs); _rs=setTimeout(scheduleReminders,1200); }
+let _typesDone=false;
 async function scheduleReminders(){
   if(!LN) return;
   try{
     const pend=await LN.getPending();
     if(pend.notifications.length) await LN.cancel({notifications:pend.notifications.map(n=>({id:n.id}))});
-    if(!S.remindersOn) return;
     try{ await LN.createChannel({id:'training',name:'تذكير التمارين',importance:5,vibration:true}); }catch(e){}
-    const now=new Date(), list=[]; const tdone=dailyDoneOn(today()), need=planFor(S.progDay).n;
-    for(let i=0;i<14;i++){
-      S.reminders.forEach((tm,slot)=>{
+    try{ await LN.createChannel({id:'water',name:'تذكير شرب الماء',importance:4,vibration:true}); }catch(e){}
+    if(!_typesDone){ try{ await LN.registerActionTypes({types:[{id:'WATER',actions:[{id:'drink',title:'شربت كوبًا'}]},{id:'TRAIN',actions:[{id:'start',title:'ابدأ الآن'}]}]}); _typesDone=true; }catch(e){} }
+    const now=new Date(), list=[], tdone=dailyDoneOn(today()), need=planFor(S.progDay).n, times=effectiveTimes();
+    if(S.remindersOn) for(let i=0;i<14;i++){
+      times.forEach(({t},slot)=>{
         if(need===2 && slot===1) return;
-        const [h,m]=tm.split(':').map(Number);
+        const [h,m]=t.split(':').map(Number);
         const at=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i,h,m,0);
         if(at<=now) return;
-        if(i===0 && (S.dayDoneOn===today() || tdone>slot)) return;
-        const dayNo=Math.min(180,S.progDay+i);
-        const [title,body]=msgFor(dayNo,slot);
-        list.push({id:1000+i*10+slot,title,body,schedule:{at,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify'});
+        if(i===0 && (S.dayDoneOn===today() || tdone>(need===2&&slot===2?1:slot))) return;
+        const [title,body]=msgFor(Math.min(180,S.progDay+i),slot);
+        list.push({id:1000+i*10+slot,title,body,schedule:{at,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',actionTypeId:'TRAIN',extra:{go:'session'}});
       });
     }
+    if(S.water.on){ const ws=waterSlots(); for(let i=0;i<7;i++) ws.forEach((mins,k)=>{
+      const at=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i,Math.floor(mins/60),mins%60,0);
+      if(at<=now) return;
+      if(i===0 && waterToday()>=S.water.goal) return;
+      const [title,body]=WMSG[(i+k)%WMSG.length];
+      const b2 = i===0 ? `شربت ${waterToday()} من ${S.water.goal} أكواب اليوم. ${body}` : body;
+      list.push({id:5000+i*40+k,title,body:b2,schedule:{at,allowWhileIdle:true},channelId:'water',smallIcon:'ic_stat_notify',actionTypeId:'WATER',extra:{go:'water'}});
+    }); }
     if(list.length) await LN.schedule({notifications:list});
   }catch(e){ console.log('notif err',e); }
 }
@@ -362,6 +400,9 @@ const IC={
   alert:'<path d="M12 4l9 15.5H3z"/><path d="M12 10v4.5M12 17.2v.3"/>',
   arrowUp:'<path d="M12 19V6M6.5 11.5L12 6l5.5 5.5"/>',
   chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  drop:'<path d="M12 3.5c3 4 6 7.2 6 10.5a6 6 0 0 1-12 0c0-3.3 3-6.5 6-10.5z"/>',
+  spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>',
+  widget:'<rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/>',
   shield:'<path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/><path d="M8.8 12.2l2.2 2.2 4.3-4.3"/>',
   code:'<path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5M13.5 5l-3 14"/>',
   hand:'<path d="M8 13V6.5a1.5 1.5 0 0 1 3 0V12M11 11V5a1.5 1.5 0 0 1 3 0v6M14 11V6.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-.5A5.5 5.5 0 0 1 5 16.8L3.6 13.6a1.5 1.5 0 0 1 2.6-1.5L8 14.5"/>',
@@ -407,6 +448,29 @@ function confetti(){
   document.body.appendChild(c); setTimeout(()=>c.remove(),1800);
 }
 
+function addWater(n){
+  const before=waterToday(); S.waterLog[today()]=Math.max(0,before+n);
+  const keys=Object.keys(S.waterLog).sort(); if(keys.length>90) keys.slice(0,keys.length-90).forEach(k=>delete S.waterLog[k]);
+  save(); if(n>0) Haptic.light();
+  if(before<S.water.goal && waterToday()>=S.water.goal){ toast('وصلت لهدف الماء اليوم'); Haptic.success(); }
+  updateWidget(); reschedule();
+}
+function updateWidget(){
+  if(!WB||!S.onboarded) return; const plan=planFor(S.progDay);
+  try{ WB.update({day:String(S.progDay),streak:String(streak()),done:String(Math.min(dailyDoneOn(today()),plan.n)),need:String(plan.n),water:String(waterToday()),waterGoal:String(S.water.goal),dayDone:S.dayDoneOn===today()}).catch(()=>{}); }catch(e){}
+}
+function startNext(){ const plan=planFor(S.progDay); if(S.dayDoneOn===today()) startSession('quick'); else startSession('daily',plan,Math.min(dailyDoneOn(today()),plan.n-1)); }
+let _lastUrl={u:'',t:0};
+function handleUrl(u){
+  if(!u||!S.onboarded) return; const now=Date.now();
+  if(u===_lastUrl.u && now-_lastUrl.t<3000) return; _lastUrl={u,t:now};
+  if(u.indexOf('water')>-1){ addWater(1); toast('أُضيف كوب ماء — '+waterToday()+' من '+S.water.goal); if(screen!=='session'){ screen='tabs'; tab='home'; render(); } }
+  else if(u.indexOf('session')>-1){ if(screen!=='session') startNext(); }
+  else if(screen!=='session'){ screen='tabs'; tab='home'; render(); }
+}
+function cupsSVG(w,g){
+  return '<div class="cups">'+Array.from({length:g},(_,i)=>`<svg viewBox="0 0 24 30" class="${i<w?'full':''}" aria-hidden="true"><path d="M4 3h16l-2 23a2 2 0 0 1-2 1.8H8A2 2 0 0 1 6 26z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path class="lv" d="M6.6 10h10.8l-1.4 15.6a1 1 0 0 1-1 .9H9a1 1 0 0 1-1-.9z"/></svg>`).join('')+'</div>';
+}
 const CREDIT=`<p class="credit">${'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+'<path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5M13.5 5l-3 14"/></svg>'}<span>من تطوير: <b>حامد الدهاش</b></span></p>`;
 /* ============ الواجهة العامة ============ */
 const $=s=>document.querySelector(s);
@@ -432,6 +496,7 @@ function renderTabs(){
   t.querySelectorAll('button').forEach(b=>b.onclick=()=>{ tab=b.dataset.tab; render(); window.scrollTo(0,0); });
 }
 function render(){
+  setTimeout(updateWidget,0);
   document.body.classList.toggle('dark',!!S.dark);
   if(!S.onboarded){ screen='onb'; renderTabs(); return renderOnb(); }
   if(screen==='session') return;
@@ -539,6 +604,7 @@ function renderOnb(){
     h=`<h1>مواعيد التذكير</h1><p class="muted">3 جلسات قصيرة موزعة على اليوم أفضل من جلسة واحدة طويلة: العضلة تتعب بسرعة وتحتاج راحة بين الجلسات، والتكرار المتباعد يرسّخ العادة.</p>
     ${ILL.pocket}
     <div class="card">${S.reminders.map((t,i)=>`<div class="set"><span>${['الصباح','الظهر','المساء'][i]}</span><input type="time" value="${t}" data-r="${i}"></div>`).join('')}</div>
+    <div class="card"><div class="set"><span class="hrow">${ic('drop')} تذكير شرب الماء<br></span><button class="sw ${S.water.on?'on':''}" id="obW" aria-pressed="${S.water.on}"></button></div><p class="small muted" style="margin:6px 0 0">كل ساعتين من 8 صباحًا إلى 10 مساءً، بهدف 8 أكواب يوميًا.</p></div>
     <p class="small muted">ستصلك إشعارات على الجوال في هذه الأوقات. يمكنك تعديلها لاحقًا من الإعدادات.</p>
     <button class="btn accent" id="nx">تفعيل التذكيرات والبدء</button>
     <div style="height:8px"></div><button class="btn ghost" id="skipN">البدء بدون تذكيرات</button>`;
@@ -550,6 +616,7 @@ function renderOnb(){
   app.querySelectorAll('[data-r]').forEach(inp=>inp.onchange=()=>{ S.reminders[+inp.dataset.r]=inp.value; save(); });
   const nx=$('#nx'); if(nx) nx.onclick=()=>{ if(nx.disabled) return; if(st<5){ ob.step++; renderOnb(); window.scrollTo(0,0);} else finishOnb(true); };
   const sk=$('#skipN'); if(sk) sk.onclick=()=>finishOnb(false);
+  const ow=$('#obW'); if(ow) ow.onclick=()=>{ S.water.on=!S.water.on; save(); renderOnb(); };
 }
 function calcLevel(){ const s=(ob.q[0]||0)+(ob.q[1]||0); if(ob.q[2]===1) return 1; return s>=4?3:s>=2?2:1; }
 async function finishOnb(withRem){
@@ -589,6 +656,10 @@ function renderHome(){
     ${recover}${adv}${main}
     <div class="row"><div class="card stat"><b class="hrow" style="justify-content:center">${st} <span class="flame">${ic('flame','lg')}</span></b><span class="small muted">السلسلة الحالية</span></div>
     <div class="card stat"><b>${totalSessions()}</b><span class="small muted">إجمالي الجلسات</span></div></div>
+    ${S.water.on?`<div class="card"><div class="row" style="justify-content:space-between"><h3 class="hrow" style="margin:0">${ic('drop')} الماء اليوم</h3><b style="text-align:left">${waterToday()} من ${S.water.goal} أكواب</b></div>
+      ${cupsSVG(Math.min(waterToday(),S.water.goal),S.water.goal)}
+      <div class="row"><button class="btn ghost sm" id="wMinus" aria-label="إنقاص كوب" style="flex:0 0 56px;min-width:56px">−</button><button class="btn accent sm" id="wPlus">${ic('drop')}أضف كوبًا</button></div>
+      <p class="small muted" style="margin-bottom:0">${waterToday()>=S.water.goal?'أحسنت، وصلت لهدفك اليوم.':'شربت '+(waterToday()*S.water.ml/1000).toFixed(2).replace(/\.?0+$/,'')+' لتر من '+(S.water.goal*S.water.ml/1000)+' لتر'}</p></div>`:''}
     <h2>تمارين سريعة</h2>
     <div class="row"><button class="card" id="q1" style="text-align:start;margin:0"><span class="ic-badge">${ic('bolt')}</span><h3>جلسة سريعة</h3><p class="small muted">دقيقة واحدة — تحفظ سلسلة يومك</p></button>
     <button class="card" id="q2" style="text-align:start;margin:0"><span class="ic-badge">${ic('flame')}</span><h3>النيران السريعة</h3><p class="small muted">60 ثانية: ضغط وإرخاء كل ثانية</p></button></div>`;
@@ -596,6 +667,8 @@ function renderHome(){
   const ex=$('#extra'); if(ex) ex.onclick=()=>startSession('quick');
   const qb=$('#qBack'); if(qb) qb.onclick=()=>startSession('quick');
   $('#q1').onclick=()=>startSession('quick'); $('#q2').onclick=()=>startSession('rapidq');
+  const wp=$('#wPlus'); if(wp) wp.onclick=()=>{ addWater(1); render(); };
+  const wm=$('#wMinus'); if(wm) wm.onclick=()=>{ if(waterToday()>0){ addWater(-1); render(); } };
   const ay=$('#advY'); if(ay) ay.onclick=()=>{ if(S.progDay<180) S.progDay++; S.suggestAdvance=false; save(); toast('تقدّمت إلى اليوم '+S.progDay); render(); };
   const an=$('#advN'); if(an) an.onclick=()=>{ S.suggestAdvance=false; save(); render(); };
 }
@@ -737,7 +810,7 @@ function finishSession(partial){
   }
   if(gapBefore>=4) S.comeback=true;
   if(S.logs.length>3000) S.logs=S.logs.slice(-3000);
-  save(); Haptic.long();
+  save(); Haptic.long(); updateWidget();
   lastDone={log,fresh:checkAch(),first:totalSessions()===1};
   R=null; screen='done'; render(); scheduleReminders();
 }
@@ -809,6 +882,7 @@ const ARTICLES=[
   ['التدريب والهاتف في جيبك',`${ILL.pocket}<p>فعّل الاهتزاز من الإعدادات وضع الهاتف في جيبك: <b>نبضة قوية</b> = ابدأ الضغط، <b>نبضتان خفيفتان</b> = استرخِ، <b>نبضات صغيرة</b> = آخر ثانيتين، <b>اهتزاز ممتد</b> = انتهت الجلسة. هكذا تتمرّن في أي مكان دون أن ينتبه أحد.</p>`],
   ['كيجل للرجال بعد جراحة البروستاتا','<p>تمارين قاع الحوض من أكثر ما يُنصح به لاستعادة التحكم بالبول بعد استئصال البروستاتا. <b>لا تبدأ إلا بعد إذن طبيبك</b>، وعادة يكون ذلك بعد إزالة القسطرة. ابدأ من المستوى الأول بانقباضات قصيرة، والتزم بتوجيهات فريقك الطبي.</p>'],
   ['كيجل بعد الولادة','<p>الحمل والولادة يُضعفان قاع الحوض. يمكن البدء بانقباضات لطيفة بعد الولادة الطبيعية حين تشعرين بالراحة، أما بعد القيصرية أو التمزق فاستشيري طبيبتك أولًا. ابدئي بالمستوى الأول، وتوقفي إن شعرتِ بألم.</p>'],
+  ['الماء وصحة المثانة',`<p><b>لا تقلّل الماء لتقليل التسرّب.</b> البول المركّز يهيّج المثانة ويزيد الإلحاح، والقليل من الماء يسبب الإمساك الذي يضغط على قاع الحوض.</p><p><b>وزّع الشرب على اليوم:</b> كوب كل ساعة أو ساعتين أفضل من كمية كبيرة مرة واحدة. لون البول الأصفر الفاتح علامة جيدة على الترطيب.</p><p><b>قلّل المهيّجات:</b> القهوة والشاي ومشروبات الطاقة والمشروبات الغازية تزيد الإلحاح عند كثير من الناس.</p><p><b>قبل النوم:</b> إن كنت تستيقظ للتبول، خفّف الشرب في آخر ساعتين قبل النوم، وعوّض ذلك نهارًا.</p><p class="small muted">من لديه مرض في القلب أو الكلى أو تعليمات طبية بتحديد السوائل يلتزم بتعليمات طبيبه.</p>`],
   ['متى أتوقف وأستشير طبيبًا؟','<p>توقف فورًا واستشر طبيبًا إذا شعرت بـ: ألم أثناء التمرين أو بعده، ألم في الحوض أو أسفل الظهر يزداد، تفاقم في أعراض البول، أو إذا لم تلاحظ أي تحسن بعد 3 أشهر من الالتزام. أخصائي العلاج الطبيعي لقاع الحوض يستطيع تقييم حالتك بدقة.</p>']
 ];
 function renderLearn(){
@@ -825,9 +899,21 @@ function renderSettings(){
   <h2>التذكيرات</h2><div class="card">
    <div class="set"><span>إشعارات مواعيد التمرين</span>${sw('remindersOn',S.remindersOn)}</div>
    ${S.reminders.map((t,i)=>`<div class="set"><span>${['جلسة الصباح','جلسة الظهر','جلسة المساء'][i]}</span><input type="time" value="${t}" data-r="${i}"></div>`).join('')}
+   <div class="set"><span>التذكير الذكي<br><span class="small muted">يتعلّم أوقات تمرينك الفعلية ويذكّرك قبلها</span></span>${sw('smartRem',S.smartRem)}</div>
+   ${S.smartRem?`<div class="set"><span class="small muted">المواعيد المستخدمة الآن</span><span class="small">${effectiveTimes().map(x=>x.t+(x.learned?'<span class="tag">متعلَّم</span>':'')).join('<br>')}</span></div>`:''}
    <div class="set"><span class="small muted">${isNative?'تُجدول على جوالك وتصلك حتى والتطبيق مغلق.':'الإشعارات تعمل في نسخة تطبيق الجوال.'}</span>${isNative?'<button class="btn ghost sm" id="testN">تجربة إشعار</button>':''}</div>
    ${isNative?'<div class="set"><span class="small muted">إن تأخرت الإشعارات: اسمح بـ«المنبهات والتذكيرات» للتطبيق.</span><button class="btn ghost sm" id="exact">فتح الإذن</button></div>':''}
   </div>
+  <h2>شرب الماء</h2><div class="card">
+   <div class="set"><span>تذكير شرب الماء</span><button class="sw ${S.water.on?'on':''}" id="wOn" aria-pressed="${S.water.on}"></button></div>
+   <div class="set"><span>الهدف اليومي (أكواب)</span><select id="wGoal">${[4,5,6,7,8,9,10,11,12,14,16].map(n=>`<option ${n===S.water.goal?'selected':''}>${n}</option>`).join('')}</select></div>
+   <div class="set"><span>حجم الكوب</span><select id="wMl">${[200,250,300,330,500].map(n=>`<option value="${n}" ${n===S.water.ml?'selected':''}>${n} مل</option>`).join('')}</select></div>
+   <div class="set"><span>التذكير كل</span><select id="wEvery">${[[60,'ساعة'],[90,'ساعة ونصف'],[120,'ساعتين'],[180,'3 ساعات']].map(([v,n])=>`<option value="${v}" ${v===S.water.every?'selected':''}>${n}</option>`).join('')}</select></div>
+   <div class="set"><span>من</span><input type="time" id="wFrom" value="${S.water.from}"></div>
+   <div class="set"><span>إلى</span><input type="time" id="wTo" value="${S.water.to}"></div>
+   <p class="small muted" style="margin:8px 0 0">تتوقف تذكيرات اليوم تلقائيًا عند بلوغ هدفك. وزّع الشرب على اليوم، وقلّل الماء قبل النوم بساعتين إن كنت تستيقظ ليلًا للتبول.</p>
+  </div>
+  <h2>ويدجت الشاشة الرئيسية</h2><div class="card"><p class="small" style="margin:0">اضغط مطولًا على مكان فارغ في الشاشة الرئيسية للجوال ← <b>الأدوات (Widgets)</b> ← ابحث عن <b>قوة الحوض</b> واسحبه للشاشة. يعرض سلسلتك وجلسات اليوم والماء، وتبدأ منه جلسة أو تضيف كوب ماء بلمسة.</p></div>
   <h2>التمرين</h2><div class="card">
    <div class="set"><span>الاهتزاز التوجيهي</span>${sw('haptics',S.haptics)}</div>
    <div class="set"><span>الإرشاد الصوتي</span>${sw('voice',S.voice)}</div>
@@ -847,15 +933,19 @@ function renderSettings(){
     const k=b.dataset.sw; S[k]=!S[k]; save();
     if(k==='remindersOn'){ if(S.remindersOn) await notifPermission(); await scheduleReminders(); toast(S.remindersOn?'تم تفعيل التذكيرات':'تم إيقاف التذكيرات'); }
     if(k==='voice'&&S.voice) speak('الإرشاد الصوتي مفعّل');
+    if(k==='smartRem') reschedule();
     render();
   });
   app.querySelectorAll('[data-r]').forEach(inp=>inp.onchange=async()=>{ S.reminders[+inp.dataset.r]=inp.value; save(); await scheduleReminders(); toast('تم تحديث موعد التذكير'); });
+  $('#wOn').onclick=async()=>{ S.water.on=!S.water.on; save(); if(S.water.on) await notifPermission(); reschedule(); toast(S.water.on?'تم تفعيل تذكير الماء':'تم إيقاف تذكير الماء'); render(); };
+  [['wGoal','goal'],['wMl','ml'],['wEvery','every']].forEach(([id,k])=>$('#'+id).onchange=e=>{ S.water[k]=+e.target.value; save(); reschedule(); updateWidget(); });
+  [['wFrom','from'],['wTo','to']].forEach(([id,k])=>$('#'+id).onchange=e=>{ if(e.target.value){ S.water[k]=e.target.value; save(); reschedule(); } });
   $('#testV').onclick=()=>{ const was=S.haptics; S.haptics=true; Haptic.heavy(); setTimeout(()=>Haptic.double(),1200); setTimeout(()=>Haptic.light(),2400); setTimeout(()=>Haptic.long(),3600); S.haptics=was; toast('قوية = اضغط · نبضتان = استرخِ · خفيفة = آخر ثانيتين · ممتدة = انتهت'); };
   $('#back1').onclick=()=>{ if(S.progDay>1){ S.progDay--; S.dayDoneOn=null; save(); render(); } };
   const tn=$('#testN'); if(tn) tn.onclick=async()=>{ await notifPermission(); try{ await LN.createChannel({id:'training',name:'تذكير التمارين',importance:5,vibration:true}); }catch(e){} await LN.schedule({notifications:[{id:9,title:'تجربة إشعار',body:'هكذا ستصلك تذكيرات التمرين.',schedule:{at:new Date(Date.now()+5000),allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify'}]}); toast('سيصلك إشعار تجريبي بعد 5 ثوانٍ'); };
   const ex=$('#exact'); if(ex) ex.onclick=async()=>{ try{ await LN.changeExactNotificationSetting(); }catch(e){ toast('غير متاح على هذا الجهاز'); } };
   $('#wipe').onclick=()=>modal(`<h3>حذف كل البيانات؟</h3><p class="muted small">سيُحذف تقدّمك وإنجازاتك وسجلّك نهائيًا من هذا الجهاز.</p><button class="btn" id="yes" style="background:var(--danger);color:#fff">نعم، احذف</button><div style="height:8px"></div><button class="btn ghost" id="no">إلغاء</button>`,
-    (m,close)=>{ m.querySelector('#no').onclick=close; m.querySelector('#yes').onclick=async()=>{ close(); S=Object.assign({},DEF,{logs:[],ach:{},reminders:['07:00','13:00','21:00']}); ob={step:0,goals:new Set(),q:[null,null,null],flip:{}}; save(); if(LN){ try{const p=await LN.getPending(); if(p.notifications.length) await LN.cancel({notifications:p.notifications.map(n=>({id:n.id}))});}catch(e){} } render(); }; });
+    (m,close)=>{ m.querySelector('#no').onclick=close; m.querySelector('#yes').onclick=async()=>{ close(); S=Object.assign({},DEF,{logs:[],ach:{},reminders:['07:00','13:00','21:00'],water:defWater(),waterLog:{}}); ob={step:0,goals:new Set(),q:[null,null,null],flip:{}}; save(); if(LN){ try{const p=await LN.getPending(); if(p.notifications.length) await LN.cancel({notifications:p.notifications.map(n=>({id:n.id}))});}catch(e){} } render(); }; });
 }
 
 /* ============ زر الرجوع في أندرويد ============ */
@@ -869,6 +959,15 @@ if(APP){
     APP.exitApp();
   });
   APP.addListener('resume',()=>{ rollover(); if(screen!=='session') render(); scheduleReminders(); });
+  APP.addListener('appUrlOpen',e=>handleUrl(e&&e.url));
+  try{ APP.getLaunchUrl().then(r=>{ if(r&&r.url) setTimeout(()=>handleUrl(r.url),300); }).catch(()=>{}); }catch(e){}
+}
+if(LN){
+  LN.addListener('localNotificationActionPerformed',a=>{
+    const go=a&&a.notification&&a.notification.extra&&a.notification.extra.go;
+    if(go==='water'){ if(a.actionId==='drink') addWater(1); if(screen!=='session'){ screen='tabs'; tab='home'; render(); } }
+    else if(go==='session'){ if(a.actionId==='start' && screen!=='session') startNext(); else if(screen!=='session'){ screen='tabs'; tab='home'; render(); } }
+  });
 }
 
 /* ============ تشغيل ============ */
