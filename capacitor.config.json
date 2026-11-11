@@ -1,0 +1,10 @@
+{
+  "appId": "com.stayerkw.kegel",
+  "appName": "قوة الحوض",
+  "webDir": "www",
+  "android": { "allowMixedContent": false },
+  "plugins": {
+    "LocalNotifications": { "smallIcon": "ic_stat_notify", "iconColor": "#0F766E" },
+    "SplashScreen": { "launchShowDuration": 800, "backgroundColor": "#0F766E" }
+  }
+}
