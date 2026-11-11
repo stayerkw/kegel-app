@@ -261,7 +261,7 @@ body.dark .lvl.a{background:#14532D;color:#BBF7D0}body.dark .lvl.b{background:#4
 const Cap = window.Capacitor;
 const isNative = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform());
 const plug = n => { if(!isNative) return null; if(Cap.registerPlugin) return Cap.registerPlugin(n); return (Cap.Plugins&&Cap.Plugins[n])||null; };
-const LN = plug('LocalNotifications'), HP = plug('Haptics'), APP = plug('App'), KA = plug('KeepAwake'), WB = plug('WidgetBridge');
+const LN = plug('LocalNotifications'), HP = plug('Haptics'), APP = plug('App'), KA = plug('KeepAwake'), WB = plug('WidgetBridge'), TTS = plug('TextToSpeech');
 
 const Haptic = {
   heavy(){ if(!S.haptics) return; if(HP) HP.impact({style:'HEAVY'}).catch(()=>{}); else vib(70); },
@@ -275,21 +275,40 @@ async function keepAwake(on){
   try{ if(KA){ on?await KA.keepAwake():await KA.allowSleep(); return; } }catch(e){}
   try{ if(on && navigator.wakeLock){ window._wl = await navigator.wakeLock.request('screen'); } else if(window._wl){ window._wl.release(); window._wl=null; } }catch(e){}
 }
-function speak(t){
-  if(!S.voice || !window.speechSynthesis) return;
-  try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='ar-SA'; u.rate=1; speechSynthesis.speak(u);}catch(e){}
+/* ============ الصوت: محرك الكلام في الجوال + مؤثرات مولّدة ============ */
+let _ttsWarned=false;
+function speak(t,force){
+  if(!t || (!S.voice && !force)) return;
+  if(TTS){
+    TTS.speak({text:t,lang:'ar-SA',rate:0.95,pitch:1.0,volume:1.0,category:'playback',queueStrategy:0}).catch(()=>{
+      if(!_ttsWarned){ _ttsWarned=true; toast('ثبّت «الصوت العربي» من إعدادات الجوال ← تحويل النص إلى كلام'); }
+    });
+    return;
+  }
+  if(window.speechSynthesis){ try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='ar-SA'; u.rate=0.95; speechSynthesis.speak(u);}catch(e){} }
 }
+const nm=()=>(S.name||'').trim();
+const yaName=()=>nm()?'يا '+nm():'';
+let _ac=null;
+function ac(){ try{ if(!_ac){ const C=window.AudioContext||window.webkitAudioContext; if(C) _ac=new C(); } if(_ac&&_ac.state==='suspended') _ac.resume(); }catch(e){} return _ac; }
+function bell(freqs,gap=0.11,vol=0.16,len=0.5){
+  if(!S.sfx) return; const c=ac(); if(!c) return; let t=c.currentTime+0.02;
+  freqs.forEach(f=>{ [[1,1],[2.01,0.28],[3.02,0.08]].forEach(([m,g0])=>{ const o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.value=f*m;
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol*g0,t+0.012); g.gain.exponentialRampToValueAtTime(0.0001,t+len);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+len+0.05); }); t+=gap; });
+}
+const SFX={squeeze:()=>bell([659.3,880],0.08),relax:()=>bell([587.3,440],0.1,0.13,0.6),tick:()=>bell([1318.5],0,0.05,0.15),start:()=>bell([392,523.3,659.3],0.12,0.13),done:()=>bell([523.3,659.3,784,1046.5],0.13,0.17,0.9)};
 
 /* ============ التخزين ============ */
 const KEY='kegel_v1';
-const DEF={v:1,onboarded:false,goals:[],level:1,reminders:['07:00','13:00','21:00'],remindersOn:true,haptics:true,voice:false,dark:false,
+const DEF={v:1,onboarded:false,goals:[],level:1,reminders:['07:00','13:00','21:00'],remindersOn:true,haptics:true,voice:true,sfx:true,name:'حامد',dark:false,
   progDay:1,dayDoneOn:null,logs:[],ach:{},suggestAdvance:false,warned:false,startDate:null,smartRem:true,water:null,waterLog:{}};
 const defSmoke=()=>({on:true,from:'10:00',to:'00:00',every:180,dur:40});
 const defHeart=()=>({on:true,walkRem:true,walkTime:'17:30'});
 const defWater=()=>({on:true,goal:8,ml:250,from:'08:00',to:'22:00',every:120});
 let S;
 try{ S=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'{}')); }catch(e){ S=Object.assign({},DEF); }
-function fixState(){ if(!S.heart) S.heart=defHeart(); if(!S.heartLog) S.heartLog={}; if(!S.smoke) S.smoke=defSmoke(); if(!S.smokeLog) S.smokeLog={}; if(S.smokeManual===undefined) S.smokeManual=null; if(!S.water) S.water=defWater(); if(!S.waterLog) S.waterLog={}; if(S.smartRem===undefined) S.smartRem=true; }
+function fixState(){ if((S.v||1)<2){ S.v=2; S.voice=true; S.sfx=true; if(!S.name) S.name='حامد'; } if(S.sfx===undefined) S.sfx=true; if(S.name===undefined) S.name='حامد'; if(!S.heart) S.heart=defHeart(); if(!S.heartLog) S.heartLog={}; if(!S.smoke) S.smoke=defSmoke(); if(!S.smokeLog) S.smokeLog={}; if(S.smokeManual===undefined) S.smokeManual=null; if(!S.water) S.water=defWater(); if(!S.waterLog) S.waterLog={}; if(S.smartRem===undefined) S.smartRem=true; }
 fixState();
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 
@@ -798,7 +817,7 @@ function renderHome(){
   tiles.push(`<button class="tile quick" id="qB"><div class="hd"><span class="badge">${hi('lungs')}</span><span class="sub">5 د</span></div><h3>تنفّس القلب</h3><div class="sub">6 أنفاس في الدقيقة</div></button>`);
   app.innerHTML=`
   <header class="hero">
-    <div class="top"><div><p class="greet">${greet}</p></div><span class="pill">${ic('flame')} ${st} ${st===1?'يوم':'أيام'}</span></div>
+    <div class="top"><div><p class="greet">${greet}${nm()?' يا '+nm():''}</p></div><span class="pill">${ic('flame')} ${st} ${st===1?'يوم':'أيام'}</span></div>
     <div class="mid"><div><div class="day">اليوم ${S.progDay}<small>من 180</small></div><div class="ph">${plan.light?'أسبوع خفيف · ':''}مرحلة ${plan.phase.name} — ${plan.phase.goal}</div></div>
       <div class="dring"><svg width="92" height="92" viewBox="0 0 92 92"><circle cx="46" cy="46" r="38" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="8"/><circle cx="46" cy="46" r="38" fill="none" stroke="#5EEAD4" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}"/></svg><b>${Math.round(pct*100)}%<br><span style="font-weight:400;opacity:.8;font-size:11px">من البرنامج</span></b></div></div>
     ${nextBox}
@@ -876,6 +895,8 @@ function startSession(kind,plan,idx){
   const s=buildSession(kind,plan,idx||0);
   R={s,i:0,e:0,elapsed:0,paused:false,last:performance.now(),lastSec:null,timer:null,startedAt:Date.now()};
   screen='session'; renderTabs(); keepAwake(true); document.body.classList.add('immersive');
+  ac(); SFX.start(); R.half=false; R.lastRepSaid=false;
+  speak((nm()?'أهلًا '+yaName()+'. ':'')+(kind==='breath'?'نبدأ التنفّس البطيء بعد ثلاث ثوانٍ.':'جهّز نفسك، نبدأ بعد ثلاث ثوانٍ.'));
   drawSession(); enterStep();
   R.timer=setInterval(tick,100);
 }
@@ -887,7 +908,12 @@ function enterStep(){
   else if(st.t==='sq'||st.t==='e1'){ Haptic.heavy(); }
   else if(st.t==='rl'){ Haptic.double(); }
   else if(st.t==='e2'||st.t==='e3'){ Haptic.heavy(); }
-  if(st.d>=2) speak(curLabel(st)[0]);
+  if(st.t==='sq'||st.t==='e1'||st.t==='in') SFX.squeeze(); else if(st.t==='rl'||st.t==='out') SFX.relax();
+  if(st.t!=='ready'){
+    const isLast = st.rep===R.s.reps && (st.t==='sq'||st.t==='e1'||st.t==='in') && !R.lastRepSaid && R.s.reps>2;
+    if(isLast){ R.lastRepSaid=true; speak('آخر تكرار '+yaName()+'، '+curLabel(st)[0]); }
+    else if(st.d>=2) speak(st.t==='rl'?'استرخِ':st.t==='sq'&&st.lbl==='hold'?'اضغط واثبت':curLabel(st)[0]);
+  }
   R.lastSec=null; updateSession(true);
   const rw=document.querySelector('.ring-wrap'); if(rw && st.t!=='ready'){ rw.classList.remove('beat'); void rw.offsetWidth; rw.classList.add('beat'); }
 }
@@ -895,6 +921,7 @@ function tick(){
   if(!R||R.paused) { if(R) R.last=performance.now(); return; }
   const now=performance.now(), dt=(now-R.last)/1000; R.last=now;
   R.e+=dt; R.elapsed+=dt;
+  if(!R.half && R.elapsed>R.s.total/2 && R.s.total>60){ R.half=true; setTimeout(()=>speak('ممتاز '+yaName()+'، أنت في منتصف الجلسة. استمر.'),900); }
   const st=R.s.steps[R.i];
   if(R.e>=st.d){
     // نهاية التكرار؟
@@ -905,7 +932,7 @@ function tick(){
     enterStep(); return;
   }
   const rem=Math.ceil(st.d-R.e);
-  if(rem!==R.lastSec){ R.lastSec=rem; if(st.d>2 && rem<=2 && rem>0 && st.t!=='ready') Haptic.light(); }
+  if(rem!==R.lastSec){ R.lastSec=rem; if(st.d>2 && rem<=2 && rem>0 && st.t!=='ready'){ Haptic.light(); SFX.tick(); } }
   updateSession(false);
 }
 function drawSession(){
@@ -994,7 +1021,8 @@ function finishSession(partial){
   }
   if(gapBefore>=4) S.comeback=true;
   if(S.logs.length>3000) S.logs=S.logs.slice(-3000);
-  save(); Haptic.long(); updateWidget();
+  save(); Haptic.long(); updateWidget(); SFX.done();
+  speak(log.dayComplete?'رائع '+yaName()+'! أكملت يومك كاملًا. نراك غدًا.':(s.kind==='breath'?'أحسنت '+yaName()+'. قلبك يشكرك.':'أحسنت '+yaName()+'! أنهيت الجلسة.'));
   lastDone={log,fresh:checkAch(),first:totalSessions()===1};
   R=null; screen='done'; render(); scheduleReminders();
 }
@@ -1171,7 +1199,11 @@ function renderSettings(){
   <h2>ويدجت الشاشة الرئيسية</h2><div class="card"><p class="small" style="margin:0">اضغط مطولًا على مكان فارغ في الشاشة الرئيسية للجوال ← <b>الأدوات (Widgets)</b> ← ابحث عن <b>عافيتي</b> واسحبه للشاشة. يعرض سلسلتك وجلسات اليوم والماء، وتبدأ منه جلسة أو تضيف كوب ماء بلمسة.</p></div>
   <h2>التمرين</h2><div class="card">
    <div class="set"><span>الاهتزاز التوجيهي</span>${sw('haptics',S.haptics)}</div>
-   <div class="set"><span>الإرشاد الصوتي</span>${sw('voice',S.voice)}</div>
+   <div class="set"><span>المدرّب الصوتي<br><span class="small muted">صوت عربي من محرك الكلام في جوالك</span></span>${sw('voice',S.voice)}</div>
+   <div class="set"><span>المؤثرات الصوتية<br><span class="small muted">نغمة للضغط والاسترخاء والإنهاء</span></span>${sw('sfx',S.sfx)}</div>
+   <div class="set"><span>اسمك (يناديك به المدرّب)</span><input id="nmIn" value="${(S.name||'').replace(/"/g,'')}" maxlength="20" style="font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:120px"></div>
+   <div class="set"><span>تجربة الصوت</span><button class="btn ghost sm" id="testS">جرّب</button></div>
+   ${TTS?'<div class="set"><span class="small muted">إن لم تسمع الصوت: ثبّت الصوت العربي في محرك Google</span><button class="btn ghost sm" id="ttsInst">تثبيت</button></div>':''}
    <div class="set"><span>تجربة أنماط الاهتزاز</span><button class="btn ghost sm" id="testV">جرّب</button></div>
   </div>
   <h2>المظهر</h2><div class="card"><div class="set"><span>الوضع الليلي</span>${sw('dark',S.dark)}</div></div>
@@ -1187,7 +1219,8 @@ function renderSettings(){
   app.querySelectorAll('[data-sw]').forEach(b=>b.onclick=async()=>{
     const k=b.dataset.sw; S[k]=!S[k]; save();
     if(k==='remindersOn'){ if(S.remindersOn) await notifPermission(); await scheduleReminders(); toast(S.remindersOn?'تم تفعيل التذكيرات':'تم إيقاف التذكيرات'); }
-    if(k==='voice'&&S.voice) speak('الإرشاد الصوتي مفعّل');
+    if(k==='voice'&&S.voice) speak('أهلًا '+yaName()+'، المدرّب الصوتي مفعّل.');
+    if(k==='sfx'&&S.sfx){ ac(); SFX.done(); }
     if(k==='smartRem') reschedule();
     render();
   });
@@ -1201,6 +1234,9 @@ function renderSettings(){
   [['sFrom','from'],['sTo','to']].forEach(([id,k])=>$('#'+id).onchange=e=>{ if(e.target.value){ S.smoke[k]=e.target.value; save(); reschedule(); render(); } });
   [['wGoal','goal'],['wMl','ml'],['wEvery','every']].forEach(([id,k])=>$('#'+id).onchange=e=>{ S.water[k]=+e.target.value; save(); reschedule(); updateWidget(); });
   [['wFrom','from'],['wTo','to']].forEach(([id,k])=>$('#'+id).onchange=e=>{ if(e.target.value){ S.water[k]=e.target.value; save(); reschedule(); } });
+  $('#nmIn').onchange=e=>{ S.name=e.target.value.trim().slice(0,20); save(); toast(S.name?'سيناديك المدرّب: '+S.name:'تم'); };
+  $('#testS').onclick=()=>{ ac(); SFX.squeeze(); setTimeout(()=>SFX.relax(),700); speak('أهلًا '+yaName()+'، أنا مدربك. اضغط الآن… ثم استرخِ تمامًا.',true); };
+  const ti=$('#ttsInst'); if(ti) ti.onclick=()=>{ try{ TTS.openInstall().catch(()=>toast('افتح إعدادات الجوال ← تحويل النص إلى كلام')); }catch(e){} };
   $('#testV').onclick=()=>{ const was=S.haptics; S.haptics=true; Haptic.heavy(); setTimeout(()=>Haptic.double(),1200); setTimeout(()=>Haptic.light(),2400); setTimeout(()=>Haptic.long(),3600); S.haptics=was; toast('قوية = اضغط · نبضتان = استرخِ · خفيفة = آخر ثانيتين · ممتدة = انتهت'); };
   $('#back1').onclick=()=>{ if(S.progDay>1){ S.progDay--; S.dayDoneOn=null; save(); render(); } };
   const tn=$('#testN'); if(tn) tn.onclick=async()=>{ await notifPermission(); try{ await LN.createChannel({id:'training',name:'تذكير التمارين',importance:5,vibration:true}); }catch(e){} await LN.schedule({notifications:[{id:9,title:'تجربة إشعار',body:'هكذا ستصلك تذكيرات التمرين.',schedule:{at:new Date(Date.now()+5000),allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify'}]}); toast('سيصلك إشعار تجريبي بعد 5 ثوانٍ'); };
