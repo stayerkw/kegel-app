@@ -250,6 +250,15 @@ body.dark .lvl.a{background:#14532D;color:#BBF7D0}body.dark .lvl.b{background:#4
 .mhero{border-radius:24px;padding:18px;color:#fff;background:linear-gradient(160deg,#0E7490,#0B2545);margin-top:4px}
 .mhero h1{color:#fff;margin:0 0 4px}.mhero p{opacity:.9;margin:0;font-size:14px}
 /* 2.5 */
+.btn.danger{background:var(--danger);color:#fff;text-decoration:none}
+.ramc{border:1.5px solid #C9A227!important;background:linear-gradient(160deg,rgba(201,162,39,.10),var(--card))}
+.ramc .ic-badge{background:rgba(201,162,39,.16);color:#9A7A12}
+.chkrow{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:start;padding:12px 2px;border-bottom:1px solid var(--line);background:none;color:inherit;min-height:48px}
+.chkrow:last-child{border-bottom:0}.chkrow .badge{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--accentSoft);color:var(--accent)}
+.chkrow .badge.due{background:#FDECEC;color:var(--danger)}.chkrow .badge.soon{background:#FEF3C7;color:#B45309}
+.chkrow .tx{display:flex;flex-direction:column;gap:2px}.chkrow .tx b{font-size:14.5px}.chkrow .tx span{font-size:12.5px;color:var(--muted)}
+.chkrow .st{font-weight:600}.chkrow .st.due{color:var(--danger)!important}.chkrow .st.soon{color:#B45309!important}.chkrow .st.ok{color:var(--ok)!important}
+body.dark .chkrow .badge.due{background:#3A1717}body.dark .chkrow .badge.soon{background:#3A2E0E}
 .btnrow{display:grid;grid-template-columns:2fr 1fr;gap:8px}.btnrow .btn{width:auto;min-width:0}
 dialog.modal{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;border:0;padding:16px;background:transparent;align-items:flex-end;justify-content:center;color:var(--ink)}
 dialog.modal[open]{display:flex}
@@ -373,7 +382,7 @@ function fixState(){ if((S.v||1)<2){ S.v=2; S.voice=true; S.sfx=true; } if(S.sfx
   const dflt={tests:[],test:null,glu:[],a1c:[],meds:[],medLog:{},bl:[],iief:[],mealLog:{},gUnit:'mg',bed:'23:30',wake:'06:00',nightLess:true,knackOn:true,stepGoal:7000,lock:false,lastBackup:null,hseg:null};
   Object.keys(dflt).forEach(k=>{ if(S[k]===undefined) S[k]=Array.isArray(dflt[k])?[]:(dflt[k]&&typeof dflt[k]==='object')?{}:dflt[k]; });
   if(S.diabetes===undefined) S.diabetes=false;
-  if(!S.meal) S.meal={on:true,time:'12:30',eve:'21:00'}; if(!S.doc) S.doc={on:false,dr:'',email:'',patient:'',phone:'',fileNo:'',every:14,last:null}; if(!S.br) S.br=defBr(); if(!S.hc) S.hc=defHc(); }
+  if(!S.meal) S.meal={on:true,time:'12:30',eve:'21:00'}; if(!S.ram) S.ram={mode:'auto',iftar:'17:30',suhoor:'04:30'}; if(!S.checks) S.checks={}; if(!S.doc) S.doc={on:false,dr:'',email:'',patient:'',phone:'',fileNo:'',every:14,last:null}; if(!S.br) S.br=defBr(); if(!S.hc) S.hc=defHc(); }
 fixState();
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 
@@ -544,7 +553,7 @@ function effectiveTimes(){
 const toMin=t=>{ const [h,m]=t.split(':').map(Number); return h*60+m; };
 const WMSG=[['وقت كوب ماء','كوب الآن يحافظ على نشاطك وصحة مثانتك.'],['اشرب كوبًا من الماء','الترطيب المنتظم يقلل تهيّج المثانة.'],['استراحة ماء','كوب واحد الآن يقرّبك من هدفك اليومي.'],['لا تنسَ الماء','وزّع شربك على اليوم بدل كمية كبيرة مرة واحدة.']];
 const waterToday=()=>S.waterLog[today()]||0;
-function waterSlots(){ const [fh,fm]=S.water.from.split(':').map(Number),[th,tm]=S.water.to.split(':').map(Number), out=[]; let end=th*60+tm;
+function waterSlots(){ if(typeof ramadanOn==='function'&&ramadanOn()) return ramWaterSlots(); const [fh,fm]=S.water.from.split(':').map(Number),[th,tm]=S.water.to.split(':').map(Number), out=[]; let end=th*60+tm;
   if(S.nightLess){ let b=toMin(S.bed); if(b<6*60) b+=1440; end=Math.min(end,b-120); }
   for(let m=fh*60+fm;m<=end;m+=S.water.every) out.push(m); return out; }
 /* فترات بلا تدخين: تبدأ كل 3 ساعات وتستمر 40 دقيقة */
@@ -630,6 +639,8 @@ Object.assign(IC,{
   download:`<path d="M40 152h176v56H40z" opacity=".2"/><path ${_sk} d="M128 40v112M88 112l40 40 40-40M216 152v56a8 8 0 0 1-8 8H48a8 8 0 0 1-8-8v-56"/>`,
   upload:`<path d="M40 152h176v56H40z" opacity=".2"/><path ${_sk} d="M128 152V40M88 80l40-40 40 40M216 152v56a8 8 0 0 1-8 8H48a8 8 0 0 1-8-8v-56"/>`,
   finger:`<path ${_sk} d="M72 200c14-22 22-48 22-76a34 34 0 0 1 68 0c0 34-6 66-18 94M128 124c0 40-10 78-30 108M48 168c4-14 6-28 6-44a74 74 0 0 1 132-46M202 124c0 22-2 44-6 64"/>`,
+  eye:`<path d="M128 56C48 56 16 128 16 128s32 72 112 72 112-72 112-72-32-72-112-72Z" opacity=".2"/><path ${_sk} d="M128 56C48 56 16 128 16 128s32 72 112 72 112-72 112-72-32-72-112-72Z"/><circle cx="128" cy="128" r="40" ${_sk}/>`,
+  smile:`<circle cx="128" cy="128" r="96" opacity=".2"/><circle cx="128" cy="128" r="96" ${_sk}/><path ${_sk} d="M88 152c8 16 22 24 40 24s32-8 40-24"/><circle cx="92" cy="108" r="12"/><circle cx="164" cy="108" r="12"/>`,
   doc:`<path d="M152 32v56h56z" opacity=".2"/><path ${_sk} d="M200 224H56a8 8 0 0 1-8-8V40a8 8 0 0 1 8-8h96l56 56v128a8 8 0 0 1-8 8ZM152 32v56h56M96 136h64M96 168h64"/>`
 });
 const ic=(n,c='')=>IC[n]?`<svg class="ic ${c}" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">${IC[n]}</svg>`:(typeof HI!=='undefined'&&HI[n])?hi(n,'ic '+c):`<svg class="ic ${c}" viewBox="0 0 256 256" aria-hidden="true"></svg>`;
@@ -918,7 +929,7 @@ function renderHome(){
     ${nextBox}
   </header>
   ${S.progDay>=180?'<div class="warn">وصلت لنهاية البرنامج — استمر بجلسات الصيانة يوميًا.</div>':''}
-  ${recover}${adv}${testCard()}
+  ${recover}${adv}${ramadanCard()}${testCard()}
   <div class="sec"><h2>خطة اليوم</h2><span>${done} من ${plan.n} جلسات</span></div>
   <div class="card plan">${planRows}</div>
   <div class="sec"><h2>عاداتك الصحية</h2><span>اضغط للتفاصيل</span></div>
@@ -929,6 +940,7 @@ function renderHome(){
   $('#q1').onclick=()=>startSession('quick'); $('#q2').onclick=()=>startSession('rapidq',plan); $('#qB').onclick=()=>breathSheet(); $('#qC').onclick=()=>startSession('control');
   const tSt=$('#tSt'); if(tSt) tSt.onclick=()=>stepsSheet(); const tG=$('#tG'); if(tG) tG.onclick=()=>gluSheet();
   const tc=$('#tcGo'); if(tc) tc.onclick=()=>startTest();
+  const rs=$('#ramSet'); if(rs) rs.onclick=ramSheet; const rg=$('#ramG'); if(rg) rg.onclick=()=>gluSheet();
   if(S.hc.on) hcSync().then(ch=>{ if(ch&&screen==='tabs'&&tab==='home') renderHome(); });
   const wp=$('#wPlus'); if(wp) wp.onclick=e=>{ e.stopPropagation(); addWater(1); render(); };
   const tW=$('#tW'); if(tW) tW.onclick=()=>waterSheet();
@@ -1312,6 +1324,11 @@ function renderSettings(){
    <div class="set"><span class="small muted">مواعيد اليوم</span><span class="small" style="text-align:left">${smokeSlots().map(hm).join(' · ')}</span></div>
    <p class="small muted" style="margin:8px 0 0">يصلك إشعار عند بداية كل فترة، وإشعار عند انتهائها مع زرّي «أكملتها» و«لم أكملها».</p>
   </div>
+  <h2>الدولة</h2><div class="card">
+   <div class="set"><label for="ctS">دولتك<br><span class="small muted">تحدد رقم الإسعاف ووضع رمضان${detectCountry()?' · المكتشفة: '+ctryName(detectCountry()):''}</span></label><select id="ctS"><option value="">تلقائي</option>${Object.keys(CTRY).map(c=>`<option value="${c}" ${S.country===c?'selected':''}>${CTRY[c][0]}</option>`).join('')}</select></div>
+   <div class="set"><span>رقم الإسعاف</span><b dir="ltr">${emerg()}</b></div>
+   <div class="set"><span>وضع رمضان<br><span class="small muted">${ramadanOn()?'مفعّل الآن':S.ram.mode==='off'?'متوقف':'يعمل تلقائيًا في رمضان'}</span></span><button class="btn ghost sm" id="ramSet2">إعداد</button></div>
+  </div>
   <h2>السكري والنوم</h2><div class="card">
    <div class="set"><span>متابعة السكري<br><span class="small muted">قسم السكري وفحص ما قبل الرياضة</span></span><button class="sw ${S.diabetes?'on':''}" id="dmOn" aria-pressed="${!!S.diabetes}" aria-label="متابعة السكري"></button></div>
    <div class="set"><label for="gU">وحدة السكر</label><select id="gU"><option value="mg" ${mgU()?'selected':''}>ملغ/دل</option><option value="mmol" ${mgU()?'':'selected'}>ملمول/ل</option></select></div>
@@ -1387,7 +1404,8 @@ function renderSettings(){
   on('#mlOn',async()=>{ S.meal.on=!S.meal.on; save(); if(S.meal.on) await notifPermission(); reschedule(); render(); });
   [['mlT','time'],['mlE','eve']].forEach(([id,k])=>$('#'+id).onchange=e=>{ if(e.target.value){ S.meal[k]=e.target.value; save(); reschedule(); } });
   on('#knOn',()=>{ S.knackOn=!S.knackOn; save(); reschedule(); render(); });
-  on('#stT',()=>startTest());
+  on('#stT',()=>startTest()); on('#ramSet2',ramSheet);
+  $('#ctS').onchange=e=>{ const c=e.target.value; S.country=c||null; const cc=c||detectCountry(); if(cc&&CTRY[cc]&&CTRY[cc][1]!==S.gUnit){ S.gUnit=CTRY[cc][1]; toast('وحدة السكر: '+GU()+' — يمكنك تغييرها'); } save(); reschedule(); render(); };
   $('#fsz').onchange=e=>{ S.fs=e.target.value; save(); render(); };
   on('#hcS',async()=>{ if(S.hc.on){ await hcSync(true); toast('تم التحديث'); render(); } else hcConnect(); });
   on('#hcSet',()=>{ HCP.openHealthConnectSettings().catch(()=>{}); });
@@ -1502,7 +1520,7 @@ function gluChart(days=14){
     ${a.length?'':`<text x="${W/2}" y="${H/2}" text-anchor="middle" class="gt">سجّل أول قراءة لتظهر هنا</text>`}</svg>`;
 }
 function gluAdvice(v){
-  if(v<54) return `<div class="warn"><b class="hrow">${ic('alert')} انخفاض شديد (${gfmt(v)})</b>تناول 15 غرامًا من سكر سريع فورًا (نصف كوب عصير أو 3–4 أقراص جلوكوز)، وأعد القياس بعد 15 دقيقة. إن شعرت بدوخة أو تشوّش أو لم تتحسن: اطلب مساعدة طبية فورًا.</div>`;
+  if(v<54) return `<div class="warn"><b class="hrow">${ic('alert')} انخفاض شديد (${gfmt(v)})</b>تناول 15 غرامًا من سكر سريع فورًا (نصف كوب عصير أو 3–4 أقراص جلوكوز)، وأعد القياس بعد 15 دقيقة. إن شعرت بدوخة أو تشوّش أو لم تتحسن: اطلب مساعدة طبية فورًا.${emergBtn()}</div>`;
   if(v<70) return `<div class="warn"><b class="hrow">${ic('alert')} انخفاض (${gfmt(v)})</b>قاعدة 15–15: تناول 15 غرامًا من سكر سريع، ثم أعد القياس بعد 15 دقيقة. كرّر حتى يتجاوز ${gfmt(70)}، ثم وجبة خفيفة. سنذكّرك بالقياس.</div>`;
   if(v>250) return `<div class="warn"><b class="hrow">${ic('alert')} ارتفاع (${gfmt(v)})</b>اشرب ماء، وأعد القياس لاحقًا. إن كنت تستخدم الإنسولين افحص الكيتونات. تجنّب الرياضة الشديدة إن وُجدت كيتونات، وتواصل مع طبيبك إن تكرر الارتفاع.</div>`;
   if(v>180) return `<p class="small muted">أعلى من النطاق المستهدف عادةً بعد الأكل (أقل من ${gfmt(180)}). المشي 10–15 دقيقة بعد الوجبة يساعد على خفضه.</p>`;
@@ -1753,6 +1771,7 @@ function reportText(days,doctor){
     L1.push(g?`• السكر: ${g.n} قراءة، المتوسط ${gfmt(g.avg)} ${GU()}، ضمن ${gfmt(70)}–${gfmt(180)}: ${Math.round(g.tir*100)}%، انخفاضات أقل من ${gfmt(70)}: ${g.low}، أعلى من ${gfmt(250)}: ${g.high}.`:'• السكر: لا قراءات مسجلة في الفترة.');
     if(a1) L1.push(`• التراكمي HbA1c: ${a1.v}% بتاريخ ${a1.date}${S.a1c.length>1?` (السابق ${S.a1c[S.a1c.length-2].v}%)`:''}.`);
   }
+  if(S.diabetes){ const ck=CHECKS.map(([k,t])=>t.split(':')[0].split('(')[0].trim()+': '+(checkLast(k)||'لم يُسجَّل')).join(' | '); L1.push('• آخر الفحوص الدورية: '+ck+'.'); }
   if(S.meds.length) L1.push(`• الأدوية: ${S.meds.map(x=>x.name+(x.dose?' ('+x.dose+')':'')+' '+x.times.join('، ')).join(' | ')}${adh!==null?` — الالتزام ${Math.round(adh*100)}%`:''}.`);
   if(noc!==null) L1.push(`• التبول الليلي: متوسط ${noc.toFixed(1)} مرة/ليلة.`);
   if(stepsArr.length) L1.push(`• الخطوات: متوسط ${Math.round(stepsArr.reduce((a,b)=>a+b,0)/stepsArr.length)} يوميًا (الهدف ${S.stepGoal}).`);
@@ -1806,6 +1825,105 @@ function importBackup(file){
     restoreObj(o); };
   rd.readAsText(file);
 }
+/* ============ الدولة: الوحدة، الطوارئ، رمضان ============ */
+const CTRY={ // [الاسم، وحدة السكر، رقم الإسعاف، بلد مسلم]
+  KW:['الكويت','mmol','112',1],SA:['السعودية','mg','997',1],AE:['الإمارات','mg','998',1],QA:['قطر','mg','999',1],BH:['البحرين','mg','999',1],OM:['عُمان','mg','9999',1],
+  EG:['مصر','mg','123',1],JO:['الأردن','mg','911',1],IQ:['العراق','mg','112',1],LB:['لبنان','mg','140',1],SY:['سوريا','mg','110',1],PS:['فلسطين','mg','101',1],YE:['اليمن','mg','112',1],
+  SD:['السودان','mg','999',1],LY:['ليبيا','mg','112',1],TN:['تونس','mg','190',1],DZ:['الجزائر','mg','14',1],MA:['المغرب','mg','15',1],TR:['تركيا','mg','112',1],PK:['باكستان','mg','1122',1],
+  MY:['ماليزيا','mmol','999',1],ID:['إندونيسيا','mg','112',1],GB:['المملكة المتحدة','mmol','999',0],IE:['أيرلندا','mmol','112',0],US:['الولايات المتحدة','mg','911',0],CA:['كندا','mmol','911',0],
+  AU:['أستراليا','mmol','000',0],NZ:['نيوزيلندا','mmol','111',0],DE:['ألمانيا','mg','112',0],FR:['فرنسا','mg','15',0],SE:['السويد','mmol','112',0],NL:['هولندا','mmol','112',0],IN:['الهند','mg','112',0]
+};
+const TZC={'Asia/Kuwait':'KW','Asia/Riyadh':'SA','Asia/Dubai':'AE','Asia/Qatar':'QA','Asia/Bahrain':'BH','Asia/Muscat':'OM','Africa/Cairo':'EG','Asia/Amman':'JO','Asia/Baghdad':'IQ','Asia/Beirut':'LB','Asia/Damascus':'SY','Asia/Gaza':'PS','Asia/Hebron':'PS','Asia/Aden':'YE','Africa/Khartoum':'SD','Africa/Tripoli':'LY','Africa/Tunis':'TN','Africa/Algiers':'DZ','Africa/Casablanca':'MA','Europe/Istanbul':'TR','Asia/Karachi':'PK','Asia/Kuala_Lumpur':'MY','Asia/Jakarta':'ID','Europe/London':'GB','Europe/Dublin':'IE','America/New_York':'US','America/Chicago':'US','America/Denver':'US','America/Los_Angeles':'US','America/Phoenix':'US','America/Toronto':'CA','America/Vancouver':'CA','Australia/Sydney':'AU','Australia/Melbourne':'AU','Australia/Perth':'AU','Pacific/Auckland':'NZ','Europe/Berlin':'DE','Europe/Paris':'FR','Europe/Stockholm':'SE','Europe/Amsterdam':'NL','Asia/Kolkata':'IN','Asia/Calcutta':'IN'};
+function detectCountry(){
+  try{ for(const l of (navigator.languages||[navigator.language])){ const r=(l.split(/[-_]/)[1]||'').toUpperCase(); if(CTRY[r]) return r; } }catch(e){}
+  try{ const z=Intl.DateTimeFormat().resolvedOptions().timeZone; if(TZC[z]) return TZC[z]; }catch(e){}
+  return null;
+}
+const fd=d=>{ try{ return new Intl.DateTimeFormat('ar',{day:'numeric',month:'short',year:'numeric',numberingSystem:'latn'}).format(new Date(d+'T12:00:00')); }catch(e){ return d; } };
+const ctry=()=>S.country&&CTRY[S.country]?S.country:(detectCountry()||'');
+const ctryName=c=>CTRY[c]?CTRY[c][0]:'غير محددة';
+const emerg=()=>CTRY[ctry()]?CTRY[ctry()][2]:'112';
+const emergBtn=()=>`<a class="btn danger" href="tel:${emerg()}" style="margin-top:8px">${ic('alert')}اتصل بالإسعاف ${emerg()}</a>`;
+function hijriMonth(d=new Date()){ try{ return +new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{month:'numeric'}).format(d); }catch(e){ return 0; } }
+const isRamadanDate=(d=new Date())=>hijriMonth(d)===9;
+const ramadanOn=()=>S.ram.mode==='on'||(S.ram.mode==='auto'&&isRamadanDate()&&!!(CTRY[ctry()]||[])[3]);
+const ramWaterSlots=()=>{ let a=toMin(S.ram.iftar), b=toMin(S.ram.suhoor); if(b<=a) b+=1440; const out=[]; for(let m=a+15;m<=b-10&&out.length<S.water.goal;m+=Math.max(45,Math.floor((b-a-25)/Math.max(1,S.water.goal-1)))) out.push(m%1440); return out; };
+function ramadanCard(){
+  if(!ramadanOn()) return '';
+  const lg=gLast(), dm=S.diabetes;
+  return `<div class="card ramc"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${ic('moon')}</span><div style="flex:1"><b>وضع رمضان</b><p class="small muted" style="margin:2px 0 0">الإفطار ${S.ram.iftar} · السحور ${S.ram.suhoor}${S.ram.mode==='auto'?' · فُعّل تلقائيًا':''}</p></div><button class="iconbtn" id="ramSet" aria-label="إعداد وضع رمضان">${ic('set')}</button></div>
+   ${dm?`<div class="warn small" style="margin-top:10px"><b>أفطر فورًا</b> إذا كان السكر أقل من ${gfmt(70)} أو أعلى من ${gfmt(300)} ${GU()}، أو شعرت بأعراض الانخفاض. قياس السكر لا يُفطر.</div>
+   <p class="small" style="margin:8px 0 0">قِس: قبل السحور، منتصف النهار، قبل الإفطار، وبعد الإفطار بساعتين.${lg?' آخر قراءة: <b>'+gfmt(lg.v)+'</b>':''}</p>
+   <button class="btn accent sm" id="ramG" style="margin-top:8px">${ic('drop')}سجّل قراءة</button>`:'<p class="small" style="margin:8px 0 0">تذكيرات الماء الآن بين الإفطار والسحور، والرياضة الخفيفة بعد الإفطار بساعتين.</p>'}
+  </div>`;
+}
+function ramSheet(){
+  modal(`<form id="rmF" aria-labelledby="rmH"><h3 id="rmH">وضع رمضان</h3>
+    <fieldset class="radios seg3"><legend>التفعيل</legend>${[['auto','تلقائي'],['on','مفعّل'],['off','متوقف']].map(([v,n])=>`<label><input type="radio" name="md" value="${v}" ${S.ram.mode===v?'checked':''}> ${n}</label>`).join('')}</fieldset>
+    <p class="small muted" style="margin-top:-6px">«تلقائي» يعمل في شهر رمضان حسب التقويم الهجري (أم القرى) في الدول الإسلامية.</p>
+    <div class="set"><label for="rmI">وقت الإفطار</label><input type="time" id="rmI" value="${S.ram.iftar}"></div>
+    <div class="set"><label for="rmS">نهاية السحور (الإمساك)</label><input type="time" id="rmS" value="${S.ram.suhoor}"></div>
+    <div class="card small" style="box-shadow:none;background:var(--bg)"><b>إرشادات الصيام لمريض السكري</b><ul style="margin:6px 0 0;padding-inline-start:18px">
+      <li>استشر طبيبك قبل رمضان لتقييم خطورة الصيام وتعديل مواعيد الأدوية والجرعات.</li>
+      <li>أفطر فورًا إذا نزل السكر عن ${gfmt(70)} أو تجاوز ${gfmt(300)} ${GU()}.</li>
+      <li>أخّر السحور قدر الإمكان، وابدأ الإفطار بتمر وماء ثم وجبة متوازنة بعد قليل.</li>
+      <li>الرياضة الخفيفة بعد الإفطار بساعتين، وتُحسب صلاة التراويح نشاطًا.</li>
+      <li>من لا يصوم لعذر طبي مأجور ولا حرج عليه.</li></ul>
+      <p class="muted" style="margin:6px 0 0">إرشادات IDF-DAR الدولية للسكري ورمضان.</p></div>
+    <button type="submit" class="btn accent">${ic('check')}حفظ</button></form>`,(m,close)=>{
+    m.querySelector('#rmF').addEventListener('submit',e=>{ e.preventDefault(); const fd=new FormData(e.target);
+      S.ram.mode=fd.get('md')||'auto'; S.ram.iftar=m.querySelector('#rmI').value||S.ram.iftar; S.ram.suhoor=m.querySelector('#rmS').value||S.ram.suhoor; save(); reschedule(); close(); render(); }); });
+}
+function ramNotifs(list,now){
+  if(!ramadanOn()) return;
+  const D=(i,h,m)=>new Date(now.getFullYear(),now.getMonth(),now.getDate()+i,h,m,0);
+  const [ih,im]=S.ram.iftar.split(':').map(Number), [sh,sm]=S.ram.suhoor.split(':').map(Number);
+  for(let i=0;i<5;i++){
+    const before=D(i,sh,sm-45), post=D(i,ih+2,im), mid=D(i,ih-5,im), pre=D(i,ih,im-20);
+    if(before>now) list.push({id:9600+i*6,title:'وقت السحور',body:'تسحّر الآن: بروتين وخضار ونشويات بطيئة واشرب ماء'+(S.diabetes?'، وقِس السكر.':'.'),schedule:{at:before,allowWhileIdle:true},channelId:'meals',smallIcon:'ic_stat_notify',extra:{go:'glu'}});
+    if(S.diabetes){
+      if(mid>now) list.push({id:9601+i*6,title:'قياس منتصف النهار',body:'قِس السكر — أفطر فورًا إن كان أقل من '+gfmt(70)+' أو أعلى من '+gfmt(300)+'.',schedule:{at:mid,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'glu'}});
+      if(pre>now) list.push({id:9602+i*6,title:'قبل الإفطار',body:'قِس السكر الآن، ثم ابدأ إفطارك بتمرة وماء.',schedule:{at:pre,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'glu'}});
+      if(post>now) list.push({id:9603+i*6,title:'بعد الإفطار بساعتين',body:'وقت قياس السكر، ووقت مناسب لمشي خفيف.',schedule:{at:post,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'glu'}});
+    }
+  }
+}
+
+/* ============ دليل الفحوصات الدورية (ADA 2026) ============ */
+const CHECKS=[
+  ['a1c','السكر التراكمي HbA1c','كل 3 أشهر إن لم تصل للهدف، وكل 6 أشهر إن كان ضمن الهدف.',()=>{ const l=S.a1c[S.a1c.length-1]; return l&&l.v<7?6:3; },'drop'],
+  ['kidney','وظائف الكلى: الألبومين في البول (UACR) وeGFR','تحليل بول وتحليل دم سنويًا لاكتشاف تأثر الكلى مبكرًا.',()=>12,'flask'],
+  ['eye','فحص قاع العين بتوسيع الحدقة','عند طبيب العيون سنويًا، وقد يمدّه إلى سنتين إن كانت الفحوص سليمة.',()=>12,'eye'],
+  ['foot','فحص القدم الشامل','عند الطبيب سنويًا (الإحساس والنبض والجلد)، مع فحص قدميك بنفسك يوميًا.',()=>12,'shield'],
+  ['lipid','دهون الدم (الكوليسترول)','سنويًا، أو حسب ما يحدده طبيبك.',()=>12,'heart'],
+  ['dental','الأسنان واللثة','كل 6–12 شهرًا؛ أمراض اللثة أكثر مع السكري وتؤثر على ضبطه.',()=>12,'smile']
+];
+function checkLast(k){ if(k==='a1c'){ const l=S.a1c[S.a1c.length-1]; const c=S.checks.a1c; return l&&(!c||l.date>c)?l.date:c||null; } return S.checks[k]||null; }
+function checkDue(k,months){ const l=checkLast(k); if(!l) return null; const d=new Date(l+'T10:00:00'); d.setMonth(d.getMonth()+months); return dstr(d); }
+function checksBody(){
+  const rows=CHECKS.map(([k,t,how,mf,icn])=>{ const l=checkLast(k), due=checkDue(k,mf()), over=!l||due<=today(), soon=due&&!over&&dayDiff(today(),due)<=30;
+    return `<button class="chkrow" data-chk="${k}"><span class="badge ${over?'due':soon?'soon':''}">${ic(icn)}</span><span class="tx"><b>${t}</b><span>${how}</span><span class="st ${over?'due':soon?'soon':'ok'}">${!l?'لم يُسجَّل — أضف تاريخ آخر فحص':over?'مستحق الآن (آخره '+fd(l)+')':'التالي '+fd(due)+(soon?' — قريبًا':'')}</span></span></button>`; }).join('');
+  return `<div class="sec"><h2>الفحوصات الدورية</h2><span>${CHECKS.filter(([k,,,mf])=>{ const l=checkLast(k); return !l||checkDue(k,mf())<=today(); }).length} مستحقة</span></div>
+  <div class="card" style="padding:4px 12px">${rows}</div>
+  <div class="card"><h3>قياس الضغط في البيت بالطريقة الصحيحة</h3><ol class="small" style="margin:0;padding-inline-start:18px;line-height:1.9">
+    <li>لا قهوة ولا تدخين ولا رياضة قبل القياس بـ30 دقيقة، وأفرغ المثانة.</li><li>اجلس مستندًا وقدماك على الأرض، واسترح 5 دقائق بصمت.</li>
+    <li>الذراع مسنودة بمستوى القلب، والكمّ على الجلد مباشرة.</li><li>خذ قراءتين بينهما دقيقة، صباحًا ومساءً، وسجّل المتوسط.</li></ol>
+    <p class="small muted" style="margin:6px 0 0">الهدف لأغلب مرضى السكري أقل من 130/80 حسب ADA. ${ic('alert')} 180/120 أو أعلى مع ألم صدر أو ضيق نفس: اتصل بالإسعاف ${emerg()}.</p></div>`;
+}
+function checkSheet(k){
+  const c=CHECKS.find(x=>x[0]===k);
+  modal(`<form id="ckF" novalidate aria-labelledby="ckH"><h3 id="ckH">${c[1]}</h3><p class="small muted">${c[2]}</p>
+    <div class="field"><label for="ckD">تاريخ آخر فحص</label><input id="ckD" type="date" max="${today()}" value="${checkLast(k)||today()}"></div>
+    <p class="small muted">سنذكّرك عند موعد الفحص التالي.</p><button type="submit" class="btn accent">${ic('check')}حفظ</button></form>`,(m,close)=>{
+    m.querySelector('#ckF').addEventListener('submit',e=>{ e.preventDefault(); const v=m.querySelector('#ckD').value; if(v){ S.checks[k]=v; save(); reschedule(); } close(); toast('سُجّل — الموعد التالي '+fd(checkDue(k,c[3]()))); render(); }); });
+}
+function checkNotifs(list,now){
+  if(!S.diabetes) return;
+  CHECKS.forEach(([k,t,,mf],i)=>{ const due=checkDue(k,mf()); if(!due) return; let at=new Date(due+'T10:30:00'); if(at<=now){ if(dayDiff(due,today())>60) return; at=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1,10,30); }
+    if(dayDiff(today(),dstr(at))>60) return;
+    list.push({id:9700+i,title:'حان موعد فحص: '+t,body:'احجز موعدك، ثم سجّل تاريخ الفحص في التطبيق.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'checks'}}); });
+}
+
 /* ============ إرسال التقرير للطبيب ============ */
 const docReady=()=>S.doc&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.doc.email||'');
 const docNext=()=>{ const d=S.doc; if(!d.last) return today(); return addDays(d.last,d.every); };
@@ -1846,7 +1964,7 @@ function docSheet(){
 function docCard(){
   const d=S.doc;
   if(!docReady()) return `<div class="ev"><span class="badge">${ic('bell')}</span><div><b>أرسله لطبيبك تلقائيًا</b><p>أضف بريد طبيبك ورقم ملفك، فيجهّز التطبيق الرسالة ويذكّرك بإرسالها كل 7 أو 14 أو 30 يومًا.</p></div></div><button class="btn ghost" id="dSet">${ic('set')}إضافة بريد الطبيب</button>`;
-  return `<div class="ev"><span class="badge">${ic('bell')}</span><div><b>${esc(d.dr?'د. '+d.dr:d.email)}</b><p>كل ${d.every} يومًا · ${d.last?'آخر إرسال '+d.last+' · ':''}${d.on?'الموعد القادم '+docNext():'التذكير متوقف'}${d.fileNo?' · ملف '+esc(d.fileNo):''}</p></div></div>
+  return `<div class="ev"><span class="badge">${ic('bell')}</span><div><b>${esc(d.dr?'د. '+d.dr:d.email)}</b><p>كل ${d.every} يومًا · ${d.last?'آخر إرسال '+fd(d.last)+' · ':''}${d.on?'الموعد القادم '+fd(docNext()):'التذكير متوقف'}${d.fileNo?' · ملف '+esc(d.fileNo):''}</p></div></div>
     <div class="btnrow"><button class="btn accent" id="dSend">${ic('share')}أرسل الآن</button><button class="btn ghost" id="dSet">تعديل</button></div>`;
 }
 function restoreObj(o){ {
@@ -1907,6 +2025,7 @@ function dmBody(){
   <div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">التراكمي HbA1c</h3><button class="btn ghost sm" id="aAdd" style="flex:0 0 auto">${ic('plus')}إضافة</button></div>
     ${S.a1c.length?lineChart(S.a1c.slice(-6).map(x=>({x:x.date.slice(5),v:x.v})),{min:Math.min(5,...S.a1c.map(x=>x.v))-0.5,max:Math.max(9,...S.a1c.map(x=>x.v))+0.5,fmt:v=>v+'%',label:'تطور التراكمي'}):'<p class="small muted">سجّل نتيجة آخر تحليل لتتابع تطوّرها كل 3 أشهر.</p>'}
     <p class="small" style="margin:6px 0 0">كل ارتفاع 1% في التراكمي ارتبط بزيادة احتمال ضعف الانتصاب (Lu 2009). ضبط السكر نفسه علاج للانتصاب.</p></div>
+  ${checksBody()}
   <div class="card"><div class="ev" style="padding-top:0"><span class="badge">${ic('shield')}</span><div><b>فحص ما قبل الرياضة</b><p>قِس السكر قبل المشي أو تمارين المقاومة لتعرف إن كان آمنًا، وما الذي تأكله قبلها.</p></div></div><button class="btn accent" id="exC">${ic('play')}ابدأ الفحص</button></div>
   <div class="sec"><h2>الأدوية</h2><button class="btn ghost sm" id="mAdd2">${ic('plus')}دواء</button></div>
   <div class="card plan">${doses.length?doses.map(({md,t})=>{ const tk=medTaken(today(),md.id,t); return `<div class="slot ${tk?'done':''}"><span class="tm">${t}</span><button class="st" data-med="${md.id}|${t}" aria-pressed="${tk}" aria-label="${tk?'تم أخذ':'لم يُؤخذ'} ${esc(md.name)}">${tk?ic('check'):ic('pill')}</button><span class="tx"><b>${esc(md.name)}</b><span>${esc(md.dose)||'—'}</span></span><button class="iconbtn" data-medit="${md.id}" aria-label="تعديل ${esc(md.name)}">${ic('set')}</button></div>`; }).join(''):'<p class="small muted" style="margin:12px 0">أضف أدويتك (مثل الميتفورمين) ليصلك تذكير في مواعيدها مع زر «أخذته».</p>'}
@@ -1979,6 +2098,7 @@ function bindHealth(){
   on('#iGo',()=>iiefSheet()); on('#tGo2',()=>startTest()); on('#rW',()=>reportSheet(7,false)); on('#rD',()=>reportSheet(30,true)); on('#dSet',()=>docSheet()); on('#dSend',()=>sendDoc());
   app.querySelectorAll('[data-meal]').forEach(b=>b.onclick=()=>{ mealSet(b.dataset.meal,!mealToday()[b.dataset.meal]); Haptic.light(); render(); });
   app.querySelectorAll('[data-med]').forEach(b=>b.onclick=()=>{ const [id,t]=b.dataset.med.split('|'); medMark(today(),id,t,!medTaken(today(),id,t)); Haptic.light(); reschedule(); render(); });
+  app.querySelectorAll('[data-chk]').forEach(b=>b.onclick=()=>checkSheet(b.dataset.chk));
   app.querySelectorAll('[data-medit]').forEach(b=>b.onclick=()=>medSheet(S.meds.find(x=>x.id===b.dataset.medit)));
   app.querySelectorAll('[data-bl]').forEach(b=>b.onclick=()=>{ blAdd(b.dataset.bl); toast('سُجّل: '+BLK.find(x=>x[0]===b.dataset.bl)[1]); render(); });
 }
@@ -1987,7 +2107,8 @@ function bindHealth(){
 const KNACK=[['قبل أن تسعل أو تعطس','اشدد قاع الحوض أولًا ثم اسعل — «الحيلة» تمنع التسرّب.'],['قبل أن ترفع شيئًا','شدّ قاع الحوض ثم ارفع، وتنفّس أثناء الرفع.'],['قبل أن تقف من الجلوس','انقباضة سريعة قبل الوقوف تحمي المثانة.']];
 function moreNotifs(list,now){
   const D=(i,h,m)=>new Date(now.getFullYear(),now.getMonth(),now.getDate()+i,h,m,0);
-  if(S.meal.on){ const [h,m]=S.meal.time.split(':').map(Number), [eh,em]=S.meal.eve.split(':').map(Number);
+  try{ ramNotifs(list,now); checkNotifs(list,now); }catch(e){ console.log(e); }
+  if(S.meal.on && !ramadanOn()){ const [h,m]=S.meal.time.split(':').map(Number), [eh,em]=S.meal.eve.split(':').map(Number);
     for(let i=0;i<7;i++){ const wd=(now.getDay()+i)%7, ml=MEALS[wd], at=D(i,h,m), ev=D(i,eh,em);
       if(at>now && !(i===0&&mealToday().focus)) list.push({id:9000+i*2,title:'غداء اليوم: '+ml[1],body:ml[2],schedule:{at,allowWhileIdle:true},channelId:'meals',smallIcon:'ic_stat_notify',actionTypeId:'MEAL',extra:{go:'meal'}});
       if(ev>now){ const tm=MEALS[(wd+1)%7]; list.push({id:9001+i*2,title:'جهّز لغدٍ: '+tm[1],body:tm[2],schedule:{at:ev,allowWhileIdle:true},channelId:'meals',smallIcon:'ic_stat_notify',extra:{go:'meal'}}); } } }
@@ -2038,6 +2159,7 @@ if(LN){
     if(go==='iief'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(iiefSheet,300); } return; }
     if(go==='report'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(()=>reportSheet(7,false),300); } return; }
     if(go==='doc'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(()=>{ if(a.actionId==='send') sendDoc(); },500); } return; }
+    if(go==='checks'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='dm'; render(); } return; }
     if(go==='glu'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='dm'; render(); setTimeout(()=>gluSheet(),300); } return; }
     if(go==='water'){ if(a.actionId==='drink') addWater(1); if(screen!=='session'){ screen='tabs'; tab='home'; render(); } }
     else if(go==='session'){ if(a.actionId==='start' && screen!=='session') startNext(); else if(screen!=='session'){ screen='tabs'; tab='home'; render(); } }
@@ -2046,6 +2168,7 @@ if(LN){
 
 /* ============ تشغيل ============ */
 rollover(); render();
+if(!S.ctryInit){ S.ctryInit=1; if(!S.onboarded){ const c=detectCountry(); if(c&&CTRY[c]) S.gUnit=CTRY[c][1]; } save(); }
 if(S.onboarded) scheduleReminders();
 if(S.lock){ applySecure(); showLock(); }
 if(S.hc.on) hcSync(true).then(ch=>{ if(ch&&screen==='tabs') render(); });
