@@ -106,3 +106,4 @@
 المصدر: {s} · {s} · آخر مراجعة في التطبيق {s}. لا يغني عن خطة طبيبك.|Source: {s} · {s} · last reviewed in app {s}. Doesn't replace your doctor's plan.
 ADA — Standards of Care in Diabetes {n}، القسم {n} (التوصية {n})|ADA — Standards of Care in Diabetes {n}, Section {n} (Rec. {n})
 ADA — Standards of Care in Diabetes {n}، القسم {n}|ADA — Standards of Care in Diabetes {n}, Section {n}
+بديل لأنك ذكرت حساسية من {s}.|Alternative because you reported an allergy to {s}.

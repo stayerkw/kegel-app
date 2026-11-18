@@ -466,6 +466,11 @@ label.chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin:10p
 label.chk input{width:22px;height:22px;flex:none;margin:0}
 .langc{border:1px solid var(--line)}
 .rate{flex-wrap:wrap}
+
+.exw{margin:8px 0}.exw .src{display:block;margin-top:6px;font-size:12px;opacity:.85}.exw .src a{color:inherit;text-decoration:underline}
+.exw .src .ic{width:13px;height:13px;vertical-align:-2px}
+fieldset.chks{border:0;padding:0;margin:10px 0}fieldset.chks legend{font-weight:700;margin-bottom:4px}
+.pfc{border:1px solid var(--accent)}
 </style>
 </head>
 <body>
@@ -534,6 +539,7 @@ const _RAW=(()=>{ try{ return localStorage.getItem(KEY); }catch(e){ return null;
 try{ const st=_RAW?JSON.parse(_RAW):null; S=Object.assign({},DEF,st||{}); if(st&&st.v===undefined) S.v=1; if(st&&!('diabetes' in st)) S.diabetes=undefined; }catch(e){ S=Object.assign({},DEF); }
 function fixState(){ if((S.v||1)<2){ S.v=2; S.voice=true; S.sfx=true; } if(S.sfx===undefined) S.sfx=true;  if(!S.heart) S.heart=defHeart(); if(!S.heartLog) S.heartLog={}; if(!S.smoke) S.smoke=defSmoke(); if(!S.smokeLog) S.smokeLog={}; if(S.smokeManual===undefined) S.smokeManual=null; if(!S.water) S.water=defWater(); if(!S.waterLog) S.waterLog={}; if(S.smartRem===undefined) S.smartRem=true;
   if((S.v||2)<3){ S.v=3; if(S.onboarded&&S.diabetes===undefined) S.diabetes=true; }
+  if(!S.prof||typeof S.prof!=='object') S.prof=defProf(); if(S.prof.c&&S.prof.c.dm===undefined&&S.onboarded) S.prof.c.dm=!!S.diabetes;
   const dflt={tests:[],test:null,glu:[],a1c:[],meds:[],medLog:{},bl:[],iief:[],mealLog:{},gUnit:'mg',bed:'23:30',wake:'06:00',nightLess:true,knackOn:true,stepGoal:7000,lock:false,lastBackup:null,hseg:null};
   Object.keys(dflt).forEach(k=>{ if(S[k]===undefined) S[k]=Array.isArray(dflt[k])?[]:(dflt[k]&&typeof dflt[k]==='object')?{}:dflt[k]; });
   if(S.diabetes===undefined) S.diabetes=false;
@@ -887,6 +893,7 @@ function heartCard(){
   const h=heartToday(), done=HEART.filter(([k])=>h[k]).length;
   return `<div class="card"><div class="row" style="justify-content:space-between"><h3 class="hrow" style="margin:0"><span style="color:var(--heart)">${hi('heartOrgan')}</span> عادات القلب والأداء</h3><b style="text-align:left">${done} من ${HEART.length}</b></div>
     <div class="pbar" style="margin:10px 0 4px"><i style="width:${done/HEART.length*100}%"></i></div>
+    ${exWarnHTML('aerobic')}${exWarnHTML('resist')}
     ${HEART.map(([k,icn,t,sub])=>`<div class="hab ${h[k]?'on':''}"><button class="hb" data-h="${k}" aria-pressed="${!!h[k]}"><span class="box">${h[k]?ic('check'):''}</span></button><span class="hi">${ic(icn)}</span><span style="flex:1"><b>${t}</b><br><span class="small muted">${sub}</span></span>${k==='breath'&&!h[k]?'<button class="btn accent sm" id="brGo" style="min-width:0">ابدأ</button>':''}</div>`).join('')}
     <p class="small muted" style="margin:8px 0 0">رياضة هوائية ${heartWeekWalks()} من 7 أيام · مقاومة ${heartWeekRes()} — الهدف 150 دقيقة هوائية ومقاومة مرتين أسبوعيًا.</p>
     ${S.diabetes?`<button class="btn ghost sm" id="hEx" style="margin-top:8px">${ic('shield')}فحص السكر قبل الرياضة</button>`:''}</div>`;
@@ -1034,10 +1041,149 @@ function liveHammock(){ return `<svg class="live" viewBox="0 0 260 84" aria-hidd
   <g class="org" id="lvO"><ellipse cx="130" cy="30" rx="34" ry="15" fill="#F6EEDF" stroke="#D8CBB1" stroke-width="2"/></g>
   <path class="hm" id="lvH" d="M36 44 Q130 84 224 44" fill="none" stroke="var(--relax)" stroke-width="10" stroke-linecap="round"/></svg>`; }
 
+/* ============ الملف الصحي الاختياري (المرحلة الثانية) ============
+   - كل الأسئلة اختيارية، وتُسأل مرة واحدة: الإجابة تُحفظ، و«أفضّل عدم الإجابة» تُحفظ أيضًا فلا يتكرر السؤال.
+   - القيمة غير المعرّفة = لم يُسأل بعد. true/false = أجاب. 'na' = فضّل عدم الإجابة.
+   - إخفاء قسم لا يحذف بياناته. */
+const COND=[ // [المفتاح، النص، شرط الظهور]
+  ['dm','السكري',()=>true],
+  ['insulin','أستخدم الإنسولين أو حبوبًا قد تُنزل السكر بشدة',()=>profDm()],
+  ['htn','ارتفاع ضغط الدم',()=>true],
+  ['heart','مرض في القلب، أو ألم أو ضيق في الصدر مع الجهد',()=>true],
+  ['ckd','مرض في الكلى',()=>true],
+  ['retino','اعتلال الشبكية، أو جراحة عيون حديثة',()=>true],
+  ['neuro','تنميل في القدمين، أو جرح أو قرحة في القدم',()=>true],
+  ['pelvicPain','ألم مزمن في الحوض، أو ألم أثناء الجماع أو التمارين',()=>true],
+  ['pelvicSurg','جراحة حديثة في الحوض أو البروستاتا، أو قسطرة بولية حاليًا',()=>true],
+  ['hernia','فتق',()=>true],
+  ['gout','النقرس',()=>true],
+  ['warfarin','أستخدم دواء الوارفارين لمنع التجلط',()=>true]
+];
+const ALG=[['fish','السمك'],['shell','الروبيان والمحار'],['nuts','المكسرات'],['peanut','الفول السوداني'],['dairy','الحليب ومشتقاته (أو عدم تحمّل اللاكتوز)'],['gluten','القمح والجلوتين (السيلياك)'],['egg','البيض'],['sesame','السمسم'],['legumes','البقوليات']];
+const STAGES=[['none','لا شيء مما يلي'],['preg','حامل'],['pp6','ولدتُ خلال آخر 6 أسابيع'],['pp','بعد الولادة (أكثر من 6 أسابيع)'],['meno','سن اليأس أو بعده']];
+function defProf(){ return {age:null,c:{},a:{},aAsked:false,smoker:undefined,stage:undefined,consent:null,dismissed:false}; }
+const P=()=>S.prof||(S.prof=defProf());
+const profDm=()=>!!S.diabetes;
+const has=k=>k==='dm'?!!S.diabetes:P().c[k]===true;            // لديه الحالة (بإقراره)
+const asked=k=>k==='dm'?(P().c.dm!==undefined||S.onboarded):P().c[k]!==undefined;
+const profDone=()=>P().consent&&COND.every(([k,,v])=>!v()||asked(k));
+const htn=()=>has('htn');
+
+// متطلبات كل ميزة من أسئلة: لا يُسأل إلا ما يلزمها وما لم يُسأل بعد
+const NEED={
+  kegel:['pelvicPain','pelvicSurg'],
+  aerobic:['heart','htn','neuro','retino','insulin'],
+  resist:['heart','htn','retino','hernia'],
+  food:['ckd','gout','warfarin','__alg']
+};
+function missing(feature){ return NEED[feature].filter(k=>k==='__alg'?!P().aAsked:(COND.find(c=>c[0]===k)[2]()&&!asked(k))); }
+
+// المصادر: لكل قاعدة مرجع حقيقي يدعمها
+const SRC={
+  colberg:['ADA — Physical Activity/Exercise and Diabetes (Colberg 2016، الجدول 5)','https://doi.org/10.2337/dc16-1728','إرشاد رسمي'],
+  mayo:['Mayo Clinic — رفع الأثقال وضغط الدم','https://www.mymlc.com/health-information/faqs/w/weightlifting-bad-for-your-blood-pressure','مرجع طبي تثقيفي'],
+  acsm:['ACSM — التمرين للوقاية من ارتفاع الضغط وعلاجه','https://acsm.org/exercise-for-the-prevention-and-treatment-of-hypertension/','إرشاد رسمي'],
+  nice:['NICE NG210 — اضطرابات قاع الحوض','https://www.nice.org.uk/guidance/NG210/chapter/Recommendations','إرشاد رسمي'],
+  vitk:['NIH ODS — فيتامين K والوارفارين','https://ods.od.nih.gov/factsheets/VitaminK-HealthProfessional/','مرجع رسمي'],
+  nkf:['National Kidney Foundation — البوتاسيوم ومرض الكلى','https://www.kidney.org/atoz/content/potassium','مرجع رسمي'],
+  acr:['American College of Rheumatology — إرشادات علاج النقرس 2020','https://doi.org/10.1002/acr.24180','إرشاد رسمي'],
+  ada6:['ADA — Standards of Care 2026، القسم 6 (انخفاض السكر)','https://pmc.ncbi.nlm.nih.gov/articles/PMC12690178','إرشاد رسمي']
+};
+const srcLink=k=>{ const s=SRC[k]; return `<a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a>`; };
+
+// قواعد السلامة للتمارين: [الميزة، الشرط، المستوى، النص، المصدر]
+const EXRULES=[
+  ['aerobic',()=>has('heart'),'stop','ذكرت مرضًا في القلب أو ألمًا في الصدر مع الجهد: احصل على إذن طبيبك قبل الرياضة الهوائية أو زيادة شدتها، وتوقف فورًا واتصل بالإسعاف إن ظهر ألم في الصدر.','colberg'],
+  ['aerobic',()=>has('neuro'),'caution','مع تنميل القدمين أو جرح في القدم: تجنّب المشي والأنشطة التي تحمل وزن الجسم ما دام في القدم جرح لم يلتئم، وفضّل الدراجة الثابتة أو السباحة (إن لم يكن الجرح مفتوحًا)، وافحص قدميك بعد كل نشاط.','colberg'],
+  ['aerobic',()=>has('retino'),'caution','مع اعتلال الشبكية أو جراحة عيون حديثة: تجنّب التمارين العنيفة والقفز وخفض الرأس تحت مستوى القلب وحبس النفس، واسأل طبيب العيون عن الشدة المناسبة.','colberg'],
+  ['aerobic',()=>has('insulin'),'caution','مع الإنسولين أو الحبوب التي تُنزل السكر: قِس السكر قبل الرياضة؛ إن كان أقل من 90 ملغ/دل تناول 15–30 غرامًا من السكريات السريعة أولًا، واحمل معك سكرًا.','ada6'],
+  ['aerobic',()=>has('htn'),'caution','مع ارتفاع الضغط: الرياضة الهوائية المعتدلة معظم أيام الأسبوع مفيدة لخفضه. لا تتمرن إن كانت قراءتك 180/110 أو أعلى، وراجع طبيبك.','acsm'],
+  ['aerobic',()=>P().age>=65,'info','ابدأ بشدة خفيفة وزدها تدريجيًا، وأضف تمارين التوازن مرتين أسبوعيًا.','colberg'],
+  ['resist',()=>has('htn'),'stop','لا ترفع أثقالًا إن كان ضغطك غير منضبط وأعلى من 180/110، واستشر طبيبك قبل البدء إن كان أعلى من 160/100. لا تحبس نفسك أثناء الرفع.','mayo'],
+  ['resist',()=>has('heart'),'stop','مع مرض القلب: احصل على إذن طبيبك قبل تمارين المقاومة.','colberg'],
+  ['resist',()=>has('retino'),'caution','مع اعتلال الشبكية: تجنّب الأوزان الثقيلة وحبس النفس.','colberg'],
+  ['resist',()=>has('hernia'),'caution','مع الفتق: تجنّب الأوزان الثقيلة وشدّ البطن، واسأل طبيبك عن التمارين المناسبة.','colberg'],
+  ['kegel',()=>has('pelvicPain'),'stop','ذكرت ألمًا مزمنًا في الحوض: قد تكون العضلات مشدودة أكثر من اللازم، وتمارين التقوية وحدها قد تزيد الألم. يُنصح بتقييم أخصائي علاج طبيعي لقاع الحوض قبل البدء، ولن يتقدم البرنامج تلقائيًا.','nice'],
+  ['kegel',()=>has('pelvicSurg'),'stop','بعد جراحة حديثة في الحوض أو البروستاتا: لا تبدأ إلا بعد موافقة جرّاحك وإزالة القسطرة.','nice']
+];
+const exWarn=f=>EXRULES.filter(r=>r[0]===f&&r[1]());
+function exWarnHTML(f){ const w=exWarn(f); if(!w.length) return '';
+  return w.map(([,,lv,t,s])=>`<div class="${lv==='info'?'card small':'warn small'} exw">${t}<span class="src">${ic('books')} ${srcLink(s)}</span></div>`).join(''); }
+
+// قواعد الطعام: وسوم الوجبات وما يتعارض معها
+const MEAL_TAGS={fish:['fish'],grains:['legumes','ckd'],avocado:['ckd'],veg:['warfarin','ckd'],leaf:['nuts','ckd'],citrus:['ckd']};
+const MEAL_NOTE={
+  ckd:['مع مرض الكلى: هذه الوجبة غنية بالبوتاسيوم أو الفوسفور. التزم بالكمية التي يحددها طبيبك أو أخصائي التغذية.','nkf'],
+  warfarin:['مع الوارفارين: لا تمنع الخضار الورقية، لكن حافظ على كمية ثابتة منها كل أسبوع ولا تغيّرها فجأة لأنها تؤثر على مفعول الدواء.','vitk'],
+  gout:['مع النقرس: اختر السلمون أو الهامور بدل السردين والماكريل والأنشوجة لأنها أغنى بالبيورين.','acr']
+};
+const MEAL_ALT=[['chicken','دجاج مشوي بلا جلد مع خضار','صدر دجاج مشوي أو مخبوز مع خضار وزيت زيتون.',[]],
+  ['yogurt','زبادي قليل الدسم مع فاكهة','كوب زبادي مع حفنة توت أو فراولة.',['dairy']],
+  ['eggs','بيض مع خضار','بيضتان مسلوقتان مع خيار وطماطم.',['egg']],
+  ['veg2','خضار مشوية بزيت الزيتون','كوسا وباذنجان وفلفل مشوي بملعقة زيت زيتون بكر.',[]]];
+function mealFor(m){ // يعيد الوجبة نفسها أو بديلًا آمنًا إن تعارضت مع حساسية
+  const a=P().a, tags=MEAL_TAGS[m[0]]||[], conflict=tags.filter(t=>a[t]===true);
+  if(m[0]==='fish'&&a.shell===true&&/روبيان|محار/.test(m[2])) conflict.push('shell');
+  if(!conflict.length) return {m,notes:Object.keys(MEAL_NOTE).filter(k=>(tags.includes(k)||(k==='gout'&&m[0]==='fish'))&&has(k))};
+  const alt=MEAL_ALT.find(([,,,t])=>!t.some(x=>a[x]===true))||MEAL_ALT[3];
+  return {m:[alt[0]==='veg2'?'veg':'leaf',alt[1],alt[2],'بديل لأنك ذكرت حساسية من '+conflict.map(c=>(ALG.find(x=>x[0]===c)||[,c])[1]).join(' و')+'.'],notes:[],swapped:true};
+}
+
+// ورقة الأسئلة: تعرض فقط ما يلزم ولم يُسأل، وتحفظ كل إجابة
+function profSheet(keys,opts){ opts=opts||{}; const p=P();
+  const cks=keys.filter(k=>k!=='__alg'&&k!=='__age'&&k!=='__smoke'&&k!=='__stage');
+  const wantAlg=keys.includes('__alg'), wantAge=keys.includes('__age'), wantSm=keys.includes('__smoke'), wantSt=keys.includes('__stage')&&isFem();
+  modal(`<form id="pfF" novalidate aria-labelledby="pfH"><h3 id="pfH">${opts.title||'سؤال سريع قبل المتابعة'}</h3>
+   <p class="small muted"><span>${opts.why||'نسألك لنتجنّب اقتراح ما قد لا يناسب حالتك.'}</span> <span>إجاباتك اختيارية، تبقى على جهازك فقط، ولن نسألك مرة أخرى. يمكنك تعديلها أو حذفها من الإعدادات.</span></p>
+   ${wantAge?`<div class="field"><label for="pfA">عمرك</label><input id="pfA" type="number" inputmode="numeric" min="18" max="110" value="${p.age||''}" aria-describedby="pfAe"><span id="pfAe" class="err small" role="alert"></span></div>`:''}
+   ${cks.length?`<fieldset class="chks"><legend>هل لديك أيٌّ مما يلي؟ اختر كل ما ينطبق</legend>${cks.map(k=>{ const c=COND.find(x=>x[0]===k); return `<label class="chk"><input type="checkbox" name="c" value="${k}" ${has(k)?'checked':''}> ${c[1]}</label>`; }).join('')}</fieldset>`:''}
+   ${wantAlg?`<fieldset class="chks"><legend>حساسية أو أطعمة لا تتناولها</legend>${ALG.map(([k,n])=>`<label class="chk"><input type="checkbox" name="a" value="${k}" ${p.a[k]?'checked':''}> ${n}</label>`).join('')}</fieldset>`:''}
+   ${wantSm?`<fieldset class="radios seg2"><legend>هل تدخّن؟</legend><label><input type="radio" name="sm" value="1" ${p.smoker===true?'checked':''}> نعم</label><label><input type="radio" name="sm" value="0" ${p.smoker===false?'checked':''}> لا</label></fieldset>`:''}
+   ${wantSt?`<fieldset class="radios"><legend>مرحلتك الحالية</legend>${STAGES.map(([k,n])=>`<label><input type="radio" name="st" value="${k}" ${p.stage===k?'checked':''}> ${n}</label>`).join('')}</fieldset>`:''}
+   <button type="submit" class="btn accent">${opts.ok||'حفظ والمتابعة'}</button><div style="height:8px"></div>
+   <button type="button" class="btn ghost" id="pfNa">أفضّل عدم الإجابة</button></form>`,(m,close)=>{
+    const f=m.querySelector('#pfF');
+    // «السكري» يُظهر سؤال الإنسولين مباشرة
+    f.addEventListener('submit',e=>{ e.preventDefault();
+      if(wantAge){ const v=m.querySelector('#pfA').value; if(v){ const n=+v; if(!(n>=1&&n<=110)){ m.querySelector('#pfAe').textContent='أدخل عمرًا صحيحًا'; return; } p.age=n; } }
+      const on=new Set([...f.querySelectorAll('input[name=c]:checked')].map(x=>x.value));
+      cks.forEach(k=>{ if(k==='dm'){ S.diabetes=on.has('dm'); p.c.dm=S.diabetes; } else p.c[k]=on.has(k); });
+      if(on.has('dm')&&!asked('insulin')&&!cks.includes('insulin')) p.c.insulin=undefined;
+      if(wantAlg){ const as=new Set([...f.querySelectorAll('input[name=a]:checked')].map(x=>x.value)); ALG.forEach(([k])=>p.a[k]=as.has(k)); p.aAsked=true; }
+      if(wantSm){ const r=f.querySelector('input[name=sm]:checked'); if(r){ p.smoker=r.value==='1'; if(!p.smoker&&!S.smokeManual) S.smoke.on=false; if(p.smoker) S.smoke.on=true; } }
+      if(wantSt){ const r=f.querySelector('input[name=st]:checked'); if(r) p.stage=r.value; }
+      afterProf(); close(); opts.then&&opts.then(); });
+    m.querySelector('#pfNa').onclick=()=>{ cks.forEach(k=>{ if(k!=='dm'&&p.c[k]===undefined) p.c[k]='na'; }); if(wantAlg) p.aAsked=true; if(wantSm&&p.smoker===undefined) p.smoker='na'; if(wantSt&&p.stage===undefined) p.stage='na';
+      afterProf(); close(); opts.then&&opts.then(); };
+  });
+}
+function afterProf(){ const p=P(); p.consent=p.consent||today();
+  if(has('pelvicPain')||has('pelvicSurg')) S.warned=true;
+  if(has('ckd')&&!p.ckdWaterSet){ p.ckdWaterSet=true; S.water.on=false; }
+  save(); reschedule(); }
+// يطلب الأسئلة الناقصة لميزة ثم يكمل؛ إن لم ينقص شيء يكمل مباشرة
+function ensureAsked(feature,then,title,why){ const miss=missing(feature); if(!miss.length){ then&&then(); return; }
+  profSheet(miss,{title,why,then}); }
+function profAll(){ const keys=['__age',...COND.filter(([,,v])=>v()).map(c=>c[0]),'__alg','__smoke','__stage'];
+  profSheet(keys,{title:'ملفك الصحي',why:'يساعدنا على تخصيص التمارين والغذاء والتنبيهات، وإخفاء ما لا يخصّك.',ok:'حفظ',then:()=>{ P().dismissed=true; save(); render(); }}); }
+function profSummary(){ const p=P(), cs=COND.filter(([k])=>has(k)).map(c=>c[1].split('،')[0]), al=ALG.filter(([k])=>p.a[k]===true).map(a=>a[1].split(' (')[0]);
+  const en=LANG==='en', j=en?', ':'، ';
+  return [p.age?(en?'Age: ':'العمر: ')+p.age:'',cs.length?(en?'Conditions: ':'الحالات: ')+cs.map(T).join(j):'',al.length?(en?'Allergies: ':'الحساسية: ')+al.map(T).join(j):'',p.smoker===true?T('مدخّن'):''].filter(Boolean); }
+function profCard(){ if(profDone()||P().dismissed||!S.onboarded) return '';
+  return `<div class="card pfc"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${ic('user')}</span><div style="flex:1"><b>أكمل ملفك الصحي (دقيقة)</b><p class="small muted" style="margin:2px 0 0">العمر والحالات والحساسية — لنخصّص لك التمارين والغذاء ونخفي ما لا يخصّك.</p></div></div>
+   <div class="btnrow" style="margin-top:10px"><button class="btn accent sm" id="pfGo">ابدأ</button><button class="btn ghost sm" id="pfLater">لاحقًا</button></div></div>`; }
+function bindProfCard(){ const g=$('#pfGo'); if(g) g.onclick=profAll; const l=$('#pfLater'); if(l) l.onclick=()=>{ P().dismissed=true; save(); render(); }; }
+function profClear(){ modal(`<h3>حذف الملف الصحي؟</h3><p class="small muted">يُحذف العمر والحالات والحساسية فقط. تبقى قراءاتك وجلساتك كما هي، وقسم السكري يبقى حسب إعداده.</p><div class="btnrow"><button class="btn danger" id="pcY">حذف</button><button class="btn ghost" id="pcN">إلغاء</button></div>`,(m,close)=>{
+  m.querySelector('#pcN').onclick=close; m.querySelector('#pcY').onclick=()=>{ S.prof=defProf(); S.prof.dismissed=true; save(); close(); toast('حُذف الملف الصحي'); render(); }; }); }
+function bpCard(){ return `<div class="card"><h3>قياس الضغط في البيت بالطريقة الصحيحة</h3><ol class="small" style="margin:0;padding-inline-start:18px;line-height:1.9">
+    <li>لا قهوة ولا تدخين ولا رياضة قبل القياس بـ30 دقيقة، وأفرغ المثانة.</li><li>اجلس مستندًا وقدماك على الأرض، واسترح 5 دقائق بصمت.</li>
+    <li>الذراع مسنودة بمستوى القلب، والكمّ على الجلد مباشرة.</li><li>خذ قراءتين بينهما دقيقة، صباحًا ومساءً، وسجّل المتوسط.</li></ol>
+    <p class="small muted" style="margin:6px 0 0">${S.diabetes?'الهدف لأغلب مرضى السكري أقل من 130/80 حسب ADA. ':'هدفك يحدده طبيبك. '}${ic('alert')} 180/120 أو أعلى مع ألم صدر أو ضيق نفس: اتصل بالإسعاف ${emerg()}.</p></div>`; }
+
 /* ============ التهيئة (Onboarding) ============ */
-let ob={step:0,goals:new Set(S.goals),q:[null,null,null,null],flip:{}};
+let ob={step:0,goals:new Set(S.goals),q:[null,null,null],flip:{}};
 function renderOnb(){
-  const N=6, st=ob.step;
+  const N=7, st=ob.step;
   const bar='<div class="steps">'+Array.from({length:N},(_,i)=>`<i class="${i<=st?'on':''}"></i>`).join('')+'</div>';
   let h='';
   if(st===0){
@@ -1066,24 +1212,32 @@ function renderOnb(){
   } else if(st===3){
     const Q=[['هل أدّيت تمارين كيجل من قبل؟',['لا، أول مرة','نعم، أحيانًا','نعم، بانتظام']],
              ['هل تستطيع شدّ العضلة دون شدّ البطن؟',['لست متأكدًا','غالبًا','نعم بسهولة']],
-             ['هل لديك ألم حوض مزمن أو أعراض بولية مزمنة أو جراحة حديثة؟',['لا','نعم']],
-             ['هل لديك سكري؟',['لا','نعم']]];
-    h=`<h1>مستوى البداية</h1><p class="muted">أربعة أسئلة لنحدد من أين تبدأ ونخصّص متابعتك.</p>`+
+             ['هل لديك ألم حوض مزمن أو أعراض بولية مزمنة أو جراحة حديثة؟',['لا','نعم']]];
+    h=`<h1>مستوى البداية</h1><p class="muted">ثلاثة أسئلة لنحدد من أين تبدأ.</p>`+
       Q.map(([q,o],i)=>`<div class="card"><h3>${q}</h3>`+o.map((x,j)=>`<button class="opt ${ob.q[i]===j?'on':''}" data-q="${i}" data-a="${j}"><span class="box"></span>${x}</button>`).join('')+`</div>`).join('')+
       `<button class="btn accent" id="nx" ${ob.q.every(x=>x!==null)?'':'disabled style="opacity:.5"'}>التالي</button>`;
   } else if(st===4){
+    const sm=profSummary();
+    h=`<h1>ملفك الصحي</h1><p class="muted">عمرك وحالتك الصحية وحساسيتك من الأطعمة، لنخصّص لك التمارين والغذاء والتنبيهات، ولا نعرض لك ما لا يخصّك (مثل أقسام السكري أو الضغط).</p>
+    ${IMG('heart_breath','sm')}
+    <div class="card small"><b>اختياري وخاص:</b> الإجابات تبقى على جهازك فقط ولا تُرسل لأي جهة، ويمكنك تعديلها أو حذفها في أي وقت من الإعدادات.</div>
+    ${P().consent?`<div class="card small"><b>تم الحفظ</b>${sm.length?'<br>'+sm.map(esc).join('<br>'):'<br>لا حالات مسجّلة'}</div>`:''}
+    <button class="btn accent" id="pfOnb">${P().consent?'تعديل إجاباتي':'أجب عن الأسئلة (دقيقة)'}</button><div style="height:8px"></div>
+    <button class="btn ${P().consent?'accent':'ghost'}" id="nx">${P().consent?'التالي':'لاحقًا'}</button>`;
+  } else if(st===5){
     const lvl=calcLevel();
     h=`<h1>تنبيه مهم</h1>
+    ${exWarnHTML('kegel')}${exWarnHTML('aerobic')}
     ${ob.q[2]===1?'<div class="warn"><b>ننصحك باستشارة طبيب قبل البدء.</b> ذكرت أعراضًا مزمنة أو جراحة حديثة — قد تحتاج تمارين بإشراف أخصائي علاج طبيعي لقاع الحوض.</div>':''}
-    ${isF()?'<div class="warn">إن كنتِ حاملًا أو في الأسابيع الستة الأولى بعد الولادة، استشيري طبيبتك قبل البدء.</div>':''}
+    ${isF()&&!['none','meno','pp'].includes(P().stage)?'<div class="warn">إن كنتِ حاملًا أو في الأسابيع الستة الأولى بعد الولادة، استشيري طبيبتك قبل البدء.</div>':''}
     <div class="card"><p>هذا التطبيق أداة لياقة عامة وليس منتجًا طبيًا، ولا يشخّص أو يعالج أي حالة. إن كنت تعاني ألمًا في الحوض، أعراضًا بولية مزمنة، أو خضعت لجراحة حديثة، استشر طبيبًا قبل البدء. <b>توقف فورًا إذا شعرت بألم أثناء التمرين.</b></p></div>
     <div class="card center"><p class="muted">ستبدأ من</p><h2 style="margin:4px 0">المستوى ${lvl} — اليوم ${[1,15,43][lvl-1]}</h2><p class="small muted">مرحلة «${phaseOf([1,15,43][lvl-1]).name}»</p></div>
     <button class="btn accent" id="nx">${ob.q[2]===1?'فهمت، أواصل بحذر':'فهمت، التالي'}</button>`;
-  } else if(st===5){
+  } else if(st===6){
     h=`<h1>مواعيد التذكير</h1><p class="muted">3 جلسات قصيرة موزعة على اليوم أفضل من جلسة واحدة طويلة: العضلة تتعب بسرعة وتحتاج راحة بين الجلسات، والتكرار المتباعد يرسّخ العادة.</p>
     ${IMG('pocket','sm')}
     <div class="card">${S.reminders.map((t,i)=>`<div class="set"><span>${['الصباح','الظهر','المساء'][i]}</span><input type="time" value="${t}" data-r="${i}"></div>`).join('')}</div>
-    <div class="card"><div class="set"><span class="hrow">${ic('drop')} تذكير شرب الماء<br></span><button class="sw ${S.water.on?'on':''}" id="obW" aria-pressed="${S.water.on}"></button></div><p class="small muted" style="margin:6px 0 0">كل ساعتين من 8 صباحًا إلى 10 مساءً، بهدف 8 أكواب يوميًا.</p></div>
+    ${has('ckd')?'<div class="warn small">ذكرت مرضًا في الكلى: أوقفنا تذكير الماء لأن طبيبك قد يحدد كمية السوائل. فعّله فقط إن سمح لك.</div>':''}<div class="card"><div class="set"><span class="hrow">${ic('drop')} تذكير شرب الماء<br></span><button class="sw ${S.water.on?'on':''}" id="obW" aria-pressed="${S.water.on}"></button></div><p class="small muted" style="margin:6px 0 0">كل ساعتين من 8 صباحًا إلى 10 مساءً، بهدف 8 أكواب يوميًا.</p></div>
     <p class="small muted">ستصلك إشعارات على الجوال في هذه الأوقات. يمكنك تعديلها لاحقًا من الإعدادات.</p>
     <button class="btn accent" id="nx">تفعيل التذكيرات والبدء</button>
     <div style="height:8px"></div><button class="btn ghost" id="skipN">البدء بدون تذكيرات</button>`;
@@ -1096,13 +1250,14 @@ function renderOnb(){
   app.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{ ob.flip[b.dataset.f]=!ob.flip[b.dataset.f]; b.classList.toggle('on'); });
   app.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{ ob.q[+b.dataset.q]=+b.dataset.a; renderOnb(); });
   app.querySelectorAll('[data-r]').forEach(inp=>inp.onchange=()=>{ S.reminders[+inp.dataset.r]=inp.value; save(); });
-  const nx=$('#nx'); if(nx) nx.onclick=()=>{ if(nx.disabled) return; if(st===0&&!S.langOk){ S.langOk=true; save(); } if(st<5){ ob.step++; renderOnb(); window.scrollTo(0,0);} else finishOnb(true); };
+  const nx=$('#nx'); if(nx) nx.onclick=()=>{ if(nx.disabled) return; if(st===0&&!S.langOk){ S.langOk=true; save(); } if(st<6){ ob.step++; renderOnb(); window.scrollTo(0,0);} else finishOnb(true); };
   const sk=$('#skipN'); if(sk) sk.onclick=()=>finishOnb(false);
+  const pf=$('#pfOnb'); if(pf) pf.onclick=()=>profSheet(['__age',...COND.filter(([,,v])=>v()).map(c=>c[0]),'__alg','__smoke','__stage'],{title:'ملفك الصحي',why:'يساعدنا على تخصيص التمارين والغذاء والتنبيهات.',ok:'حفظ',then:()=>renderOnb()});
   const ow=$('#obW'); if(ow) ow.onclick=()=>{ S.water.on=!S.water.on; save(); renderOnb(); };
 }
 function calcLevel(){ const s=(ob.q[0]||0)+(ob.q[1]||0); if(ob.q[2]===1) return 1; return s>=4?3:s>=2?2:1; }
 async function finishOnb(withRem){
-  S.goals=[...ob.goals]; S.level=calcLevel(); S.progDay=[1,15,43][S.level-1]; S.warned=ob.q[2]===1; S.diabetes=ob.q[3]===1;
+  S.goals=[...ob.goals]; S.level=calcLevel(); S.progDay=[1,15,43][S.level-1]; S.warned=ob.q[2]===1||has('pelvicPain')||has('pelvicSurg'); S.diabetes=P().c.dm===true;
   S.onboarded=true; S.remindersOn=withRem; S.startDate=today(); save();
   if(withRem){ const p=await notifPermission(); if(p==='denied') toast('لم يُسمح بالإشعارات — فعّلها من إعدادات الجوال'); await scheduleReminders(); }
   tab='home'; render();
@@ -1212,9 +1367,9 @@ function dashHTML(plan,done,dayDone,idx){
    <div class="tlist">${tasks.slice(0,3).map(taskRow).join('')}</div>
    <button class="linkbtn" id="dAll">عرض جميع المهام ←</button></section>
   ${ramShow?`<section class="dcard rpromo">${MOSQUE_SVG}<div class="rp"><h2>${ic('moon')} رمضان والصيام</h2><p><b>${S.diabetes?'الصيام لمريض السكري يحتاج احتياطات':'استعد لصيام صحي'}</b></p><p class="small">${S.diabetes?'احرص على قياس السكر بانتظام، وقيّم خطورة صيامك مع طبيبك.':'نظّم الماء والنوم والتمارين بين الإفطار والسحور.'}</p><button class="btn ghostw" id="dRam">${ic('books')}عرض الإرشادات</button></div></section>`:''}
-  <section class="dcard dpromo"><div class="dp"><h2>${ic('leaf')} النظام الغذائي المتوسطي</h2><p>${MEALS[new Date().getDay()][1]} — وجبة اليوم</p><button class="btn ghosta" id="dDiet">${ic('leaf')}عرض الخطة الغذائية</button></div><img src="img/ui/salad.webp" alt="" class="salad" decoding="async"></section>
+  <section class="dcard dpromo"><div class="dp"><h2>${ic('leaf')} النظام الغذائي المتوسطي</h2><p>${missing('food').length?'أخبرنا بما لا يناسبك لنقترح وجباتك':mealFor(MEALS[new Date().getDay()]).m[1]+' — وجبة اليوم'}</p><button class="btn ghosta" id="dDiet">${ic('leaf')}عرض الخطة الغذائية</button></div><img src="img/ui/salad.webp" alt="" class="salad" decoding="async"></section>
   <section class="dcard"><div class="dh"><h2>${ic('bolt')} وصول سريع</h2></div>
-   <div class="quick"><button id="qkR">${ic('chart')}<span>تقرير صحي</span></button><button id="qkD">${hi('stetho')}<span>تقرير الطبيب</span></button><button id="qkC">${ic('calendar')}<span>الفحوصات</span></button><button id="qkS">${ic('set')}<span>الإعدادات</span></button></div></section>
+   <div class="quick"><button id="qkR">${ic('chart')}<span>تقرير صحي</span></button><button id="qkD">${hi('stetho')}<span>تقرير الطبيب</span></button>${S.diabetes?`<button id="qkC">${ic('calendar')}<span>الفحوصات</span></button>`:`<button id="qkP">${ic('user')}<span>ملفي الصحي</span></button>`}<button id="qkS">${ic('set')}<span>الإعدادات</span></button></div></section>
   </div>`;
 }
 function bindDash(){
@@ -1227,6 +1382,7 @@ function bindDash(){
   on('#dRam',ramSheet); on('#dDiet',()=>{ tab='men'; S.hseg='food'; render(); window.scrollTo(0,0); });
   on('#qkR',()=>reportSheet(7,false)); on('#qkD',()=>docReady()?reportSheet(30,true):docSheet());
   on('#qkC',()=>{ if(S.diabetes){ tab='men'; S.hseg='dm'; render(); setTimeout(()=>{ const e=document.querySelector('.chkrow'); e&&e.scrollIntoView({block:'center'}); },60); } else toast('فعّل متابعة السكري من الإعدادات لعرض الفحوصات'); });
+  on('#qkP',profAll);
   on('#qkS',()=>{ tab='set'; render(); window.scrollTo(0,0); });
 }
 
@@ -1258,12 +1414,12 @@ function renderHome(){
   app.innerHTML=`
   ${dashHTML(plan,done,dayDone,idx)}
   ${S.progDay>=180?'<div class="warn">وصلت لنهاية البرنامج — استمر بجلسات الصيانة يوميًا.</div>':''}
-  ${recover}${adv}${ramAskCard()}${ramadanCard()}${testCard()}
+  ${recover}${adv}${profCard()}${ramAskCard()}${ramadanCard()}${testCard()}
   <div class="sec"><h2>خطة اليوم</h2><span>${done} من ${plan.n} جلسات</span></div>
   <div class="card plan">${planRows}</div>
   <div class="sec"><h2>عاداتك الصحية</h2><span>اضغط للتفاصيل</span></div>
   <div class="tiles">${tiles.join('')}</div>`;
-  bindDash();
+  bindDash(); bindProfCard();
   const go=$('#go'); if(go) go.onclick=()=>startSession('daily',plan,idx);
   const ex=$('#extra'); if(ex) ex.onclick=()=>startSession('quick');
   const qb=$('#qBack'); if(qb) qb.onclick=()=>startSession('quick');
@@ -1284,7 +1440,7 @@ function waterSheet(){
   modal(`<div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0;background:var(--waterSoft);color:var(--water)">${ic('drop')}</span><h3 style="margin:0">الماء اليوم</h3></div>${IMG('water','sm')}
     <div id="wsBody"></div>`,(m,close)=>{
     const draw=()=>{ const w=waterToday(), g=S.water.goal;
-      m.querySelector('#wsBody').innerHTML=`<div style="color:var(--water)">${cupsSVG(Math.min(w,g),g)}</div>
+      m.querySelector('#wsBody').innerHTML=`${has('ckd')?`<div class="warn small exw">مع مرض الكلى قد يحدد طبيبك كمية السوائل اليومية. اجعل هدفك ما يحدده طبيبك لا 8 أكواب.<span class="src">${ic('books')} ${srcLink('nkf')}</span></div>`:''}<div style="color:var(--water)">${cupsSVG(Math.min(w,g),g)}</div>
       <p class="small muted">${w>=g?'أحسنت، وصلت لهدفك اليوم.':'شربت '+(w*S.water.ml/1000).toFixed(2).replace(/\.?0+$/,'')+' لتر من '+(g*S.water.ml/1000)+' لتر'}</p>
       <div class="row"><button class="btn ghost" id="wsM" style="flex:0 0 64px">${ic('minus')}</button><button class="btn" id="wsP" style="background:var(--water);color:#fff">${ic('plus')}أضف كوبًا</button></div>`;
       m.querySelector('#wsP').onclick=()=>{ addWater(1); draw(); render(); };
@@ -1292,6 +1448,7 @@ function waterSheet(){
     draw(); });
 }
 function heartSheet(){
+  const miss=[...new Set([...missing('aerobic'),...missing('resist')])]; if(miss.length){ profSheet(miss,{title:'قبل الرياضة',why:'بعض الحالات تحتاج احتياطات خاصة مع الرياضة الهوائية وتمارين المقاومة.',then:heartSheet}); return; }
   modal(`<div id="hsBody"></div>`,(m,close)=>{
     const draw=()=>{ m.querySelector('#hsBody').innerHTML=IMG('walk','sm')+heartCard().replace('class="card"','class=""');
       m.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>{ heartSet(b.dataset.h,!heartToday()[b.dataset.h]); Haptic.light(); draw(); render(); });
@@ -1332,6 +1489,12 @@ const PH={
   e1:['الطابق الأول','نصف ضغط خفيف.'],e2:['الطابق الثاني','زِد إلى ضغط كامل.'],e3:['الطابق الأعلى','أقصى ضغط ممكن… ثم انزل ببطء.']
 };
 function startSession(kind,plan,idx){
+  if(kind!=='breath'){
+    if(missing('kegel').length){ ensureAsked('kegel',()=>startSession(kind,plan,idx),'قبل أول تمرين','بعض الحالات تحتاج تقييم مختص قبل تمارين التقوية.'); return; }
+    if(has('pelvicSurg')&&!P().surgOk){ modal(`<h3>بعد الجراحة</h3><p>ذكرت جراحة حديثة في الحوض أو البروستاتا أو قسطرة بولية. هل سمح لك جرّاحك بتمارين قاع الحوض، وأُزيلت القسطرة؟</p><div class="btnrow"><button class="btn accent" id="sgY">نعم، سمح لي</button><button class="btn ghost" id="sgN">ليس بعد</button></div><p class="small muted">${ic('books')} ${srcLink('nice')}</p>`,(m,close)=>{
+        m.querySelector('#sgY').onclick=()=>{ P().surgOk=today(); save(); close(); startSession(kind,plan,idx); };
+        m.querySelector('#sgN').onclick=()=>{ close(); toast('ننتظر موافقة جرّاحك — يمكنك قراءة قسم «تعلّم» حتى ذلك الحين'); }; }); return; }
+  }
   plan=plan||planFor(S.progDay);
   const s=buildSession(kind,plan,idx||0);
   R={s,i:0,e:0,elapsed:0,paused:false,last:performance.now(),lastSec:null,timer:null,startedAt:Date.now()};
@@ -1478,7 +1641,7 @@ function renderDone(){
   const {log,fresh,first}=lastDone, st=streak();
   app.innerHTML=(log.dayComplete?IMG('trophy'):'')+`<div class="big-check" ${log.dayComplete?'hidden':''}><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
   <h1 class="center">أحسنت! ${log.partial?'احتُسبت الجلسة':'جلسة مكتملة'}</h1>
-  <p class="center muted">${log.kind==='breath'?'تنفّس بطيء · '+Math.max(1,Math.round(log.dur/60))+' دقائق — جيد لضغط الدم والقلب':log.reps+' تكرار · '+Math.max(1,Math.round(log.dur/60))+' دقيقة'}</p>
+  <p class="center muted">${log.kind==='breath'?'تنفّس بطيء · '+Math.max(1,Math.round(log.dur/60))+(htn()?' دقائق — جيد لضغط الدم والقلب':' دقائق — جيد للقلب'):log.reps+' تكرار · '+Math.max(1,Math.round(log.dur/60))+' دقيقة'}</p>
   ${log.kind==='breath'?`<p class="center small" id="dHr">${S.hc.on?'نقرأ نبضك من الساعة…':''}</p><div class="card small center">هدف الأسبوع: ${Math.min(breathDays(addDays(today(),-6),today()),7)} من 3 أيام بـ5 دقائق أو أكثر</div>`:''}
   ${log.dayComplete?'<div class="card center"><b>اكتمل اليوم '+S.progDay+'</b><p class="small muted">الجلسات موزعة على اليوم عمدًا — نراك غدًا.</p></div>':''}
   <div class="card center"><b class="hrow" style="font-size:22px;justify-content:center">${st} <span class="flame">${ic('flame','lg')}</span></b><p class="small muted">أيام متتالية</p></div>
@@ -1544,7 +1707,7 @@ function renderMen(head){
   <div class="tiles"><button class="tile quick" id="mC"><div class="hd"><span class="badge">${ic('target')}</span><span class="sub">2 د</span></div><h3>تمرين التحكم</h3><div class="sub">5 انقباضات سريعة ثم ثبات 10 ثوانٍ، 4 جولات</div></button>
   <button class="tile quick" id="mD"><div class="hd"><span class="badge">${ic('play')}</span><span class="sub">اليوم ${S.progDay}</span></div><h3>جلسة البرنامج</h3><div class="sub">تقوية الانتصاب والمثانة</div></button></div>
   <div class="sec"><h2>ما تقوله الدراسات</h2></div>
-  <div class="card" style="padding:4px 16px">${EVID.map(([i,t,d,l,src])=>`<div class="ev"><span class="badge">${ic(i)}</span><div><b>${t}</b><p>${d}</p><span class="lvl ${LV[l][1]}">${LV[l][0]}</span> <span class="small muted">${src}</span></div></div>`).join('')}</div>
+  <div class="card" style="padding:4px 16px">${EVID.filter(([,t,d])=>S.diabetes||!/السكري|سكري/.test(t)).map(([i,t,d,l,src])=>`<div class="ev"><span class="badge">${ic(i)}</span><div><b>${t}</b><p>${d}</p><span class="lvl ${LV[l][1]}">${LV[l][0]}</span> <span class="small muted">${src}</span></div></div>`).join('')}</div>
   <div class="sec"><h2>أطعمة تدعم صحة الأوعية</h2></div>
   <div class="card"><p class="small muted" style="margin-top:0">لا يوجد «طعام سحري». الدليل هو لنمط غذائي كامل (المتوسطي) وللفاكهة الغنية بالفلافونويد، مع إنقاص الوزن والحركة.</p><div class="food">${FOODS.map(([i,t,d])=>`<div>${ic(i)}<b>${t}</b><span>${d}</span></div>`).join('')}</div>
   <p class="small" style="margin-bottom:0"><b>قلّل منها:</b> اللحوم المصنّعة، المقليات، المشروبات السكرية، الملح الزائد، والوجبات السريعة — فهي ترفع الوزن والضغط وتضرّ الأوعية.</p></div>
@@ -1663,6 +1826,8 @@ function renderSettings(){
   </div>
   <h2>الملف الشخصي</h2><div class="card">
    <div class="set"><label for="sxS">البرنامج مخصّص لـ</label><select id="sxS"><option value="m" ${!isF()?'selected':''}>رجل</option><option value="f" ${isF()?'selected':''}>امرأة</option></select></div>
+   <div class="set"><span>ملفك الصحي<br><span class="small muted">${profSummary().map(esc).join(' · ')||'لم يُكمل بعد — اختياري'}</span></span><button class="btn ghost sm" id="pfEd" style="flex:0 0 auto;width:auto">${P().consent?'تعديل':'إكمال'}</button></div>
+   ${P().consent?`<div class="set"><span class="small muted">الملف يبقى على جهازك فقط. حذفه لا يمس قراءاتك وجلساتك.</span><button class="btn ghost sm" id="pfDel" style="flex:0 0 auto;width:auto">حذف</button></div>`:''}
    <div class="set"><label for="lgS">اللغة · Language</label><select id="lgS" data-noi18n><option value="ar" ${LANG==='ar'?'selected':''}>العربية</option><option value="en" ${LANG==='en'?'selected':''}>English</option></select></div>
   </div>
   <h2>الدولة</h2><div class="card">
@@ -1672,7 +1837,7 @@ function renderSettings(){
   </div>
   <h2>السكري والنوم</h2><div class="card">
    <div class="set"><span>متابعة السكري<br><span class="small muted">قسم السكري وفحص ما قبل الرياضة</span></span><button class="sw ${S.diabetes?'on':''}" id="dmOn" aria-pressed="${!!S.diabetes}" aria-label="متابعة السكري"></button></div>
-   <div class="set"><label for="gU">وحدة السكر</label><select id="gU"><option value="mg" ${mgU()?'selected':''}>ملغ/دل</option><option value="mmol" ${mgU()?'':'selected'}>ملمول/ل</option></select></div>
+   ${S.diabetes?'':'<!--'}<div class="set"><label for="gU">وحدة السكر</label><select id="gU"><option value="mg" ${mgU()?'selected':''}>ملغ/دل</option><option value="mmol" ${mgU()?'':'selected'}>ملمول/ل</option></select></div>${S.diabetes?'':'-->'}
    <div class="set"><label for="bedT">وقت النوم</label><input type="time" id="bedT" value="${S.bed}"></div>
    <div class="set"><label for="wakeT">وقت الاستيقاظ</label><input type="time" id="wakeT" value="${S.wake}"></div>
    <div class="set"><span>إيقاف تذكير الماء قبل النوم بساعتين<br><span class="small muted">يقلل الاستيقاظ للتبول ليلًا</span></span><button class="sw ${S.nightLess?'on':''}" id="nlOn" aria-pressed="${!!S.nightLess}" aria-label="إيقاف الماء قبل النوم"></button></div>
@@ -1738,8 +1903,8 @@ function renderSettings(){
   const ti=$('#ttsInst'); if(ti) ti.onclick=()=>{ try{ TTS.openInstall().catch(()=>toast('افتح إعدادات الجوال ← تحويل النص إلى كلام')); }catch(e){} };
   $('#testV').onclick=()=>{ const was=S.haptics; S.haptics=true; Haptic.heavy(); setTimeout(()=>Haptic.double(),1200); setTimeout(()=>Haptic.light(),2400); setTimeout(()=>Haptic.long(),3600); S.haptics=was; toast('قوية = اضغط · نبضتان = استرخِ · خفيفة = آخر ثانيتين · ممتدة = انتهت'); };
   const on=(id,f)=>{ const e=$(id); if(e) e.onclick=f; };
-  on('#dmOn',()=>{ S.diabetes=!S.diabetes; if(!S.diabetes&&S.hseg==='dm') S.hseg=null; save(); render(); });
-  $('#gU').onchange=e=>{ S.gUnit=e.target.value; save(); toast('الوحدة: '+GU()); };
+  on('#dmOn',()=>{ S.diabetes=!S.diabetes; P().c.dm=S.diabetes; if(!S.diabetes&&S.hseg==='dm') S.hseg=null; save(); render(); });
+  if($('#gU')) $('#gU').onchange=e=>{ S.gUnit=e.target.value; save(); toast('الوحدة: '+GU()); };
   [['bedT','bed'],['wakeT','wake']].forEach(([id,k])=>$('#'+id).onchange=e=>{ if(e.target.value){ S[k]=e.target.value; save(); reschedule(); } });
   on('#nlOn',()=>{ S.nightLess=!S.nightLess; save(); reschedule(); render(); });
   on('#mlOn',async()=>{ S.meal.on=!S.meal.on; save(); if(S.meal.on) await notifPermission(); reschedule(); render(); });
@@ -1749,6 +1914,7 @@ function renderSettings(){
   $('#sxS').onchange=e=>{ S.sex=e.target.value; if(S.hseg==='men') S.hseg=null; save(); location.reload(); };
   $('#lgS').onchange=e=>setLang(e.target.value);
   $('#ctS').onchange=e=>{ const c=e.target.value; S.country=c||null; const cc=c||detectCountry(); if(cc&&CTRY[cc]&&CTRY[cc][1]!==S.gUnit){ S.gUnit=CTRY[cc][1]; toast('وحدة السكر: '+GU()+' — يمكنك تغييرها'); } save(); reschedule(); render(); };
+  $('#pfEd').onclick=profAll; const pd=$('#pfDel'); if(pd) pd.onclick=profClear;
   $('#fsz').onchange=e=>{ S.fs=e.target.value; save(); render(); };
   on('#hcS',async()=>{ if(S.hc.on){ await hcSync(true); toast('تم التحديث'); render(); } else hcConnect(); });
   on('#hcSet',()=>{ HCP.openHealthConnectSettings().catch(()=>{}); });
@@ -2021,10 +2187,11 @@ async function hcHrBetween(a,b){ if(!HCP||!S.hc.on) return null; try{ const r=aw
 const stepsNow=()=>S.hc.on&&S.hc.stepsDate===today()?S.hc.steps:null;
 const fmtH=m=>Math.floor(m/60)+' س '+(m%60?(m%60)+' د':'');
 function stepsSheet(){
+  if(missing('aerobic').length){ ensureAsked('aerobic',stepsSheet,'قبل المشي','بعض الحالات تحتاج احتياطات خاصة مع المشي والرياضة.'); return; }
   modal(`<div id="stB"></div>`,(m,close)=>{
     const draw=()=>{ const s=stepsNow(), g=S.stepGoal, wk=S.hc.week||{};
       const days=Array.from({length:7},(_,i)=>addDays(today(),i-6)), mx=Math.max(g,...days.map(d=>wk[d]||0));
-      m.querySelector('#stB').innerHTML=`<div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${hi('walking')}</span><h3 style="margin:0">المشي والنوم</h3></div>${IMG('walk','sm')}
+      m.querySelector('#stB').innerHTML=`<div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${hi('walking')}</span><h3 style="margin:0">المشي والنوم</h3></div>${IMG('walk','sm')}${exWarnHTML('aerobic')}
       ${S.hc.on?`<div class="grid3"><div class="card stat" style="margin:0"><b>${(s||0).toLocaleString(LANG==='en'?'en':'ar')}</b><span class="small muted">خطوة اليوم</span></div><div class="card stat" style="margin:0"><b>${Math.max(0,g-(s||0)).toLocaleString(LANG==='en'?'en':'ar')}</b><span class="small muted">متبقٍ</span></div><div class="card stat" style="margin:0"><b>${S.hc.sleepDate===today()&&S.hc.sleep?fmtH(S.hc.sleep):'—'}</b><span class="small muted">نوم الليلة</span></div></div>
       <p class="small muted">${s>=g?'وصلت لهدفك اليوم.':'تحتاج نحو '+Math.ceil(Math.max(0,g-(s||0))/100)+' دقيقة مشي سريع لتصل للهدف.'}${S.hc.rhr?' · نبض الراحة '+S.hc.rhr:''}</p>
       <div class="bars" style="height:110px">${days.map(d=>`<div><small>${wk[d]?Math.round(wk[d]/100)/10+'k':''}</small><span class="${wk[d]>=g?'':'zero'}" style="height:${Math.max(3,(wk[d]||0)/mx*100)}%"></span><small>${AR_DAYS[new Date(d+'T12:00').getDay()]}</small></div>`).join('')}</div>
@@ -2071,10 +2238,10 @@ function breathSheet(){
       <button class="btn accent" id="brStart">${ic('play')}ابدأ ${B.min} دقائق</button>
       <details style="margin-top:10px"><summary>الدراسات</summary><div class="small">
       <p><b>السرعة والنسبة:</b> مقارنة بين أنماط تنفّس مختلفة وجدت أن 5.5 نَفَس/د بنسبة متساوية أعطت أعلى تقلّب لنبض القلب. <span class="lvl b">أدلة متوسطة</span> Lin 2014، Int J Psychophysiol.</p>
-      <p><b>ضغط الدم:</b> تحليل تجميعي اعتمد معيار 10 أنفاس/د أو أقل، 5 دقائق أو أكثر، 3 أيام أسبوعيًا لمدة 4 أسابيع: انخفاض في الضغط والنبض. <span class="lvl b">أدلة متوسطة</span> Chaddha 2019، Complement Ther Med. وتحليل أحدث لـ31 دراسة أكّد انخفاض الضغط الانقباضي. Shao 2024، Mindfulness.</p>
-      <p><b>السكري:</b> التنفّس بـ6 أنفاس/د حسّن حساسية منعكس الضغط فورًا لدى مرضى السكري من النوع الثاني. <span class="lvl c">أدلة أولية</span> Acta Diabetol، PMID 25956276.</p>
-      <p><b>جمعية القلب الأمريكية</b> عدّت التنفّس البطيء الموجّه خيارًا مساعدًا معقولًا لخفض الضغط. Brook 2013، Hypertension.</p>
-      <p class="muted">يكمّل العلاج ولا يغني عن أدوية الضغط أو السكري.</p></div></details>`;
+      ${htn()?'':'<!--'}<p><b>ضغط الدم:</b> تحليل تجميعي اعتمد معيار 10 أنفاس/د أو أقل، 5 دقائق أو أكثر، 3 أيام أسبوعيًا لمدة 4 أسابيع: انخفاض في الضغط والنبض. <span class="lvl b">أدلة متوسطة</span> Chaddha 2019، Complement Ther Med. وتحليل أحدث لـ31 دراسة أكّد انخفاض الضغط الانقباضي. Shao 2024، Mindfulness.</p>
+      ${htn()?'':'-->'}${S.diabetes?'':'<!--'}<p><b>السكري:</b> التنفّس بـ6 أنفاس/د حسّن حساسية منعكس الضغط فورًا لدى مرضى السكري من النوع الثاني. <span class="lvl c">أدلة أولية</span> Acta Diabetol، PMID 25956276.</p>
+      ${S.diabetes?'':'-->'}${htn()?'':'<!--'}<p><b>جمعية القلب الأمريكية</b> عدّت التنفّس البطيء الموجّه خيارًا مساعدًا معقولًا لخفض الضغط. Brook 2013، Hypertension.</p>
+      ${htn()?'':'-->'}<p class="muted">يكمّل العلاج ولا يغني عن أي دواء.</p></div></details>`;
       m.querySelectorAll('input[type=radio]').forEach(r=>r.onchange=()=>{ const v=r.value; S.br[r.name]=r.name==='ratio'?v:+v; save(); draw(); });
       m.querySelector('#brStart').onclick=()=>{ close(); startSession('breath'); }; };
     draw(); });
@@ -2125,7 +2292,7 @@ function reportText(days,doctor){
   const g=gluStats(days), a1=S.a1c[S.a1c.length-1], adh=medAdherence(days), noc=nocturiaAvg(days), ii=S.iief[S.iief.length-1];
   const wk=S.hc.week||{}, stepsArr=Object.keys(wk).filter(d=>d>=from).map(d=>wk[d]);
   let w=0,wc=0; for(let i=0;i<days;i++){ const v=S.waterLog[addDays(today(),-i)]; if(v!==undefined){ w+=v; wc++; } }
-  const L1=[`تقرير «Vigoris» ${doctor?'للطبيب':'الأسبوعي'}${nm()?' — '+nm():''}`,`الفترة: ${from} إلى ${today()} (${days} يومًا)`,''];
+  const L1=[`تقرير «Vigoris» ${doctor?'للطبيب':'الأسبوعي'}${nm()?' — '+nm():''}`,`الفترة: ${from} إلى ${today()} (${days} يومًا)`,...(doctor?profSummary():[]),''];
   L1.push(`• تمارين قاع الحوض: ${kg.length} جلسة، ${Math.round(kg.reduce((a,l)=>a+(l.dur||0),0)/60)} دقيقة. المستوى: ${LV_NAME[curLevel()]}${S.test?` (آخر اختبار ${S.test.date}: ثبات ${S.test.hold} ث، ${S.test.flicks} انقباضة سريعة)`:''}.`);
   if(S.diabetes){
     L1.push(g?`• السكر: ${g.n} قراءة، المتوسط ${gfmt(g.avg)} ${GU()}، ضمن ${gfmt(70)}–${gfmt(180)}: ${Math.round(g.tir*100)}%، انخفاضات أقل من ${gfmt(70)}: ${g.low}، أعلى من ${gfmt(250)}: ${g.high}.`:'• السكر: لا قراءات مسجلة في الفترة.');
@@ -2305,10 +2472,7 @@ function checksBody(){
     return `<button class="chkrow" data-chk="${k}"><span class="badge ${over?'due':soon?'soon':''}">${ic(icn)}</span><span class="tx"><b>${t}</b><span>${how}</span><span class="st ${over?'due':soon?'soon':'ok'}">${!l?'لم يُسجَّل — أضف تاريخ آخر فحص':over?'مستحق الآن (آخره '+fd(l)+')':'التالي '+fd(due)+(soon?' — قريبًا':'')}</span></span></button>`; }).join('');
   return `<div class="sec"><h2>الفحوصات الدورية</h2><span>${CHECKS.filter(([k,,,mf])=>{ const l=checkLast(k); return !l||checkDue(k,mf())<=today(); }).length} مستحقة</span></div>
   <div class="card" style="padding:4px 12px">${rows}</div>
-  <div class="card"><h3>قياس الضغط في البيت بالطريقة الصحيحة</h3><ol class="small" style="margin:0;padding-inline-start:18px;line-height:1.9">
-    <li>لا قهوة ولا تدخين ولا رياضة قبل القياس بـ30 دقيقة، وأفرغ المثانة.</li><li>اجلس مستندًا وقدماك على الأرض، واسترح 5 دقائق بصمت.</li>
-    <li>الذراع مسنودة بمستوى القلب، والكمّ على الجلد مباشرة.</li><li>خذ قراءتين بينهما دقيقة، صباحًا ومساءً، وسجّل المتوسط.</li></ol>
-    <p class="small muted" style="margin:6px 0 0">الهدف لأغلب مرضى السكري أقل من 130/80 حسب ADA. ${ic('alert')} 180/120 أو أعلى مع ألم صدر أو ضيق نفس: اتصل بالإسعاف ${emerg()}.</p></div>`;
+`;
 }
 function checkSheet(k){
   const c=CHECKS.find(x=>x[0]===k);
@@ -2359,7 +2523,7 @@ function renderWomen(head){
   <div class="tiles"><button class="tile quick" id="mD"><div class="hd"><span class="badge">${ic('play')}</span><span class="sub">اليوم ${S.progDay}</span></div><h3>جلسة البرنامج</h3><div class="sub">تقوية قاع الحوض والتحكم</div></button>
   <button class="tile quick" id="mC"><div class="hd"><span class="badge">${ic('target')}</span><span class="sub">2 د</span></div><h3>تمرين التحكم</h3><div class="sub">انقباضات سريعة ثم ثبات</div></button></div>
   <div class="sec"><h2>ما تقوله الدراسات</h2></div>
-  <div class="card" style="padding:4px 16px">${WEVID.map(([i,t,d,l,src])=>`<div class="ev"><span class="badge">${ic(i)}</span><div><b>${t}</b><p>${d}</p><span class="lvl ${LV[l][1]}">${LV[l][0]}</span> <span class="small muted">${src}</span></div></div>`).join('')}</div>
+  <div class="card" style="padding:4px 16px">${WEVID.filter(([,t])=>S.diabetes||!/السكري|السكر/.test(t)).map(([i,t,d,l,src])=>`<div class="ev"><span class="badge">${ic(i)}</span><div><b>${t}</b><p>${d}</p><span class="lvl ${LV[l][1]}">${LV[l][0]}</span> <span class="small muted">${src}</span></div></div>`).join('')}</div>
   <div class="sec"><h2>نصائح يومية</h2></div>
   <div class="card">
    <div class="ev"><span class="badge">${ic('target')}</span><div><b>«الحيلة» قبل السعال والرفع</b><p>شدّي قاع الحوض قبل السعال أو العطاس أو حمل الأطفال والأغراض.</p></div></div>
@@ -2446,7 +2610,7 @@ function docCard(){
 const BK_SCHEMA=1; // رقم بنية ملف النسخة الاحتياطية (النسخ الأقدم بلا رقم تُعامل كبنية 0)
 function validState(st){
   if(!st||typeof st!=='object'||Array.isArray(st)) return false;
-  const D=/^\d{4}-\d{2}-\d{2}$/, arr=['logs','glu','a1c','meds','bl','iief','uiq','tests'], obj=['ach','waterLog','heartLog','smokeLog','medLog','mealLog','checks','doc','ram','hc','water','heart','smoke'];
+  const D=/^\d{4}-\d{2}-\d{2}$/, arr=['logs','glu','a1c','meds','bl','iief','uiq','tests'], obj=['prof','ach','waterLog','heartLog','smokeLog','medLog','mealLog','checks','doc','ram','hc','water','heart','smoke'];
   if(!Array.isArray(st.logs)) return false;
   for(const k of arr) if(st[k]!==undefined&&!Array.isArray(st[k])) return false;
   for(const k of obj) if(st[k]!==undefined&&(st[k]===null||typeof st[k]!=='object'||Array.isArray(st[k]))) return false;
@@ -2543,23 +2707,27 @@ function dmBody(){
     <li><a href="https://doi.org/10.1111/dme.13403" target="_blank" rel="noopener">Kouidrat Y, et al. High prevalence of ED in diabetes: 145 studies. Diabet Med 2017</a></li></ol></div>`;
 }
 function foodBody(){
-  const wd=new Date().getDay(), m=MEALS[wd], tm=mealToday(), tom=MEALS[(wd+1)%7];
-  return `<div class="card fcard"><p class="lbl">برنامج اليوم · ${AR_DAYS[wd]}</p><div class="hrow" style="gap:12px;align-items:flex-start"><span class="ic-badge" style="margin:0;width:52px;height:52px">${ic(m[0])}</span><div style="flex:1"><h3 style="margin:0">${m[1]}</h3><p class="small" style="margin:4px 0">${m[2]}</p><p class="small muted" style="margin:0">${m[3]}</p></div></div>
+  if(missing('food').length) return `<div class="card fcard"><p class="lbl">قبل أن نقترح عليك وجبات</p><h3 style="margin:4px 0">هل لديك حساسية أو حالة تمنعك من أطعمة معينة؟</h3>
+    <p class="small muted">نسألك مرة واحدة فقط ونحفظ إجابتك، فلا نقترح عليك ما لا يناسبك.</p><button class="btn accent" id="fAsk">${ic('leaf')}أجب (30 ثانية)</button></div>`;
+  const wd=new Date().getDay(), mf=mealFor(MEALS[wd]), m=mf.m, tm=mealToday(), tom=mealFor(MEALS[(wd+1)%7]).m;
+  const notes=mf.notes.map(k=>`<div class="warn small exw">${MEAL_NOTE[k][0]}<span class="src">${ic('books')} ${srcLink(MEAL_NOTE[k][1])}</span></div>`).join('');
+  return `${has('ckd')?`<div class="warn small exw">مع مرض الكلى قد يحدد طبيبك كمية البوتاسيوم والفوسفور والسوائل. خطتك الغذائية الأساسية هي ما يحدده طبيبك أو أخصائي التغذية، وهذه اقتراحات عامة.<span class="src">${ic('books')} ${srcLink('nkf')}</span></div>`:''}<div class="card fcard"><p class="lbl">برنامج اليوم · ${AR_DAYS[wd]}</p><div class="hrow" style="gap:12px;align-items:flex-start"><span class="ic-badge" style="margin:0;width:52px;height:52px">${ic(m[0])}</span><div style="flex:1"><h3 style="margin:0">${m[1]}</h3><p class="small" style="margin:4px 0">${m[2]}</p><p class="small muted" style="margin:0">${m[3]}</p></div></div>${notes}
     <button class="btn ${tm.focus?'ghost':'accent'}" id="fDone" style="margin-top:12px" aria-pressed="${!!tm.focus}">${tm.focus?ic('check')+'تناولتها اليوم':'سجّل أنك تناولتها'}</button>
     <p class="small muted" style="margin:8px 0 0">غدًا: ${tom[1]} · أنجزت ${mealWeek()} من 7 هذا الأسبوع</p></div>
   <div class="sec"><h2>ثوابت كل يوم</h2><span>${DAILY.filter(([k])=>tm[k]).length} من ${DAILY.length}</span></div>
   <div class="card">${DAILY.map(([k,t])=>`<div class="hab ${tm[k]?'on':''}"><button class="hb" data-meal="${k}" aria-pressed="${!!tm[k]}" aria-label="${t}"><span class="box">${tm[k]?ic('check'):''}</span></button><span style="flex:1"><b>${t}</b></span></div>`).join('')}</div>
   <div class="sec"><h2>أسبوعك الغذائي</h2></div>
-  <div class="card plan">${MEALS.map((x,i)=>`<div class="slot ${i===wd?'next':''}"><span class="tm">${AR_DAYS[i]}</span><span class="st">${ic(x[0])}</span><span class="tx"><b>${x[1]}</b><span>${x[2]}</span></span></div>`).join('')}</div>
-  <div class="card"><h3>قواعد مهمة لمريض السكري</h3>
+  <div class="card plan">${MEALS.map(x=>mealFor(x).m).map((x,i)=>`<div class="slot ${i===wd?'next':''}"><span class="tm">${AR_DAYS[i]}</span><span class="st">${ic(x[0])}</span><span class="tx"><b>${x[1]}</b><span>${x[2]}</span></span></div>`).join('')}</div>
+  ${P().a.gluten===true?'<div class="card small">مع حساسية القمح: اختر حبوبًا خالية من الجلوتين مثل الأرز البني والكينوا والذرة بدل القمح والشعير.</div>':''}
+  ${S.diabetes?`<div class="card"><h3>قواعد مهمة لمريض السكري</h3>
     <div class="ev"><span class="badge">${ic('grains')}</span><div><b>راقب كمية النشويات لا نوعها فقط</b><p>ربع الطبق نشويات (أرز أو خبز)، ونصفه خضار، وربعه بروتين.</p></div></div>
     <div class="ev"><span class="badge">${ic('citrus')}</span><div><b>الفاكهة كاملة، والعصير لا</b><p>التوت والعنب والتفاح ارتبطت بانخفاض خطر السكري، بينما ارتبط العصير بارتفاعه.</p></div></div>
     <div class="ev"><span class="badge">${ic('drop')}</span><div><b>قِس بعد الوجبات الجديدة</b><p>قياس بعد الأكل بساعتين يخبرك كيف يتفاعل جسمك مع كل وجبة.</p></div></div>
-    <div class="ev"><span class="badge">${ic('walk')}</span><div><b>امشِ 10–15 دقيقة بعد الأكل</b><p>المشي بعد الوجبة يخفض ارتفاع السكر بعدها.</p></div></div></div>
+    <div class="ev"><span class="badge">${ic('walk')}</span><div><b>امشِ 10–15 دقيقة بعد الأكل</b><p>المشي بعد الوجبة يخفض ارتفاع السكر بعدها.</p></div></div></div>`:''}
   <div class="sec"><h2>ما تقوله الدراسات</h2></div>
   <div class="card" style="padding:4px 16px">
-    <div class="ev"><span class="badge">${ic('leaf')}</span><div><b>النظام المتوسطي يحمي الانتصاب لدى مرضى السكري</b><p>تجربة MÈDITA: رجال بسكري نوع 2 حديث التشخيص، تابعتهم 8 سنوات. من اتبع النظام المتوسطي كان خطر ضعف الوظيفة الجنسية لديهم أقل بنحو النصف مقارنة بالنظام قليل الدهون.</p><span class="lvl a">أدلة قوية</span> <span class="small muted">Maiorino، J Diabetes Complications 2016</span></div></div>
-    <div class="ev"><span class="badge">${ic('chart')}</span><div><b>كلما زاد الالتزام قلّ الضعف</b><p>دراسة CAPRI على 555 رجلًا بسكري نوع 2: أعلى التزام بالنظام المتوسطي ارتبط بأقل انتشار لضعف الانتصاب.</p><span class="lvl b">أدلة متوسطة</span> <span class="small muted">Giugliano، J Sex Med 2010</span></div></div>
+    ${S.diabetes&&!isFem()?`    <div class="ev"><span class="badge">${ic('leaf')}</span><div><b>النظام المتوسطي يحمي الانتصاب لدى مرضى السكري</b><p>تجربة MÈDITA: رجال بسكري نوع 2 حديث التشخيص، تابعتهم 8 سنوات. من اتبع النظام المتوسطي كان خطر ضعف الوظيفة الجنسية لديهم أقل بنحو النصف مقارنة بالنظام قليل الدهون.</p><span class="lvl a">أدلة قوية</span> <span class="small muted">Maiorino، J Diabetes Complications 2016</span></div></div>
+    <div class="ev"><span class="badge">${ic('chart')}</span><div><b>كلما زاد الالتزام قلّ الضعف</b><p>دراسة CAPRI على 555 رجلًا بسكري نوع 2: أعلى التزام بالنظام المتوسطي ارتبط بأقل انتشار لضعف الانتصاب.</p><span class="lvl b">أدلة متوسطة</span> <span class="small muted">Giugliano، J Sex Med 2010</span></div></div>`:''}
     <div class="ev"><span class="badge">${ic('citrus')}</span><div><b>الفاكهة الكاملة لا العصير</b><p>ثلاث حصص أسبوعيًا من التوت ارتبطت بخطر سكري أقل بنحو 26%، بينما ارتبط العصير بزيادة الخطر.</p><span class="lvl b">أدلة متوسطة</span> <span class="small muted">Muraki، BMJ 2013</span></div></div>
     <div class="ev"><span class="badge">${ic('star')}</span><div><b>الفلافونويد والانتصاب</b><p>من تناولوا أكثر أطعمة غنية بالفلافونويد (توت، حمضيات) كان خطر ضعف الانتصاب لديهم أقل.</p><span class="lvl b">أدلة متوسطة</span> <span class="small muted">Cassidy، Am J Clin Nutr 2016</span></div></div></div>
   <div class="card srcs small"><b>المراجع</b><ol style="margin:6px 0 0;padding-inline-start:18px">
@@ -2570,7 +2738,7 @@ function foodBody(){
 }
 function indBody(){
   const ii=S.iief, last=ii[ii.length-1], tests=S.tests||[];
-  return `${isF()?leakCard():`<div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">مؤشر الانتصاب IIEF-5</h3>${last?`<span class="lvl ${iiefCat(last.s)[1]}">${last.s}/25</span>`:''}</div>
+  return `${htn()?bpCard():''}${isF()?leakCard():`<div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">مؤشر الانتصاب IIEF-5</h3>${last?`<span class="lvl ${iiefCat(last.s)[1]}">${last.s}/25</span>`:''}</div>
     ${ii.length?lineChart(ii.slice(-8).map(x=>({x:x.date.slice(5),v:x.s})),{min:4,max:26,label:'تطور مؤشر الانتصاب'}):'<p class="small muted">قِس نقطة البداية الآن، ثم كل شهر — لترى أثر التمارين والغذاء بالأرقام.</p>'}
     <button class="btn ${iiefDue()?'accent':'ghost'}" id="iGo" style="margin-top:8px">${iiefDue()?ic('play')+'أجب عن الاستبيان (دقيقة)':'القياس التالي بعد '+(28-dayDiff(last.date,today()))+' يومًا'}</button></div>`}
   <div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">اختبار القوة</h3><span class="tagx">${LV_NAME[curLevel()]}</span></div>
@@ -2591,6 +2759,7 @@ function bindHealth(){
   const on=(id,f)=>{ const e=$(id); if(e) e.onclick=f; };
   on('#gAdd',()=>gluSheet()); on('#aAdd',a1cSheet); on('#exC',()=>exCheck()); on('#mAdd2',()=>medSheet());
   on('#hcB',async()=>{ if(S.hc.on){ await hcSync(true); render(); toast('تم التحديث'); } else hcConnect(); });
+  on('#fAsk',()=>ensureAsked('food',render,'الأطعمة التي لا تناسبك','نحفظ إجابتك ولا نقترح عليك ما يتعارض معها.'));
   on('#fDone',()=>{ mealSet('focus',!mealToday().focus); Haptic.light(); render(); });
   on('#iGo',()=>iiefSheet()); on('#lkGo',()=>leakSheet()); on('#tGo2',()=>startTest()); on('#rW',()=>reportSheet(7,false)); on('#rD',()=>reportSheet(30,true)); on('#dSet',()=>docSheet()); on('#dSend',()=>sendDoc());
   app.querySelectorAll('[data-meal]').forEach(b=>b.onclick=()=>{ mealSet(b.dataset.meal,!mealToday()[b.dataset.meal]); Haptic.light(); render(); });
