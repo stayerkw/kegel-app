@@ -303,7 +303,6 @@
 إرسال تقرير الطبيب|Send doctor report
 اختبار القوة|Strength test
 مقياس التسرّب الشهري|Monthly leakage score
-مؤشر الانتصاب الشهري|Monthly erection index
 رمضان والصيام|Ramadan & fasting
 الصيام لمريض السكري يحتاج احتياطات|Fasting with diabetes needs precautions
 استعد لصيام صحي|Prepare for a healthy fast
@@ -335,3 +334,152 @@
 لم أرسله|I didn't send it
 سُجّل إرسال التقرير|Report marked as sent
 الملف ليس نسخة احتياطية صالحة من Vigoris|This file isn't a valid Vigoris backup
+مؤلمة|Painful
+توقّف عن التمارين الآن|Stop exercising now
+الألم أثناء تمارين قاع الحوض ليس طبيعيًا. أوقف التمارين، ولا تزد شدتها.|Pain during pelvic floor exercises is not normal. Stop exercising and don't increase the intensity.
+قد تكون العضلات مشدودة أكثر من اللازم، وفي هذه الحالة تمارين التقوية قد تزيد المشكلة. ننصحك بمراجعة طبيب أو أخصائي علاج طبيعي لقاع الحوض قبل المتابعة.|Your muscles may be overly tight, and strengthening could make that worse. See a doctor or pelvic floor physiotherapist before continuing.
+أوقفنا اقتراح التقدّم في البرنامج لمدة 4 أسابيع.|We've paused program advancement suggestions for 4 weeks.
+فهمت|Got it
+متصل — كل البيانات مسموحة|Connected — all data allowed
+متصل جزئيًا — بعض البيانات غير مسموحة|Partially connected — some data not allowed
+لم تتم بعد|Not yet
+الخطوات|Steps
+النوم|Sleep
+النبض|Heart rate
+نبض الراحة|Resting heart rate
+لا يستطيع التطبيق معرفة إن أرسل تطبيق البريد الرسالة فعلًا، لذلك نسجّل الإرسال فقط بعد تأكيدك ليكون موعد التذكير التالي صحيحًا.|The app can't tell whether your mail app actually sent the message, so we only mark it sent after you confirm, keeping the next reminder accurate.
+تعذّرت الاستعادة — بقيت بياناتك كما هي|Restore failed — your data is unchanged
+مرتين في السنة على الأقل إن أكد طبيبك أنك ضمن هدفك ومستقر، وكل 3 أشهر إن لم تصل لهدفك أو تغيّر علاجك أو تكرر الانخفاض.|At least twice a year if your doctor confirms you're at goal and stable; every 3 months if not at goal, your treatment changed, or lows recur.
+تحليل بول وتحليل دم سنويًا: من وقت التشخيص في النوع الثاني، وبعد 5 سنوات من التشخيص في النوع الأول. قد يطلبه طبيبك أكثر إن ظهر تأثر في الكلى.|Yearly urine and blood tests: from diagnosis in type 2, and from 5 years after diagnosis in type 1. Your doctor may test more often if kidney changes appear.
+عند الطبيب سنويًا (الإحساس والنبض والجلد)، وأكثر إن صنّف طبيبك قدمك عالية الخطورة، مع فحص قدميك بنفسك يوميًا.|Yearly with your doctor (sensation, pulses, skin), more often if your doctor rates your feet high-risk, plus checking your feet yourself daily.
+أكد طبيبي أنني ضمن هدفي ومستقر (الفحص كل 6 أشهر)|My doctor confirmed I'm at goal and stable (test every 6 months)
+صنّف طبيبي قدمي عالية الخطورة (الفحص كل 3 أشهر)|My doctor rated my feet high-risk (exam every 3 months)
+إرشاد رسمي|Official guideline
+عام|General
+نصيحة تثقيفية عامة — يحدد طبيب الأسنان الموعد|General health education — your dentist sets the schedule
+لا يغني عن خطة طبيبك.|Doesn't replace your doctor's plan.
+مع مرض الكلى قد يحدد طبيبك كمية البوتاسيوم والفوسفور والسوائل. خطتك الغذائية الأساسية هي ما يحدده طبيبك أو أخصائي التغذية، وهذه اقتراحات عامة.|With kidney disease your doctor may limit potassium, phosphorus and fluids. Your main diet plan is what your doctor or dietitian sets; these are general suggestions.
+National Kidney Foundation — البوتاسيوم ومرض الكلى|National Kidney Foundation — Potassium and kidney disease
+مع مرض الكلى: هذه الوجبة غنية بالبوتاسيوم أو الفوسفور. التزم بالكمية التي يحددها طبيبك أو أخصائي التغذية.|With kidney disease: this meal is rich in potassium or phosphorus. Stick to the amount your doctor or dietitian sets.
+مع الوارفارين: لا تمنع الخضار الورقية، لكن حافظ على كمية ثابتة منها كل أسبوع ولا تغيّرها فجأة لأنها تؤثر على مفعول الدواء.|On warfarin: don't avoid leafy greens, but keep the amount steady each week and don't change it suddenly, as it affects how the medicine works.
+NIH ODS — فيتامين K والوارفارين|NIH ODS — Vitamin K and warfarin
+مع النقرس: اختر السلمون أو الهامور بدل السردين والماكريل والأنشوجة لأنها أغنى بالبيورين.|With gout: choose salmon or grouper instead of sardines, mackerel and anchovies, which are higher in purines.
+American College of Rheumatology — إرشادات علاج النقرس 2020|American College of Rheumatology — 2020 Gout Management Guideline
+دجاج مشوي بلا جلد مع خضار|Skinless grilled chicken with vegetables
+صدر دجاج مشوي أو مخبوز مع خضار وزيت زيتون.|Grilled or baked chicken breast with vegetables and olive oil.
+زبادي قليل الدسم مع فاكهة|Low-fat yogurt with fruit
+كوب زبادي مع حفنة توت أو فراولة.|A cup of yogurt with a handful of berries or strawberries.
+بيض مع خضار|Eggs with vegetables
+بيضتان مسلوقتان مع خيار وطماطم.|Two boiled eggs with cucumber and tomato.
+خضار مشوية بزيت الزيتون|Roasted vegetables with olive oil
+كوسا وباذنجان وفلفل مشوي بملعقة زيت زيتون بكر.|Roasted zucchini, eggplant and peppers with a spoon of extra-virgin olive oil.
+مع حساسية القمح: اختر حبوبًا خالية من الجلوتين مثل الأرز البني والكينوا والذرة بدل القمح والشعير.|With a wheat allergy: choose gluten-free grains such as brown rice, quinoa and corn instead of wheat and barley.
+ملفك الصحي|Your health profile
+ملفي الصحي|My health profile
+الملف يبقى على جهازك فقط. حذفه لا يمس قراءاتك وجلساتك.|The profile stays on your device only. Deleting it doesn't touch your readings or sessions.
+حذف|Delete
+تعديل|Edit
+إكمال|Complete
+لم يُكمل بعد — اختياري|Not completed yet — optional
+مدخّن|Smoker
+ذكرت مرضًا في القلب أو ألمًا في الصدر مع الجهد: احصل على إذن طبيبك قبل الرياضة الهوائية أو زيادة شدتها، وتوقف فورًا واتصل بالإسعاف إن ظهر ألم في الصدر.|You reported heart disease or chest pain on exertion: get your doctor's clearance before aerobic exercise or raising its intensity, and stop at once and call an ambulance if chest pain appears.
+ADA — Physical Activity/Exercise and Diabetes (Colberg 2016، الجدول 5)|ADA — Physical Activity/Exercise and Diabetes (Colberg 2016, Table 5)
+مع تنميل القدمين أو جرح في القدم: تجنّب المشي والأنشطة التي تحمل وزن الجسم ما دام في القدم جرح لم يلتئم، وفضّل الدراجة الثابتة أو السباحة (إن لم يكن الجرح مفتوحًا)، وافحص قدميك بعد كل نشاط.|With numb feet or a foot wound: avoid walking and weight-bearing activity while a wound hasn't healed, prefer a stationary bike or swimming (if the wound isn't open), and check your feet after every activity.
+مع اعتلال الشبكية أو جراحة عيون حديثة: تجنّب التمارين العنيفة والقفز وخفض الرأس تحت مستوى القلب وحبس النفس، واسأل طبيب العيون عن الشدة المناسبة.|With retinopathy or recent eye surgery: avoid vigorous exercise, jumping, head-down positions and breath-holding, and ask your eye doctor about safe intensity.
+مع الإنسولين أو الحبوب التي تُنزل السكر: قِس السكر قبل الرياضة؛ إن كان أقل من 90 ملغ/دل تناول 15–30 غرامًا من السكريات السريعة أولًا، واحمل معك سكرًا.|On insulin or glucose-lowering pills: check your glucose before exercise; if it's below 90 mg/dL, take 15–30 g of fast carbs first, and carry sugar with you.
+ADA — Standards of Care 2026، القسم 6 (انخفاض السكر)|ADA — Standards of Care 2026, Section 6 (hypoglycemia)
+مع ارتفاع الضغط: الرياضة الهوائية المعتدلة معظم أيام الأسبوع مفيدة لخفضه. لا تتمرن إن كانت قراءتك 180/110 أو أعلى، وراجع طبيبك.|With high blood pressure: moderate aerobic exercise on most days helps lower it. Don't exercise if your reading is 180/110 or higher — see your doctor.
+ACSM — التمرين للوقاية من ارتفاع الضغط وعلاجه|ACSM — Exercise for preventing and treating hypertension
+ابدأ بشدة خفيفة وزدها تدريجيًا، وأضف تمارين التوازن مرتين أسبوعيًا.|Start at a light intensity and build up gradually, and add balance exercises twice a week.
+لا ترفع أثقالًا إن كان ضغطك غير منضبط وأعلى من 180/110، واستشر طبيبك قبل البدء إن كان أعلى من 160/100. لا تحبس نفسك أثناء الرفع.|Don't lift weights if your blood pressure is uncontrolled and above 180/110, and check with your doctor first if it's above 160/100. Don't hold your breath while lifting.
+Mayo Clinic — رفع الأثقال وضغط الدم|Mayo Clinic — Weightlifting and blood pressure
+مع مرض القلب: احصل على إذن طبيبك قبل تمارين المقاومة.|With heart disease: get your doctor's clearance before resistance training.
+مع اعتلال الشبكية: تجنّب الأوزان الثقيلة وحبس النفس.|With retinopathy: avoid heavy weights and breath-holding.
+مع الفتق: تجنّب الأوزان الثقيلة وشدّ البطن، واسأل طبيبك عن التمارين المناسبة.|With a hernia: avoid heavy weights and straining your abdomen, and ask your doctor which exercises suit you.
+ذكرت ألمًا مزمنًا في الحوض: قد تكون العضلات مشدودة أكثر من اللازم، وتمارين التقوية وحدها قد تزيد الألم. يُنصح بتقييم أخصائي علاج طبيعي لقاع الحوض قبل البدء، ولن يتقدم البرنامج تلقائيًا.|You reported chronic pelvic pain: your muscles may be overly tight, and strengthening alone could worsen the pain. A pelvic floor physiotherapist assessment is advised before starting, and the program won't advance automatically.
+بعد جراحة حديثة في الحوض أو البروستاتا: لا تبدأ إلا بعد موافقة جرّاحك وإزالة القسطرة.|After recent pelvic or prostate surgery: start only after your surgeon approves and the catheter is removed.
+NICE NG210 — اضطرابات قاع الحوض|NICE NG210 — Pelvic floor dysfunction
+مع مرض الكلى قد يحدد طبيبك كمية السوائل اليومية. اجعل هدفك ما يحدده طبيبك لا 8 أكواب.|With kidney disease your doctor may set a daily fluid limit. Make your goal what your doctor sets, not 8 cups.
+يساعدنا على تخصيص التمارين والغذاء والتنبيهات، وإخفاء ما لا يخصّك.|Helps us tailor exercise, food and alerts, and hide what doesn't apply to you.
+يساعدنا على تخصيص التمارين والغذاء والتنبيهات.|Helps us tailor exercise, food and alerts.
+نسألك لنتجنّب اقتراح ما قد لا يناسب حالتك.|We ask so we don't suggest anything that may not suit you.
+إجاباتك اختيارية، تبقى على جهازك فقط، ولن نسألك مرة أخرى. يمكنك تعديلها أو حذفها من الإعدادات.|Your answers are optional, stay on your device only, and we won't ask again. You can edit or delete them in Settings.
+بعض الحالات تحتاج تقييم مختص قبل تمارين التقوية.|Some conditions need a specialist assessment before strengthening exercises.
+بعض الحالات تحتاج احتياطات خاصة مع الرياضة الهوائية وتمارين المقاومة.|Some conditions need special precautions with aerobic and resistance exercise.
+بعض الحالات تحتاج احتياطات خاصة مع المشي والرياضة.|Some conditions need special precautions with walking and exercise.
+نحفظ إجابتك ولا نقترح عليك ما يتعارض معها.|We save your answer and won't suggest anything that conflicts with it.
+سؤال سريع قبل المتابعة|A quick question before you continue
+قبل أول تمرين|Before your first exercise
+قبل الرياضة|Before exercise
+قبل المشي|Before walking
+الأطعمة التي لا تناسبك|Foods that don't suit you
+حفظ والمتابعة|Save and continue
+عمرك|Your age
+أدخل عمرًا صحيحًا|Enter a valid age
+هل لديك أيٌّ مما يلي؟ اختر كل ما ينطبق|Do you have any of the following? Select all that apply
+السكري|Diabetes
+أستخدم الإنسولين أو حبوبًا قد تُنزل السكر بشدة|I use insulin or pills that can drop my glucose sharply
+ارتفاع ضغط الدم|High blood pressure
+مرض في القلب، أو ألم أو ضيق في الصدر مع الجهد|Heart disease, or chest pain or tightness on exertion
+مرض في القلب|Heart disease
+مرض في الكلى|Kidney disease
+اعتلال الشبكية، أو جراحة عيون حديثة|Retinopathy, or recent eye surgery
+اعتلال الشبكية|Retinopathy
+تنميل في القدمين، أو جرح أو قرحة في القدم|Numb feet, or a foot wound or ulcer
+تنميل في القدمين|Numb feet
+ألم مزمن في الحوض، أو ألم أثناء الجماع أو التمارين|Chronic pelvic pain, or pain during sex or exercise
+ألم مزمن في الحوض|Chronic pelvic pain
+جراحة حديثة في الحوض أو البروستاتا، أو قسطرة بولية حاليًا|Recent pelvic or prostate surgery, or a urinary catheter now
+جراحة حديثة في الحوض أو البروستاتا|Recent pelvic or prostate surgery
+فتق|Hernia
+النقرس|Gout
+أستخدم دواء الوارفارين لمنع التجلط|I take warfarin (blood thinner)
+حساسية أو أطعمة لا تتناولها|Allergies or foods you don't eat
+السمك|Fish
+الروبيان والمحار|Shrimp and shellfish
+المكسرات|Tree nuts
+الفول السوداني|Peanuts
+الحليب ومشتقاته (أو عدم تحمّل اللاكتوز)|Milk and dairy (or lactose intolerance)
+الحليب ومشتقاته|Milk and dairy
+القمح والجلوتين (السيلياك)|Wheat and gluten (celiac)
+القمح والجلوتين|Wheat and gluten
+البيض|Eggs
+السمسم|Sesame
+البقوليات|Legumes
+هل تدخّن؟|Do you smoke?
+مرحلتك الحالية|Your current stage
+لا شيء مما يلي|None of these
+حامل|Pregnant
+ولدتُ خلال آخر 6 أسابيع|Gave birth in the last 6 weeks
+بعد الولادة (أكثر من 6 أسابيع)|Postpartum (over 6 weeks)
+سن اليأس أو بعده|Menopause or after
+أفضّل عدم الإجابة|I'd rather not answer
+حذف الملف الصحي؟|Delete your health profile?
+يُحذف العمر والحالات والحساسية فقط. تبقى قراءاتك وجلساتك كما هي، وقسم السكري يبقى حسب إعداده.|Only age, conditions and allergies are deleted. Your readings and sessions stay as they are, and the diabetes section keeps its setting.
+حُذف الملف الصحي|Health profile deleted
+أكمل ملفك الصحي (دقيقة)|Complete your health profile (1 min)
+العمر والحالات والحساسية — لنخصّص لك التمارين والغذاء ونخفي ما لا يخصّك.|Age, conditions and allergies — so we tailor exercise and food and hide what doesn't apply to you.
+ابدأ|Start
+لاحقًا|Later
+بعد الجراحة|After surgery
+ذكرت جراحة حديثة في الحوض أو البروستاتا أو قسطرة بولية. هل سمح لك جرّاحك بتمارين قاع الحوض، وأُزيلت القسطرة؟|You reported recent pelvic or prostate surgery or a urinary catheter. Has your surgeon cleared you for pelvic floor exercises, and has the catheter been removed?
+نعم، سمح لي|Yes, I'm cleared
+ليس بعد|Not yet
+ننتظر موافقة جرّاحك — يمكنك قراءة قسم «تعلّم» حتى ذلك الحين|We'll wait for your surgeon's approval — you can read the Learn section meanwhile
+قبل أن نقترح عليك وجبات|Before we suggest meals
+هل لديك حساسية أو حالة تمنعك من أطعمة معينة؟|Do you have an allergy or condition that rules out certain foods?
+نسألك مرة واحدة فقط ونحفظ إجابتك، فلا نقترح عليك ما لا يناسبك.|We ask only once and save your answer, so we never suggest what doesn't suit you.
+أجب (30 ثانية)|Answer (30 sec)
+أخبرنا بما لا يناسبك لنقترح وجباتك|Tell us what doesn't suit you so we can suggest meals
+عمرك وحالتك الصحية وحساسيتك من الأطعمة، لنخصّص لك التمارين والغذاء والتنبيهات، ولا نعرض لك ما لا يخصّك (مثل أقسام السكري أو الضغط).|Your age, health conditions and food allergies, so we tailor exercise, food and alerts, and don't show what doesn't apply to you (like diabetes or blood-pressure sections).
+اختياري وخاص:|Optional and private:
+الإجابات تبقى على جهازك فقط ولا تُرسل لأي جهة، ويمكنك تعديلها أو حذفها في أي وقت من الإعدادات.|Answers stay on your device only and are never sent anywhere; you can edit or delete them anytime in Settings.
+أجب عن الأسئلة (دقيقة)|Answer the questions (1 min)
+تعديل إجاباتي|Edit my answers
+تم الحفظ|Saved
+لا حالات مسجّلة|No conditions recorded
+ذكرت مرضًا في الكلى: أوقفنا تذكير الماء لأن طبيبك قد يحدد كمية السوائل. فعّله فقط إن سمح لك.|You reported kidney disease: we turned off water reminders because your doctor may limit fluids. Turn them on only if your doctor allows.
+قياس الضغط في البيت بالطريقة الصحيحة|Measuring blood pressure at home correctly
+هدفك يحدده طبيبك.|Your doctor sets your target.
+جيد للقلب|good for the heart
+يكمّل العلاج ولا يغني عن أي دواء.|Complements treatment and doesn't replace any medicine.
