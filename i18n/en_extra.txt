@@ -303,7 +303,6 @@
 إرسال تقرير الطبيب|Send doctor report
 اختبار القوة|Strength test
 مقياس التسرّب الشهري|Monthly leakage score
-مؤشر الانتصاب الشهري|Monthly erection index
 رمضان والصيام|Ramadan & fasting
 الصيام لمريض السكري يحتاج احتياطات|Fasting with diabetes needs precautions
 استعد لصيام صحي|Prepare for a healthy fast
@@ -335,3 +334,27 @@
 لم أرسله|I didn't send it
 سُجّل إرسال التقرير|Report marked as sent
 الملف ليس نسخة احتياطية صالحة من Vigoris|This file isn't a valid Vigoris backup
+مؤلمة|Painful
+توقّف عن التمارين الآن|Stop exercising now
+الألم أثناء تمارين قاع الحوض ليس طبيعيًا. أوقف التمارين، ولا تزد شدتها.|Pain during pelvic floor exercises is not normal. Stop exercising and don't increase the intensity.
+قد تكون العضلات مشدودة أكثر من اللازم، وفي هذه الحالة تمارين التقوية قد تزيد المشكلة. ننصحك بمراجعة طبيب أو أخصائي علاج طبيعي لقاع الحوض قبل المتابعة.|Your muscles may be overly tight, and strengthening could make that worse. See a doctor or pelvic floor physiotherapist before continuing.
+أوقفنا اقتراح التقدّم في البرنامج لمدة 4 أسابيع.|We've paused program advancement suggestions for 4 weeks.
+فهمت|Got it
+متصل — كل البيانات مسموحة|Connected — all data allowed
+متصل جزئيًا — بعض البيانات غير مسموحة|Partially connected — some data not allowed
+لم تتم بعد|Not yet
+الخطوات|Steps
+النوم|Sleep
+النبض|Heart rate
+نبض الراحة|Resting heart rate
+لا يستطيع التطبيق معرفة إن أرسل تطبيق البريد الرسالة فعلًا، لذلك نسجّل الإرسال فقط بعد تأكيدك ليكون موعد التذكير التالي صحيحًا.|The app can't tell whether your mail app actually sent the message, so we only mark it sent after you confirm, keeping the next reminder accurate.
+تعذّرت الاستعادة — بقيت بياناتك كما هي|Restore failed — your data is unchanged
+مرتين في السنة على الأقل إن أكد طبيبك أنك ضمن هدفك ومستقر، وكل 3 أشهر إن لم تصل لهدفك أو تغيّر علاجك أو تكرر الانخفاض.|At least twice a year if your doctor confirms you're at goal and stable; every 3 months if not at goal, your treatment changed, or lows recur.
+تحليل بول وتحليل دم سنويًا: من وقت التشخيص في النوع الثاني، وبعد 5 سنوات من التشخيص في النوع الأول. قد يطلبه طبيبك أكثر إن ظهر تأثر في الكلى.|Yearly urine and blood tests: from diagnosis in type 2, and from 5 years after diagnosis in type 1. Your doctor may test more often if kidney changes appear.
+عند الطبيب سنويًا (الإحساس والنبض والجلد)، وأكثر إن صنّف طبيبك قدمك عالية الخطورة، مع فحص قدميك بنفسك يوميًا.|Yearly with your doctor (sensation, pulses, skin), more often if your doctor rates your feet high-risk, plus checking your feet yourself daily.
+أكد طبيبي أنني ضمن هدفي ومستقر (الفحص كل 6 أشهر)|My doctor confirmed I'm at goal and stable (test every 6 months)
+صنّف طبيبي قدمي عالية الخطورة (الفحص كل 3 أشهر)|My doctor rated my feet high-risk (exam every 3 months)
+إرشاد رسمي|Official guideline
+عام|General
+نصيحة تثقيفية عامة — يحدد طبيب الأسنان الموعد|General health education — your dentist sets the schedule
+لا يغني عن خطة طبيبك.|Doesn't replace your doctor's plan.

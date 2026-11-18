@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      production:
+        description: 'إصدار إنتاجي لمتجر Google Play (يتطلب مفتاح التوقيع الدائم)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -76,7 +81,13 @@ jobs:
         env:
           KS_B64: ${{ secrets.KEYSTORE_B64 }}
           KS_PASS: ${{ secrets.KEYSTORE_PASSWORD }}
+          PROD: ${{ github.event.inputs.production == 'true' }}
         run: |
+          # الإصدار الإنتاجي لا يُوقّع أبدًا بمفتاح مؤقت: يتوقف البناء بوضوح إن غاب المفتاح الدائم
+          if [ "$PROD" = "true" ] && [ -z "$KS_B64" ]; then
+            echo "::error::إصدار إنتاجي بلا مفتاح توقيع دائم. أضف KEYSTORE_B64 وKEYSTORE_PASSWORD في Settings > Secrets ثم أعد التشغيل."
+            exit 1
+          fi
           BT=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -1)
           IN=android/app/build/outputs/apk/release/app-release-unsigned.apk
           $BT/zipalign -p -f 4 $IN aligned.apk
@@ -84,7 +95,8 @@ jobs:
             echo "$KS_B64" | base64 -d > release.jks
             $BT/apksigner sign --ks release.jks --ks-key-alias kegel --ks-pass env:KS_PASS --key-pass env:KS_PASS --out kegel.apk aligned.apk
           else
-            echo "::warning::لا يوجد مفتاح توقيع في الأسرار — يُستخدم مفتاح مؤقت (التحديثات ستتطلب إزالة التطبيق)"
+            echo "::warning::نسخة اختبار: لا يوجد مفتاح توقيع دائم — يُستخدم مفتاح مؤقت (التحديث يتطلب إزالة التطبيق). لا تُنشر هذه النسخة في المتجر."
+            echo "TEST_KEY=1" >> $GITHUB_ENV
             keytool -genkeypair -keystore tmp.jks -alias kegel -keyalg RSA -keysize 2048 -validity 36500 -storepass tmppass -dname "CN=tmp"
             $BT/apksigner sign --ks tmp.jks --ks-key-alias kegel --ks-pass pass:tmppass --out kegel.apk aligned.apk
           fi
@@ -100,8 +112,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.0.${{ github.run_number }}
-          name: Vigoris 1.0.${{ github.run_number }}
+          name: Vigoris 1.0.${{ github.run_number }}${{ env.TEST_KEY == '1' && ' — نسخة اختبار (مفتاح مؤقت)' || '' }}
           body: |
+            ${{ env.TEST_KEY == '1' && 'نسخة اختبار موقّعة بمفتاح مؤقت — للتجربة على جوالك فقط، وليست للنشر في المتجر.' || 'موقّعة بالمفتاح الدائم.' }}
             حمّل ملف kegel.apk على جوال أندرويد وثبّته (اسمح بالتثبيت من مصادر غير معروفة عند الطلب).
             رابط آخر إصدار دائمًا: https://github.com/${{ github.repository }}/releases/latest/download/kegel.apk
           files: |

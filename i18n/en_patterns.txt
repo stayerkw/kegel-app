@@ -102,3 +102,7 @@
 فحص {s}|{s} check
 التالية: جلسة {n} — {s} · {s}|Next: session {n} — {s} · {s}
 التالية: جلسة {n} — {s}|Next: session {n} — {s}
+آخر مزامنة: {s}|Last sync: {s}
+المصدر: {s} · {s} · آخر مراجعة في التطبيق {s}. لا يغني عن خطة طبيبك.|Source: {s} · {s} · last reviewed in app {s}. Doesn't replace your doctor's plan.
+ADA — Standards of Care in Diabetes {n}، القسم {n} (التوصية {n})|ADA — Standards of Care in Diabetes {n}, Section {n} (Rec. {n})
+ADA — Standards of Care in Diabetes {n}، القسم {n}|ADA — Standards of Care in Diabetes {n}, Section {n}
