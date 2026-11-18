@@ -1,0 +1,270 @@
+أجب عن السؤال|Answer question
+أجرِ اختبار القوة لتُبنى خطتك على قوتك الفعلية.|Take the strength test so your plan is built on your actual strength.
+أحسنت!|Well done!
+أحسنت! أنهيت الجلسة.|Well done! You finished the session.
+أحسنت. قلبك يشكرك.|Well done. Your heart thanks you.
+أخذته|Taken
+أدخل رقمًا بين {n} و{n}|Enter a number between {n} and {n}
+أدخل نسبة بين {n} و{n}|Enter a percentage between {n} and {n}
+أرح العضلة كاملًا — الراحة جزء من التمرين.|Relax the muscle completely — rest is part of the exercise.
+أرسل الآن|Send now
+أضف أدويتك (مثل الميتفورمين) ليصلك تذكير في مواعيدها مع زر «أخذته».|Add your medications (such as metformin) to get reminders at their times with a "Taken" button.
+أعد قياس السكر|Re-check your glucose
+أعد قياس السكر الآن|Re-check your glucose now
+أغلب من يصلون إلى هنا يكملون البرنامج.|Most people who reach this point complete the program.
+أفطر فورًا|Break your fast immediately
+أقصى {n} أدوية|Maximum {n} medications
+أقصى {n} مواعيد|Maximum {n} times
+أقصى ضغط ممكن… ثم انزل ببطء.|Maximum squeeze… then come down slowly.
+أكمل يومك واحفظ سلسلتك.|Finish your day and keep your streak.
+أكملتها|Completed
+أكّد هويتك لتفعيل القفل|Confirm your identity to enable the lock
+أليافها تبطئ امتصاص السكر وتشبع أطول. اجعلها بدل جزء من الأرز.|Their fiber slows sugar absorption and keeps you full longer. Use them in place of some of the rice.
+أنت في اليوم {n}|You're on day {n}
+أهلًا، أنا مدربك. اضغط الآن… ثم استرخِ تمامًا.|Hello, I'm your coach. Squeeze now… then relax completely.
+أهلًا، المدرّب الصوتي مفعّل.|Hello, the voice coach is on.
+أوميغا {n} وبروتين لا يرفع السكر. اشوه أو اخبزه بدل القلي.|Omega-{n} and protein that doesn't raise glucose. Grill or bake it instead of frying.
+أُلغي القفل|Lock turned off
+إعداد وضع رمضان|Ramadan mode settings
+إلغاء|Cancel
+ابدأ الآن|Start now
+ابنِ خطتك على قوتك الفعلية|Build your plan on your actual strength
+اجلس على كرسي، ظهرك مستقيم وقدماك مسطّحتان على الأرض.|Sit on a chair, back straight and feet flat on the floor.
+احفظ النسخة في Drive أو أرسلها لنفسك|Save the backup to Drive or send it to yourself
+اختاري درجة من {n} إلى {n}|Choose a score from {n} to {n}
+اختبار دقيقتين يحدد مدة الانقباض وعدد التكرارات المناسبة لك.|A two-minute test sets the hold time and number of reps that suit you.
+اختبار دقيقتين يحدد مدة انقباضك وعدد التكرارات المناسبة لك.|A two-minute test sets your hold time and the number of reps that suit you.
+اختبر قوتك لتُبنى خطتك|Test your strength to build your plan
+اربط ساعتك أو تطبيق الصحة لتعرف خطواتك ونومك تلقائيًا. يتم الربط عبر Health Connect من Google، والبيانات تُقرأ فقط وتبقى على جهازك.|Connect your watch or health app to see your steps and sleep automatically. The connection uses Google's Health Connect; data is read-only and stays on your device.
+اربط ساعتك لتعرف كم مشيت وكم بقي، ومدة نومك|Connect your watch to see how far you've walked, what's left, and how long you slept
+استخدم البصمة أو قفل الجوال|Use your fingerprint or phone lock
+استرخِ|Relax
+استعادة|Restore
+استعادة النسخة؟|Restore the backup?
+استلقِ براحة. عندما تكون جاهزًا اضغط الزر وابدأ.|Lie down comfortably. When you're ready, press the button and begin.
+استمر بالضغط|Keep squeezing
+اضغط «أخذته» بعد تناوله.|Tap "Taken" after you take it.
+اضغط الآن|Squeeze now
+اضغط واثبت|Squeeze and hold
+اضغط وازفر بهدوء، ولا تحبس نفسك|Squeeze and breathe out gently; don't hold your breath
+اعتُمدت خطتك الجديدة|Your new plan is set
+افتح Vigoris|Open Vigoris
+افتح إعدادات الجوال ← تحويل النص إلى كلام|Open phone settings → Text-to-speech
+افتح التقدم وشاهد كم قطعت.|Open Progress and see how far you've come.
+اكتب اسم الدواء|Enter the medication name
+اكتب بريدًا صحيحًا، مثل doctor@clinic.com|Enter a valid email, such as doctor@clinic.com
+الآن انقباضات سريعة. اضغط وأرخِ بسرعة.|Now quick contractions. Squeeze and release quickly.
+الإحساس|Awareness
+الإفطار|Iftar
+البناء|Building
+التثبيت|Consolidation
+التحكم|Control
+التحمّل|Endurance
+التنفّس|Breathing
+الربط متاح في تطبيق الجوال فقط|Connecting is only available in the phone app
+الربط مع ساعتك يتم عبر تطبيق Health Connect من Google (مدمج في أندرويد {n} وأحدث). ثبّته من المتجر، ثم اربط تطبيق ساعتك به (Samsung Health أو Fitbit أو Google Fit أو Huawei Health عبر تطبيق وسيط)، ثم ارجع هنا.|Your watch connects through Google's Health Connect app (built into Android {n} and later). Install it from the store, then link your watch's app to it (Samsung Health, Fitbit, Google Fit, or Huawei Health via a bridge app), then come back here.
+الساعة|Watch
+السكر والمؤشرات|Glucose and indicators
+السيطرة|Control
+الطابق الأعلى|Top floor
+الطابق الأول|First floor
+الطابق الثاني|Second floor
+الفلافونويد ارتبط بانخفاض ضعف الانتصاب. اقرنها ببروتين لتخفيف ارتفاع السكر.|Flavonoids were linked to less erectile dysfunction. Pair fruit with protein to soften the glucose rise.
+القفل متاح في تطبيق الجوال فقط|The lock is only available in the phone app
+القوة|Strength
+الملف ليس نسخة احتياطية صالحة|The file isn't a valid backup
+الملف ليس نسخة احتياطية من Vigoris|The file isn't a Vigoris backup
+امشِ بخطى عادية، واضغط ضغطًا متوسطًا مع كل انقباضة دون حبس النفس.|Walk at a normal pace, and squeeze moderately with each contraction without holding your breath.
+انتهى الاختبار. أحسنت.|The test is over. Well done.
+ببطء من الأنف، واملأ بطنك بالهواء.|Slowly through the nose, filling your belly with air.
+ببطء من الفم، أطول من الشهيق.|Slowly through the mouth, longer than the inhale.
+بطن مرتخٍ|Relaxed abdomen
+بعد الإفطار بساعتين|Two hours after iftar
+بياناتك الصحية محمية. افتح بالبصمة أو قفل الجوال.|Your health data is protected. Unlock with your fingerprint or phone lock.
+تبدو مستعدًا للتقدّم|You seem ready to move ahead
+تحقّق من هويتك|Verify your identity
+تذكير التمارين|Exercise reminders
+تذكيرات الماء الآن بين الإفطار والسحور، والرياضة الخفيفة بعد الإفطار بساعتين.|Water reminders now run between iftar and suhoor, and light exercise two hours after iftar.
+تسحّر الآن: بروتين وخضار ونشويات بطيئة واشرب ماء|Have suhoor now: protein, vegetables and slow carbs, and drink water
+تسحّر الآن: بروتين وخضار ونشويات بطيئة واشرب ماء، وقِس السكر.|Have suhoor now: protein, vegetables and slow carbs, drink water, and check your glucose.
+تسحّر الآن: بروتين وخضار ونشويات بطيئة واشرب ماء.|Have suhoor now: protein, vegetables and slow carbs, and drink water.
+تعديل|Edit
+تعذّر التشفير|Encryption failed
+تعذّر النسخ|Couldn't copy
+تعذّر تحميل السياسة.|Couldn't load the policy.
+تفعيل قفل Vigoris|Enable the Vigoris lock
+تقرير Vigoris الأسبوعي|Vigoris weekly report
+تقرير Vigoris للطبيب|Vigoris report for the doctor
+تم إيقاف التذكيرات|Reminders turned off
+تم إيقاف تذكير الماء|Water reminders turned off
+تم إيقاف فترات بلا تدخين|Smoke-free windows turned off
+تم التحديث|Updated
+تم تحديث موعد التذكير|Reminder time updated
+تم تخطّي الجلسة|Session skipped
+تم تفعيل التذكيرات|Reminders turned on
+تم تفعيل تذكير الماء|Water reminders turned on
+تم تفعيل فترات بلا تدخين|Smoke-free windows turned on
+تم ربط ساعتك عبر Health Connect|Your watch is connected via Health Connect
+تمت استعادة بياناتك|Your data has been restored
+تمرّنت اليوم — تأكد أن السكر ليس منخفضًا قبل أن تنام.|You exercised today — make sure your glucose isn't low before you sleep.
+تناولتها|Eaten
+تنفّس بحرية|Breathe freely
+ثبّت Health Connect|Install Health Connect
+ثبّت «الصوت العربي» من إعدادات الجوال ← تحويل النص إلى كلام|Install the voice from phone settings → Text-to-speech
+جالسًا|sitting
+جلسة إضافية اختيارية|Optional extra session
+حافظ على الانقباض وتنفّس بحرية — لا تحبس نفسك.|Hold the contraction and breathe freely — don't hold your breath.
+حذف الموعد|Delete time
+حذف كل البيانات؟|Delete all data?
+حصتان أسبوعيًا من السمك من توصيات النظام المتوسطي.|Two servings of fish a week is a Mediterranean diet recommendation.
+حُفظ الدواء — سنذكّرك في مواعيده|Medication saved — we'll remind you at its times
+حُفظت بيانات الطبيب|Doctor's details saved
+دهون أحادية غير مشبعة — من أعمدة النظام المتوسطي.|Monounsaturated fats — a pillar of the Mediterranean diet.
+دهون صحية وألياف؛ الحفنة الواحدة تكفي لأن سعراتها عالية.|Healthy fats and fiber; one handful is enough because they're high in calories.
+رائع! أكملت يومك كاملًا. نراك غدًا.|Great! You completed your whole day. See you tomorrow.
+ربط الساعة الذكية|Connect your smartwatch
+رياضة هوائية|Aerobic exercise
+زفير|Exhale
+زِد إلى ضغط كامل.|Increase to a full squeeze.
+سجّل أول قراءة لتظهر هنا|Record your first reading to see it here
+سجّل قراءة|Record a reading
+سجّل قراءة الآن|Record a reading now
+سجّل نتيجة آخر تحليل لتتابع تطوّرها كل {n} أشهر.|Record your latest test result to track it every {n} months.
+سجّلي نقطة البداية الآن ثم كل شهر — انخفاض الرقم يعني تحسّنًا.|Record your starting point now and then every month — a lower number means improvement.
+سلسلتك تنتظرك|Your streak is waiting
+سنذكّرك قبل النوم|We'll remind you before bed
+سيصلك إشعار تجريبي بعد {n} ثوانٍ|A test notification will arrive in {n} seconds
+سيُحذف تقدّمك وإنجازاتك وسجلّك نهائيًا من هذا الجهاز.|Your progress, achievements and log will be permanently deleted from this device.
+سُجّل التراكمي|HbA1c recorded
+سُجّل الدواء|Medication recorded
+سُجّلت النتيجة|Score recorded
+سُجّلت فترة ناجحة|Successful window logged
+شديد|Severe
+شدّ للداخل وازفر بهدوء — لا تحبس نفسك.|Squeeze inward and breathe out gently — don't hold your breath.
+شربت كوبًا|I drank a glass
+شهيق|Inhale
+ضعف خفيف|Mild dysfunction
+طريقة إيقاف البول|The stop-the-flow method
+طريقة منع الغازات|The hold-in-gas method
+علامات الانقباض الصحيح|Signs of a correct contraction
+عودة|Back
+غير متاح على هذا الجهاز|Not available on this device
+غير محددة|Not set
+فتح|Unlock
+فترة بلا تدخين|Smoke-free window
+فترة جارية — استمر|Window in progress — keep going
+فخذان مرتخيان|Relaxed thighs
+فُعّل القفل بالبصمة — ولن تظهر بياناتك في قائمة التطبيقات المفتوحة|Fingerprint lock on — your data won't show in the recent apps list
+قبل الإفطار|Before iftar
+قف وقدماك بعرض الكتفين، والركبتان مرتخيتان غير مقفلتين.|Stand with feet shoulder-width apart, knees soft and unlocked.
+قوية = اضغط · نبضتان = استرخِ · خفيفة = آخر ثانيتين · ممتدة = انتهت|Strong = squeeze · two pulses = relax · light = last two seconds · long = done
+قياس منتصف النهار|Midday check
+قيّمت جلساتك الأخيرة بأنها سهلة. هل تتقدّم يومًا في البرنامج؟|You rated your recent sessions as easy. Move ahead a day in the program?
+قِس الآن ثم سجّلها.|Check now, then record it.
+قِس السكر الآن، ثم ابدأ إفطارك بتمرة وماء.|Check your glucose now, then break your fast with a date and water.
+قِس السكر قبل النوم|Check glucose before bed
+قِس نقطة البداية الآن، ثم كل شهر — لترى أثر التمارين والغذاء بالأرقام.|Measure your starting point now, then every month — to see the effect of exercise and diet in numbers.
+قِس: قبل السحور، منتصف النهار، قبل الإفطار، وبعد الإفطار بساعتين.|Check: before suhoor, midday, before iftar, and two hours after iftar.
+كل فترة تنجح فيها تُضعف الرغبة أكثر.|Every window you succeed in weakens the craving further.
+كلاسيكي|Classic
+كلمة المرور|Password
+كلمة المرور غير صحيحة|Incorrect password
+لا بأس — إن تكررت الصعوبة خذ وقتك، وتوقف إن شعرت بألم.|That's okay — if it keeps feeling hard, take your time, and stop if you feel pain.
+لا بأس، الفترة القادمة فرصة جديدة|That's okay, the next window is a new chance
+لا توجد بصمة أو قفل شاشة مفعّل على الجوال|No fingerprint or screen lock is set up on the phone
+لا قراءات بعد|No readings yet
+لا يوجد ضعف|No dysfunction
+لا، القيمة صحيحة|No, the value is correct
+لا، ليس هذه المرة|No, not this time
+لاحقًا|Later
+لقراءة الخطوات والنوم والنبض وقراءات السكر من جهاز القياس تلقائيًا.|To read steps, sleep, heart rate and glucose meter readings automatically.
+لم أكملها|Didn't complete
+لم تُجرِ اختبار القوة بعد.|You haven't taken the strength test yet.
+لم تُمنح الصلاحيات — يمكنك منحها من إعدادات Health Connect|Permissions not granted — you can grant them in Health Connect settings
+لم يُسجَّل|Not recorded
+لم يُسمح بالإشعارات — فعّلها من إعدادات الجوال|Notifications not allowed — enable them in phone settings
+لم يُفعّل القفل|Lock not enabled
+متوسط|Moderate
+مساء الخير|Good evening
+مساء النور|Good evening
+مستلقيًا|lying down
+ممتاز. استرخِ.|Excellent. Relax.
+ممتاز، أنت في منتصف الجلسة. استمر.|Excellent, you're halfway through the session. Keep going.
+مواعيد الأدوية|Medication times
+نسخة احتياطية — Vigoris|Backup — Vigoris
+نسخة مشفّرة|Encrypted backup
+نصف ضغط خفيف.|A light half squeeze.
+نعم، أكملتها|Yes, completed
+نعم، احذف|Yes, delete
+نعم، تقدّم|Yes, move ahead
+نعم، حوّلها|Yes, convert it
+نُسخ التقرير|Report copied
+نُسخ النص|Text copied
+هكذا ستصلك تذكيرات التمرين.|This is how exercise reminders will arrive.
+هل أكملتها بدون تدخين؟|Did you complete it smoke-free?
+واقفًا|standing
+أثناء المشي|while walking
+وصلت لهدف الماء اليوم|You reached today's water goal
+وقت السحور|Suhoor time
+وقت قياس السكر، ووقت مناسب لمشي خفيف.|Time to check your glucose, and a good time for a light walk.
+جهّز نفسك، نبدأ بعد ثلاث ثوانٍ.|Get ready, we start in three seconds.
+أهلًا. |Hello.
+مبتدئ|Beginner
+متمكّن|Capable
+قوي|Strong
+خبير|Expert
+السلّم|The Ladder
+الثبات الطويل|Long hold
+النيران السريعة|Quick Flicks
+المصعد|The Elevator
+التنفّس|Breathing
+مؤشر الانتصاب الشهري|Monthly erection score
+{n} أسئلة سريعة لقياس تقدّمك هذا الشهر.|{n} quick questions to measure your progress this month.
+مقياس التسرّب الشهري|Monthly leakage score
+سؤال واحد لقياس تحسّنك هذا الشهر.|One question to measure your improvement this month.
+اختبر قوتك لتُبنى خطتك|Test your strength to build your plan
+حان اختبار القوة|Strength test time
+دقيقتان لقياس تقدّمك ورفع مستوى خطتك.|Two minutes to measure your progress and level up your plan.
+تحسّن|improved
+ثابت|unchanged
+تراجع|declined
+د|min
+س|h
+يوم|days
+الأحد|Sunday
+الإثنين|Monday
+الثلاثاء|Tuesday
+الأربعاء|Wednesday
+الخميس|Thursday
+الجمعة|Friday
+السبت|Saturday
+أسبوع خفيف|Light week
+إنجاز جديد!|New achievement!
+اربط ساعتك|Connect your watch
+تقرير «Vigoris» الأسبوعي|Vigoris weekly report
+• آخر الفحوص الدورية:|• Latest periodic check-ups:
+تكرار {n} من {n}|Rep {n} of {n}
+ربط|Connect
+غير مرتبطة|Not connected
+نَفَس {n} من {n}|Breath {n} of {n}
+هل ثبتت رؤية هلال رمضان؟|Has the Ramadan crescent been sighted?
+اليوم أول رمضان|Today is 1 Ramadan
+يبدأ غدًا|Starts tomorrow
+لم يُعلن بعد|Not announced yet
+هل غدًا العيد؟|Is Eid tomorrow?
+أكّد نهاية رمضان ليعود التطبيق لتذكيراتك المعتادة.|Confirm the end of Ramadan so the app returns to your usual reminders.
+نعم، غدًا العيد|Yes, Eid is tomorrow
+لا، غدًا رمضان|No, tomorrow is Ramadan
+رمضان مبارك — فُعّل وضع الصيام|Ramadan Mubarak — fasting mode is on
+سيتفعّل وضع الصيام غدًا|Fasting mode starts tomorrow
+سنسألك مرة أخرى غدًا|We'll ask you again tomorrow
+عيدك مبارك — تعود تذكيراتك المعتادة بعد رمضان|Eid Mubarak — your usual reminders return after Ramadan
+غدًا آخر أيام رمضان|Tomorrow is the last day of Ramadan
+هل اقترب رمضان؟|Is Ramadan approaching?
+أكّد بداية الشهر في التطبيق لنفعّل وضع الصيام في يومه الصحيح.|Confirm the start of the month in the app so fasting mode begins on the right day.
+افتح التطبيق وأكّد: هل غدًا أول رمضان؟|Open the app and confirm: is tomorrow 1 Ramadan?
+أكّد نهاية رمضان لتعود تذكيراتك المعتادة.|Confirm the end of Ramadan so your usual reminders return.
+يتفعّل في أيام رمضان فقط. قبل البداية المتوقعة بيومين نسألك عن ثبوت الرؤية، وقرب نهايته نسألك عن العيد — لأن الرؤية قد تتقدم أو تتأخر يومًا عن التقويم.|Turns on during Ramadan days only. Two days before the expected start we ask whether the crescent was sighted, and near the end we ask about Eid — because sighting can differ by a day from the calendar.
+رمضان {n}:|Ramadan {n}:
+وضع رمضان|Ramadan mode
+يعمل في رمضان|On during Ramadan

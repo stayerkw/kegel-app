@@ -250,6 +250,9 @@ body.dark .lvl.a{background:#14532D;color:#BBF7D0}body.dark .lvl.b{background:#4
 .mhero{border-radius:24px;padding:18px;color:#fff;background:linear-gradient(160deg,#0E7490,#0B2545);margin-top:4px}
 .mhero h1{color:#fff;margin:0 0 4px}.mhero p{opacity:.9;margin:0;font-size:14px}
 /* 2.5 */
+.btnrow3{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px;margin-top:10px}.btnrow3 .btn{width:auto;min-width:0;padding-inline:6px;font-size:13px}
+html[dir=ltr] body{direction:ltr}
+.radios.scale{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}.radios.scale label{margin:0;justify-content:center;padding:8px 2px;font-weight:600}
 .btn.danger{background:var(--danger);color:#fff;text-decoration:none}
 .ramc{border:1.5px solid #C9A227!important;background:linear-gradient(160deg,rgba(201,162,39,.10),var(--card))}
 .ramc .ic-badge{background:rgba(201,162,39,.16);color:#9A7A12}
@@ -321,6 +324,7 @@ body.dark .segc button.on{background:var(--accent)}
 <body>
 <div id="app"></div>
 <script src="capacitor.js" onerror="void 0"></script>
+<script src="i18n.js"></script>
 <nav class="tabs" id="tabs" hidden></nav>
 <script>
 "use strict";
@@ -328,7 +332,7 @@ body.dark .segc button.on{background:var(--accent)}
 const Cap = window.Capacitor;
 const isNative = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform());
 const plug = n => { if(!isNative) return null; if(Cap.registerPlugin) return Cap.registerPlugin(n); return (Cap.Plugins&&Cap.Plugins[n])||null; };
-const LN = plug('LocalNotifications'), HP = plug('Haptics'), APP = plug('App'), KA = plug('KeepAwake'), WB = plug('WidgetBridge'), TTS = plug('TextToSpeech');
+const LN = wrapLN(plug('LocalNotifications')), HP = plug('Haptics'), APP = plug('App'), KA = plug('KeepAwake'), WB = plug('WidgetBridge'), TTS = plug('TextToSpeech');
 
 const Haptic = {
   heavy(){ if(!S.haptics) return; if(HP) HP.impact({style:'HEAVY'}).catch(()=>{}); else vib(70); },
@@ -344,15 +348,15 @@ async function keepAwake(on){
 }
 /* ============ الصوت: محرك الكلام في الجوال + مؤثرات مولّدة ============ */
 let _ttsWarned=false;
-function speak(t,force){
+function speak(t,force){ t=T(t);
   if(!t || (!S.voice && !force)) return;
   if(TTS){
-    TTS.speak({text:t,lang:'ar-SA',rate:0.95,pitch:1.0,volume:1.0,category:'playback',queueStrategy:0}).catch(()=>{
+    TTS.speak({text:t,lang:LANG==='en'?'en-US':'ar-SA',rate:0.95,pitch:1.0,volume:1.0,category:'playback',queueStrategy:0}).catch(()=>{
       if(!_ttsWarned){ _ttsWarned=true; toast('ثبّت «الصوت العربي» من إعدادات الجوال ← تحويل النص إلى كلام'); }
     });
     return;
   }
-  if(window.speechSynthesis){ try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='ar-SA'; u.rate=0.95; speechSynthesis.speak(u);}catch(e){} }
+  if(window.speechSynthesis){ try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang=LANG==='en'?'en-US':'ar-SA'; u.rate=0.95; speechSynthesis.speak(u);}catch(e){} }
 }
 const nm=()=>'';
 const yaName=()=>nm()?'يا '+nm():'';
@@ -382,7 +386,7 @@ function fixState(){ if((S.v||1)<2){ S.v=2; S.voice=true; S.sfx=true; } if(S.sfx
   const dflt={tests:[],test:null,glu:[],a1c:[],meds:[],medLog:{},bl:[],iief:[],mealLog:{},gUnit:'mg',bed:'23:30',wake:'06:00',nightLess:true,knackOn:true,stepGoal:7000,lock:false,lastBackup:null,hseg:null};
   Object.keys(dflt).forEach(k=>{ if(S[k]===undefined) S[k]=Array.isArray(dflt[k])?[]:(dflt[k]&&typeof dflt[k]==='object')?{}:dflt[k]; });
   if(S.diabetes===undefined) S.diabetes=false;
-  if(!S.meal) S.meal={on:true,time:'12:30',eve:'21:00'}; if(!S.ram) S.ram={mode:'auto',iftar:'17:30',suhoor:'04:30'}; if(!S.checks) S.checks={}; if(!S.doc) S.doc={on:false,dr:'',email:'',patient:'',phone:'',fileNo:'',every:14,last:null}; if(!S.br) S.br=defBr(); if(!S.hc) S.hc=defHc(); }
+  if(!S.meal) S.meal={on:true,time:'12:30',eve:'21:00'}; if(!S.sex) S.sex='m'; if(!S.uiq) S.uiq=[]; if(!S.ram) S.ram={mode:'auto',iftar:'17:30',suhoor:'04:30'}; if(!S.checks) S.checks={}; if(!S.doc) S.doc={on:false,dr:'',email:'',patient:'',phone:'',fileNo:'',every:14,last:null}; if(!S.br) S.br=defBr(); if(!S.hc) S.hc=defHc(); }
 fixState();
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 
@@ -736,7 +740,51 @@ function heartCard(){
 function cupsSVG(w,g){
   return '<div class="cups">'+Array.from({length:g},(_,i)=>`<svg viewBox="0 0 24 30" class="${i<w?'full':''}" aria-hidden="true"><path d="M4 3h16l-2 23a2 2 0 0 1-2 1.8H8A2 2 0 0 1 6 26z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path class="lv" d="M6.6 10h10.8l-1.4 15.6a1 1 0 0 1-1 .9H9a1 1 0 0 1-1-.9z"/></svg>`).join('')+'</div>';
 }
-const IMG=(n,c='')=>`<img class="art ${c}" src="img/${n}.webp" alt="" decoding="async">`;
+let LANG=(()=>{ try{ const st=JSON.parse(localStorage.getItem('kegel_v1')||'{}'); if(st.lang) return st.lang; }catch(e){} return /^ar/i.test(navigator.language||'ar')?'ar':'en'; })();
+function setLang(l){ S.lang=l; save(); location.reload(); }
+/* ============ اللغات: الإنجليزية والصياغة بالمؤنث ============ */
+const AR_RE=/[\u0600-\u06FF]/, NUM_RE=/\d+([.:,]\d+)*/g;
+let _pat=null, _femRe=null;
+const reEsc=x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+function patList(){ if(_pat) return _pat; _pat=((window.I18N&&I18N.enPat)||[]).map(([a,b])=>[new RegExp('^'+reEsc(a).replace(/\\\{s\\\}/g,'(.+?)')+'$'),b]); return _pat; }
+function trEn(k){ if(!window.I18N) return null; const d=I18N.en[k]; if(d!=null) return d;
+  for(const [re,b] of patList()){ const m=k.match(re); if(m){ let j=1; return b.replace(/\{s\}/g,()=>{ const g=m[j++]||''; if(!AR_RE.test(g)) return g; const r=trEn(g.trim()); return r==null?g:r; }); } }
+  return null; }
+function feminize(t){ if(!window.I18N) return t;
+  for(const [a,b] of I18N.femP) if(t.includes(a)&&!t.includes(b)) t=t.split(a).join(b);
+  if(!_femRe){ const ws=Object.keys(I18N.femW).sort((a,b)=>b.length-a.length).map(reEsc); _femRe=new RegExp('(^|[\\s«(\\-—،.:؛!؟"])([وف]?)('+ws.join('|')+')(?=$|[\\s».,،؛:!؟)\\-—…"])','g'); }
+  return t.replace(_femRe,(m,p,c,w)=>p+c+I18N.femW[w]); }
+function trText(t){
+  if(!t||typeof t!=='string'||!AR_RE.test(t)) return t;
+  if(LANG==='en'){ const lead=t.match(/^\s*/)[0], trail=t.match(/\s*$/)[0], nums=[]; const k=t.replace(/\s+/g,' ').trim().replace(NUM_RE,x=>{ nums.push(x); return '{n}'; }); const v=trEn(k); if(v==null) return t; let i=0; return lead+v.replace(/\{n\}/g,()=>nums[i++]??'')+trail; }
+  if(isFem()) return feminize(t);
+  return t;
+}
+const T=trText;
+const _l10nDone=new WeakMap(), _l10nAttr=new WeakMap();
+function l10n(root){
+  if(!root||(LANG!=='en'&&!isFem())) return;
+  if(root.nodeType===3){ root=root.parentNode; if(!root) return; }
+  if(root.nodeType!==1&&root.nodeType!==11) return;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT); let n;
+  while((n=w.nextNode())){ const v=n.nodeValue; if(_l10nDone.get(n)===v||!AR_RE.test(v)) continue; const p=n.parentElement; if(p&&p.closest('script,style,[data-noi18n]')) continue; const o=trText(v); _l10nDone.set(n,o); if(o!==v) n.nodeValue=o; }
+  [root,...root.querySelectorAll('[aria-label],[title],[placeholder],[alt]')].forEach(e=>{ if(!e.getAttribute) return; let mm=_l10nAttr.get(e); if(!mm){ mm={}; _l10nAttr.set(e,mm); }
+    ['aria-label','title','placeholder','alt'].forEach(a=>{ const v=e.getAttribute(a); if(!v||!AR_RE.test(v)||mm[a]===v) return; const o=trText(v); mm[a]=o; if(o!==v) e.setAttribute(a,o); }); });
+}
+function startL10n(){
+  document.documentElement.lang=LANG==='en'?'en':'ar'; document.documentElement.dir=LANG==='en'?'ltr':'rtl';
+  if(LANG!=='en'&&!isFem()) return;
+  document.title=trText(document.title); l10n(document.body);
+  new MutationObserver(ms=>{ for(const m of ms){ if(m.type==='characterData') l10n(m.target); else m.addedNodes.forEach(nd=>l10n(nd)); } }).observe(document.body,{childList:true,subtree:true,characterData:true});
+}
+function wrapLN(ln){ if(!ln) return ln; const tr=n=>Object.assign({},n,{title:T(n.title),body:T(n.body)});
+  return new Proxy(ln,{get(t,k){ const f=t[k];
+    if(k==='schedule') return o=>f.call(t,Object.assign({},o,{notifications:(o.notifications||[]).map(tr)}));
+    if(k==='createChannel') return o=>f.call(t,Object.assign({},o,{name:T(o.name)}));
+    if(k==='registerActionTypes') return o=>f.call(t,{types:(o.types||[]).map(ty=>Object.assign({},ty,{actions:(ty.actions||[]).map(a=>Object.assign({},a,{title:T(a.title)}))}))});
+    return typeof f==='function'?f.bind(t):f; }}); }
+function isFem(){ return typeof S!=='undefined'&&S&&S.sex==='f'; }
+const IMG=(n,c='')=>isFem()&&['breathe_man','heart_breath','posture','sleep','walk','water'].includes(n)?`<img class="art ${c}" src="img/f/${n}.webp" alt="" decoding="async" onerror="this.remove()">`:`<img class="art ${c}" src="img/${n}.webp" alt="" decoding="async">`;
 const CREDIT=`<p class="credit">${ic('code')}<span>من تطوير: <b>حامد الدهاش</b></span></p>`;
 /* ============ الواجهة العامة ============ */
 const $=s=>document.querySelector(s);
@@ -835,12 +883,13 @@ function renderOnb(){
   const bar='<div class="steps">'+Array.from({length:N},(_,i)=>`<i class="${i<=st?'on':''}"></i>`).join('')+'</div>';
   let h='';
   if(st===0){
-    h=`<div style="height:6vh"></div>${IMG('breathe_man')}<h1>Vigoris</h1>
-    <p class="muted">رفيقك اليومي لصحة الرجل: برنامج تمارين قاع الحوض لمدة 180 يومًا لتقوية الانتصاب والتحكم وصحة المثانة، مع عادات الغذاء والرياضة والقلب والإقلاع عن التدخين — مبنية على دراسات منشورة. مدرّب موقّت يخبرك متى تضغط ومتى تسترخي — والاهتزاز يقودك والهاتف في جيبك.</p>
+    h=`<div class="row" style="justify-content:flex-end"><button class="btn ghost sm" id="langT" data-noi18n style="width:auto" lang="${LANG==='en'?'ar':'en'}">${LANG==='en'?'العربية':'English'}</button></div>${IMG('breathe_man')}<h1>Vigoris</h1>
+    <p class="muted">${isF()?'رفيقتك اليومية لصحة المرأة: برنامج تمارين قاع الحوض لمدة 180 يومًا للتحكم في المثانة والتعافي بعد الولادة ودعم الحوض،':'رفيقك اليومي لصحة الرجل: برنامج تمارين قاع الحوض لمدة 180 يومًا لتقوية الانتصاب والتحكم وصحة المثانة،'} مع عادات الغذاء والرياضة والقلب والإقلاع عن التدخين — مبنية على دراسات منشورة. مدرّب موقّت يخبرك متى تضغط ومتى تسترخي — والاهتزاز يقودك والهاتف في جيبك.</p>
     <div class="card small"><b>خصوصية كاملة:</b> لا حساب، لا إعلانات، كل بياناتك على جهازك فقط.</div>
+    <fieldset class="radios seg2"><legend>البرنامج مخصّص لـ</legend><label><input type="radio" name="sx" value="m" ${S.sex!=='f'?'checked':''}> رجل</label><label><input type="radio" name="sx" value="f" ${S.sex==='f'?'checked':''}> امرأة</label></fieldset>
     <button class="btn accent" id="nx">ابدأ رحلتك</button>${CREDIT}`;
   } else if(st===1){
-    const G=[['erection','تقوية الانتصاب'],['pe','التحكم في سرعة القذف'],['bladder','تحسين السيطرة على المثانة'],['recovery','التعافي بعد جراحة البروستاتا'],['fitness','لياقة وصحة عامة']];
+    const G=isF()?GOALS_F:GOALS_M;
     h=`<h1>ما هدفك؟</h1><p class="muted">اختر واحدًا أو أكثر — نخصص رسائل التحفيز على أساسه.</p>`+
       G.map(([k,n])=>`<button class="opt ${ob.goals.has(k)?'on':''}" data-g="${k}"><span class="box"></span>${n}</button>`).join('')+
       `<div style="height:12px"></div><button class="btn accent" id="nx" ${ob.goals.size?'':'disabled style="opacity:.5"'}>التالي</button>`;
@@ -850,6 +899,7 @@ function renderOnb(){
       ['طريقة منع الغازات','تخيّل أنك تمنع خروج الغازات، واضغط العضلات المسؤولة عن ذلك دون شدّ البطن.'],
       ['علامات الانقباض الصحيح','ارتفاع خفيف في الخصيتين وانسحاب بسيط للقضيب للداخل. إن شعرت بذلك فأنت تشدّ العضلة الصحيحة.']
     ];
+    if(isF()) C.splice(0,3,...CUES_F);
     h=`<h1>أين عضلاتك؟</h1><p class="muted">أهم خطوة: أن تعرف العضلة الصحيحة. اضغط كل بطاقة لقلبها.</p>${IMG('anatomy')}<div class="pair"><figure>${IMG('squeeze')}<figcaption>الانقباض: ترتفع العضلة</figcaption></figure><figure>${IMG('relax')}<figcaption>الاسترخاء: تنزل وترتخي</figcaption></figure></div>`+
       C.map(([t,b],i)=>`<div class="flip ${ob.flip[i]?'on':''}" data-f="${i}"><div class="in"><div class="f"><h3>${i+1}. ${t}</h3><p class="muted small">اضغط للقراءة</p></div><div class="b"><p>${b}</p></div></div></div>`).join('')+
       `${IMG('posture','sm')}<div class="warn">للتأكد: تنفّس بحرية، ولا تشدّ بطنك أو فخذيك أو أردافك. إن انقبضت هذه فأنت تضغط خطأ.</div>
@@ -866,6 +916,7 @@ function renderOnb(){
     const lvl=calcLevel();
     h=`<h1>تنبيه مهم</h1>
     ${ob.q[2]===1?'<div class="warn"><b>ننصحك باستشارة طبيب قبل البدء.</b> ذكرت أعراضًا مزمنة أو جراحة حديثة — قد تحتاج تمارين بإشراف أخصائي علاج طبيعي لقاع الحوض.</div>':''}
+    ${isF()?'<div class="warn">إن كنتِ حاملًا أو في الأسابيع الستة الأولى بعد الولادة، استشيري طبيبتك قبل البدء.</div>':''}
     <div class="card"><p>هذا التطبيق أداة لياقة عامة وليس منتجًا طبيًا، ولا يشخّص أو يعالج أي حالة. إن كنت تعاني ألمًا في الحوض، أعراضًا بولية مزمنة، أو خضعت لجراحة حديثة، استشر طبيبًا قبل البدء. <b>توقف فورًا إذا شعرت بألم أثناء التمرين.</b></p></div>
     <div class="card center"><p class="muted">ستبدأ من</p><h2 style="margin:4px 0">المستوى ${lvl} — اليوم ${[1,15,43][lvl-1]}</h2><p class="small muted">مرحلة «${phaseOf([1,15,43][lvl-1]).name}»</p></div>
     <button class="btn accent" id="nx">${ob.q[2]===1?'فهمت، أواصل بحذر':'فهمت، التالي'}</button>`;
@@ -879,6 +930,8 @@ function renderOnb(){
     <div style="height:8px"></div><button class="btn ghost" id="skipN">البدء بدون تذكيرات</button>`;
   }
   app.innerHTML=bar+h;
+  app.querySelectorAll('input[name=sx]').forEach(r=>r.onchange=()=>{ S.sex=r.value; save(); ob.goals=new Set(); renderOnb(); });
+  const lt=$('#langT'); if(lt) lt.onclick=()=>setLang(LANG==='en'?'ar':'en');
   app.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ const k=b.dataset.g; ob.goals.has(k)?ob.goals.delete(k):ob.goals.add(k); renderOnb(); });
   app.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{ ob.flip[b.dataset.f]=!ob.flip[b.dataset.f]; b.classList.toggle('on'); });
   app.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{ ob.q[+b.dataset.q]=+b.dataset.a; renderOnb(); });
@@ -911,7 +964,7 @@ function renderHome(){
   const adv = S.suggestAdvance && !dayDone ? `<div class="card"><b class="hrow">${ic('arrowUp')} تبدو مستعدًا للتقدّم</b><p class="small muted">قيّمت جلساتك الأخيرة بأنها سهلة. هل تتقدّم يومًا في البرنامج؟</p><div class="row"><button class="btn accent sm" id="advY">نعم، تقدّم</button><button class="btn ghost sm" id="advN">لاحقًا</button></div></div>`:'';
   const w=waterToday(), wg=S.water.goal, ht=heartToday(), hd=HEART.filter(([k])=>ht[k]).length, sw=smokeWindow(), sk=smokeToday(), snx=nextSmoke();
   const tiles=[], sNow=stepsNow(), sg=S.stepGoal;
-  tiles.push(S.hc.on?`<button class="tile steps" id="tSt"><div class="hd"><span class="badge">${hi('walking')}</span><span class="sub">${S.hc.sleepDate===today()&&S.hc.sleep?'نوم '+fmtH(S.hc.sleep):''}</span></div><h3>المشي اليوم</h3><div class="big">${(sNow||0).toLocaleString('ar')}</div><div class="sub">${(sNow||0)>=sg?'وصلت لهدفك':'متبقٍ '+Math.max(0,sg-(sNow||0)).toLocaleString('ar')+' خطوة'}</div><div class="mini"><i style="width:${Math.min(100,(sNow||0)/sg*100)}%"></i></div></button>`
+  tiles.push(S.hc.on?`<button class="tile steps" id="tSt"><div class="hd"><span class="badge">${hi('walking')}</span><span class="sub">${S.hc.sleepDate===today()&&S.hc.sleep?'نوم '+fmtH(S.hc.sleep):''}</span></div><h3>المشي اليوم</h3><div class="big">${(sNow||0).toLocaleString(LANG==='en'?'en':'ar')}</div><div class="sub">${(sNow||0)>=sg?'وصلت لهدفك':'متبقٍ '+Math.max(0,sg-(sNow||0)).toLocaleString(LANG==='en'?'en':'ar')+' خطوة'}</div><div class="mini"><i style="width:${Math.min(100,(sNow||0)/sg*100)}%"></i></div></button>`
     :`<button class="tile steps" id="tSt"><div class="hd"><span class="badge">${hi('walking')}</span><span class="sub">الساعة</span></div><h3>المشي والنوم</h3><div class="sub">اربط ساعتك لتعرف كم مشيت وكم بقي، ومدة نومك</div></button>`);
   if(S.water.on) tiles.push(`<div class="tile water" id="tW"><div class="wave-bg" style="height:${Math.min(1,w/wg)*70+8}%"></div><div class="hd"><span class="badge">${ic('drop')}</span><button class="plusb" id="wPlus" aria-label="أضف كوب ماء">${ic('plus')}</button></div><h3>الماء</h3><div class="big">${w}<span class="sub"> من ${wg} أكواب</span></div><div class="mini"><i style="width:${Math.min(100,w/wg*100)}%"></i></div></div>`);
   if(S.heart.on) tiles.push(`<button class="tile heart" id="tH"><div class="hd"><span class="badge">${hi('heartOrgan')}</span><span class="sub">${hd} من ${HEART.length}</span></div><h3>القلب والأداء</h3><div class="sub">${hd===HEART.length?'أكملت عادات اليوم':HEART.filter(([k])=>!ht[k]).map(x=>x[2].split(' ').slice(0,2).join(' ')).slice(0,2).join(' · ')}</div><div class="mini"><i style="width:${hd/HEART.length*100}%"></i></div></button>`);
@@ -929,7 +982,7 @@ function renderHome(){
     ${nextBox}
   </header>
   ${S.progDay>=180?'<div class="warn">وصلت لنهاية البرنامج — استمر بجلسات الصيانة يوميًا.</div>':''}
-  ${recover}${adv}${ramadanCard()}${testCard()}
+  ${recover}${adv}${ramAskCard()}${ramadanCard()}${testCard()}
   <div class="sec"><h2>خطة اليوم</h2><span>${done} من ${plan.n} جلسات</span></div>
   <div class="card plan">${planRows}</div>
   <div class="sec"><h2>عاداتك الصحية</h2><span>اضغط للتفاصيل</span></div>
@@ -940,7 +993,7 @@ function renderHome(){
   $('#q1').onclick=()=>startSession('quick'); $('#q2').onclick=()=>startSession('rapidq',plan); $('#qB').onclick=()=>breathSheet(); $('#qC').onclick=()=>startSession('control');
   const tSt=$('#tSt'); if(tSt) tSt.onclick=()=>stepsSheet(); const tG=$('#tG'); if(tG) tG.onclick=()=>gluSheet();
   const tc=$('#tcGo'); if(tc) tc.onclick=()=>startTest();
-  const rs=$('#ramSet'); if(rs) rs.onclick=ramSheet; const rg=$('#ramG'); if(rg) rg.onclick=()=>gluSheet();
+  const rs=$('#ramSet'); if(rs) rs.onclick=ramSheet; bindRamAsk(); const rg=$('#ramG'); if(rg) rg.onclick=()=>gluSheet();
   if(S.hc.on) hcSync().then(ch=>{ if(ch&&screen==='tabs'&&tab==='home') renderHome(); });
   const wp=$('#wPlus'); if(wp) wp.onclick=e=>{ e.stopPropagation(); addWater(1); render(); };
   const tW=$('#tW'); if(tW) tW.onclick=()=>waterSheet();
@@ -1285,7 +1338,7 @@ const ARTICLES=[
 function renderLearn(){
   app.innerHTML=`<h1>تعلّم</h1><p class="muted">مقالات قصيرة تساعدك على التمرين الصحيح.</p>
   <div class="warn"><b class="hrow">${ic('alert')} تحذير طبي</b> هذا التطبيق أداة لياقة عامة وليس منتجًا طبيًا. إن كنت تعاني ألمًا في الحوض، أعراضًا بولية مزمنة، أو خضعت لجراحة حديثة، استشر طبيبًا قبل البدء. توقف فورًا إذا شعرت بألم.</div>
-  ${ARTICLES.map(([t,b],i)=>`<details ${i===0?'open':''}><summary>${t}</summary><div>${typeof b==='function'?b():b}</div></details>`).join('')}
+  ${ARTICLES.map(a=>isF()&&a[0]==='كيجل للرجال بعد جراحة البروستاتا'?ART_F:a).map(([t,b],i)=>`<details ${i===0?'open':''}><summary>${t}</summary><div>${typeof b==='function'?b():b}</div></details>`).join('')}
   ${CREDIT}`;
 }
 
@@ -1324,10 +1377,14 @@ function renderSettings(){
    <div class="set"><span class="small muted">مواعيد اليوم</span><span class="small" style="text-align:left">${smokeSlots().map(hm).join(' · ')}</span></div>
    <p class="small muted" style="margin:8px 0 0">يصلك إشعار عند بداية كل فترة، وإشعار عند انتهائها مع زرّي «أكملتها» و«لم أكملها».</p>
   </div>
+  <h2>الملف الشخصي</h2><div class="card">
+   <div class="set"><label for="sxS">البرنامج مخصّص لـ</label><select id="sxS"><option value="m" ${!isF()?'selected':''}>رجل</option><option value="f" ${isF()?'selected':''}>امرأة</option></select></div>
+   <div class="set"><label for="lgS">اللغة · Language</label><select id="lgS" data-noi18n><option value="ar" ${LANG==='ar'?'selected':''}>العربية</option><option value="en" ${LANG==='en'?'selected':''}>English</option></select></div>
+  </div>
   <h2>الدولة</h2><div class="card">
    <div class="set"><label for="ctS">دولتك<br><span class="small muted">تحدد رقم الإسعاف ووضع رمضان${detectCountry()?' · المكتشفة: '+ctryName(detectCountry()):''}</span></label><select id="ctS"><option value="">تلقائي</option>${Object.keys(CTRY).map(c=>`<option value="${c}" ${S.country===c?'selected':''}>${CTRY[c][0]}</option>`).join('')}</select></div>
    <div class="set"><span>رقم الإسعاف</span><b dir="ltr">${emerg()}</b></div>
-   <div class="set"><span>وضع رمضان<br><span class="small muted">${ramadanOn()?'مفعّل الآن':S.ram.mode==='off'?'متوقف':'يعمل تلقائيًا في رمضان'}</span></span><button class="btn ghost sm" id="ramSet2">إعداد</button></div>
+   <div class="set"><span>وضع رمضان<br><span class="small muted">${S.ram.mode==='off'?'متوقف':ramadanOn()?'مفعّل الآن — رمضان':'يتفعّل في أيام رمضان فقط'}</span></span><button class="btn ghost sm" id="ramSet2">إعداد</button></div>
   </div>
   <h2>السكري والنوم</h2><div class="card">
    <div class="set"><span>متابعة السكري<br><span class="small muted">قسم السكري وفحص ما قبل الرياضة</span></span><button class="sw ${S.diabetes?'on':''}" id="dmOn" aria-pressed="${!!S.diabetes}" aria-label="متابعة السكري"></button></div>
@@ -1405,6 +1462,8 @@ function renderSettings(){
   [['mlT','time'],['mlE','eve']].forEach(([id,k])=>$('#'+id).onchange=e=>{ if(e.target.value){ S.meal[k]=e.target.value; save(); reschedule(); } });
   on('#knOn',()=>{ S.knackOn=!S.knackOn; save(); reschedule(); render(); });
   on('#stT',()=>startTest()); on('#ramSet2',ramSheet);
+  $('#sxS').onchange=e=>{ S.sex=e.target.value; if(S.hseg==='men') S.hseg=null; save(); location.reload(); };
+  $('#lgS').onchange=e=>setLang(e.target.value);
   $('#ctS').onchange=e=>{ const c=e.target.value; S.country=c||null; const cc=c||detectCountry(); if(cc&&CTRY[cc]&&CTRY[cc][1]!==S.gUnit){ S.gUnit=CTRY[cc][1]; toast('وحدة السكر: '+GU()+' — يمكنك تغييرها'); } save(); reschedule(); render(); };
   $('#fsz').onchange=e=>{ S.fs=e.target.value; save(); render(); };
   on('#hcS',async()=>{ if(S.hc.on){ await hcSync(true); toast('تم التحديث'); render(); } else hcConnect(); });
@@ -1669,12 +1728,12 @@ function stepsSheet(){
     const draw=()=>{ const s=stepsNow(), g=S.stepGoal, wk=S.hc.week||{};
       const days=Array.from({length:7},(_,i)=>addDays(today(),i-6)), mx=Math.max(g,...days.map(d=>wk[d]||0));
       m.querySelector('#stB').innerHTML=`<div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${hi('walking')}</span><h3 style="margin:0">المشي والنوم</h3></div>${IMG('walk','sm')}
-      ${S.hc.on?`<div class="grid3"><div class="card stat" style="margin:0"><b>${(s||0).toLocaleString('ar')}</b><span class="small muted">خطوة اليوم</span></div><div class="card stat" style="margin:0"><b>${Math.max(0,g-(s||0)).toLocaleString('ar')}</b><span class="small muted">متبقٍ</span></div><div class="card stat" style="margin:0"><b>${S.hc.sleepDate===today()&&S.hc.sleep?fmtH(S.hc.sleep):'—'}</b><span class="small muted">نوم الليلة</span></div></div>
+      ${S.hc.on?`<div class="grid3"><div class="card stat" style="margin:0"><b>${(s||0).toLocaleString(LANG==='en'?'en':'ar')}</b><span class="small muted">خطوة اليوم</span></div><div class="card stat" style="margin:0"><b>${Math.max(0,g-(s||0)).toLocaleString(LANG==='en'?'en':'ar')}</b><span class="small muted">متبقٍ</span></div><div class="card stat" style="margin:0"><b>${S.hc.sleepDate===today()&&S.hc.sleep?fmtH(S.hc.sleep):'—'}</b><span class="small muted">نوم الليلة</span></div></div>
       <p class="small muted">${s>=g?'وصلت لهدفك اليوم.':'تحتاج نحو '+Math.ceil(Math.max(0,g-(s||0))/100)+' دقيقة مشي سريع لتصل للهدف.'}${S.hc.rhr?' · نبض الراحة '+S.hc.rhr:''}</p>
       <div class="bars" style="height:110px">${days.map(d=>`<div><small>${wk[d]?Math.round(wk[d]/100)/10+'k':''}</small><span class="${wk[d]>=g?'':'zero'}" style="height:${Math.max(3,(wk[d]||0)/mx*100)}%"></span><small>${AR_DAYS[new Date(d+'T12:00').getDay()]}</small></div>`).join('')}</div>
       <button class="btn ghost" id="stSync">${ic('repeat')}تحديث من الساعة</button>`
       :`<p class="muted small">اربط ساعتك أو تطبيق الصحة لتعرف خطواتك ونومك تلقائيًا. يتم الربط عبر Health Connect من Google، والبيانات تُقرأ فقط وتبقى على جهازك.</p><button class="btn accent" id="stCon">${ic('pulse')}ربط الساعة الذكية</button>`}
-      <div class="set" style="margin-top:10px"><label for="stG">هدف الخطوات اليومي</label><select id="stG">${[5000,6000,7000,8000,9000,10000,12000].map(n=>`<option value="${n}" ${n===g?'selected':''}>${n.toLocaleString('ar')}</option>`).join('')}</select></div>
+      <div class="set" style="margin-top:10px"><label for="stG">هدف الخطوات اليومي</label><select id="stG">${[5000,6000,7000,8000,9000,10000,12000].map(n=>`<option value="${n}" ${n===g?'selected':''}>${n.toLocaleString(LANG==='en'?'en':'ar')}</option>`).join('')}</select></div>
       <p class="small muted" style="margin:6px 0 0">تحليل لـ57 دراسة (Lancet Public Health 2025): نحو 7000 خطوة يوميًا ارتبطت بانخفاض كبير في الوفيات وأمراض القلب والسكري مقارنة بـ2000 خطوة.</p>`;
       const c=m.querySelector('#stCon'); if(c) c.onclick=async()=>{ await hcConnect(); draw(); };
       const y=m.querySelector('#stSync'); if(y) y.onclick=async()=>{ y.disabled=true; await hcSync(true); draw(); render(); };
@@ -1771,7 +1830,7 @@ function reportText(days,doctor){
     L1.push(g?`• السكر: ${g.n} قراءة، المتوسط ${gfmt(g.avg)} ${GU()}، ضمن ${gfmt(70)}–${gfmt(180)}: ${Math.round(g.tir*100)}%، انخفاضات أقل من ${gfmt(70)}: ${g.low}، أعلى من ${gfmt(250)}: ${g.high}.`:'• السكر: لا قراءات مسجلة في الفترة.');
     if(a1) L1.push(`• التراكمي HbA1c: ${a1.v}% بتاريخ ${a1.date}${S.a1c.length>1?` (السابق ${S.a1c[S.a1c.length-2].v}%)`:''}.`);
   }
-  if(S.diabetes){ const ck=CHECKS.map(([k,t])=>t.split(':')[0].split('(')[0].trim()+': '+(checkLast(k)||'لم يُسجَّل')).join(' | '); L1.push('• آخر الفحوص الدورية: '+ck+'.'); }
+  if(S.diabetes){ const ck=CHECKS.map(([k,t])=>T(t)+': '+(checkLast(k)||T('لم يُسجَّل'))).join(' | '); L1.push(T('• آخر الفحوص الدورية:')+' '+ck+'.'); }
   if(S.meds.length) L1.push(`• الأدوية: ${S.meds.map(x=>x.name+(x.dose?' ('+x.dose+')':'')+' '+x.times.join('، ')).join(' | ')}${adh!==null?` — الالتزام ${Math.round(adh*100)}%`:''}.`);
   if(noc!==null) L1.push(`• التبول الليلي: متوسط ${noc.toFixed(1)} مرة/ليلة.`);
   if(stepsArr.length) L1.push(`• الخطوات: متوسط ${Math.round(stepsArr.reduce((a,b)=>a+b,0)/stepsArr.length)} يوميًا (الهدف ${S.stepGoal}).`);
@@ -1781,10 +1840,11 @@ function reportText(days,doctor){
   const ex=Object.keys(S.heartLog).filter(d=>d>=from&&S.heartLog[d].walk).length, rs=Object.keys(S.heartLog).filter(d=>d>=from&&S.heartLog[d].resist).length;
   L1.push(`• الرياضة: هوائية ${ex} أيام، مقاومة ${rs} أيام.`);
   const sm=Object.keys(S.smokeLog).filter(d=>d>=from).reduce((a,d)=>a+(S.smokeLog[d].ok||0),0); if(S.smoke.on) L1.push(`• فترات بلا تدخين ناجحة: ${sm}.`);
-  if(ii) L1.push(`• مؤشر الانتصاب IIEF-5: ${ii.s}/25 (${iiefCat(ii.s)[0]}) بتاريخ ${ii.date}${S.iief.length>1?`، السابق ${S.iief[S.iief.length-2].s}`:''}.`);
+  if(isF()){ const u=S.uiq[S.uiq.length-1]; L1.push(`• التسرّب: ${S.bl.filter(x=>x.k==='leak'&&x.ts>=Date.now()-days*864e5).length} مرة خلال الفترة${u?`، درجة الإزعاج ${u.s}/10 بتاريخ ${u.date}`:''}.`); }
+  else if(ii) L1.push(`• مؤشر الانتصاب IIEF-5: ${ii.s}/25 (${iiefCat(ii.s)[0]}) بتاريخ ${ii.date}${S.iief.length>1?`، السابق ${S.iief[S.iief.length-2].s}`:''}.`);
   if(doctor && S.diabetes){ const gl=S.glu.filter(x=>x.ts>=Date.now()-days*864e5).slice(-40); if(gl.length){ L1.push('','قراءات السكر (آخر '+gl.length+'):'); gl.forEach(x=>{ const d=new Date(x.ts); L1.push(`${dstr(d)} ${pad(d.getHours())}:${pad(d.getMinutes())} — ${gfmt(x.v)} ${GU()} (${GCTXN[x.ctx]||''})`); }); } }
   L1.push('','أُنشئ بتطبيق Vigoris — من تطوير: حامد الدهاش. معلومات مسجلة ذاتيًا وليست تشخيصًا.');
-  return L1.join('\n');
+  return L1.map(T).join('\n');
 }
 async function shareText(title,text){
   if(SH){ try{ await SH.share({title,text,dialogTitle:title}); return true; }catch(e){ return false; } }
@@ -1839,19 +1899,42 @@ function detectCountry(){
   try{ const z=Intl.DateTimeFormat().resolvedOptions().timeZone; if(TZC[z]) return TZC[z]; }catch(e){}
   return null;
 }
-const fd=d=>{ try{ return new Intl.DateTimeFormat('ar',{day:'numeric',month:'short',year:'numeric',numberingSystem:'latn'}).format(new Date(d+'T12:00:00')); }catch(e){ return d; } };
+const fd=d=>{ try{ return new Intl.DateTimeFormat(LANG==='en'?'en':'ar',{day:'numeric',month:'short',year:'numeric',numberingSystem:'latn'}).format(new Date(d+'T12:00:00')); }catch(e){ return d; } };
 const ctry=()=>S.country&&CTRY[S.country]?S.country:(detectCountry()||'');
 const ctryName=c=>CTRY[c]?CTRY[c][0]:'غير محددة';
 const emerg=()=>CTRY[ctry()]?CTRY[ctry()][2]:'112';
 const emergBtn=()=>`<a class="btn danger" href="tel:${emerg()}" style="margin-top:8px">${ic('alert')}اتصل بالإسعاف ${emerg()}</a>`;
 function hijriMonth(d=new Date()){ try{ return +new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{month:'numeric'}).format(d); }catch(e){ return 0; } }
+const hijriToday=()=>{ try{ return new Intl.DateTimeFormat(LANG==='en'?'en-u-ca-islamic-umalqura':'ar-SA-u-ca-islamic-umalqura',{day:'numeric',month:'long',numberingSystem:'latn'}).format(new Date()); }catch(e){ return ''; } };
 const isRamadanDate=(d=new Date())=>hijriMonth(d)===9;
-const ramadanOn=()=>S.ram.mode==='on'||(S.ram.mode==='auto'&&isRamadanDate()&&!!(CTRY[ctry()]||[])[3]);
+function hijriParts(d){ try{ const p=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{year:'numeric',month:'numeric',day:'numeric'}).formatToParts(d); const g=t=>+((p.find(x=>x.type===t)||{}).value||'0').replace(/\D/g,''); return {y:g('year'),m:g('month'),d:g('day')}; }catch(e){ return {y:0,m:0,d:0}; } }
+/* بداية رمضان المتوقعة حسب أم القرى: أقرب أول رمضان من 35 يومًا مضت إلى 60 يومًا قادمة */
+function ramExpected(){ const base=new Date(); base.setHours(12,0,0,0);
+  for(let i=-35;i<=60;i++){ const d=new Date(base.getTime()+i*864e5), h=hijriParts(d); if(h.m===9&&h.d===1){ let e=null; for(let j=28;j<=31;j++){ const x=new Date(d.getTime()+j*864e5); if(hijriParts(x).m===10){ e=dstr(x); break; } } return {y:h.y,start:dstr(d),end:e||addDays(dstr(d),30)}; } }
+  return null; }
+function ramWindow(){ const ex=ramExpected(); if(!ex) return null; const c=S.ram.cyc===ex.y; const start=c&&S.ram.start?S.ram.start:ex.start; const end=c&&S.ram.end?S.ram.end:(c&&S.ram.start?addDays(S.ram.start,dayDiff(ex.start,ex.end)):ex.end); return {y:ex.y,start,end,confirmed:c&&!!S.ram.start,endConfirmed:c&&!!S.ram.end,expStart:ex.start}; }
+function ramActiveOn(ds){ if(S.ram.mode==='off') return false; const w=ramWindow(); return !!w&&ds>=w.start&&ds<w.end; }
+const ramadanOn=()=>ramActiveOn(today());
+function ramAsk(){ if(S.ram.mode==='off'||S.ram.snooze===today()) return null; const w=ramWindow(); if(!w) return null; const t=today();
+  if(!w.confirmed && t>=addDays(w.expStart,-2) && t<=addDays(w.expStart,1)) return 'start';
+  if(w.confirmed && !w.endConfirmed && t>=addDays(w.start,27) && t<w.end) return 'end';
+  return null; }
+function ramAskCard(){ const q=ramAsk(); if(!q) return '';
+  return q==='start'?`<div class="card ramc"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${ic('moon')}</span><div style="flex:1"><b>هل ثبتت رؤية هلال رمضان؟</b><p class="small muted" style="margin:2px 0 0">بدايته المتوقعة حسب التقويم ${fd(ramWindow().expStart)}. أكّد البداية لنفعّل وضع الصيام في يومه الصحيح.</p></div></div>
+    <div class="btnrow3"><button class="btn accent sm" id="raT">اليوم أول رمضان</button><button class="btn ghost sm" id="raM">يبدأ غدًا</button><button class="btn ghost sm" id="raL">لم يُعلن بعد</button></div></div>`
+  :`<div class="card ramc"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${ic('moon')}</span><div style="flex:1"><b>هل غدًا العيد؟</b><p class="small muted" style="margin:2px 0 0">أكّد نهاية رمضان ليعود التطبيق لتذكيراتك المعتادة.</p></div></div>
+    <div class="btnrow3"><button class="btn accent sm" id="reY">نعم، غدًا العيد</button><button class="btn ghost sm" id="reN">لا، غدًا رمضان</button><button class="btn ghost sm" id="raL">لم يُعلن بعد</button></div></div>`; }
+function bindRamAsk(){ const w=ramWindow(); const done=(m)=>{ save(); reschedule(); toast(m); render(); }; const on=(id,f)=>{ const e=$(id); if(e) e.onclick=f; };
+  on('#raT',()=>{ S.ram.cyc=w.y; S.ram.start=today(); S.ram.end=null; done('رمضان مبارك — فُعّل وضع الصيام'); });
+  on('#raM',()=>{ S.ram.cyc=w.y; S.ram.start=addDays(today(),1); S.ram.end=null; done('سيتفعّل وضع الصيام غدًا'); });
+  on('#raL',()=>{ S.ram.snooze=today(); done('سنسألك مرة أخرى غدًا'); });
+  on('#reY',()=>{ S.ram.end=addDays(today(),1); done('عيدك مبارك — تعود تذكيراتك المعتادة بعد رمضان'); });
+  on('#reN',()=>{ S.ram.end=addDays(today(),2); done('غدًا آخر أيام رمضان'); }); }
 const ramWaterSlots=()=>{ let a=toMin(S.ram.iftar), b=toMin(S.ram.suhoor); if(b<=a) b+=1440; const out=[]; for(let m=a+15;m<=b-10&&out.length<S.water.goal;m+=Math.max(45,Math.floor((b-a-25)/Math.max(1,S.water.goal-1)))) out.push(m%1440); return out; };
 function ramadanCard(){
   if(!ramadanOn()) return '';
   const lg=gLast(), dm=S.diabetes;
-  return `<div class="card ramc"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${ic('moon')}</span><div style="flex:1"><b>وضع رمضان</b><p class="small muted" style="margin:2px 0 0">الإفطار ${S.ram.iftar} · السحور ${S.ram.suhoor}${S.ram.mode==='auto'?' · فُعّل تلقائيًا':''}</p></div><button class="iconbtn" id="ramSet" aria-label="إعداد وضع رمضان">${ic('set')}</button></div>
+  return `<div class="card ramc"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${ic('moon')}</span><div style="flex:1"><b>وضع رمضان</b><p class="small muted" style="margin:2px 0 0">الإفطار ${S.ram.iftar} · السحور ${S.ram.suhoor} · ${hijriToday()}</p></div><button class="iconbtn" id="ramSet" aria-label="إعداد وضع رمضان">${ic('set')}</button></div>
    ${dm?`<div class="warn small" style="margin-top:10px"><b>أفطر فورًا</b> إذا كان السكر أقل من ${gfmt(70)} أو أعلى من ${gfmt(300)} ${GU()}، أو شعرت بأعراض الانخفاض. قياس السكر لا يُفطر.</div>
    <p class="small" style="margin:8px 0 0">قِس: قبل السحور، منتصف النهار، قبل الإفطار، وبعد الإفطار بساعتين.${lg?' آخر قراءة: <b>'+gfmt(lg.v)+'</b>':''}</p>
    <button class="btn accent sm" id="ramG" style="margin-top:8px">${ic('drop')}سجّل قراءة</button>`:'<p class="small" style="margin:8px 0 0">تذكيرات الماء الآن بين الإفطار والسحور، والرياضة الخفيفة بعد الإفطار بساعتين.</p>'}
@@ -1859,8 +1942,9 @@ function ramadanCard(){
 }
 function ramSheet(){
   modal(`<form id="rmF" aria-labelledby="rmH"><h3 id="rmH">وضع رمضان</h3>
-    <fieldset class="radios seg3"><legend>التفعيل</legend>${[['auto','تلقائي'],['on','مفعّل'],['off','متوقف']].map(([v,n])=>`<label><input type="radio" name="md" value="${v}" ${S.ram.mode===v?'checked':''}> ${n}</label>`).join('')}</fieldset>
-    <p class="small muted" style="margin-top:-6px">«تلقائي» يعمل في شهر رمضان حسب التقويم الهجري (أم القرى) في الدول الإسلامية.</p>
+    <fieldset class="radios seg2"><legend>التفعيل</legend>${[['auto','يعمل في رمضان'],['off','متوقف']].map(([v,n])=>`<label><input type="radio" name="md" value="${v}" ${S.ram.mode!=='off'===(v==='auto')?'checked':''}> ${n}</label>`).join('')}</fieldset>
+    <p class="small muted" style="margin-top:-6px">يتفعّل في أيام رمضان فقط. قبل البداية المتوقعة بيومين نسألك عن ثبوت الرؤية، وقرب نهايته نسألك عن العيد — لأن الرؤية قد تتقدم أو تتأخر يومًا عن التقويم.</p>
+    ${(()=>{ const w=ramWindow(); return w?`<p class="small"><b>رمضان ${w.y}:</b> ${w.confirmed?'بدأ':'متوقع'} ${fd(w.start)} — ${w.endConfirmed?'العيد':'العيد المتوقع'} ${fd(w.end)}</p>`:''; })()}
     <div class="set"><label for="rmI">وقت الإفطار</label><input type="time" id="rmI" value="${S.ram.iftar}"></div>
     <div class="set"><label for="rmS">نهاية السحور (الإمساك)</label><input type="time" id="rmS" value="${S.ram.suhoor}"></div>
     <div class="card small" style="box-shadow:none;background:var(--bg)"><b>إرشادات الصيام لمريض السكري</b><ul style="margin:6px 0 0;padding-inline-start:18px">
@@ -1875,10 +1959,15 @@ function ramSheet(){
       S.ram.mode=fd.get('md')||'auto'; S.ram.iftar=m.querySelector('#rmI').value||S.ram.iftar; S.ram.suhoor=m.querySelector('#rmS').value||S.ram.suhoor; save(); reschedule(); close(); render(); }); });
 }
 function ramNotifs(list,now){
-  if(!ramadanOn()) return;
+  const w=ramWindow();
+  if(w&&S.ram.mode!=='off'){ const ask=(ds,id,title,body)=>{ const at=new Date(ds+'T20:30:00'); if(at>now) list.push({id,title,body,schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'home'}}); };
+    if(!w.confirmed){ ask(addDays(w.expStart,-2),9590,'هل اقترب رمضان؟','أكّد بداية الشهر في التطبيق لنفعّل وضع الصيام في يومه الصحيح.'); ask(addDays(w.expStart,-1),9591,'هل ثبتت رؤية هلال رمضان؟','افتح التطبيق وأكّد: هل غدًا أول رمضان؟'); }
+    else if(!w.endConfirmed) ask(addDays(w.start,28),9592,'هل غدًا العيد؟','أكّد نهاية رمضان لتعود تذكيراتك المعتادة.'); }
+  if(!ramadanOn() && !(w&&ramActiveOn(addDays(today(),1)))) return;
   const D=(i,h,m)=>new Date(now.getFullYear(),now.getMonth(),now.getDate()+i,h,m,0);
   const [ih,im]=S.ram.iftar.split(':').map(Number), [sh,sm]=S.ram.suhoor.split(':').map(Number);
   for(let i=0;i<5;i++){
+    if(!ramActiveOn(dstr(D(i,12,0)))) continue;
     const before=D(i,sh,sm-45), post=D(i,ih+2,im), mid=D(i,ih-5,im), pre=D(i,ih,im-20);
     if(before>now) list.push({id:9600+i*6,title:'وقت السحور',body:'تسحّر الآن: بروتين وخضار ونشويات بطيئة واشرب ماء'+(S.diabetes?'، وقِس السكر.':'.'),schedule:{at:before,allowWhileIdle:true},channelId:'meals',smallIcon:'ic_stat_notify',extra:{go:'glu'}});
     if(S.diabetes){
@@ -1924,6 +2013,73 @@ function checkNotifs(list,now){
     list.push({id:9700+i,title:'حان موعد فحص: '+t,body:'احجز موعدك، ثم سجّل تاريخ الفحص في التطبيق.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'checks'}}); });
 }
 
+/* ============ دعم النساء ============ */
+const isF=isFem;
+const GOALS_M=[['erection','تقوية الانتصاب'],['pe','التحكم في سرعة القذف'],['bladder','تحسين السيطرة على المثانة'],['recovery','التعافي بعد جراحة البروستاتا'],['fitness','لياقة عامة ووقاية']];
+const GOALS_F=[['bladder','التحكم في تسرّب البول'],['postpartum','التعافي بعد الولادة'],['prolapse','دعم أعضاء الحوض (الهبوط)'],['sexual','تحسين الوظيفة الجنسية'],['fitness','لياقة عامة ووقاية']];
+const CUES_F=[
+  ['طريقة إيقاف البول','أثناء التبول حاولي إيقاف التدفق في منتصفه — العضلات التي تشدّينها هي المطلوبة.<br><b style="color:var(--danger)">للتعرّف فقط مرة واحدة</b>، ولا تتمرّني أثناء التبول بانتظام.'],
+  ['طريقة منع الغازات','تخيّلي أنك تمنعين خروج الغازات، واضغطي العضلات المسؤولة عن ذلك دون شدّ البطن.'],
+  ['علامات الانقباض الصحيح','إحساس بشدّ ورفع حول فتحتي المهبل والشرج إلى الداخل والأعلى، كأنك ترفعين شيئًا صغيرًا. إن شعرت بذلك فأنت تشدّين العضلة الصحيحة.']
+];
+const WEVID=[
+  ['target','تسرّب البول عند السعال والجهد','مراجعة كوكرين لـ31 تجربة (1817 امرأة): النساء المصابات بالسلس الإجهادي اللواتي مارسن تمارين قاع الحوض كنّ أكثر بنحو 8 أضعاف في الإبلاغ عن الشفاء (56% مقابل 6%).','a','مراجعة منهجية — Dumoulin 2018، Cochrane'],
+  ['heart','أثناء الحمل وبعد الولادة','تمارين قاع الحوض أثناء الحمل لدى من لا يعانين تسرّبًا خفّضت خطر التسرّب في أواخر الحمل بنحو 62%. وتمارين ما بعد الولادة مفيدة، لكن أثرها البعيد أقل وضوحًا.','b','مراجعة منهجية — Woodley 2020، Cochrane'],
+  ['shield','هبوط أعضاء الحوض','تجربة POPPY على 447 امرأة: برنامج تمارين فردي لمدة 16 أسبوعًا حسّن أعراض الهبوط مقارنة بالنصائح وحدها.','a','تجربة عشوائية — Hagen 2014، Lancet'],
+  ['star','الوظيفة الجنسية','تشير دراسات صغيرة إلى أن تقوية قاع الحوض قد تحسّن الإثارة والوصول للنشوة والرضا، لكن جودة الأدلة ما زالت محدودة.','c','مراجعة منهجية — Ferreira 2015'],
+  ['drop','السكري وصحة المرأة','السكري يزيد احتمال تسرّب البول والتهابات المسالك. وأدوية SGLT2 (مثل إمباغليفلوزين وداباغليفلوزين) تزيد الالتهابات الفطرية التناسلية — النظافة الجيدة ومراجعة الطبيب عند الأعراض.','b','ADA Standards of Care 2026'],
+  ['moon','الدورة الشهرية والسكر','بعض النساء يلاحظن ارتفاع السكر في الأيام التي تسبق الدورة. سجّلي قراءاتك وناقشي النمط مع طبيبك إن تكرر.','c','دراسات رصدية']
+];
+const WSRCS=[
+  ['Dumoulin C, Cacciari LP, Hay-Smith EJC. PFMT vs no treatment for urinary incontinence in women. Cochrane 2018','https://doi.org/10.1002/14651858.CD005654.pub4'],
+  ['Woodley SJ, et al. PFMT for preventing and treating incontinence in antenatal and postnatal women. Cochrane 2020','https://doi.org/10.1002/14651858.CD007471.pub4'],
+  ['Hagen S, et al. Individualised PFMT in women with pelvic organ prolapse (POPPY). Lancet 2014','https://doi.org/10.1016/S0140-6736(13)61977-7'],
+  ['Ferreira CH, et al. Pelvic floor muscle training and female sexual function: systematic review','https://pubmed.ncbi.nlm.nih.gov/?term=pelvic+floor+muscle+training+female+sexual+function+systematic+review'],
+  ['American Diabetes Association. Standards of Care in Diabetes 2026','https://diabetesjournals.org/care/issue/49/Supplement_1']
+];
+const ART_F=['كيجل بعد الولادة','<p>يمكن البدء بانقباضات خفيفة وقصيرة بعد الولادة الطبيعية بأيام إن لم يكن هناك ألم، أما بعد القيصرية أو التمزق فانتظري إذن طبيبك. ابدئي من المستوى الأول، وزيدي تدريجيًا. التسرّب في الأشهر الأولى شائع، والتمارين المنتظمة تساعد على التعافي.</p><p><b>راجعي الطبيبة</b> إن شعرت بثقل أو بروز في المهبل، أو استمر التسرّب بعد 3 أشهر.</p>'];
+function renderWomen(head){
+  const LV={a:['أدلة قوية','a'],b:['أدلة متوسطة','b'],c:['أدلة أولية','c']};
+  app.innerHTML=`${head}
+  <div class="sec"><h2>تمارينك</h2></div>
+  <div class="tiles"><button class="tile quick" id="mD"><div class="hd"><span class="badge">${ic('play')}</span><span class="sub">اليوم ${S.progDay}</span></div><h3>جلسة البرنامج</h3><div class="sub">تقوية قاع الحوض والتحكم</div></button>
+  <button class="tile quick" id="mC"><div class="hd"><span class="badge">${ic('target')}</span><span class="sub">2 د</span></div><h3>تمرين التحكم</h3><div class="sub">انقباضات سريعة ثم ثبات</div></button></div>
+  <div class="sec"><h2>ما تقوله الدراسات</h2></div>
+  <div class="card" style="padding:4px 16px">${WEVID.map(([i,t,d,l,src])=>`<div class="ev"><span class="badge">${ic(i)}</span><div><b>${t}</b><p>${d}</p><span class="lvl ${LV[l][1]}">${LV[l][0]}</span> <span class="small muted">${src}</span></div></div>`).join('')}</div>
+  <div class="sec"><h2>نصائح يومية</h2></div>
+  <div class="card">
+   <div class="ev"><span class="badge">${ic('target')}</span><div><b>«الحيلة» قبل السعال والرفع</b><p>شدّي قاع الحوض قبل السعال أو العطاس أو حمل الأطفال والأغراض.</p></div></div>
+   <div class="ev"><span class="badge">${ic('drop')}</span><div><b>لا تقلّلي الماء خوفًا من التسرّب</b><p>البول المركّز يهيّج المثانة. وزّعي الماء على اليوم وقلّليه قبل النوم بساعتين.</p></div></div>
+   <div class="ev"><span class="badge">${ic('leaf')}</span><div><b>تجنّبي الإمساك</b><p>الشدّ المتكرر عند الإخراج يُضعف قاع الحوض. ألياف وماء وحركة.</p></div></div></div>
+  <div class="sec"><h2>تحذيرات مهمة</h2></div>
+  <div class="warn"><b class="hrow">${ic('alert')} متى تراجعين الطبيبة؟</b>ثقل أو بروز في المهبل، ألم في الحوض أو أثناء العلاقة، دم في البول، حرقان وحرارة، أو تسرّب لا يتحسّن بعد 3 أشهر من التمارين.</div>
+  <div class="warn"><b class="hrow">${ic('heart')} أثناء الحمل</b>التمارين آمنة ومفيدة عادةً، لكن استشيري طبيبتك أولًا إن كان حملك عالي الخطورة، وتجنّبي الاستلقاء على الظهر لفترات طويلة بعد منتصف الحمل.</div>
+  <div class="sec"><h2>المراجع العلمية</h2></div>
+  <div class="card srcs"><ol style="margin:0;padding-inline-start:18px">${WSRCS.map(([t,u])=>`<li><a href="${u}" target="_blank" rel="noopener">${t}</a></li>`).join('')}</ol></div>
+  <p class="small muted center">معلومات تثقيفية مبنية على دراسات منشورة، ولا تغني عن استشارة الطبيبة.</p>`;
+  $('#mC').onclick=()=>startSession('control');
+  $('#mD').onclick=()=>startNext();
+  app.querySelectorAll('[data-seg]').forEach(b=>b.onclick=()=>{ S.hseg=b.dataset.seg; save(); render(); });
+}
+/* مقياس إزعاج التسرّب الشهري (مقياس بسيط من التطبيق) */
+const leakWeek=()=>S.bl.filter(x=>x.k==='leak'&&Date.now()-x.ts<7*864e5).length;
+const leakDue=()=>!S.uiq.length||dayDiff(S.uiq[S.uiq.length-1].date,today())>=28;
+function leakSheet(){
+  modal(`<form id="lkF" aria-labelledby="lkFh"><h3 id="lkFh">مقياس التسرّب الشهري</h3><p class="small muted">خلال آخر 4 أسابيع، كم أزعجك تسرّب البول في حياتك اليومية؟ (0 = لا إطلاقًا، 10 = كثيرًا جدًا)</p>
+    <fieldset class="radios scale"><legend class="visually-hidden">درجة الإزعاج</legend>${Array.from({length:11},(_,i)=>`<label><input type="radio" name="b" value="${i}" ${i===0?'required':''}> ${i}</label>`).join('')}</fieldset>
+    <p class="small muted">تسرّب مسجّل في مذكرة المثانة آخر 7 أيام: <b>${leakWeek()}</b></p><p id="lkE" class="err small" role="alert"></p>
+    <button type="submit" class="btn accent">حفظ</button></form>`,(m,close)=>{
+    m.querySelector('#lkF').addEventListener('submit',e=>{ e.preventDefault(); const v=new FormData(e.target).get('b'); if(v===null){ m.querySelector('#lkE').textContent='اختاري درجة من 0 إلى 10'; return; }
+      S.uiq.push({date:today(),s:+v,leaks:leakWeek()}); save(); reschedule(); close(); toast('سُجّلت النتيجة'); render(); }); });
+}
+function leakCard(){
+  const q=S.uiq, last=q[q.length-1];
+  return `<div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">مقياس التسرّب</h3>${last?`<span class="tagx">${last.s}/10</span>`:''}</div>
+    ${q.length?lineChart(q.slice(-8).map(x=>({x:x.date.slice(5),v:x.s})),{min:0,max:10,label:'تطور إزعاج التسرّب'}):'<p class="small muted">سجّلي نقطة البداية الآن ثم كل شهر — انخفاض الرقم يعني تحسّنًا.</p>'}
+    <p class="small muted" style="margin:6px 0 0">التسرّب آخر 7 أيام: ${leakWeek()} مرة (من مذكرة المثانة).</p>
+    <button class="btn ${leakDue()?'accent':'ghost'}" id="lkGo" style="margin-top:8px">${leakDue()?ic('play')+'سجّلي نتيجة هذا الشهر':'القياس التالي بعد '+(28-dayDiff(last.date,today()))+' يومًا'}</button></div>`;
+}
+
 /* ============ إرسال التقرير للطبيب ============ */
 const docReady=()=>S.doc&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.doc.email||'');
 const docNext=()=>{ const d=S.doc; if(!d.last) return today(); return addDays(d.last,d.every); };
@@ -1932,7 +2088,7 @@ function docEmail(){
   const subj=`تقرير متابعة — ${d.patient||'مريض'}${d.fileNo?' — ملف رقم '+d.fileNo:''}`;
   const head=[`${d.dr?'الدكتور/ة '+d.dr:'الطبيب المعالج'} المحترم،`,'',`تحية طيبة، أرسل لكم تقرير متابعتي لآخر ${days} يومًا من تطبيق Vigoris.`,'',
     `اسم المريض: ${d.patient||'—'}`,`رقم الهاتف: ${d.phone||'—'}`,`رقم الملف / المراجعة: ${d.fileNo||'—'}`,'','————————————',''];
-  return {subj,body:head.join('\n')+reportText(days,true)+'\n\nمع الشكر،\n'+(d.patient||'')};
+  return {subj:T(subj),body:head.map(T).join('\n')+reportText(days,true)+'\n\n'+T('مع الشكر،')+'\n'+(d.patient||'')};
 }
 function sendDoc(){
   if(!docReady()){ docSheet(); return; }
@@ -1964,7 +2120,7 @@ function docSheet(){
 function docCard(){
   const d=S.doc;
   if(!docReady()) return `<div class="ev"><span class="badge">${ic('bell')}</span><div><b>أرسله لطبيبك تلقائيًا</b><p>أضف بريد طبيبك ورقم ملفك، فيجهّز التطبيق الرسالة ويذكّرك بإرسالها كل 7 أو 14 أو 30 يومًا.</p></div></div><button class="btn ghost" id="dSet">${ic('set')}إضافة بريد الطبيب</button>`;
-  return `<div class="ev"><span class="badge">${ic('bell')}</span><div><b>${esc(d.dr?'د. '+d.dr:d.email)}</b><p>كل ${d.every} يومًا · ${d.last?'آخر إرسال '+fd(d.last)+' · ':''}${d.on?'الموعد القادم '+fd(docNext()):'التذكير متوقف'}${d.fileNo?' · ملف '+esc(d.fileNo):''}</p></div></div>
+  return `<div class="ev"><span class="badge">${ic('bell')}</span><div><b>${esc(d.dr?'د. '+d.dr:d.email)}</b><p><span>كل ${d.every} يومًا</span>${d.last?` · <span>آخر إرسال ${fd(d.last)}</span>`:''} · <span>${d.on?'الموعد القادم '+fd(docNext()):'التذكير متوقف'}</span>${d.fileNo?` · <span>ملف ${esc(d.fileNo)}</span>`:''}</p></div></div>
     <div class="btnrow"><button class="btn accent" id="dSend">${ic('share')}أرسل الآن</button><button class="btn ghost" id="dSet">تعديل</button></div>`;
 }
 function restoreObj(o){ {
@@ -1998,11 +2154,11 @@ async function toggleLock(){
 /* ============ تبويب «صحتي» ============ */
 function renderHealth(){
   const seg=S.hseg||(S.diabetes?'dm':'men');
-  const segs=[S.diabetes?['dm','السكري']:null,['food','الغذاء'],['ind','المؤشرات'],['men','صحة الرجل']].filter(Boolean);
-  const head=`<div class="mhero"><h1>صحتي</h1><p>${S.diabetes?'متابعة السكري والغذاء والمؤشرات — كل توصية هنا من دراسة منشورة أو إرشاد طبي معتمد.':'ما الذي يحسّن الانتصاب والتحكم فعلًا؟ كل نقطة من دراسة منشورة.'}</p></div>
+  const segs=[S.diabetes?['dm','السكري']:null,['food','الغذاء'],['ind','المؤشرات'],['men',isF()?'صحة المرأة':'صحة الرجل']].filter(Boolean);
+  const head=`<div class="mhero"><h1>صحتي</h1><p>${S.diabetes?'متابعة السكري والغذاء والمؤشرات — كل توصية هنا من دراسة منشورة أو إرشاد طبي معتمد.':(isF()?'ما الذي يحسّن التحكم بالمثانة وصحة الحوض فعلًا؟ كل نقطة من دراسة منشورة.':'ما الذي يحسّن الانتصاب والتحكم فعلًا؟ كل نقطة من دراسة منشورة.')}</p></div>
   <div class="segc" role="tablist" aria-label="أقسام صحتي">${segs.map(([k,n])=>`<button role="tab" aria-selected="${seg===k}" class="${seg===k?'on':''}" data-seg="${k}">${n}</button>`).join('')}</div>`;
   let body='';
-  if(seg==='men'){ renderMen(head); return; }
+  if(seg==='men'){ isF()?renderWomen(head):renderMen(head); return; }
   if(seg==='dm') body=dmBody();
   if(seg==='food') body=foodBody();
   if(seg==='ind') body=indBody();
@@ -2073,9 +2229,9 @@ function foodBody(){
 }
 function indBody(){
   const ii=S.iief, last=ii[ii.length-1], tests=S.tests||[];
-  return `<div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">مؤشر الانتصاب IIEF-5</h3>${last?`<span class="lvl ${iiefCat(last.s)[1]}">${last.s}/25</span>`:''}</div>
+  return `${isF()?leakCard():`<div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">مؤشر الانتصاب IIEF-5</h3>${last?`<span class="lvl ${iiefCat(last.s)[1]}">${last.s}/25</span>`:''}</div>
     ${ii.length?lineChart(ii.slice(-8).map(x=>({x:x.date.slice(5),v:x.s})),{min:4,max:26,label:'تطور مؤشر الانتصاب'}):'<p class="small muted">قِس نقطة البداية الآن، ثم كل شهر — لترى أثر التمارين والغذاء بالأرقام.</p>'}
-    <button class="btn ${iiefDue()?'accent':'ghost'}" id="iGo" style="margin-top:8px">${iiefDue()?ic('play')+'أجب عن الاستبيان (دقيقة)':'القياس التالي بعد '+(28-dayDiff(last.date,today()))+' يومًا'}</button></div>
+    <button class="btn ${iiefDue()?'accent':'ghost'}" id="iGo" style="margin-top:8px">${iiefDue()?ic('play')+'أجب عن الاستبيان (دقيقة)':'القياس التالي بعد '+(28-dayDiff(last.date,today()))+' يومًا'}</button></div>`}
   <div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">اختبار القوة</h3><span class="tagx">${LV_NAME[curLevel()]}</span></div>
     ${tests.length?lineChart(tests.slice(-8).map(x=>({x:x.date.slice(5),v:x.hold})),{min:0,max:Math.max(12,...tests.map(x=>x.hold))+2,fmt:v=>v+'ث',label:'تطور أطول ثبات'}):'<p class="small muted">لم تُجرِ اختبار القوة بعد.</p>'}
     <button class="btn ${testDue()?'accent':'ghost'}" id="tGo2" style="margin-top:8px">${testDue()?ic('play')+'ابدأ اختبار القوة':'الاختبار التالي بعد '+(14-dayDiff(S.test.date,today()))+' يومًا · أعِده الآن'}</button></div>
@@ -2095,7 +2251,7 @@ function bindHealth(){
   on('#gAdd',()=>gluSheet()); on('#aAdd',a1cSheet); on('#exC',()=>exCheck()); on('#mAdd2',()=>medSheet());
   on('#hcB',async()=>{ if(S.hc.on){ await hcSync(true); render(); toast('تم التحديث'); } else hcConnect(); });
   on('#fDone',()=>{ mealSet('focus',!mealToday().focus); Haptic.light(); render(); });
-  on('#iGo',()=>iiefSheet()); on('#tGo2',()=>startTest()); on('#rW',()=>reportSheet(7,false)); on('#rD',()=>reportSheet(30,true)); on('#dSet',()=>docSheet()); on('#dSend',()=>sendDoc());
+  on('#iGo',()=>iiefSheet()); on('#lkGo',()=>leakSheet()); on('#tGo2',()=>startTest()); on('#rW',()=>reportSheet(7,false)); on('#rD',()=>reportSheet(30,true)); on('#dSet',()=>docSheet()); on('#dSend',()=>sendDoc());
   app.querySelectorAll('[data-meal]').forEach(b=>b.onclick=()=>{ mealSet(b.dataset.meal,!mealToday()[b.dataset.meal]); Haptic.light(); render(); });
   app.querySelectorAll('[data-med]').forEach(b=>b.onclick=()=>{ const [id,t]=b.dataset.med.split('|'); medMark(today(),id,t,!medTaken(today(),id,t)); Haptic.light(); reschedule(); render(); });
   app.querySelectorAll('[data-chk]').forEach(b=>b.onclick=()=>checkSheet(b.dataset.chk));
@@ -2118,7 +2274,8 @@ function moreNotifs(list,now){
   if(S.knackOn) for(let i=0;i<7;i++){ const at=D(i,11,0); if(at>now){ const k=KNACK[i%3]; list.push({id:9900+i,title:k[0],body:k[1],schedule:{at,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'home'}}); } }
   if(S.test){ const at=new Date(S.test.date+'T18:00:00'); at.setDate(at.getDate()+14); const a2=at>now?at:D(1,18,0); list.push({id:9960,title:'حان اختبار القوة',body:'دقيقتان لقياس تقدّمك ورفع مستوى خطتك.',schedule:{at:a2,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'test'}}); }
   else if(S.onboarded) list.push({id:9960,title:'اختبر قوتك لتُبنى خطتك',body:'اختبار دقيقتين يحدد مدة انقباضك وعدد التكرارات المناسبة لك.',schedule:{at:D(now.getHours()<18?0:1,18,30),allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'test'}});
-  { const l=S.iief[S.iief.length-1]; let at=l?new Date(l.date+'T21:00:00'):D(3,21,0); if(l) at.setDate(at.getDate()+30); if(at<=now) at=D(1,21,0); list.push({id:9950,title:'مؤشر الانتصاب الشهري',body:'5 أسئلة سريعة لقياس تقدّمك هذا الشهر.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'iief'}}); }
+  if(isF()){ const l=S.uiq[S.uiq.length-1]; let at=l?new Date(l.date+'T21:00:00'):D(3,21,0); if(l) at.setDate(at.getDate()+30); if(at<=now) at=D(1,21,0); list.push({id:9950,title:'مقياس التسرّب الشهري',body:'سؤال واحد لقياس تحسّنك هذا الشهر.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'leak'}}); }
+  else { const l=S.iief[S.iief.length-1]; let at=l?new Date(l.date+'T21:00:00'):D(3,21,0); if(l) at.setDate(at.getDate()+30); if(at<=now) at=D(1,21,0); list.push({id:9950,title:'مؤشر الانتصاب الشهري',body:'5 أسئلة سريعة لقياس تقدّمك هذا الشهر.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'iief'}}); }
   if(S.doc&&S.doc.on&&docReady()){ let at=new Date(docNext()+'T19:00:00'); if(at<=now) at=new Date(now.getTime()+ (now.getHours()<19?0:864e5)); at.setHours(19,0,0,0); if(at<=now) at=D(1,19,0);
     list.push({id:9985,title:'حان إرسال التقرير لطبيبك',body:'التقرير جاهز — اضغط «أرسل الآن» ليفتح البريد مكتوبًا، ثم اضغط إرسال.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',actionTypeId:'DOC',extra:{go:'doc'}}); }
   { let at=D((5-now.getDay()+7)%7,20,0); if(at<=now) at=D((5-now.getDay()+7)%7+7,20,0); list.push({id:9980,title:'تقريرك الأسبوعي جاهز',body:'ملخص التمارين والسكر والخطوات — شاركه أو احفظه.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'report'}}); }
@@ -2159,6 +2316,7 @@ if(LN){
     if(go==='iief'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(iiefSheet,300); } return; }
     if(go==='report'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(()=>reportSheet(7,false),300); } return; }
     if(go==='doc'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(()=>{ if(a.actionId==='send') sendDoc(); },500); } return; }
+    if(go==='leak'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(leakSheet,300); } return; }
     if(go==='checks'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='dm'; render(); } return; }
     if(go==='glu'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='dm'; render(); setTimeout(()=>gluSheet(),300); } return; }
     if(go==='water'){ if(a.actionId==='drink') addWater(1); if(screen!=='session'){ screen='tabs'; tab='home'; render(); } }
@@ -2167,8 +2325,9 @@ if(LN){
 }
 
 /* ============ تشغيل ============ */
+startL10n();
 rollover(); render();
-if(!S.ctryInit){ S.ctryInit=1; if(!S.onboarded){ const c=detectCountry(); if(c&&CTRY[c]) S.gUnit=CTRY[c][1]; } save(); }
+if(!S.ctryInit){ S.ctryInit=1; const c=detectCountry(); if(!S.onboarded&&c&&CTRY[c]) S.gUnit=CTRY[c][1]; if(c&&CTRY[c]&&!CTRY[c][3]) S.ram.mode='off'; save(); }
 if(S.onboarded) scheduleReminders();
 if(S.lock){ applySecure(); showLock(); }
 if(S.hc.on) hcSync(true).then(ch=>{ if(ch&&screen==='tabs') render(); });

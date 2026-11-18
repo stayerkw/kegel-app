@@ -1,0 +1,96 @@
+سُجّل: {s}|Logged: {s}
+تعديل {s}|Edit {s}
+تم أخذ {s}|Taken: {s}
+لم يُؤخذ {s}|Not taken: {s}
+موعد دواء: {s}|Medication time: {s}
+{s} — اضغط «أخذته» بعد تناوله.|{s} — tap "Taken" after you take it.
+مبروك! انتقلت إلى مستوى «{s}»|Congratulations! You've reached the "{s}" level
+الوحدة: {s}|Unit: {s}
+وحدة السكر: {s} — يمكنك تغييرها|Glucose unit: {s} — you can change it
+تعذّر الربط: {s}|Couldn't connect: {s}
+حان موعد فحص: {s}|Check-up due: {s}
+سُجّلت: {n} {s} · {s}|Recorded: {n} {s} · {s}
+المستوى: {s} · مرحلة {s}|Level: {s} · {s} phase
+أسبوع خفيف · المستوى: {s} · مرحلة {s}|Light week · Level: {s} · {s} phase
+مستواك: {s}|Your level: {s}
+المستوى {s}|Level: {s}
+المرحلة الحالية: {s}|Current phase: {s}
+مرحلة «{s}»|"{s}" phase
+الوضعية: {s}. {s}|Position: {s}. {s}
+الوضعية: {s}|Position: {s}
+جلسة {n} · {s} · {s}|Session {n} · {s} · {s}
+جلسة {n} · {s}|Session {n} · {s}
+جلسة {n} من {n} — {s} · {s}|Session {n} of {n} — {s} · {s}
+جلسة {n} من {n} — {s}|Session {n} of {n} — {s}
+برنامج اليوم · {s}|Today's program · {s}
+غدًا: {s} · أنجزت {n} من {n} هذا الأسبوع|Tomorrow: {s} · you've done {n} of {n} this week
+غداء اليوم: {s}|Today's lunch: {s}
+جهّز لغدٍ: {s}|Prepare for tomorrow: {s}
+مستحق الآن (آخره {s})|Due now (last {s})
+التالي {s} — قريبًا|Next {s} — soon
+التالي {s}|Next {s}
+سُجّل — الموعد التالي {s}|Recorded — next due {s}
+تقرير متابعة — {s} — ملف رقم {s}|Follow-up report — {s} — file no. {s}
+تقرير متابعة — {s}|Follow-up report — {s}
+الدكتور/ة {s} المحترم،|Dear Dr. {s},
+اسم المريض: {s}|Patient name: {s}
+رقم الهاتف: {s}|Phone number: {s}
+رقم الملف / المراجعة: {s}|File / visit number: {s}
+د. {s}|Dr. {s}
+كل {n} يومًا|Every {n} days
+آخر إرسال {s}|Last sent {s}
+الموعد القادم {s}|Next due {s}
+ملف {s}|File {s}
+أُضيف كوب ماء — {n} من {n}|Added a glass of water — {n} of {n}
+تقدّمت إلى اليوم {n}|Moved ahead to day {n}
+سنذكّرك كل {n} يومًا بإرسال التقرير|We'll remind you every {n} days to send the report
+هل تقصد {n} {s} (= {n} {s})؟|Did you mean {n} {s} (= {n} {s})?
+متوسط نبضك أثناء الجلسة: {n} نبضة/د|Your average heart rate during the session: {n} bpm
+منذ {n} {s}|{n} {s} ago
+• تمارين قاع الحوض: {n} جلسة، {n} دقيقة. المستوى: {s} (آخر اختبار {n}-{n}-{n}: ثبات {n} ث، {n} انقباضة سريعة).|• Pelvic floor exercises: {n} sessions, {n} minutes. Level: {s} (last test {n}-{n}-{n}: {n}s hold, {n} quick contractions).
+• تمارين قاع الحوض: {n} جلسة، {n} دقيقة. المستوى: {s}.|• Pelvic floor exercises: {n} sessions, {n} minutes. Level: {s}.
+• الأدوية: {s} — الالتزام {n}%.|• Medications: {s} — adherence {n}%.
+• الأدوية: {s}.|• Medications: {s}.
+• مؤشر الانتصاب IIEF-{n}: {n}/{n} ({s}) بتاريخ {n}-{n}-{n}، السابق {n}.|• Erection score IIEF-{n}: {n}/{n} ({s}) on {n}-{n}-{n}, previous {n}.
+• مؤشر الانتصاب IIEF-{n}: {n}/{n} ({s}) بتاريخ {n}-{n}-{n}.|• Erection score IIEF-{n}: {n}/{n} ({s}) on {n}-{n}-{n}.
+• التراكمي HbA{n}c: {n}% بتاريخ {n}-{n}-{n} (السابق {n}%).|• HbA{n}c: {n}% on {n}-{n}-{n} (previous {n}%).
+• التبول الليلي: متوسط {n} مرة/ليلة.|• Nighttime urination: average {n} per night.
+• الماء: متوسط {n} كوب يوميًا.|• Water: average {n} glasses a day.
+• السكر: لا قراءات مسجلة في الفترة.|• Glucose: no readings recorded in this period.
+• السكر: {n} قراءة، المتوسط {n} {s}، ضمن {n}–{n}: {n}%، انخفاضات أقل من {n}: {n}، أعلى من {n}: {n}.|• Glucose: {n} readings, average {n} {s}, in range {n}–{n}: {n}%, lows below {n}: {n}, above {n}: {n}.
+• التسرّب: {n} مرة خلال الفترة.|• Leakage: {n} times during the period.
+{n}-{n}-{n} {n} — {n} {s} ({s})|{n}-{n}-{n} {n} — {n} {s} ({s})
+آخر {n} يومًا: {n} قراءة، المتوسط {n} {s}، {n}% ضمن النطاق|Last {n} days: {n} readings, average {n} {s}, {n}% in range
+القراءة ({s})|Reading ({s})
+النطاق المظلّل {n}–{n} {s}. الهدف لأغلب البالغين: صائم {n}–{n}، وبعد الأكل بساعتين أقل من {n} ·|Shaded range {n}–{n} {s}. Target for most adults: fasting {n}–{n}, and below {n} two hours after eating ·
+النطاق المظلّل {n}–{n} {s}. الهدف لأغلب البالغين: صائم {n}–{n}، وبعد الأكل بساعتين أقل من {n}.|Shaded range {n}–{n} {s}. Target for most adults: fasting {n}–{n}, and below {n} two hours after eating.
+أفطر فورًا إذا نزل السكر عن {n} أو تجاوز {n} {s}.|Break your fast immediately if glucose drops below {n} or rises above {n} {s}.
+إذا كان السكر أقل من {n} أو أعلى من {n} {s}، أو شعرت بأعراض الانخفاض. قياس السكر لا يُفطر.|if glucose is below {n} or above {n} {s}, or you feel symptoms of a low. Checking glucose doesn't break the fast.
+الإفطار {s} · السحور {s} · {s}|Iftar {s} · Suhoor {s} · {s}
+تحدد رقم الإسعاف ووضع رمضان · المكتشفة: {s}|Sets the ambulance number and Ramadan mode · Detected: {s}
+المستوى: {s}|Level: {s}
+قِس تقدّمك — إن تحسّنت نرفع مستوى خطتك. مستواك الآن: {s}.|Measure your progress — if you've improved, we level up your plan. Your level now: {s}.
+آخر اختبار {n}-{n}-{n}: ثبات {n} ث، {n} انقباضة سريعة. الوصفة الحالية: {n} ث × {n} تكرار، {n} مرات يوميًا.|Last test {n}-{n}-{n}: {n}s hold, {n} quick contractions. Current plan: {n}s × {n} reps, {n} times a day.
+الاختبار التالي بعد {n} يومًا · أعِده الآن|Next test in {n} days · retake now
+القياس التالي بعد {n} يومًا|Next measurement in {n} days
+الالتزام آخر {n} أيام: {s}|Adherence over the last {n} days: {s}
+متوسط الليل {n}|Night average {n}
+الليلة الماضية: {n} مرة · {s}|Last night: {n} times · {s}
+{n} مرات تبوّل، منها {n} أو أكثر خلال ساعتين. قِس السكر — ارتفاعه يزيد التبول. وإن صاحب ذلك حرقان أو ألم أو حرارة فراجع الطبيب لتحليل البول واستبعاد الالتهاب.|{n} urinations, {n} or more of them within two hours. Check your glucose — high glucose increases urination. If there's burning, pain or fever, see your doctor for a urine test to rule out infection.
+آخر قراءة قبل أكثر من {n} دقيقة. قِس الآن ثم سجّلها.|Your last reading is more than {n} minutes old. Check now, then record it.
+لا توجد قراءة حديثة. قِس الآن ثم سجّلها.|No recent reading. Check now, then record it.
+الخطوات اليوم {s} · النوم {s}|Steps today {s} · Sleep {s}
+الخطوات اليوم {s} · النوم {s} · نبض الراحة {n}|Steps today {s} · Sleep {s} · Resting heart rate {n}
+{n} س {n} د|{n} h {n} min
+{n} س|{n} h
+نوم {s}|Sleep {s}
+متبقٍ {s} خطوة|{s} steps remaining
+{s} انقباضة: ضغط وإرخاء كل ثانية|{s} contractions: squeeze and release every second
+التسرّب آخر {n} أيام: {n} مرة (من مذكرة المثانة).|Leaks in the last {n} days: {n} (from the bladder diary).
+• التسرّب: {n} مرة خلال الفترة، درجة الإزعاج {n}/{n} بتاريخ {n}-{n}-{n}.|• Leakage: {n} times during the period, bother score {n}/{n} on {n}-{n}-{n}.
+السابق ({n}-{n}-{n}): {n} — {s}.|Previous ({n}-{n}-{n}): {n} — {s}.
+حان إرسال التقرير لطبيبك|Time to send the report to your doctor
+بدايته المتوقعة حسب التقويم {s}. أكّد البداية لنفعّل وضع الصيام في يومه الصحيح.|Its expected start per the calendar is {s}. Confirm the start so fasting mode begins on the right day.
+بدأ {s} — العيد المتوقع {s}|started {s} — expected Eid {s}
+بدأ {s} — العيد {s}|started {s} — Eid {s}
+متوقع {s} — العيد المتوقع {s}|expected {s} — expected Eid {s}
