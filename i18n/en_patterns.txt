@@ -94,3 +94,11 @@
 بدأ {s} — العيد المتوقع {s}|started {s} — expected Eid {s}
 بدأ {s} — العيد {s}|started {s} — Eid {s}
 متوقع {s} — العيد المتوقع {s}|expected {s} — expected Eid {s}
+{s} — وجبة اليوم|{s} — today's meal
+بعد {n} يومًا|in {n} days
+بعد {n} أشهر|in {n} months
+جرعة {s}|Dose: {s}
+الالتزام بالتمارين: {n}%|Exercise adherence: {n}%
+فحص {s}|{s} check
+التالية: جلسة {n} — {s} · {s}|Next: session {n} — {s} · {s}
+التالية: جلسة {n} — {s}|Next: session {n} — {s}

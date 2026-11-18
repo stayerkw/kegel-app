@@ -69,7 +69,8 @@ jobs:
       - name: المزامنة والبناء
         run: |
           npx cap sync android
-          cd android && chmod +x gradlew && ./gradlew assembleRelease --no-daemon
+          cd android && chmod +x gradlew && ./gradlew assembleRelease bundleRelease --no-daemon
+          grep -n "targetSdkVersion" variables.gradle || true
 
       - name: التوقيع
         env:
@@ -88,14 +89,23 @@ jobs:
             $BT/apksigner sign --ks tmp.jks --ks-key-alias kegel --ks-pass pass:tmppass --out kegel.apk aligned.apk
           fi
           $BT/apksigner verify kegel.apk && ls -la kegel.apk
+          # حزمة Google Play (AAB) — تُوقّع فقط بالمفتاح الدائم، فمفتاح الرفع لا يجوز أن يتغير
+          if [ -n "$KS_B64" ]; then
+            jarsigner -keystore release.jks -storepass "$KS_PASS" -keypass "$KS_PASS" -sigalg SHA256withRSA -digestalg SHA-256 \
+              -signedjar vigoris.aab android/app/build/outputs/bundle/release/app-release.aab kegel
+            ls -la vigoris.aab
+          fi
 
       - name: نشر الإصدار للتحميل من الجوال
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.0.${{ github.run_number }}
-          name: عافيتي 1.0.${{ github.run_number }}
+          name: Vigoris 1.0.${{ github.run_number }}
           body: |
             حمّل ملف kegel.apk على جوال أندرويد وثبّته (اسمح بالتثبيت من مصادر غير معروفة عند الطلب).
             رابط آخر إصدار دائمًا: https://github.com/${{ github.repository }}/releases/latest/download/kegel.apk
-          files: kegel.apk
+          files: |
+            kegel.apk
+            vigoris.aab
+          fail_on_unmatched_files: false
           make_latest: true

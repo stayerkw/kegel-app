@@ -34,5 +34,12 @@ recv = '''        <receiver android:name=".KegelWidget" android:exported="false"
 '''
 if 'KegelWidget' not in m:
     m = m.replace('    </application>', recv + '    </application>', 1)
+# البيانات الصحية لا تُنسخ إلى سحابة جوجل تلقائيًا؛ النسخ الاحتياطي يتم يدويًا ومشفّرًا من داخل التطبيق
+import re as _re
+m = _re.sub(r'android:allowBackup="true"', 'android:allowBackup="false"', m)
+if 'android:allowBackup' not in m:
+    m = m.replace('<application', '<application android:allowBackup="false"', 1)
+if 'android:fullBackupContent' not in m:
+    m = m.replace('<application', '<application android:fullBackupContent="false"', 1)
 open(mp, 'w', encoding='utf-8').write(m)
-print('widget + deep links injected')
+print('widget + deep links + no-backup injected')

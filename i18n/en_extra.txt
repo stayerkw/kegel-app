@@ -268,3 +268,70 @@
 رمضان {n}:|Ramadan {n}:
 وضع رمضان|Ramadan mode
 يعمل في رمضان|On during Ramadan
+مرحبًا بك في Vigoris|Welcome to Vigoris
+لصحة أفضل .. خطوة بخطوة|For better health, step by step
+خطوة اليوم|steps today
+اربط ساعتك للخطوات|Connect your watch for steps
+مدة النوم|Sleep duration
+سكر الدم|Blood glucose
+ضمن النطاق|In range
+خارج النطاق|Out of range
+أكواب الماء|Cups of water
+الالتزام الأسبوعي|Weekly adherence
+تمارين اليوم|Today's workout
+من الهدف|of goal
+المستوى الحالي|Current level
+الجلسات المكتملة|Completed sessions
+أحسنت، أنهيت جلسات اليوم|Well done, you finished today's sessions
+متابعة التمرين|Continue workout
+ابدأ التمرين|Start workout
+نظرة عامة على صحتك|Your health overview
+أسبوع|Week
+شهر|Month
+ثلاثة أشهر|3 months
+سنة|Year
+الفترة|Period
+نسبة إكمال جلسات تمارين قاع الحوض اليومية.|Daily pelvic floor session completion rate.
+أكمل جلستك الأولى ليظهر منحنى الالتزام|Complete your first session to see your adherence curve
+مهام قادمة|Upcoming tasks
+عرض جميع المهام ←|View all tasks →
+كل المهام القادمة|All upcoming tasks
+مستحق الآن|Due now
+متأخر|Overdue
+سجّل|Log
+لم يُسجَّل بعد — اضغط لتسجيل آخر فحص|Not logged yet — tap to record your last check
+إرسال تقرير الطبيب|Send doctor report
+اختبار القوة|Strength test
+مقياس التسرّب الشهري|Monthly leakage score
+مؤشر الانتصاب الشهري|Monthly erection index
+رمضان والصيام|Ramadan & fasting
+الصيام لمريض السكري يحتاج احتياطات|Fasting with diabetes needs precautions
+استعد لصيام صحي|Prepare for a healthy fast
+احرص على قياس السكر بانتظام، وقيّم خطورة صيامك مع طبيبك.|Check your glucose regularly and assess your fasting risk with your doctor.
+نظّم الماء والنوم والتمارين بين الإفطار والسحور.|Plan water, sleep and exercise between iftar and suhoor.
+عرض الإرشادات|View guidance
+النظام الغذائي المتوسطي|Mediterranean diet
+عرض الخطة الغذائية|View meal plan
+وصول سريع|Quick access
+تقرير صحي|Health report
+تقرير الطبيب|Doctor report
+الفحوصات|Check-ups
+فعّل متابعة السكري من الإعدادات لعرض الفحوصات|Enable diabetes tracking in Settings to see check-ups
+المظهر|Appearance
+الوضع الفاتح|Light mode
+المهام القادمة|Upcoming tasks
+تنفّس بهدوء.. صحتك تبدأ من الداخل|Breathe calmly — health starts within
+فحص السكر التراكمي|HbA1c check
+فحص وظائف الكلى|Kidney function check
+فحص قاع العين|Eye exam
+فحص القدم الشامل|Comprehensive foot exam
+فحص دهون الدم|Lipid panel
+فحص الأسنان واللثة|Dental check
+لا يمكن حساب النتيجة هذا الشهر|The score can't be calculated this month
+المقياس يقيّم الأداء أثناء النشاط الجنسي، فإذا لم يحدث نشاط أو محاولة خلال الأسابيع الأربعة الماضية تصبح النتيجة غير قابلة للتفسير، ولا تعني وجود ضعف. سنذكّرك بالمقياس بعد 4 أسابيع.|This scale rates function during sexual activity. With no activity or attempt in the past 4 weeks the score can't be interpreted and does not indicate dysfunction. We'll remind you again in 4 weeks.
+هل أرسلت التقرير لطبيبك؟|Did you send the report to your doctor?
+نسجّل الإرسال فقط بعد تأكيدك، ليكون موعد التذكير التالي صحيحًا.|We only record it as sent after you confirm, so the next reminder is timed correctly.
+نعم، أرسلته|Yes, I sent it
+لم أرسله|I didn't send it
+سُجّل إرسال التقرير|Report marked as sent
+الملف ليس نسخة احتياطية صالحة من Vigoris|This file isn't a valid Vigoris backup

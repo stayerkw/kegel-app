@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0E7490">
 <title>Vigoris — تمارين قاع الحوض وعادات صحية</title>
 <style>
@@ -157,10 +157,10 @@ select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--l
 @font-face{font-family:"Plex";src:url(fonts/plex-latin-500.woff2) format("woff2");font-weight:500;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+2212}
 @font-face{font-family:"Plex";src:url(fonts/plex-latin-600.woff2) format("woff2");font-weight:600;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+2212}
 @font-face{font-family:"Plex";src:url(fonts/plex-latin-700.woff2) format("woff2");font-weight:700 800;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+2212}
-:root{--bg:#F2F6FA;--card:#FFFFFF;--ink:#0B1B2B;--muted:#56677A;--line:#DFE7EF;--accent:#0E7490;--deep:#0B2545;--accent2:#22D3EE;--accentSoft:#DDF3F8;
+:root{--bg:#EEF5F9;--card:#FFFFFF;--ink:#0A2533;--muted:#5A6E7C;--line:#DCE9F0;--accent:#0A8E9E;--deep:#032736;--accent2:#14A7B8;--accentSoft:#D9EEF4;--title:#026D84;--gold:#E8A51B;--ringBg:#E1EEF3;--side:#032736;
   --water:#2F7FC1;--waterSoft:#E3EEF8;--heart:#D9573F;--heartSoft:#FBE7E2;--smoke:#B7791F;--smokeSoft:#FBF0DC;--r:22px;
   --sh:0 1px 2px rgba(11,27,43,.05),0 10px 28px -14px rgba(11,27,43,.22)}
-body.dark{--bg:#07111D;--card:#0F1C2B;--ink:#E8F0F7;--muted:#93A3B5;--line:#1C2C3E;--accentSoft:#0C2E3A;--waterSoft:#10263A;--heartSoft:#3A1D17;--smokeSoft:#33260F;--sh:none}
+body.dark{--bg:#061821;--card:#0C2430;--ink:#E6F1F5;--muted:#93AAB5;--line:#16323F;--accentSoft:#0B3340;--title:#5ED3E2;--ringBg:#173744;--accent2:#22C3D5;--waterSoft:#10263A;--heartSoft:#3A1D17;--smokeSoft:#33260F;--sh:none}
 body{font-family:"Plex",system-ui,sans-serif;letter-spacing:0;-webkit-font-smoothing:antialiased}
 h1,h2,h3{letter-spacing:0}h1{font-weight:700}h2{font-weight:700;font-size:18px}
 b,.count,.stat b{font-variant-numeric:tabular-nums}
@@ -319,6 +319,138 @@ body.dark .segc button.on{background:var(--accent)}
 .lockv .ic.lg{width:56px;height:56px;color:#67E8F9}.lockv h2{color:#fff;margin:12px 0 6px}.lockv p{opacity:.85;margin:0 0 20px}
 .policy h1{font-size:20px}.policy h2{font-size:16px;margin:14px 0 4px}.policy p,.policy li{font-size:14px}
 @media (prefers-reduced-motion:reduce){.tapper.pop{animation:none}}
+/* ===== لوحة Vigoris ===== */
+.dhero{margin:calc(-14px - var(--safeT)) -16px 0;padding:calc(12px + var(--safeT)) 18px 26px;background:linear-gradient(180deg,#E3F1F7 0%,#EEF5F9 100%);border-radius:0 0 30px 30px;position:relative;overflow:hidden}
+body.dark .dhero{background:linear-gradient(180deg,#0A2B39 0%,#061821 100%)}
+.dhero::after{content:"";position:absolute;inset:auto -30% -60% 20%;height:220px;background:radial-gradient(closest-side,rgba(20,167,184,.18),transparent);pointer-events:none}
+.dtop{display:flex;align-items:center;gap:8px;position:relative;z-index:1}
+.dav{width:40px;height:40px;border-radius:50%;border:0;background:linear-gradient(135deg,#0A8E9E,#026D84);color:#fff;display:grid;place-items:center}
+.dav .ic{width:20px;height:20px}
+.dbell{position:relative;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--title);display:grid;place-items:center}
+.dbell .ic{width:20px;height:20px}
+.dbell b{position:absolute;top:-2px;inset-inline-end:-2px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#E5484D;color:#fff;font-size:11px;line-height:18px;text-align:center}
+.dlang{height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:13px;font-weight:600}
+.dtheme{display:flex;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px}
+.dtheme button{width:34px;height:30px;border:0;border-radius:16px;background:none;color:var(--muted);display:grid;place-items:center}
+.dtheme button.on{background:var(--accent);color:#fff}
+.dtheme .ic{width:16px;height:16px}
+.dwel{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;position:relative;z-index:1}
+.dwel h1{margin:0;font-size:24px;line-height:1.3;color:var(--title);font-weight:800}
+.dwel p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.dstreak{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:6px 12px;border-radius:14px;background:rgba(232,165,27,.14);color:#A86E05;font-size:13px;font-weight:600}
+body.dark .dstreak{color:#F3C25B}
+.dstreak .ic{width:15px;height:15px}
+.gheart{width:132px;height:116px;flex:none;animation:hb 2.4s ease-in-out infinite;transform-origin:50% 60%}
+@keyframes hb{0%,100%{transform:scale(1)}12%{transform:scale(1.05)}24%{transform:scale(1)}36%{transform:scale(1.035)}}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:-14px 0 14px;position:relative;z-index:2}
+.scard{background:var(--card);border-radius:18px;padding:12px;box-shadow:var(--sh);display:flex;gap:10px;align-items:flex-start;position:relative;min-height:92px}
+.sic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--accentSoft);color:var(--accent)}
+.sic .ic,.sic .hi-ic{width:20px;height:20px}
+.scard.sleep .sic{background:#E7E9FB;color:#5865D8}
+.scard.glu .sic,.scard.water .sic{background:#E1F0FB;color:#2A7FC4}
+.sic.gold{background:#FCF1D8;color:var(--gold)}
+body.dark .scard.sleep .sic{background:#1E2347}
+body.dark .scard.glu .sic,body.dark .scard.water .sic{background:#10293C}
+body.dark .sic.gold{background:#33280F}
+.sv{display:flex;flex-direction:column;min-width:0;flex:1}
+.sv b{font-size:20px;line-height:1.2;color:var(--ink);font-variant-numeric:tabular-nums}
+.sv b small{font-size:11px;font-weight:500;color:var(--muted)}
+.sv>span{font-size:12px;color:var(--muted);margin-top:2px}
+.sv em{font-style:normal;font-size:11.5px;font-weight:600;margin-top:6px;display:inline-flex;align-items:center;gap:4px}
+.sv em .ic{width:13px;height:13px}
+.sv em.up,.sv em.ok{color:#0F9D6E}.sv em.down{color:#D9573F}.sv em.warnc{color:#C77700}
+.mbars{position:absolute;inset-inline-end:12px;bottom:12px;display:flex;gap:3px;align-items:flex-end;opacity:.5}
+.mbars i{width:4px;border-radius:2px;background:var(--accent)}
+.mbars i:nth-child(1){height:8px}.mbars i:nth-child(2){height:14px}.mbars i:nth-child(3){height:11px}
+.scard.adh .mbars{display:none}
+.sring{width:46px;height:46px;flex:none;align-self:center}
+.dcard{background:var(--card);border-radius:22px;padding:16px;box-shadow:var(--sh);margin:0 0 14px}
+.dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.dh h2,.rp h2,.dp h2{margin:0;font-size:17px;color:var(--title);display:flex;align-items:center;gap:8px;font-weight:700}
+.dh h2 .ic,.rp h2 .ic,.dp h2 .ic{width:19px;height:19px}
+.wbody{display:grid;grid-template-columns:42% 1fr;gap:12px;align-items:center}
+.wart{border-radius:18px;background:linear-gradient(160deg,#D8EEF5,#BFE2EC);aspect-ratio:3/4;overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+body.dark .wart{background:linear-gradient(160deg,#0F3644,#0B2A36)}
+.wart img,.wart .wimg{width:100%;height:100%;object-fit:contain;object-position:bottom}
+.winfo{display:flex;flex-direction:column;gap:12px}
+.wring{position:relative;width:110px;height:110px;margin-inline:auto}
+.wring svg{width:100%;height:100%}
+.wring>div{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.wring b{font-size:24px;color:var(--ink);font-variant-numeric:tabular-nums}
+.wring span{font-size:11px;color:var(--muted)}
+.wmeta{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.lvpill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:14px;background:#A2D4DE;color:#03414F;font-size:13px;font-weight:700}
+body.dark .lvpill{background:#18566A;color:#D7F4FA}
+.lvpill .ic{width:14px;height:14px}
+.wdone{font-size:18px;color:var(--ink);display:flex;align-items:center;gap:6px}
+.okc{color:#0F9D6E;display:inline-flex}.okc .ic{width:18px;height:18px}
+.wnext{margin:12px 0}
+.rtabs{display:flex;gap:4px;background:var(--bg);border-radius:14px;padding:4px;margin-bottom:10px}
+.rtabs button{flex:1;border:0;background:none;padding:8px 4px;border-radius:10px;font:inherit;font-size:13px;color:var(--muted)}
+.rtabs button.on{background:var(--card);color:var(--title);font-weight:700;box-shadow:0 1px 3px rgba(3,39,54,.12)}
+.dchart{width:100%;height:auto;display:block}
+.dchart .gl2{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}
+.dchart .ax{fill:var(--muted);font-size:11px;font-family:inherit}
+.dchart .dline{fill:none;stroke:#0A9CAC;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.dchart .dpt{fill:var(--card);stroke:#0A9CAC;stroke-width:2.5}
+.dchart .dtip{fill:#032736}.dchart .dtipt{fill:#fff;font-size:11px;font-weight:700;font-family:inherit}
+body.dark .dchart .dtip{fill:#22C3D5}body.dark .dchart .dtipt{fill:#032736}
+.tlist{display:flex;flex-direction:column;gap:8px}
+.trow{display:flex;align-items:center;gap:12px;width:100%;text-align:start;border:1px solid var(--line);background:var(--card);border-radius:16px;padding:10px;font:inherit;color:inherit}
+.tdate{width:48px;height:52px;border-radius:12px;background:var(--accentSoft);display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none;color:var(--title)}
+.tdate b{font-size:18px;line-height:1}.tdate.due{background:#FDE5E3;color:#B4432F}body.dark .tdate.due{background:#3A1D17;color:#F2A08F}.tdate.un{background:var(--bg);color:var(--muted)}.tdate small{font-size:11px;margin-top:2px}
+.ttx{flex:1;min-width:0;display:flex;flex-direction:column}
+.ttx b{font-size:14px;color:var(--ink)}.ttx span{font-size:12px;color:var(--muted);margin-top:2px}
+.tic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none}
+.tic .ic,.tic .hi-ic{width:19px;height:19px}
+.tic.teal{background:var(--accentSoft);color:var(--accent)}.tic.red{background:#FDE5E3;color:#D9573F}.tic.blue{background:#E1EEFB;color:#2A7FC4}.tic.pink{background:#FBE3EE;color:#C2417C}
+body.dark .tic.red{background:#3A1D17}body.dark .tic.blue{background:#10263A}body.dark .tic.pink{background:#3A1528}
+.linkbtn{display:block;width:100%;margin-top:10px;border:0;background:none;color:var(--accent);font:inherit;font-weight:700;font-size:14px;padding:8px}
+.rpromo{position:relative;overflow:hidden;padding:0;background:#0A2A39;color:#E6F1F5;min-height:210px}
+.rpromo .mosque{position:absolute;inset:0;width:100%;height:100%}
+.rpromo .rp{position:relative;padding:18px;max-width:72%}
+.rpromo .rp h2{color:#fff}.rpromo .rp h2 .ic{color:var(--gold)}
+.rpromo .rp p{margin:8px 0 0;font-size:14px;line-height:1.6}.rpromo .rp p.small{opacity:.85;font-size:13px}
+.btn.ghostw{margin-top:14px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);width:auto;padding-inline:16px}
+.dpromo{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#E7F4EC,#F4FAF5);overflow:hidden;padding-inline-end:0}
+body.dark .dpromo{background:linear-gradient(135deg,#0E2B22,#0C2430)}
+.dpromo .dp{flex:1;min-width:0}
+.dpromo .dp h2{color:#1E7A4D}body.dark .dpromo .dp h2{color:#6BD39D}
+.dpromo .dp p{margin:8px 0 12px;font-size:13.5px;color:var(--muted)}
+.btn.ghosta{background:#1E7A4D;color:#fff;width:auto;padding-inline:14px;font-size:14px}
+.salad{width:42%;max-width:170px;flex:none;margin-inline-end:-10px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.18))}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.quick button{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:12px 4px;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;font-size:12px;color:var(--ink);min-height:84px}
+.quick .ic,.quick .hi-ic{width:24px;height:24px;color:var(--accent)}
+@media (prefers-reduced-motion:reduce){.gheart{animation:none}}
+@media (max-width:360px){.stats{grid-template-columns:1fr}.wbody{grid-template-columns:1fr}.wart{aspect-ratio:4/3}.quick{grid-template-columns:repeat(2,1fr)}.gheart{width:104px;height:92px}.dwel h1{font-size:21px}}
+/* الشاشات العريضة: شريط جانبي */
+@media (min-width:900px){
+ body.wide-nav #app{max-width:none;margin:0;margin-inline-start:248px;padding-inline:28px;padding-bottom:40px}
+ body.wide-nav .tabs{position:fixed;top:0;bottom:0;inset-inline-start:0;left:auto;right:auto;width:232px;max-width:none;margin:0;border-radius:0;flex-direction:column;justify-content:flex-start;align-items:stretch;gap:4px;padding:20px 14px;background:var(--side);box-shadow:none;border:0}
+ html[dir=ltr] body.wide-nav .tabs{left:0}html[dir=rtl] body.wide-nav .tabs{right:0}
+ body.wide-nav .tabs .slogo{display:flex;align-items:center;gap:10px;color:#fff;font-size:20px;font-weight:800;margin:0 6px 22px}
+ body.wide-nav .tabs .slogo img{width:40px;height:40px;border-radius:12px}
+ body.wide-nav .tabs button{flex-direction:row;justify-content:flex-start;gap:12px;padding:12px 14px;border-radius:14px;color:#B7D3DD;font-size:15px}
+ body.wide-nav .tabs button span{font-size:15px}
+ body.wide-nav .tabs button.on{background:#037A8D;color:#fff}
+ body.wide-nav .tabs .smed{margin-top:auto;border-radius:18px;overflow:hidden;background:#0A3A4C;color:#D7EEF4;font-size:13px;padding:0 0 12px;text-align:center}
+ body.wide-nav .tabs .smed img{width:100%;display:block;margin-bottom:8px}
+ body.wide-nav .dhero{margin:0 0 0;border-radius:26px;padding:20px 24px 30px}
+ body.wide-nav .dwrap{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start}
+ body.wide-nav .stats{grid-template-columns:repeat(4,1fr)}
+ body.wide-nav .gheart{width:190px;height:166px}
+}
+
+
+@media (min-width:900px){
+ body.wide-nav .tabs button{flex:none}
+ body.wide-nav .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+ body.wide-nav .dgrid>.dcard{margin:0}
+ body.wide-nav .wbody{grid-template-columns:minmax(0,220px) 1fr}
+ body.wide-nav .stats{margin-top:-18px}
+}
+@media (min-width:1300px){ body.wide-nav .dgrid{grid-template-columns:repeat(3,1fr)} }
 </style>
 </head>
 <body>
@@ -372,7 +504,7 @@ const SFX={squeeze:()=>bell([659.3,880],0.08),relax:()=>bell([587.3,440],0.1,0.1
 
 /* ============ التخزين ============ */
 const KEY='kegel_v1';
-const DEF={v:1,onboarded:false,goals:[],level:1,reminders:['07:00','13:00','21:00'],remindersOn:true,haptics:true,voice:true,sfx:true,name:'حامد',dark:false,
+const DEF={v:3,onboarded:false,goals:[],level:1,reminders:['07:00','13:00','21:00'],remindersOn:true,haptics:true,voice:true,sfx:true,name:'حامد',dark:false,
   progDay:1,dayDoneOn:null,logs:[],ach:{},suggestAdvance:false,warned:false,startDate:null,smartRem:true,water:null,waterLog:{}};
 const defBr=()=>({bpm:5.5,ratio:'55',min:10});
 const defHc=()=>({on:false,at:0,steps:null,stepsDate:null,week:{},sleep:null,sleepDate:null,hr:null,rhr:null});
@@ -586,7 +718,8 @@ async function scheduleReminders(){
   if(!LN) return;
   try{
     const pend=await LN.getPending();
-    if(pend.notifications.length) await LN.cancel({notifications:pend.notifications.map(n=>({id:n.id}))});
+    const keep=new Set([7999,9970,9971]), drop=pend.notifications.filter(n=>!keep.has(n.id));
+    if(drop.length) await LN.cancel({notifications:drop.map(n=>({id:n.id}))});
     try{ await LN.createChannel({id:'training',name:'تذكير التمارين',importance:5,vibration:true}); }catch(e){}
     try{ await LN.createChannel({id:'heart',name:'صحة القلب',importance:4,vibration:true}); }catch(e){}
     try{ await LN.createChannel({id:'smoke',name:'فترات بلا تدخين',importance:5,vibration:true}); }catch(e){}
@@ -751,7 +884,8 @@ function trEn(k){ if(!window.I18N) return null; const d=I18N.en[k]; if(d!=null) 
   for(const [re,b] of patList()){ const m=k.match(re); if(m){ let j=1; return b.replace(/\{s\}/g,()=>{ const g=m[j++]||''; if(!AR_RE.test(g)) return g; const r=trEn(g.trim()); return r==null?g:r; }); } }
   return null; }
 function feminize(t){ if(!window.I18N) return t;
-  for(const [a,b] of I18N.femP) if(t.includes(a)&&!t.includes(b)) t=t.split(a).join(b);
+  // نحمي الصيغ المؤنثة الموجودة أصلًا ثم نؤنث كل المواضع المذكرة، فلا تتضاعف اللاحقة ولا تُترك مواضع
+  for(const [a,b] of I18N.femP) if(t.includes(a)) t=t.split(b).map(x=>x.split(a).join(b)).join(b);
   if(!_femRe){ const ws=Object.keys(I18N.femW).sort((a,b)=>b.length-a.length).map(reEsc); _femRe=new RegExp('(^|[\\s«(\\-—،.:؛!؟"])([وف]?)('+ws.join('|')+')(?=$|[\\s».,،؛:!؟)\\-—…"])','g'); }
   return t.replace(_femRe,(m,p,c,w)=>p+c+I18N.femW[w]); }
 function trText(t){
@@ -802,11 +936,14 @@ function modal(html,bind){
   bind && bind(m, close); return m;
 }
 const ICONS={home:'home',men:'pulse',prog:'prog',learn:'learn',set:'set'};
+let _wideMQ;
 function renderTabs(){
-  const t=$('#tabs'); t.hidden=(screen!=='tabs');
-  app.classList.toggle('full',screen!=='tabs');
-  t.innerHTML=[['home','الرئيسية'],['men','صحتي'],['prog','التقدم'],['learn','تعلّم'],['set','الإعدادات']]
-    .map(([k,n])=>`<button class="${tab===k?'on':''}" data-tab="${k}">${ic(ICONS[k])}<span>${n}</span></button>`).join('');
+  if(!_wideMQ){ _wideMQ=matchMedia('(min-width:900px)'); _wideMQ.addEventListener('change',()=>{ if(screen==='tabs') renderTabs(); }); }
+  const t=$('#tabs'); t.hidden=(screen!=='tabs'); const wide=_wideMQ.matches;
+  app.classList.toggle('full',screen!=='tabs'); document.body.classList.toggle('wide-nav',screen==='tabs');
+  t.innerHTML=(wide?`<div class="slogo"><img src="img/ui/logo.webp" alt="" width="40" height="40">Vigoris</div>`:'')+[['home','الرئيسية'],['men','صحتي'],['prog','التقدم'],['learn','تعلّم'],['set','الإعدادات']]
+    .map(([k,n])=>`<button class="${tab===k?'on':''}" data-tab="${k}"${tab===k?' aria-current="page"':''}>${ic(ICONS[k])}<span>${n}</span></button>`).join('')
+    +(wide?`<div class="smed"><img src="img/ui/meditate.webp" alt="" loading="lazy">تنفّس بهدوء.. صحتك تبدأ من الداخل</div>`:'');
   t.querySelectorAll('button').forEach(b=>b.onclick=()=>{ tab=b.dataset.tab; render(); window.scrollTo(0,0); });
 }
 function render(){
@@ -949,6 +1086,129 @@ async function finishOnb(withRem){
 }
 
 /* ============ الرئيسية ============ */
+/* ============ لوحة التحكم الرئيسية (تصميم Vigoris) ============ */
+const HEART_SVG=`<svg class="gheart" viewBox="0 0 240 210" aria-hidden="true"><defs>
+ <radialGradient id="hgA" cx="38%" cy="30%" r="80%"><stop offset="0" stop-color="#9FF3FF"/><stop offset=".35" stop-color="#3CC6DA"/><stop offset=".75" stop-color="#0F8EA4"/><stop offset="1" stop-color="#075E73"/></radialGradient>
+ <linearGradient id="hgB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+ <filter id="hgG" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="hgS" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#012A3A" flood-opacity=".45"/></filter></defs>
+ <path filter="url(#hgS)" fill="url(#hgA)" d="M120 196C88 170 18 128 18 70 18 38 42 16 72 16c22 0 38 12 48 30 10-18 26-30 48-30 30 0 54 22 54 54 0 58-70 100-102 126z"/>
+ <path fill="url(#hgB)" opacity=".55" d="M48 52c6-18 22-26 38-24 12 2 20 10 24 18-14-6-34-6-50 10-6 6-10 12-12 18-4-6-3-14 0-22z"/>
+ <polyline filter="url(#hgG)" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" points="46,108 92,108 106,82 124,140 140,96 150,108 194,108"/></svg>`;
+const MOSQUE_SVG=`<svg class="mosque" viewBox="0 0 320 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs>
+ <linearGradient id="mqS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E4A5E"/><stop offset="1" stop-color="#03283A"/></linearGradient>
+ <radialGradient id="mqM" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFF4C2"/><stop offset="1" stop-color="#F3D27A"/></radialGradient></defs>
+ <rect width="320" height="170" fill="url(#mqS)"/>
+ ${[[30,22],[70,40],[118,16],[160,34],[214,20],[262,44],[296,18],[240,62],[18,64]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.4" fill="#CFF6FF" opacity=".8"/>`).join('')}
+ <circle cx="104" cy="44" r="22" fill="url(#mqM)"/><circle cx="114" cy="38" r="20" fill="#0C4256"/>
+ <path fill="#0A3445" d="M0 150c60-26 120-30 180-18s100 10 140-4v42H0z"/>
+ <g fill="#062636"><rect x="46" y="70" width="8" height="70"/><path d="M50 52l6 18h-12z"/><rect x="230" y="78" width="7" height="62"/><path d="M233.5 62l5 16h-10z"/>
+ <path d="M86 140v-30c0-24 26-40 54-46 28 6 54 22 54 46v30z"/><path d="M140 52v12" stroke="#062636" stroke-width="3"/><circle cx="140" cy="50" r="3"/>
+ <path d="M66 140v-16c0-10 10-18 20-20 10 2 20 10 20 20v16z"/><path d="M176 140v-16c0-10 10-18 20-20 10 2 20 10 20 20v16z"/></g>
+ <g fill="#F6C66B">${[104,118,132,148,162,176].map(x=>`<rect x="${x}" y="118" width="6" height="12" rx="3"/>`).join('')}</g>
+ <path fill="#04212F" d="M0 160c80-14 170-16 320-6v16H0z"/></svg>`;
+const dayAdh=ds=>{ if(S.startDate&&ds<S.startDate) return null; return Math.min(1,dailyDoneOn(ds)/planFor(S.progDay).n); };
+function adhAvg(from,to){ let s=0,c=0; for(let d=from;d<=to;d=addDays(d,1)){ const v=dayAdh(d); if(v!==null){ s+=v; c++; } } return c?s/c:null; }
+const MON=()=>Array.from({length:12},(_,i)=>{ try{ return new Intl.DateTimeFormat(LANG==='en'?'en':'ar',{month:'short'}).format(new Date(2026,i,15)); }catch(e){ return String(i+1); } });
+function chartData(r){
+  const t=today(), out=[];
+  if(r==='w'){ for(let i=6;i>=0;i--){ const d=addDays(t,-i); out.push({x:AR_DAYS[new Date(d+'T12:00').getDay()],v:dayAdh(d)}); } }
+  else if(r==='m'){ for(let i=5;i>=0;i--){ const to=addDays(t,-i*5), from=addDays(to,-4); out.push({x:to.slice(8)+'/'+to.slice(5,7),v:adhAvg(from,to)}); } }
+  else if(r==='q'){ for(let i=12;i>=0;i-=2){ const to=addDays(t,-i*7), from=addDays(to,-13); out.push({x:to.slice(8)+'/'+to.slice(5,7),v:adhAvg(from,to)}); } }
+  else { const m=MON(), now=new Date(); for(let i=11;i>=0;i-=2){ const d=new Date(now.getFullYear(),now.getMonth()-i,1); const from=dstr(d), to=dstr(new Date(d.getFullYear(),d.getMonth()+2,0)); out.push({x:m[d.getMonth()],v:adhAvg(from,to>t?t:to)}); } }
+  return out;
+}
+function dashChart(r){
+  const pts=chartData(r), W=330,H=190,L=38,R=16,Tp=24,B=26, n=pts.length;
+  const x=i=>L+12+i*(W-L-R-12)/Math.max(1,n-1), y=v=>Tp+(1-v)*(H-Tp-B);
+  const vals=pts.map((p,i)=>p.v===null?null:[x(i),y(p.v)]).filter(Boolean);
+  const line=vals.map(p=>p.join(',')).join(' '), lastI=pts.map(p=>p.v).lastIndexOf(pts.filter(p=>p.v!==null).slice(-1)[0]?.v);
+  const last=vals[vals.length-1], lastV=pts.filter(p=>p.v!==null).slice(-1)[0];
+  const lbl=`الالتزام بالتمارين: ${lastV?Math.round(lastV.v*100):0}%`;
+  return `<svg class="dchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${lbl}"><title>${lbl}</title><defs><linearGradient id="dcA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A9CAC" stop-opacity=".28"/><stop offset="1" stop-color="#0A9CAC" stop-opacity="0"/></linearGradient></defs>
+   ${[0,25,50,75,100].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v/100)}" y2="${y(v/100)}" class="gl2"/><text x="${L-8}" y="${y(v/100)+4}" class="ax" text-anchor="end">${v}</text>`).join('')}
+   ${vals.length>1?`<path d="M${vals[0][0]},${y(0)} L${line.replace(/ /g,' L')} L${vals[vals.length-1][0]},${y(0)} Z" fill="url(#dcA)"/><polyline points="${line}" class="dline"/>`:''}
+   ${vals.map(([a,b])=>`<circle cx="${a}" cy="${b}" r="5" class="dpt"/>`).join('')}
+   ${last?`<g><rect x="${last[0]-24}" y="${last[1]-30}" width="48" height="20" rx="10" class="dtip"/><text x="${last[0]}" y="${last[1]-16}" text-anchor="middle" class="dtipt">${Math.round(lastV.v*100)}%</text></g>`:''}
+   ${pts.map((p,i)=>`<text x="${x(i)}" y="${H-6}" text-anchor="middle" class="ax">${p.x}</text>`).join('')}
+   ${vals.length?'':`<text x="${W/2}" y="${H/2}" text-anchor="middle" class="ax">أكمل جلستك الأولى ليظهر منحنى الالتزام</text>`}</svg>`;
+}
+function relDays(ds){ const d=dayDiff(today(),ds); if(d<0) return 'مستحق الآن'; if(d===0) return 'اليوم'; if(d===1) return 'غدًا'; if(d<45) return 'بعد '+d+' يومًا'; return 'بعد '+Math.round(d/30)+' أشهر'; }
+const CHK_SHORT={a1c:'فحص السكر التراكمي',kidney:'فحص وظائف الكلى',eye:'فحص قاع العين',foot:'فحص القدم الشامل',lipid:'فحص دهون الدم',dental:'فحص الأسنان واللثة'};
+function upcomingTasks(){
+  const t=[];
+  if(S.diabetes) CHECKS.forEach(([k,title,,mf,icn])=>{ const due=checkDue(k,mf()); t.push({date:due||today(),title:CHK_SHORT[k]||title,icon:ic(icn),tone:k==='a1c'?'red':'teal',act:()=>checkSheet(k),unset:!due}); });
+  if(docReady()&&S.doc.on) t.push({date:docNext(),title:'إرسال تقرير الطبيب',icon:hi('stetho'),tone:'blue',act:()=>sendDoc()});
+  S.meds.filter(m=>m.on).forEach(md=>md.times.forEach(tm=>{ if(!medTaken(today(),md.id,tm)) t.push({date:today(),title:'جرعة '+md.name,sub:tm,icon:ic('pill'),tone:'pink',act:()=>{ tab='men'; S.hseg='dm'; render(); }}); }));
+  if(S.onboarded) t.push({date:S.test?addDays(S.test.date,14):today(),title:'اختبار القوة',icon:ic('target'),tone:'teal',act:startTest});
+  if(isFem()) t.push({date:S.uiq.length?addDays(S.uiq[S.uiq.length-1].date,28):today(),title:'مقياس التسرّب الشهري',icon:ic('drop'),tone:'teal',act:leakSheet});
+  else t.push({date:iiefLastDate()?addDays(iiefLastDate(),28):today(),title:'مؤشر الانتصاب الشهري',icon:ic('chart'),tone:'teal',act:iiefSheet});
+  return t.sort((a,b)=>(a.unset-b.unset)||(a.date<b.date?-1:a.date>b.date?1:0));
+}
+function taskRow(x,i){ const d=new Date((x.date<today()?today():x.date)+'T12:00'); const m=MON()[d.getMonth()];
+  return `<button class="trow" data-task="${i}"><span class="tdate${x.unset?' un':x.date<today()?' due':''}">${x.unset?`<b>—</b><small>سجّل</small>`:x.date<=today()?`<small>${x.date<today()?'متأخر':'اليوم'}</small>`:`<b>${d.getDate()}</b><small>${m}</small>`}</span><span class="ttx"><b>${esc(x.title)}</b><span>${x.sub?esc(x.sub)+' · ':''}${x.unset?'لم يُسجَّل بعد — اضغط لتسجيل آخر فحص':relDays(x.date)}</span></span><span class="tic ${x.tone}">${x.icon}</span></button>`; }
+function tasksSheet(){ const T=upcomingTasks(); modal(`<h3>كل المهام القادمة</h3><div class="tlist">${T.map(taskRow).join('')}</div>`,(m,close)=>{ m.querySelectorAll('[data-task]').forEach(b=>b.onclick=()=>{ close(); T[+b.dataset.task].act(); }); }); }
+let dRange='w';
+function dashHTML(plan,done,dayDone,idx){
+  const st=streak(), sNow=stepsNow(), wk=S.hc.week||{}, yS=wk[addDays(today(),-1)];
+  const stepsDelta=sNow!=null&&yS?Math.round((sNow-yS)/yS*100):null;
+  const adh=adhAvg(addDays(today(),-6),today()), adhPrev=adhAvg(addDays(today(),-13),addDays(today(),-7));
+  const lg=gLast(), tasks=upcomingTasks(), soon=tasks.filter(x=>!x.unset&&x.date<=today()).length;
+  const ring=(v,r,sw,col)=>{ const C=2*Math.PI*r; return `<circle cx="${r+sw}" cy="${r+sw}" r="${r}" fill="none" stroke="var(--ringBg)" stroke-width="${sw}"/><circle cx="${r+sw}" cy="${r+sw}" r="${r}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-Math.max(0,Math.min(1,v||0)))}" transform="rotate(-90 ${r+sw} ${r+sw})"/>`; };
+  const bars=`<span class="mbars" aria-hidden="true"><i></i><i></i><i></i></span>`;
+  const stat=(cls,icon,val,unit,lbl,foot)=>`<div class="scard ${cls}"><span class="sic">${icon}</span><div class="sv"><b>${val}${unit?`<small> ${unit}</small>`:''}</b><span>${lbl}</span>${foot||''}</div>${bars}</div>`;
+  const delta=(v)=>v==null?'':`<em class="${v>=0?'up':'down'}">${v>=0?'↑':'↓'} ${Math.abs(v)}%</em>`;
+  const sleepTxt=S.hc.sleepDate===today()&&S.hc.sleep?`${Math.floor(S.hc.sleep/60)}h ${S.hc.sleep%60}m`:'—';
+  const s1=stat('steps',ic('steps'),sNow!=null?sNow.toLocaleString(LANG==='en'?'en':'ar'):'—','',sNow!=null?'خطوة اليوم':'اربط ساعتك للخطوات',delta(stepsDelta));
+  const s2=stat('sleep',hi('sleepy'),sleepTxt,'','مدة النوم','');
+  const s3=S.diabetes?stat('glu',ic('drop'),lg?gfmt(lg.v):'—',GU(),'سكر الدم',lg?`<em class="${gClass(lg.v)==='ok'?'ok':'warnc'}">${gClass(lg.v)==='ok'?ic('checkCircle')+' ضمن النطاق':ic('alert')+' خارج النطاق'}</em>`:'')
+    :stat('water',ic('drop'),waterToday(),'/ '+S.water.goal,'أكواب الماء','');
+  const s4=`<div class="scard adh"><span class="sic gold">${ic('trophy')}</span><div class="sv"><b>${adh==null?'—':Math.round(adh*100)+'%'}</b><span>الالتزام الأسبوعي</span>${adh!=null&&adhPrev!=null?delta(Math.round((adh-adhPrev)*100)):''}</div><svg class="sring" viewBox="0 0 56 56" aria-hidden="true">${ring(adh,22,6,'var(--accent2)')}</svg></div>`;
+  const dpct=Math.round(done/plan.n*100), workImg=isFem()?'<img src="img/ui/workout_f.webp" alt="" class="wimg" decoding="async">':IMG('posture','wimg');
+  const ramShow=(ramWindow()&&!ramadanOn())||(!ramWindow()&&S.diabetes&&(CTRY[ctry()]||[])[3]);
+  return `<header class="dhero">
+   <div class="dtop"><button class="dav" id="dAv" aria-label="الإعدادات">${ic('user')}</button>
+    <button class="dbell" id="dBell" aria-label="المهام القادمة">${ic('bell')}${soon?`<b>${soon}</b>`:''}</button>
+    <button class="dlang" id="dLang" data-noi18n>${LANG==='en'?'العربية':'English'}</button>
+    <span style="flex:1"></span>
+    <div class="dtheme" role="group" aria-label="المظهر"><button id="dSun" aria-pressed="${!S.dark}" aria-label="الوضع الفاتح" class="${S.dark?'':'on'}">${ic('sun')}</button><button id="dMoon" aria-pressed="${!!S.dark}" aria-label="الوضع الليلي" class="${S.dark?'on':''}">${ic('moon')}</button></div></div>
+   <div class="dwel"><div><h1>مرحبًا بك في Vigoris</h1><p>لصحة أفضل .. خطوة بخطوة</p>${st?`<span class="dstreak">${ic('flame')} ${st} ${st===1?'يوم':'أيام'} متتالية</span>`:''}</div>${HEART_SVG}</div>
+  </header>
+  <div class="stats">${s1}${s2}${s3}${s4}</div>
+  <div class="dgrid">
+  <section class="dcard wcard"><div class="dh"><h2>${ic('barbell')} تمارين اليوم</h2></div>
+   <div class="wbody"><div class="wart">${workImg}</div>
+    <div class="winfo"><div class="wring"><svg viewBox="0 0 120 120" aria-hidden="true">${ring(done/plan.n,52,8,'var(--accent)')}</svg><div><b>${dpct}%</b><span>من الهدف</span></div></div>
+     <div class="wmeta"><span class="muted small">المستوى الحالي</span><span class="lvpill">${ic('chart')} ${LV_NAME[curLevel()]}</span>
+      <span class="muted small" style="margin-top:8px">الجلسات المكتملة</span><b class="wdone"><bdi dir="ltr">${done} / ${plan.n}</bdi> ${done>=plan.n?`<span class="okc">${ic('checkCircle')}</span>`:''}</b></div></div></div>
+   <p class="small muted wnext">${dayDone?'أحسنت، أنهيت جلسات اليوم':`التالية: جلسة ${idx+1} — ${PAT_NAME[plan.patterns[idx]]}${(plan.pos||[])[idx]?' · '+POS[plan.pos[idx]][0]:''}`}</p>
+   <button class="btn accent" id="${dayDone?'extra':'go'}">${ic('play')}${dayDone?'جلسة إضافية اختيارية':done?'متابعة التمرين':'ابدأ التمرين'}</button></section>
+  <section class="dcard"><div class="dh"><h2>${ic('pulse')} نظرة عامة على صحتك</h2></div>
+   <div class="rtabs" role="tablist" aria-label="الفترة">${[['w','أسبوع'],['m','شهر'],['q','ثلاثة أشهر'],['y','سنة']].map(([k,n])=>`<button role="tab" aria-selected="${dRange===k}" class="${dRange===k?'on':''}" data-rg="${k}">${n}</button>`).join('')}</div>
+   <div id="dChart">${dashChart(dRange)}</div><p class="small muted" style="margin:4px 0 0">نسبة إكمال جلسات تمارين قاع الحوض اليومية.</p></section>
+  <section class="dcard"><div class="dh"><h2>${ic('calendar')} مهام قادمة</h2></div>
+   <div class="tlist">${tasks.slice(0,3).map(taskRow).join('')}</div>
+   <button class="linkbtn" id="dAll">عرض جميع المهام ←</button></section>
+  ${ramShow?`<section class="dcard rpromo">${MOSQUE_SVG}<div class="rp"><h2>${ic('moon')} رمضان والصيام</h2><p><b>${S.diabetes?'الصيام لمريض السكري يحتاج احتياطات':'استعد لصيام صحي'}</b></p><p class="small">${S.diabetes?'احرص على قياس السكر بانتظام، وقيّم خطورة صيامك مع طبيبك.':'نظّم الماء والنوم والتمارين بين الإفطار والسحور.'}</p><button class="btn ghostw" id="dRam">${ic('books')}عرض الإرشادات</button></div></section>`:''}
+  <section class="dcard dpromo"><div class="dp"><h2>${ic('leaf')} النظام الغذائي المتوسطي</h2><p>${MEALS[new Date().getDay()][1]} — وجبة اليوم</p><button class="btn ghosta" id="dDiet">${ic('leaf')}عرض الخطة الغذائية</button></div><img src="img/ui/salad.webp" alt="" class="salad" decoding="async"></section>
+  <section class="dcard"><div class="dh"><h2>${ic('bolt')} وصول سريع</h2></div>
+   <div class="quick"><button id="qkR">${ic('chart')}<span>تقرير صحي</span></button><button id="qkD">${hi('stetho')}<span>تقرير الطبيب</span></button><button id="qkC">${ic('calendar')}<span>الفحوصات</span></button><button id="qkS">${ic('set')}<span>الإعدادات</span></button></div></section>
+  </div>`;
+}
+function bindDash(){
+  const on=(id,f)=>{ const e=$(id); if(e) e.onclick=f; };
+  on('#dAv',()=>{ tab='set'; render(); window.scrollTo(0,0); });
+  on('#dBell',tasksSheet); on('#dAll',tasksSheet);
+  on('#dLang',()=>setLang(LANG==='en'?'ar':'en'));
+  on('#dSun',()=>{ S.dark=false; save(); render(); }); on('#dMoon',()=>{ S.dark=true; save(); render(); });
+  app.querySelectorAll('[data-rg]').forEach(b=>b.onclick=()=>{ dRange=b.dataset.rg; app.querySelectorAll('[data-rg]').forEach(x=>{ x.classList.toggle('on',x===b); x.setAttribute('aria-selected',x===b); }); $('#dChart').innerHTML=dashChart(dRange); });
+  const T=upcomingTasks(); app.querySelectorAll('.tlist [data-task]').forEach(b=>b.onclick=()=>T[+b.dataset.task].act());
+  on('#dRam',ramSheet); on('#dDiet',()=>{ tab='men'; S.hseg='food'; render(); window.scrollTo(0,0); });
+  on('#qkR',()=>reportSheet(7,false)); on('#qkD',()=>docReady()?reportSheet(30,true):docSheet());
+  on('#qkC',()=>{ if(S.diabetes){ tab='men'; S.hseg='dm'; render(); setTimeout(()=>{ const e=document.querySelector('.chkrow'); e&&e.scrollIntoView({block:'center'}); },60); } else toast('فعّل متابعة السكري من الإعدادات لعرض الفحوصات'); });
+  on('#qkS',()=>{ tab='set'; render(); window.scrollTo(0,0); });
+}
+
 function renderHome(){
   const plan=planFor(S.progDay), done=dailyDoneOn(today()), dayDone=S.dayDoneOn===today();
   const st=streak(), last=lastActiveBeforeToday(), gap=last?dayDiff(last,today()):0;
@@ -975,18 +1235,14 @@ function renderHome(){
   tiles.push(`<button class="tile quick" id="qB"><div class="hd"><span class="badge">${hi('lungs')}</span><span class="sub">${S.br.min} د</span></div><h3>تنفّس القلب</h3><div class="sub">${S.br.bpm} أنفاس/د · هذا الأسبوع ${Math.min(breathDays(addDays(today(),-6),today()),7)} من 3 أيام</div></button>`);
   if(S.diabetes){ const lg=gLast(); tiles.push(`<button class="tile glu" id="tG"><div class="hd"><span class="badge">${ic('drop')}</span><span class="sub">${lg?GCTXN[lg.ctx]||'':''}</span></div><h3>السكر</h3><div class="big ${lg?gClass(lg.v):''}">${lg?gfmt(lg.v):'—'}<small style="font-size:12px;font-weight:500" class="muted"> ${GU()}</small></div><div class="sub">${lg?'منذ '+ago(lg.ts):'سجّل أول قراءة'}</div></button>`); }
   app.innerHTML=`
-  <header class="hero">
-    <div class="top"><div><p class="greet">${greet}${nm()?' يا '+nm():''}</p></div><span class="pill">${ic('flame')} ${st} ${st===1?'يوم':'أيام'}</span></div>
-    <div class="mid"><div><div class="day">اليوم ${S.progDay}<small>من 180</small></div><div class="ph">${plan.light?'أسبوع خفيف · ':''}المستوى: ${LV_NAME[curLevel()]} · مرحلة ${plan.phase.name}</div></div>
-      <div class="dring" title="المستوى ${LV_NAME[curLevel()]}"><svg width="92" height="92" viewBox="0 0 92 92"><circle cx="46" cy="46" r="38" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="8"/><circle cx="46" cy="46" r="38" fill="none" stroke="#67E8F9" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}"/></svg><b>${Math.round(pct*100)}%<br><span style="font-weight:400;opacity:.8;font-size:11px">من البرنامج</span></b></div></div>
-    ${nextBox}
-  </header>
+  ${dashHTML(plan,done,dayDone,idx)}
   ${S.progDay>=180?'<div class="warn">وصلت لنهاية البرنامج — استمر بجلسات الصيانة يوميًا.</div>':''}
   ${recover}${adv}${ramAskCard()}${ramadanCard()}${testCard()}
   <div class="sec"><h2>خطة اليوم</h2><span>${done} من ${plan.n} جلسات</span></div>
   <div class="card plan">${planRows}</div>
   <div class="sec"><h2>عاداتك الصحية</h2><span>اضغط للتفاصيل</span></div>
   <div class="tiles">${tiles.join('')}</div>`;
+  bindDash();
   const go=$('#go'); if(go) go.onclick=()=>startSession('daily',plan,idx);
   const ex=$('#extra'); if(ex) ex.onclick=()=>startSession('quick');
   const qb=$('#qBack'); if(qb) qb.onclick=()=>startSession('quick');
@@ -1793,7 +2049,8 @@ const IIEF=[
   ['عند محاولة الجماع، كم مرة كان مُرضيًا لك؟','لم أحاول',FREQ,0]
 ];
 function iiefCat(s){ return s>=22?['لا يوجد ضعف','ok']:s>=17?['ضعف خفيف','b']:s>=12?['خفيف إلى متوسط','b']:s>=8?['متوسط','c']:['شديد','c']; }
-const iiefDue=()=>!S.iief.length||dayDiff(S.iief[S.iief.length-1].date,today())>=28;
+const iiefLastDate=()=>[S.iief.length?S.iief[S.iief.length-1].date:null,S.iiefNA||null].filter(Boolean).sort().pop()||null;
+const iiefDue=()=>{ const l=iiefLastDate(); return !l||dayDiff(l,today())>=28; };
 function iiefSheet(){
   modal(`<form id="iF" novalidate aria-labelledby="iFh"><h3 id="iFh">مؤشر الانتصاب الشهري</h3><p class="small muted">5 أسئلة عن آخر 4 أسابيع، مقتبسة بتصرّف من استبيان IIEF-5 المعتمد. إجاباتك تبقى على جهازك.</p>
     ${IIEF.map(([q,z,opts,base],i)=>`<fieldset class="radios q"><legend>${i+1}. ${q}</legend>${z?`<label><input type="radio" name="q${i}" value="0" required> ${z}</label>`:''}${opts.map((o,j)=>`<label><input type="radio" name="q${i}" value="${j+1}" required> ${o}</label>`).join('')}</fieldset>`).join('')}
@@ -1802,6 +2059,9 @@ function iiefSheet(){
     f.addEventListener('change',()=>{ m.querySelector('#iErr').textContent=''; });
     f.addEventListener('submit',e=>{ e.preventDefault(); const fd=new FormData(f), a=IIEF.map((_,i)=>fd.get('q'+i));
       const miss=a.findIndex(x=>x===null); if(miss>-1){ m.querySelector('#iErr').textContent='أجب عن السؤال '+(miss+1); const el=f.querySelector(`[name=q${miss}]`); el&&el.focus(); return; }
+      if(a.some(x=>x==='0')){ S.iiefNA=today(); save(); reschedule(); f.remove();
+        m.querySelector('#iRes').innerHTML=`<h3>لا يمكن حساب النتيجة هذا الشهر</h3><p class="small muted">المقياس يقيّم الأداء أثناء النشاط الجنسي، فإذا لم يحدث نشاط أو محاولة خلال الأسابيع الأربعة الماضية تصبح النتيجة غير قابلة للتفسير، ولا تعني وجود ضعف. سنذكّرك بالمقياس بعد 4 أسابيع.</p><button class="btn accent" id="iOk">حسنًا</button>`;
+        m.querySelector('#iOk').onclick=()=>{ close(); render(); }; return; }
       const sc=a.reduce((s,x)=>s+(+x),0), [cat,lv]=iiefCat(sc), prev=S.iief[S.iief.length-1];
       S.iief.push({date:today(),s:sc,a:a.map(Number)}); save(); reschedule();
       f.remove(); m.querySelector('#iRes').innerHTML=`<div class="center"><div class="count" style="font-size:52px;font-weight:700">${sc}<small style="font-size:18px" class="muted">/25</small></div><span class="lvl ${lv}">${cat}</span></div>
@@ -1988,7 +2248,8 @@ const CHECKS=[
   ['dental','الأسنان واللثة','كل 6–12 شهرًا؛ أمراض اللثة أكثر مع السكري وتؤثر على ضبطه.',()=>12,'smile']
 ];
 function checkLast(k){ if(k==='a1c'){ const l=S.a1c[S.a1c.length-1]; const c=S.checks.a1c; return l&&(!c||l.date>c)?l.date:c||null; } return S.checks[k]||null; }
-function checkDue(k,months){ const l=checkLast(k); if(!l) return null; const d=new Date(l+'T10:00:00'); d.setMonth(d.getMonth()+months); return dstr(d); }
+function addMonths(ds,m){ const d=new Date(ds+'T10:00:00'), day=d.getDate(); d.setDate(1); d.setMonth(d.getMonth()+m); d.setDate(Math.min(day,new Date(d.getFullYear(),d.getMonth()+1,0).getDate())); return dstr(d); }
+function checkDue(k,months){ const l=checkLast(k); return l?addMonths(l,months):null; }
 function checksBody(){
   const rows=CHECKS.map(([k,t,how,mf,icn])=>{ const l=checkLast(k), due=checkDue(k,mf()), over=!l||due<=today(), soon=due&&!over&&dayDiff(today(),due)<=30;
     return `<button class="chkrow" data-chk="${k}"><span class="badge ${over?'due':soon?'soon':''}">${ic(icn)}</span><span class="tx"><b>${t}</b><span>${how}</span><span class="st ${over?'due':soon?'soon':'ok'}">${!l?'لم يُسجَّل — أضف تاريخ آخر فحص':over?'مستحق الآن (آخره '+fd(l)+')':'التالي '+fd(due)+(soon?' — قريبًا':'')}</span></span></button>`; }).join('');
@@ -2093,10 +2354,16 @@ function docEmail(){
 function sendDoc(){
   if(!docReady()){ docSheet(); return; }
   const {subj,body}=docEmail();
-  S.doc.last=today(); save(); reschedule();
+  S.doc.pend=today(); save();
+  const ask=()=>{ document.removeEventListener('visibilitychange',onVis); setTimeout(docConfirm,400); }, onVis=()=>{ if(document.visibilityState==='visible') ask(); };
+  document.addEventListener('visibilitychange',onVis); setTimeout(()=>{ if(document.visibilityState==='visible'&&S.doc.pend) ask(); },6000);
   location.href='mailto:'+encodeURIComponent(S.doc.email)+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
   setTimeout(()=>{ if(screen==='tabs') render(); },800);
 }
+function docConfirm(){ if(!S.doc.pend) return;
+  modal(`<h3>هل أرسلت التقرير لطبيبك؟</h3><p class="small muted">نسجّل الإرسال فقط بعد تأكيدك، ليكون موعد التذكير التالي صحيحًا.</p><div class="btnrow"><button class="btn accent" id="dcY">نعم، أرسلته</button><button class="btn ghost" id="dcN">لم أرسله</button></div>`,(m,close)=>{
+    m.querySelector('#dcY').onclick=()=>{ S.doc.last=S.doc.pend; S.doc.pend=null; save(); reschedule(); close(); toast('سُجّل إرسال التقرير'); if(screen==='tabs') render(); };
+    m.querySelector('#dcN').onclick=()=>{ S.doc.pend=null; save(); close(); }; }); }
 function docSheet(){
   const d=S.doc;
   modal(`<form id="dF" novalidate aria-labelledby="dFh"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${hi('stetho')}</span><h3 id="dFh" style="margin:0">التقرير الدوري لطبيبك</h3></div>
@@ -2123,8 +2390,19 @@ function docCard(){
   return `<div class="ev"><span class="badge">${ic('bell')}</span><div><b>${esc(d.dr?'د. '+d.dr:d.email)}</b><p><span>كل ${d.every} يومًا</span>${d.last?` · <span>آخر إرسال ${fd(d.last)}</span>`:''} · <span>${d.on?'الموعد القادم '+fd(docNext()):'التذكير متوقف'}</span>${d.fileNo?` · <span>ملف ${esc(d.fileNo)}</span>`:''}</p></div></div>
     <div class="btnrow"><button class="btn accent" id="dSend">${ic('share')}أرسل الآن</button><button class="btn ghost" id="dSet">تعديل</button></div>`;
 }
+function validState(st){
+  if(!st||typeof st!=='object'||Array.isArray(st)) return false;
+  const D=/^\d{4}-\d{2}-\d{2}$/, arr=['logs','glu','a1c','meds','bl','iief','uiq','tests'], obj=['ach','waterLog','heartLog','smokeLog','medLog','mealLog','checks','doc','ram','hc','water','heart','smoke'];
+  if(!Array.isArray(st.logs)) return false;
+  for(const k of arr) if(st[k]!==undefined&&!Array.isArray(st[k])) return false;
+  for(const k of obj) if(st[k]!==undefined&&(st[k]===null||typeof st[k]!=='object'||Array.isArray(st[k]))) return false;
+  if(!st.logs.every(l=>l&&typeof l==='object'&&D.test(l.date))) return false;
+  for(const k of ['glu','a1c']) if(st[k]&&!st[k].every(x=>x&&typeof x.v==='number'&&isFinite(x.v))) return false;
+  if(st.startDate!=null&&!D.test(st.startDate)) return false;
+  return JSON.stringify(st).length<5e6;
+}
 function restoreObj(o){ {
-    if(!o||o.app!=='afiyati'||!o.state||!Array.isArray(o.state.logs)){ toast('الملف ليس نسخة احتياطية من Vigoris'); return; }
+    if(!o||o.app!=='afiyati'||!validState(o.state)){ toast('الملف ليس نسخة احتياطية صالحة من Vigoris'); return; }
     modal(`<h3>استعادة النسخة؟</h3><p class="small muted">نسخة بتاريخ ${esc(String(o.at||'').slice(0,10))} تحتوي ${o.state.logs.length} جلسة. ستحلّ محل بياناتك الحالية على هذا الجهاز.</p><button class="btn accent" id="ry">استعادة</button><div style="height:8px"></div><button class="btn ghost" id="rn">إلغاء</button>`,(m,close)=>{
       m.querySelector('#rn').onclick=close;
       m.querySelector('#ry').onclick=async()=>{ close(); S=Object.assign({},DEF,o.state); fixState(); save(); applySecure(); await scheduleReminders(); toast('تمت استعادة بياناتك'); tab='home'; render(); }; }); }
@@ -2275,7 +2553,7 @@ function moreNotifs(list,now){
   if(S.test){ const at=new Date(S.test.date+'T18:00:00'); at.setDate(at.getDate()+14); const a2=at>now?at:D(1,18,0); list.push({id:9960,title:'حان اختبار القوة',body:'دقيقتان لقياس تقدّمك ورفع مستوى خطتك.',schedule:{at:a2,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'test'}}); }
   else if(S.onboarded) list.push({id:9960,title:'اختبر قوتك لتُبنى خطتك',body:'اختبار دقيقتين يحدد مدة انقباضك وعدد التكرارات المناسبة لك.',schedule:{at:D(now.getHours()<18?0:1,18,30),allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'test'}});
   if(isF()){ const l=S.uiq[S.uiq.length-1]; let at=l?new Date(l.date+'T21:00:00'):D(3,21,0); if(l) at.setDate(at.getDate()+30); if(at<=now) at=D(1,21,0); list.push({id:9950,title:'مقياس التسرّب الشهري',body:'سؤال واحد لقياس تحسّنك هذا الشهر.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'leak'}}); }
-  else { const l=S.iief[S.iief.length-1]; let at=l?new Date(l.date+'T21:00:00'):D(3,21,0); if(l) at.setDate(at.getDate()+30); if(at<=now) at=D(1,21,0); list.push({id:9950,title:'مؤشر الانتصاب الشهري',body:'5 أسئلة سريعة لقياس تقدّمك هذا الشهر.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'iief'}}); }
+  else { const l=iiefLastDate(); let at=l?new Date(l+'T21:00:00'):D(3,21,0); if(l) at.setDate(at.getDate()+30); if(at<=now) at=D(1,21,0); list.push({id:9950,title:'مؤشر الانتصاب الشهري',body:'5 أسئلة سريعة لقياس تقدّمك هذا الشهر.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'iief'}}); }
   if(S.doc&&S.doc.on&&docReady()){ let at=new Date(docNext()+'T19:00:00'); if(at<=now) at=new Date(now.getTime()+ (now.getHours()<19?0:864e5)); at.setHours(19,0,0,0); if(at<=now) at=D(1,19,0);
     list.push({id:9985,title:'حان إرسال التقرير لطبيبك',body:'التقرير جاهز — اضغط «أرسل الآن» ليفتح البريد مكتوبًا، ثم اضغط إرسال.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',actionTypeId:'DOC',extra:{go:'doc'}}); }
   { let at=D((5-now.getDay()+7)%7,20,0); if(at<=now) at=D((5-now.getDay()+7)%7+7,20,0); list.push({id:9980,title:'تقريرك الأسبوعي جاهز',body:'ملخص التمارين والسكر والخطوات — شاركه أو احفظه.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'report'}}); }
@@ -2329,6 +2607,7 @@ startL10n();
 rollover(); render();
 if(!S.ctryInit){ S.ctryInit=1; const c=detectCountry(); if(!S.onboarded&&c&&CTRY[c]) S.gUnit=CTRY[c][1]; if(c&&CTRY[c]&&!CTRY[c][3]) S.ram.mode='off'; save(); }
 if(S.onboarded) scheduleReminders();
+if(S.doc&&S.doc.pend) setTimeout(docConfirm,1500);
 if(S.lock){ applySecure(); showLock(); }
 if(S.hc.on) hcSync(true).then(ch=>{ if(ch&&screen==='tabs') render(); });
 setInterval(()=>{ if(screen==='tabs'){ const before=S.progDay, bd=S.dayDoneOn; rollover(); if(before!==S.progDay||bd!==S.dayDoneOn) render(); } },60000);
