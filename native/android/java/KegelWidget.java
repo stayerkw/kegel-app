@@ -1,4 +1,4 @@
-package com.stayerkw.kegel;
+package com.hamedaldahash.vigoris;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -28,9 +28,9 @@ public class KegelWidget extends AppWidgetProvider {
         v.setTextViewText(R.id.w_water, p.getString("water", "0") + "/" + p.getString("waterGoal", "8"));
         boolean dayDone = p.getBoolean("dayDone", false);
         v.setTextViewText(R.id.w_go, c.getString(dayDone ? R.string.w_extra : R.string.w_go));
-        v.setOnClickPendingIntent(R.id.w_root, link(c, "kegel://home", 30));
-        v.setOnClickPendingIntent(R.id.w_go, link(c, "kegel://session", 31));
-        v.setOnClickPendingIntent(R.id.w_add_water, link(c, "kegel://water", 32));
+        v.setOnClickPendingIntent(R.id.w_root, link(c, "vigoris://home", 30));
+        v.setOnClickPendingIntent(R.id.w_go, link(c, "vigoris://session", 31));
+        v.setOnClickPendingIntent(R.id.w_add_water, link(c, "vigoris://water", 32));
         return v;
     }
 

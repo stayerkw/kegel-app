@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#0E7490">
-<title>عافيتي — تمارين قاع الحوض وعادات صحية</title>
+<title>Vigoris — تمارين قاع الحوض وعادات صحية</title>
 <style>
 :root{
   --bg:#F6F4EF;--card:#FFFFFF;--ink:#1C2321;--muted:#6B7470;--line:#E6E2D9;
@@ -250,6 +250,7 @@ body.dark .lvl.a{background:#14532D;color:#BBF7D0}body.dark .lvl.b{background:#4
 .mhero{border-radius:24px;padding:18px;color:#fff;background:linear-gradient(160deg,#0E7490,#0B2545);margin-top:4px}
 .mhero h1{color:#fff;margin:0 0 4px}.mhero p{opacity:.9;margin:0;font-size:14px}
 /* 2.5 */
+.btnrow{display:grid;grid-template-columns:2fr 1fr;gap:8px}.btnrow .btn{width:auto;min-width:0}
 dialog.modal{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;border:0;padding:16px;background:transparent;align-items:flex-end;justify-content:center;color:var(--ink)}
 dialog.modal[open]{display:flex}
 dialog.modal::backdrop{background:rgba(4,12,24,.55)}
@@ -344,7 +345,7 @@ function speak(t,force){
   }
   if(window.speechSynthesis){ try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='ar-SA'; u.rate=0.95; speechSynthesis.speak(u);}catch(e){} }
 }
-const nm=()=>(S.name||'').trim();
+const nm=()=>'';
 const yaName=()=>nm()?'يا '+nm():'';
 let _ac=null;
 function ac(){ try{ if(!_ac){ const C=window.AudioContext||window.webkitAudioContext; if(C) _ac=new C(); } if(_ac&&_ac.state==='suspended') _ac.resume(); }catch(e){} return _ac; }
@@ -367,12 +368,12 @@ const defHeart=()=>({on:true,walkRem:true,walkTime:'17:30'});
 const defWater=()=>({on:true,goal:8,ml:250,from:'08:00',to:'22:00',every:120});
 let S;
 try{ S=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'{}')); }catch(e){ S=Object.assign({},DEF); }
-function fixState(){ if((S.v||1)<2){ S.v=2; S.voice=true; S.sfx=true; if(!S.name) S.name='حامد'; } if(S.sfx===undefined) S.sfx=true; if(S.name===undefined) S.name='حامد'; if(!S.heart) S.heart=defHeart(); if(!S.heartLog) S.heartLog={}; if(!S.smoke) S.smoke=defSmoke(); if(!S.smokeLog) S.smokeLog={}; if(S.smokeManual===undefined) S.smokeManual=null; if(!S.water) S.water=defWater(); if(!S.waterLog) S.waterLog={}; if(S.smartRem===undefined) S.smartRem=true;
+function fixState(){ if((S.v||1)<2){ S.v=2; S.voice=true; S.sfx=true; } if(S.sfx===undefined) S.sfx=true;  if(!S.heart) S.heart=defHeart(); if(!S.heartLog) S.heartLog={}; if(!S.smoke) S.smoke=defSmoke(); if(!S.smokeLog) S.smokeLog={}; if(S.smokeManual===undefined) S.smokeManual=null; if(!S.water) S.water=defWater(); if(!S.waterLog) S.waterLog={}; if(S.smartRem===undefined) S.smartRem=true;
   if((S.v||2)<3){ S.v=3; if(S.diabetes===undefined) S.diabetes=true; }
   const dflt={tests:[],test:null,glu:[],a1c:[],meds:[],medLog:{},bl:[],iief:[],mealLog:{},gUnit:'mg',bed:'23:30',wake:'06:00',nightLess:true,knackOn:true,stepGoal:7000,lock:false,lastBackup:null,hseg:null};
   Object.keys(dflt).forEach(k=>{ if(S[k]===undefined) S[k]=Array.isArray(dflt[k])?[]:(dflt[k]&&typeof dflt[k]==='object')?{}:dflt[k]; });
   if(S.diabetes===undefined) S.diabetes=false;
-  if(!S.meal) S.meal={on:true,time:'12:30',eve:'21:00'}; if(!S.br) S.br=defBr(); if(!S.hc) S.hc=defHc(); }
+  if(!S.meal) S.meal={on:true,time:'12:30',eve:'21:00'}; if(!S.doc) S.doc={on:false,dr:'',email:'',patient:'',phone:'',fileNo:'',every:14,last:null}; if(!S.br) S.br=defBr(); if(!S.hc) S.hc=defHc(); }
 fixState();
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 
@@ -580,7 +581,7 @@ async function scheduleReminders(){
     try{ await LN.createChannel({id:'meals',name:'البرنامج الغذائي',importance:4,vibration:true}); }catch(e){}
     try{ await LN.createChannel({id:'meds',name:'مواعيد الأدوية',importance:5,vibration:true}); }catch(e){}
     try{ await LN.createChannel({id:'health',name:'السكر والمؤشرات',importance:4,vibration:true}); }catch(e){}
-    if(!_typesDone){ try{ await LN.registerActionTypes({types:[{id:'WATER',actions:[{id:'drink',title:'شربت كوبًا'}]},{id:'TRAIN',actions:[{id:'start',title:'ابدأ الآن'}]},{id:'SMOKE_END',actions:[{id:'ok',title:'أكملتها'},{id:'slip',title:'لم أكملها'}]},{id:'MED',actions:[{id:'take',title:'أخذته'}]},{id:'MEAL',actions:[{id:'ate',title:'تناولتها'}]}]}); _typesDone=true; }catch(e){} }
+    if(!_typesDone){ try{ await LN.registerActionTypes({types:[{id:'WATER',actions:[{id:'drink',title:'شربت كوبًا'}]},{id:'TRAIN',actions:[{id:'start',title:'ابدأ الآن'}]},{id:'SMOKE_END',actions:[{id:'ok',title:'أكملتها'},{id:'slip',title:'لم أكملها'}]},{id:'MED',actions:[{id:'take',title:'أخذته'}]},{id:'MEAL',actions:[{id:'ate',title:'تناولتها'}]},{id:'DOC',actions:[{id:'send',title:'أرسل الآن'}]}]}); _typesDone=true; }catch(e){} }
     const now=new Date(), list=[], tdone=dailyDoneOn(today()), need=planFor(S.progDay).n, times=effectiveTimes();
     if(S.remindersOn) for(let i=0;i<14;i++){
       times.forEach(({t},slot)=>{
@@ -823,7 +824,7 @@ function renderOnb(){
   const bar='<div class="steps">'+Array.from({length:N},(_,i)=>`<i class="${i<=st?'on':''}"></i>`).join('')+'</div>';
   let h='';
   if(st===0){
-    h=`<div style="height:6vh"></div>${IMG('breathe_man')}<h1>عافيتي</h1>
+    h=`<div style="height:6vh"></div>${IMG('breathe_man')}<h1>Vigoris</h1>
     <p class="muted">رفيقك اليومي لصحة الرجل: برنامج تمارين قاع الحوض لمدة 180 يومًا لتقوية الانتصاب والتحكم وصحة المثانة، مع عادات الغذاء والرياضة والقلب والإقلاع عن التدخين — مبنية على دراسات منشورة. مدرّب موقّت يخبرك متى تضغط ومتى تسترخي — والاهتزاز يقودك والهاتف في جيبك.</p>
     <div class="card small"><b>خصوصية كاملة:</b> لا حساب، لا إعلانات، كل بياناتك على جهازك فقط.</div>
     <button class="btn accent" id="nx">ابدأ رحلتك</button>${CREDIT}`;
@@ -994,7 +995,7 @@ function startSession(kind,plan,idx){
   R={s,i:0,e:0,elapsed:0,paused:false,last:performance.now(),lastSec:null,timer:null,startedAt:Date.now()};
   screen='session'; renderTabs(); keepAwake(true); document.body.classList.add('immersive');
   ac(); SFX.start(); R.half=false; R.lastRepSaid=false;
-  speak((nm()?'أهلًا '+yaName()+'. ':'')+(kind==='breath'?'نبدأ التنفّس البطيء بعد ثلاث ثوانٍ.':s.pos?'الوضعية: '+POS[s.pos][0]+'. '+POS[s.pos][1]:'جهّز نفسك، نبدأ بعد ثلاث ثوانٍ.'));
+  speak((kind==='breath'?'نبدأ التنفّس البطيء بعد ثلاث ثوانٍ.':s.pos?'الوضعية: '+POS[s.pos][0]+'. '+POS[s.pos][1]:'جهّز نفسك، نبدأ بعد ثلاث ثوانٍ.'));
   drawSession(); enterStep();
   R.timer=setInterval(tick,100);
 }
@@ -1009,7 +1010,7 @@ function enterStep(){
   if(st.t==='sq'||st.t==='e1'||st.t==='in') SFX.squeeze(); else if(st.t==='rl'||st.t==='out') SFX.relax();
   if(st.t!=='ready'){
     const isLast = st.rep===R.s.reps && (st.t==='sq'||st.t==='e1'||st.t==='in') && !R.lastRepSaid && R.s.reps>2;
-    if(isLast){ R.lastRepSaid=true; speak('آخر تكرار '+yaName()+'، '+curLabel(st)[0]); }
+    if(isLast){ R.lastRepSaid=true; speak('آخر تكرار، '+curLabel(st)[0]); }
     else if(st.t==='sq' && !R.breathSaid && R.s.kind!=='breath'){ R.breathSaid=true; speak('اضغط وازفر بهدوء، ولا تحبس نفسك'); }
     else if(st.d>=2) speak(st.t==='rl'?'استرخِ':st.t==='sq'&&st.lbl==='hold'?'اضغط واثبت':curLabel(st)[0]);
   }
@@ -1020,7 +1021,7 @@ function tick(){
   if(!R||R.paused) { if(R) R.last=performance.now(); return; }
   const now=performance.now(), dt=(now-R.last)/1000; R.last=now;
   R.e+=dt; R.elapsed+=dt;
-  if(!R.half && R.elapsed>R.s.total/2 && R.s.total>60){ R.half=true; setTimeout(()=>speak('ممتاز '+yaName()+'، أنت في منتصف الجلسة. استمر.'),900); }
+  if(!R.half && R.elapsed>R.s.total/2 && R.s.total>60){ R.half=true; setTimeout(()=>speak('ممتاز، أنت في منتصف الجلسة. استمر.'),900); }
   const st=R.s.steps[R.i];
   if(R.e>=st.d){
     // نهاية التكرار؟
@@ -1121,7 +1122,7 @@ function finishSession(partial){
   if(gapBefore>=4) S.comeback=true;
   if(S.logs.length>3000) S.logs=S.logs.slice(-3000);
   save(); Haptic.long(); updateWidget(); SFX.done();
-  speak(log.dayComplete?'رائع '+yaName()+'! أكملت يومك كاملًا. نراك غدًا.':(s.kind==='breath'?'أحسنت '+yaName()+'. قلبك يشكرك.':'أحسنت '+yaName()+'! أنهيت الجلسة.'));
+  speak(log.dayComplete?'رائع! أكملت يومك كاملًا. نراك غدًا.':(s.kind==='breath'?'أحسنت. قلبك يشكرك.':'أحسنت! أنهيت الجلسة.'));
   if(s.kind==='breath' && S.hc.on){ const a=R.startedAt,b=Date.now(); setTimeout(async()=>{ const hr=await hcHrBetween(a,b); if(hr){ log.hr=hr; save(); const el=document.getElementById('dHr'); if(el) el.textContent='متوسط نبضك أثناء الجلسة: '+hr+' نبضة/د'; } },4000); }
   lastDone={log,fresh:checkAch(),first:totalSessions()===1};
   R=null; screen='done'; render(); scheduleReminders();
@@ -1336,12 +1337,11 @@ function renderSettings(){
    <div class="set"><span>نسخة احتياطية<br><span class="small muted">${S.lastBackup?'آخر نسخة: '+S.lastBackup:'لم تُحفظ نسخة بعد'} — احفظها في Google Drive</span></span><button class="btn ghost sm" id="bkE">${ic('download')}حفظ</button></div>
    <div class="set"><label for="bkF">استعادة من ملف</label><span><input type="file" id="bkF" accept="application/json,.json,*/*" class="visually-hidden"><label for="bkF" class="btn ghost sm" role="button" tabindex="0">${ic('upload')}اختيار ملف</label></span></div>
   </div>
-  <h2>ويدجت الشاشة الرئيسية</h2><div class="card"><p class="small" style="margin:0">اضغط مطولًا على مكان فارغ في الشاشة الرئيسية للجوال ← <b>الأدوات (Widgets)</b> ← ابحث عن <b>عافيتي</b> واسحبه للشاشة. يعرض سلسلتك وجلسات اليوم والماء، وتبدأ منه جلسة أو تضيف كوب ماء بلمسة.</p></div>
+  <h2>ويدجت الشاشة الرئيسية</h2><div class="card"><p class="small" style="margin:0">اضغط مطولًا على مكان فارغ في الشاشة الرئيسية للجوال ← <b>الأدوات (Widgets)</b> ← ابحث عن <b>Vigoris</b> واسحبه للشاشة. يعرض سلسلتك وجلسات اليوم والماء، وتبدأ منه جلسة أو تضيف كوب ماء بلمسة.</p></div>
   <h2>التمرين</h2><div class="card">
    <div class="set"><span>الاهتزاز التوجيهي</span>${sw('haptics',S.haptics)}</div>
    <div class="set"><span>المدرّب الصوتي<br><span class="small muted">صوت عربي من محرك الكلام في جوالك</span></span>${sw('voice',S.voice)}</div>
    <div class="set"><span>المؤثرات الصوتية<br><span class="small muted">نغمة للضغط والاسترخاء والإنهاء</span></span>${sw('sfx',S.sfx)}</div>
-   <div class="set"><span>اسمك (يناديك به المدرّب)</span><input id="nmIn" value="${(S.name||'').replace(/"/g,'')}" maxlength="20" style="font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:120px"></div>
    <div class="set"><span>تجربة الصوت</span><button class="btn ghost sm" id="testS">جرّب</button></div>
    ${TTS?'<div class="set"><span class="small muted">إن لم تسمع الصوت: ثبّت الصوت العربي في محرك Google</span><button class="btn ghost sm" id="ttsInst">تثبيت</button></div>':''}
    <div class="set"><span>تجربة أنماط الاهتزاز</span><button class="btn ghost sm" id="testV">جرّب</button></div>
@@ -1357,11 +1357,11 @@ function renderSettings(){
    <button class="btn ghost" id="ppol" style="margin-bottom:8px">${ic('shield')}سياسة الخصوصية</button>
    <button class="btn ghost" id="wipe" style="color:var(--danger)">حذف كل البيانات والبدء من جديد</button></div>
   <div class="warn small">هذا التطبيق أداة لياقة عامة وليس منتجًا طبيًا، ولا يشخّص أو يعالج أي حالة. استشر طبيبًا عند وجود ألم أو أعراض مزمنة أو جراحة حديثة. توقف فورًا إذا شعرت بألم.</div>
-  <p class="center small muted" style="margin-bottom:0">عافيتي · الإصدار 2.5</p>${CREDIT}`;
+  <p class="center small muted" style="margin-bottom:0">Vigoris · الإصدار 2.5</p>${CREDIT}`;
   app.querySelectorAll('[data-sw]').forEach(b=>b.onclick=async()=>{
     const k=b.dataset.sw; S[k]=!S[k]; save();
     if(k==='remindersOn'){ if(S.remindersOn) await notifPermission(); await scheduleReminders(); toast(S.remindersOn?'تم تفعيل التذكيرات':'تم إيقاف التذكيرات'); }
-    if(k==='voice'&&S.voice) speak('أهلًا '+yaName()+'، المدرّب الصوتي مفعّل.');
+    if(k==='voice'&&S.voice) speak('أهلًا، المدرّب الصوتي مفعّل.');
     if(k==='sfx'&&S.sfx){ ac(); SFX.done(); }
     if(k==='smartRem') reschedule();
     render();
@@ -1376,8 +1376,7 @@ function renderSettings(){
   [['sFrom','from'],['sTo','to']].forEach(([id,k])=>$('#'+id).onchange=e=>{ if(e.target.value){ S.smoke[k]=e.target.value; save(); reschedule(); render(); } });
   [['wGoal','goal'],['wMl','ml'],['wEvery','every']].forEach(([id,k])=>$('#'+id).onchange=e=>{ S.water[k]=+e.target.value; save(); reschedule(); updateWidget(); });
   [['wFrom','from'],['wTo','to']].forEach(([id,k])=>$('#'+id).onchange=e=>{ if(e.target.value){ S.water[k]=e.target.value; save(); reschedule(); } });
-  $('#nmIn').onchange=e=>{ S.name=e.target.value.trim().slice(0,20); save(); toast(S.name?'سيناديك المدرّب: '+S.name:'تم'); };
-  $('#testS').onclick=()=>{ ac(); SFX.squeeze(); setTimeout(()=>SFX.relax(),700); speak('أهلًا '+yaName()+'، أنا مدربك. اضغط الآن… ثم استرخِ تمامًا.',true); };
+  $('#testS').onclick=()=>{ ac(); SFX.squeeze(); setTimeout(()=>SFX.relax(),700); speak('أهلًا، أنا مدربك. اضغط الآن… ثم استرخِ تمامًا.',true); };
   const ti=$('#ttsInst'); if(ti) ti.onclick=()=>{ try{ TTS.openInstall().catch(()=>toast('افتح إعدادات الجوال ← تحويل النص إلى كلام')); }catch(e){} };
   $('#testV').onclick=()=>{ const was=S.haptics; S.haptics=true; Haptic.heavy(); setTimeout(()=>Haptic.double(),1200); setTimeout(()=>Haptic.light(),2400); setTimeout(()=>Haptic.long(),3600); S.haptics=was; toast('قوية = اضغط · نبضتان = استرخِ · خفيفة = آخر ثانيتين · ممتدة = انتهت'); };
   const on=(id,f)=>{ const e=$(id); if(e) e.onclick=f; };
@@ -1459,7 +1458,7 @@ function renderTest(){
   }
   app.innerHTML=h;
   $('#tX').onclick=()=>endTest();
-  const g=$('#tGo'); if(g) g.onclick=()=>{ TT.st='hold'; TT.t0=0; renderTest(); speak('استلقِ براحة '+yaName()+'. عندما تكون جاهزًا اضغط الزر وابدأ.'); };
+  const g=$('#tGo'); if(g) g.onclick=()=>{ TT.st='hold'; TT.t0=0; renderTest(); speak('استلقِ براحة. عندما تكون جاهزًا اضغط الزر وابدأ.'); };
   const hb=$('#tHold'); if(hb) hb.onclick=()=>{
     if(!TT.t0){ TT.t0=performance.now(); ac(); SFX.squeeze(); Haptic.heavy(); speak('اضغط واثبت'); renderTest();
       TT.timer=setInterval(()=>{ const s=(performance.now()-TT.t0)/1000, el=$('#tSec'); if(el) el.textContent=s.toFixed(1); if(s>=60){ hb.click(); } },100); }
@@ -1476,7 +1475,7 @@ function renderTest(){
   const re=$('#tRe'); if(re) re.onclick=()=>{ TT={st:'intro',hold:0,flicks:0,t0:0,timer:null}; renderTest(); };
 }
 function startFlickTimer(){ clearInterval(TT.timer); TT.timer=setInterval(()=>{ if(!TT) return; const s=(performance.now()-TT.t0)/1000, el=$('#tLeft'); if(el) el.textContent='متبقٍ '+Math.max(0,Math.ceil(60-s))+' ثانية'; if(s>=60) finishFlicks(); },250); }
-function finishFlicks(){ if(!TT||TT.st!=='flick') return; clearInterval(TT.timer); TT.st='result'; Haptic.long(); SFX.done(); speak('انتهى الاختبار. أحسنت '+yaName()+'.'); renderTest(); }
+function finishFlicks(){ if(!TT||TT.st!=='flick') return; clearInterval(TT.timer); TT.st='result'; Haptic.long(); SFX.done(); speak('انتهى الاختبار. أحسنت.'); renderTest(); }
 
 /* ============ السكري: القراءات، الأدوية، المثانة، فحص ما قبل الرياضة ============ */
 const mgU=()=>S.gUnit!=='mmol';
@@ -1748,7 +1747,7 @@ function reportText(days,doctor){
   const g=gluStats(days), a1=S.a1c[S.a1c.length-1], adh=medAdherence(days), noc=nocturiaAvg(days), ii=S.iief[S.iief.length-1];
   const wk=S.hc.week||{}, stepsArr=Object.keys(wk).filter(d=>d>=from).map(d=>wk[d]);
   let w=0,wc=0; for(let i=0;i<days;i++){ const v=S.waterLog[addDays(today(),-i)]; if(v!==undefined){ w+=v; wc++; } }
-  const L1=[`تقرير «عافيتي» ${doctor?'للطبيب':'الأسبوعي'}${nm()?' — '+nm():''}`,`الفترة: ${from} إلى ${today()} (${days} يومًا)`,''];
+  const L1=[`تقرير «Vigoris» ${doctor?'للطبيب':'الأسبوعي'}${nm()?' — '+nm():''}`,`الفترة: ${from} إلى ${today()} (${days} يومًا)`,''];
   L1.push(`• تمارين قاع الحوض: ${kg.length} جلسة، ${Math.round(kg.reduce((a,l)=>a+(l.dur||0),0)/60)} دقيقة. المستوى: ${LV_NAME[curLevel()]}${S.test?` (آخر اختبار ${S.test.date}: ثبات ${S.test.hold} ث، ${S.test.flicks} انقباضة سريعة)`:''}.`);
   if(S.diabetes){
     L1.push(g?`• السكر: ${g.n} قراءة، المتوسط ${gfmt(g.avg)} ${GU()}، ضمن ${gfmt(70)}–${gfmt(180)}: ${Math.round(g.tir*100)}%، انخفاضات أقل من ${gfmt(70)}: ${g.low}، أعلى من ${gfmt(250)}: ${g.high}.`:'• السكر: لا قراءات مسجلة في الفترة.');
@@ -1765,7 +1764,7 @@ function reportText(days,doctor){
   const sm=Object.keys(S.smokeLog).filter(d=>d>=from).reduce((a,d)=>a+(S.smokeLog[d].ok||0),0); if(S.smoke.on) L1.push(`• فترات بلا تدخين ناجحة: ${sm}.`);
   if(ii) L1.push(`• مؤشر الانتصاب IIEF-5: ${ii.s}/25 (${iiefCat(ii.s)[0]}) بتاريخ ${ii.date}${S.iief.length>1?`، السابق ${S.iief[S.iief.length-2].s}`:''}.`);
   if(doctor && S.diabetes){ const gl=S.glu.filter(x=>x.ts>=Date.now()-days*864e5).slice(-40); if(gl.length){ L1.push('','قراءات السكر (آخر '+gl.length+'):'); gl.forEach(x=>{ const d=new Date(x.ts); L1.push(`${dstr(d)} ${pad(d.getHours())}:${pad(d.getMinutes())} — ${gfmt(x.v)} ${GU()} (${GCTXN[x.ctx]||''})`); }); } }
-  L1.push('','أُنشئ بتطبيق عافيتي — من تطوير: حامد الدهاش. معلومات مسجلة ذاتيًا وليست تشخيصًا.');
+  L1.push('','أُنشئ بتطبيق Vigoris — من تطوير: حامد الدهاش. معلومات مسجلة ذاتيًا وليست تشخيصًا.');
   return L1.join('\n');
 }
 async function shareText(title,text){
@@ -1775,8 +1774,8 @@ async function shareText(title,text){
 function reportSheet(days,doctor){
   const t=reportText(days,doctor);
   modal(`<h3>${doctor?'تقرير للطبيب — آخر 30 يومًا':'التقرير الأسبوعي'}</h3><pre class="rep" tabindex="0">${esc(t)}</pre>
-    <div class="row"><button class="btn accent" id="rS">${ic('share')}مشاركة</button><button class="btn ghost" id="rC" style="flex:0 0 auto">نسخ</button></div>`,(m,close)=>{
-    m.querySelector('#rS').onclick=()=>shareText(doctor?'تقرير عافيتي للطبيب':'تقرير عافيتي الأسبوعي',t);
+    <div class="btnrow"><button class="btn accent" id="rS">${ic('share')}مشاركة</button><button class="btn ghost" id="rC">نسخ</button></div>`,(m,close)=>{
+    m.querySelector('#rS').onclick=()=>shareText(doctor?'تقرير Vigoris للطبيب':'تقرير Vigoris الأسبوعي',t);
     m.querySelector('#rC').onclick=async()=>{ try{ await navigator.clipboard.writeText(t); toast('نُسخ التقرير'); }catch(e){ toast('تعذّر النسخ'); } };
   });
 }
@@ -1793,9 +1792,9 @@ function exportBackup(){
       close(); await doExport(pw); }); });
 }
 async function doExport(pw){
-  let data=JSON.stringify({app:'afiyati',v:3,at:new Date().toISOString(),state:S}); const name='afiyati-backup-'+today()+(pw?'-encrypted':'')+'.json';
+  let data=JSON.stringify({app:'afiyati',v:3,at:new Date().toISOString(),state:S}); const name='vigoris-backup-'+today()+(pw?'-encrypted':'')+'.json';
   if(pw){ try{ data=await bkEncrypt(data,pw); }catch(e){ toast('تعذّر التشفير'); return; } }
-  if(FS&&SH){ try{ const w=await FS.writeFile({path:name,data,directory:'CACHE',encoding:'utf8'}); await SH.share({title:'نسخة احتياطية — عافيتي',files:[w.uri],dialogTitle:'احفظ النسخة في Drive أو أرسلها لنفسك'}); S.lastBackup=today(); save(); render(); return; }catch(e){ if(/cancel/i.test(String(e&&e.message||e))) return; } }
+  if(FS&&SH){ try{ const w=await FS.writeFile({path:name,data,directory:'CACHE',encoding:'utf8'}); await SH.share({title:'نسخة احتياطية — Vigoris',files:[w.uri],dialogTitle:'احفظ النسخة في Drive أو أرسلها لنفسك'}); S.lastBackup=today(); save(); render(); return; }catch(e){ if(/cancel/i.test(String(e&&e.message||e))) return; } }
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([data],{type:'application/json'})); a.download=name; document.body.appendChild(a); a.click(); a.remove(); S.lastBackup=today(); save(); render();
 }
 function importBackup(file){
@@ -1807,8 +1806,51 @@ function importBackup(file){
     restoreObj(o); };
   rd.readAsText(file);
 }
+/* ============ إرسال التقرير للطبيب ============ */
+const docReady=()=>S.doc&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.doc.email||'');
+const docNext=()=>{ const d=S.doc; if(!d.last) return today(); return addDays(d.last,d.every); };
+function docEmail(){
+  const d=S.doc, days=Math.max(7,d.every);
+  const subj=`تقرير متابعة — ${d.patient||'مريض'}${d.fileNo?' — ملف رقم '+d.fileNo:''}`;
+  const head=[`${d.dr?'الدكتور/ة '+d.dr:'الطبيب المعالج'} المحترم،`,'',`تحية طيبة، أرسل لكم تقرير متابعتي لآخر ${days} يومًا من تطبيق Vigoris.`,'',
+    `اسم المريض: ${d.patient||'—'}`,`رقم الهاتف: ${d.phone||'—'}`,`رقم الملف / المراجعة: ${d.fileNo||'—'}`,'','————————————',''];
+  return {subj,body:head.join('\n')+reportText(days,true)+'\n\nمع الشكر،\n'+(d.patient||'')};
+}
+function sendDoc(){
+  if(!docReady()){ docSheet(); return; }
+  const {subj,body}=docEmail();
+  S.doc.last=today(); save(); reschedule();
+  location.href='mailto:'+encodeURIComponent(S.doc.email)+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+  setTimeout(()=>{ if(screen==='tabs') render(); },800);
+}
+function docSheet(){
+  const d=S.doc;
+  modal(`<form id="dF" novalidate aria-labelledby="dFh"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${hi('stetho')}</span><h3 id="dFh" style="margin:0">التقرير الدوري لطبيبك</h3></div>
+    <p class="small muted">يجهّز التطبيق رسالة بريد فيها بياناتك وتقرير المتابعة، ويذكّرك في موعدها لتضغط «إرسال». لا يُرسل شيء دون موافقتك.</p>
+    <div class="field"><label for="dE">بريد الطبيب <span aria-hidden="true">*</span></label><input id="dE" type="email" inputmode="email" autocomplete="off" dir="ltr" value="${esc(d.email)}" required aria-describedby="dEe"><span id="dEe" class="err small" role="alert"></span></div>
+    <div class="field"><label for="dN">اسم الطبيب</label><input id="dN" type="text" autocomplete="off" value="${esc(d.dr)}" maxlength="50"></div>
+    <div class="field"><label for="dP">اسمك</label><input id="dP" type="text" autocomplete="name" value="${esc(d.patient)}" maxlength="60"></div>
+    <div class="field"><label for="dT">رقم هاتفك</label><input id="dT" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" value="${esc(d.phone)}" maxlength="20"></div>
+    <div class="field"><label for="dO">رقم الملف أو المراجعة عند الطبيب</label><input id="dO" type="text" autocomplete="off" dir="ltr" value="${esc(d.fileNo)}" maxlength="30"></div>
+    <fieldset class="radios seg3"><legend>أرسل التقرير كل</legend>${[7,14,30].map(n=>`<label><input type="radio" name="ev" value="${n}" ${d.every===n?'checked':''}> ${n} يومًا</label>`).join('')}</fieldset>
+    <label class="chk"><input type="checkbox" id="dOn" ${d.on||!d.email?'checked':''}> ذكّرني بالإرسال في موعده</label>
+    <button type="submit" class="btn accent">${ic('check')}حفظ</button></form>`,(m,close)=>{
+    const f=m.querySelector('#dF'), e=m.querySelector('#dE'), er=m.querySelector('#dEe');
+    e.addEventListener('input',()=>{ e.removeAttribute('aria-invalid'); er.textContent=''; });
+    f.addEventListener('submit',ev=>{ ev.preventDefault(); const em=e.value.trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){ e.setAttribute('aria-invalid','true'); er.textContent='اكتب بريدًا صحيحًا، مثل doctor@clinic.com'; e.focus(); return; }
+      Object.assign(S.doc,{email:em,dr:m.querySelector('#dN').value.trim(),patient:m.querySelector('#dP').value.trim(),phone:m.querySelector('#dT').value.trim(),fileNo:m.querySelector('#dO').value.trim(),every:+(new FormData(f).get('ev')||14),on:m.querySelector('#dOn').checked});
+      save(); notifPermission(); reschedule(); close(); toast(S.doc.on?'سنذكّرك كل '+S.doc.every+' يومًا بإرسال التقرير':'حُفظت بيانات الطبيب'); render(); });
+  });
+}
+function docCard(){
+  const d=S.doc;
+  if(!docReady()) return `<div class="ev"><span class="badge">${ic('bell')}</span><div><b>أرسله لطبيبك تلقائيًا</b><p>أضف بريد طبيبك ورقم ملفك، فيجهّز التطبيق الرسالة ويذكّرك بإرسالها كل 7 أو 14 أو 30 يومًا.</p></div></div><button class="btn ghost" id="dSet">${ic('set')}إضافة بريد الطبيب</button>`;
+  return `<div class="ev"><span class="badge">${ic('bell')}</span><div><b>${esc(d.dr?'د. '+d.dr:d.email)}</b><p>كل ${d.every} يومًا · ${d.last?'آخر إرسال '+d.last+' · ':''}${d.on?'الموعد القادم '+docNext():'التذكير متوقف'}${d.fileNo?' · ملف '+esc(d.fileNo):''}</p></div></div>
+    <div class="btnrow"><button class="btn accent" id="dSend">${ic('share')}أرسل الآن</button><button class="btn ghost" id="dSet">تعديل</button></div>`;
+}
 function restoreObj(o){ {
-    if(!o||o.app!=='afiyati'||!o.state||!Array.isArray(o.state.logs)){ toast('الملف ليس نسخة احتياطية من عافيتي'); return; }
+    if(!o||o.app!=='afiyati'||!o.state||!Array.isArray(o.state.logs)){ toast('الملف ليس نسخة احتياطية من Vigoris'); return; }
     modal(`<h3>استعادة النسخة؟</h3><p class="small muted">نسخة بتاريخ ${esc(String(o.at||'').slice(0,10))} تحتوي ${o.state.logs.length} جلسة. ستحلّ محل بياناتك الحالية على هذا الجهاز.</p><button class="btn accent" id="ry">استعادة</button><div style="height:8px"></div><button class="btn ghost" id="rn">إلغاء</button>`,(m,close)=>{
       m.querySelector('#rn').onclick=close;
       m.querySelector('#ry').onclick=async()=>{ close(); S=Object.assign({},DEF,o.state); fixState(); save(); applySecure(); await scheduleReminders(); toast('تمت استعادة بياناتك'); tab='home'; render(); }; }); }
@@ -1824,15 +1866,15 @@ function applySecure(){ if(WB&&WB.setSecure) WB.setSecure({on:!!S.lock}).catch((
 function showLock(){
   if(!S.lock||!BIO||document.getElementById('lockv')) return;
   const d=document.createElement('div'); d.id='lockv'; d.className='lockv'; d.setAttribute('role','dialog'); d.setAttribute('aria-modal','true'); d.setAttribute('aria-labelledby','lkH');
-  d.innerHTML=`<div class="lk">${ic('lock','lg')}<h2 id="lkH">عافيتي مقفل</h2><p>بياناتك الصحية محمية. افتح بالبصمة أو قفل الجوال.</p><button class="btn white" id="unl">${ic('finger')}فتح</button></div>`;
+  d.innerHTML=`<div class="lk">${ic('lock','lg')}<h2 id="lkH">Vigoris مقفل</h2><p>بياناتك الصحية محمية. افتح بالبصمة أو قفل الجوال.</p><button class="btn white" id="unl">${ic('finger')}فتح</button></div>`;
   document.body.appendChild(d); d.querySelector('#unl').onclick=unlock; setTimeout(unlock,300);
 }
-async function unlock(){ try{ await BIO.verifyIdentity({reason:'افتح عافيتي',title:'عافيتي',subtitle:'تحقّق من هويتك',description:'استخدم البصمة أو قفل الجوال',useFallback:true,maxAttempts:5}); const d=document.getElementById('lockv'); d&&d.remove(); }catch(e){} }
+async function unlock(){ try{ await BIO.verifyIdentity({reason:'افتح Vigoris',title:'Vigoris',subtitle:'تحقّق من هويتك',description:'استخدم البصمة أو قفل الجوال',useFallback:true,maxAttempts:5}); const d=document.getElementById('lockv'); d&&d.remove(); }catch(e){} }
 async function toggleLock(){
   if(S.lock){ S.lock=false; save(); applySecure(); toast('أُلغي القفل'); render(); return; }
   if(!BIO){ toast('القفل متاح في تطبيق الجوال فقط'); return; }
   try{ const a=await BIO.isAvailable({useFallback:true}); if(!a.isAvailable){ toast('لا توجد بصمة أو قفل شاشة مفعّل على الجوال'); return; }
-    await BIO.verifyIdentity({reason:'تفعيل قفل عافيتي',title:'عافيتي',subtitle:'أكّد هويتك لتفعيل القفل',useFallback:true}); S.lock=true; save(); applySecure(); toast('فُعّل القفل بالبصمة — ولن تظهر بياناتك في قائمة التطبيقات المفتوحة'); render(); }catch(e){ toast('لم يُفعّل القفل'); }
+    await BIO.verifyIdentity({reason:'تفعيل قفل Vigoris',title:'Vigoris',subtitle:'أكّد هويتك لتفعيل القفل',useFallback:true}); S.lock=true; save(); applySecure(); toast('فُعّل القفل بالبصمة — ولن تظهر بياناتك في قائمة التطبيقات المفتوحة'); render(); }catch(e){ toast('لم يُفعّل القفل'); }
 }
 
 /* ============ تبويب «صحتي» ============ */
@@ -1920,7 +1962,8 @@ function indBody(){
     <button class="btn ${testDue()?'accent':'ghost'}" id="tGo2" style="margin-top:8px">${testDue()?ic('play')+'ابدأ اختبار القوة':'الاختبار التالي بعد '+(14-dayDiff(S.test.date,today()))+' يومًا · أعِده الآن'}</button></div>
   <div class="sec"><h2>التقارير</h2></div>
   <div class="card"><div class="ev" style="padding-top:0"><span class="badge">${ic('chart')}</span><div><b>التقرير الأسبوعي</b><p>ملخص 7 أيام: التمارين، السكر، الأدوية، الخطوات، المثانة.</p></div></div><button class="btn ghost" id="rW">${ic('share')}عرض ومشاركة</button>
-    <div class="ev"><span class="badge">${hi('stetho')}</span><div><b>تقرير للطبيب</b><p>30 يومًا مع آخر قراءات السكر والتراكمي والأدوية ومؤشر الانتصاب — أرسله قبل موعدك.</p></div></div><button class="btn accent" id="rD">${ic('share')}إنشاء تقرير الطبيب</button></div>
+    <div class="ev"><span class="badge">${hi('stetho')}</span><div><b>تقرير للطبيب</b><p>30 يومًا مع آخر قراءات السكر والتراكمي والأدوية ومؤشر الانتصاب — أرسله قبل موعدك.</p></div></div><button class="btn ghost" id="rD">${ic('share')}عرض تقرير الطبيب</button>
+    <div style="border-top:1px solid var(--line);margin-top:12px;padding-top:4px">${docCard()}</div></div>
   <div class="card"><h3>متى ترى النتائج؟</h3><div class="tl">
     <div><b>2–4 أسابيع</b><span>إحساس أوضح بالعضلة وتحكّم أفضل بالمثانة.</span></div>
     <div><b>6 أسابيع</b><span>في تجربة على رجال بسكري نوع 2، تحسّن مؤشر الانتصاب وتدفّق الدم مع التمارين المنزلية.</span></div>
@@ -1933,7 +1976,7 @@ function bindHealth(){
   on('#gAdd',()=>gluSheet()); on('#aAdd',a1cSheet); on('#exC',()=>exCheck()); on('#mAdd2',()=>medSheet());
   on('#hcB',async()=>{ if(S.hc.on){ await hcSync(true); render(); toast('تم التحديث'); } else hcConnect(); });
   on('#fDone',()=>{ mealSet('focus',!mealToday().focus); Haptic.light(); render(); });
-  on('#iGo',()=>iiefSheet()); on('#tGo2',()=>startTest()); on('#rW',()=>reportSheet(7,false)); on('#rD',()=>reportSheet(30,true));
+  on('#iGo',()=>iiefSheet()); on('#tGo2',()=>startTest()); on('#rW',()=>reportSheet(7,false)); on('#rD',()=>reportSheet(30,true)); on('#dSet',()=>docSheet()); on('#dSend',()=>sendDoc());
   app.querySelectorAll('[data-meal]').forEach(b=>b.onclick=()=>{ mealSet(b.dataset.meal,!mealToday()[b.dataset.meal]); Haptic.light(); render(); });
   app.querySelectorAll('[data-med]').forEach(b=>b.onclick=()=>{ const [id,t]=b.dataset.med.split('|'); medMark(today(),id,t,!medTaken(today(),id,t)); Haptic.light(); reschedule(); render(); });
   app.querySelectorAll('[data-medit]').forEach(b=>b.onclick=()=>medSheet(S.meds.find(x=>x.id===b.dataset.medit)));
@@ -1955,6 +1998,8 @@ function moreNotifs(list,now){
   if(S.test){ const at=new Date(S.test.date+'T18:00:00'); at.setDate(at.getDate()+14); const a2=at>now?at:D(1,18,0); list.push({id:9960,title:'حان اختبار القوة',body:'دقيقتان لقياس تقدّمك ورفع مستوى خطتك.',schedule:{at:a2,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'test'}}); }
   else if(S.onboarded) list.push({id:9960,title:'اختبر قوتك لتُبنى خطتك',body:'اختبار دقيقتين يحدد مدة انقباضك وعدد التكرارات المناسبة لك.',schedule:{at:D(now.getHours()<18?0:1,18,30),allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'test'}});
   { const l=S.iief[S.iief.length-1]; let at=l?new Date(l.date+'T21:00:00'):D(3,21,0); if(l) at.setDate(at.getDate()+30); if(at<=now) at=D(1,21,0); list.push({id:9950,title:'مؤشر الانتصاب الشهري',body:'5 أسئلة سريعة لقياس تقدّمك هذا الشهر.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'iief'}}); }
+  if(S.doc&&S.doc.on&&docReady()){ let at=new Date(docNext()+'T19:00:00'); if(at<=now) at=new Date(now.getTime()+ (now.getHours()<19?0:864e5)); at.setHours(19,0,0,0); if(at<=now) at=D(1,19,0);
+    list.push({id:9985,title:'حان إرسال التقرير لطبيبك',body:'التقرير جاهز — اضغط «أرسل الآن» ليفتح البريد مكتوبًا، ثم اضغط إرسال.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',actionTypeId:'DOC',extra:{go:'doc'}}); }
   { let at=D((5-now.getDay()+7)%7,20,0); if(at<=now) at=D((5-now.getDay()+7)%7+7,20,0); list.push({id:9980,title:'تقريرك الأسبوعي جاهز',body:'ملخص التمارين والسكر والخطوات — شاركه أو احفظه.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'report'}}); }
 }
 
@@ -1992,6 +2037,7 @@ if(LN){
     if(go==='test'){ if(screen==='tabs'||screen==='done') startTest(); return; }
     if(go==='iief'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(iiefSheet,300); } return; }
     if(go==='report'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(()=>reportSheet(7,false),300); } return; }
+    if(go==='doc'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(()=>{ if(a.actionId==='send') sendDoc(); },500); } return; }
     if(go==='glu'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='dm'; render(); setTimeout(()=>gluSheet(),300); } return; }
     if(go==='water'){ if(a.actionId==='drink') addWater(1); if(screen!=='session'){ screen='tabs'; tab='home'; render(); } }
     else if(go==='session'){ if(a.actionId==='start' && screen!=='session') startNext(); else if(screen!=='session'){ screen='tabs'; tab='home'; render(); } }

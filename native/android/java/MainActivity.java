@@ -1,4 +1,4 @@
-package com.stayerkw.kegel;
+package com.hamedaldahash.vigoris;
 
 import android.os.Bundle;
 import com.getcapacitor.BridgeActivity;

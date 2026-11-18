@@ -40,8 +40,8 @@ jobs:
       - name: الأيقونة وشاشة البداية (من تصميم كانفا)
         run: |
           npx @capacitor/assets generate --android \
-            --iconBackgroundColor '#0B2545' --iconBackgroundColorDark '#0B2545' \
-            --splashBackgroundColor '#0B2545' --splashBackgroundColorDark '#0B2545'
+            --iconBackgroundColor '#0B3A3A' --iconBackgroundColorDark '#0B3A3A' \
+            --splashBackgroundColor '#0B3A3A' --splashBackgroundColorDark '#0B3A3A'
           mkdir -p android/app/src/main/res/drawable
           cp assets/ic_stat_notify.png android/app/src/main/res/drawable/ic_stat_notify.png
 
@@ -53,7 +53,7 @@ jobs:
           done
           cat $M
 
-      - name: الويدجت والروابط العميقة (kegel://)
+      - name: الويدجت والروابط العميقة (vigoris://)
         run: python3 native/inject.py android/app/src/main
 
       - name: الحد الأدنى لأندرويد 8 (مطلوب لـ Health Connect)

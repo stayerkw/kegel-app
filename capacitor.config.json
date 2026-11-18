@@ -1,10 +1,18 @@
 {
-  "appId": "com.stayerkw.kegel",
-  "appName": "عافيتي",
+  "appId": "com.hamedaldahash.vigoris",
+  "appName": "Vigoris",
   "webDir": "www",
-  "android": { "allowMixedContent": false },
+  "android": {
+    "allowMixedContent": false
+  },
   "plugins": {
-    "LocalNotifications": { "smallIcon": "ic_stat_notify", "iconColor": "#0B2545" },
-    "SplashScreen": { "launchShowDuration": 800, "backgroundColor": "#0B2545" }
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_notify",
+      "iconColor": "#0B3A3A"
+    },
+    "SplashScreen": {
+      "launchShowDuration": 800,
+      "backgroundColor": "#0B3A3A"
+    }
   }
 }
