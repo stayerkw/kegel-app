@@ -40,21 +40,26 @@ jobs:
       - name: الأيقونة وشاشة البداية (من تصميم كانفا)
         run: |
           npx @capacitor/assets generate --android \
-            --iconBackgroundColor '#0F766E' --iconBackgroundColorDark '#0F766E' \
-            --splashBackgroundColor '#0F766E' --splashBackgroundColorDark '#0F766E'
+            --iconBackgroundColor '#0B2545' --iconBackgroundColorDark '#0B2545' \
+            --splashBackgroundColor '#0B2545' --splashBackgroundColorDark '#0B2545'
           mkdir -p android/app/src/main/res/drawable
           cp assets/ic_stat_notify.png android/app/src/main/res/drawable/ic_stat_notify.png
 
       - name: الأذونات (إشعارات دقيقة، اهتزاز، إعادة الجدولة بعد إعادة التشغيل)
         run: |
           M=android/app/src/main/AndroidManifest.xml
-          for P in POST_NOTIFICATIONS SCHEDULE_EXACT_ALARM RECEIVE_BOOT_COMPLETED VIBRATE WAKE_LOCK; do
+          for P in POST_NOTIFICATIONS SCHEDULE_EXACT_ALARM RECEIVE_BOOT_COMPLETED VIBRATE WAKE_LOCK USE_BIOMETRIC; do
             grep -q "android.permission.$P\"" $M || sed -i "s#</manifest>#    <uses-permission android:name=\"android.permission.$P\" />\n</manifest>#" $M
           done
           cat $M
 
       - name: الويدجت والروابط العميقة (kegel://)
         run: python3 native/inject.py android/app/src/main
+
+      - name: الحد الأدنى لأندرويد 8 (مطلوب لـ Health Connect)
+        run: |
+          sed -i 's/minSdkVersion = [0-9]*/minSdkVersion = 26/' android/variables.gradle
+          grep -n "SdkVersion" android/variables.gradle
 
       - name: رقم الإصدار
         run: |
