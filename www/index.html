@@ -752,6 +752,7 @@ function renderTabs(){
 function render(){
   setTimeout(updateWidget,0);
   document.body.classList.toggle('dark',!!S.dark);
+  document.documentElement.style.zoom=({n:'',l:'1.1',x:'1.2'})[S.fs||'n'];
   if(!S.onboarded){ screen='onb'; renderTabs(); return renderOnb(); }
   if(screen==='session') return;
   if(screen==='test') return renderTest();
@@ -982,7 +983,7 @@ let R=null;
 const PH={
   ready:['استعد','اجلس أو استلقِ براحة، وتنفّس بهدوء.'],
   in:['شهيق','ببطء من الأنف، واملأ بطنك بالهواء.'],out:['زفير','ببطء من الفم، أطول من الشهيق.'],
-  sq:['اضغط الآن','شدّ كأنك توقف تدفق البول، وارفع للداخل.'],
+  sq:['اضغط الآن','شدّ للداخل وازفر بهدوء — لا تحبس نفسك.'],
   hold:['استمر بالضغط','حافظ على الانقباض وتنفّس بحرية — لا تحبس نفسك.'],
   rl:['استرخِ تمامًا','أرح العضلة كاملًا — الراحة جزء من التمرين.'],
   e1:['الطابق الأول','نصف ضغط خفيف.'],e2:['الطابق الثاني','زِد إلى ضغط كامل.'],e3:['الطابق الأعلى','أقصى ضغط ممكن… ثم انزل ببطء.']
@@ -1009,6 +1010,7 @@ function enterStep(){
   if(st.t!=='ready'){
     const isLast = st.rep===R.s.reps && (st.t==='sq'||st.t==='e1'||st.t==='in') && !R.lastRepSaid && R.s.reps>2;
     if(isLast){ R.lastRepSaid=true; speak('آخر تكرار '+yaName()+'، '+curLabel(st)[0]); }
+    else if(st.t==='sq' && !R.breathSaid && R.s.kind!=='breath'){ R.breathSaid=true; speak('اضغط وازفر بهدوء، ولا تحبس نفسك'); }
     else if(st.d>=2) speak(st.t==='rl'?'استرخِ':st.t==='sq'&&st.lbl==='hold'?'اضغط واثبت':curLabel(st)[0]);
   }
   R.lastSec=null; updateSession(true);
@@ -1332,7 +1334,7 @@ function renderSettings(){
   <h2>الأمان والنسخ الاحتياطي</h2><div class="card">
    <div class="set"><span>قفل بالبصمة<br><span class="small muted">يُطلب عند فتح التطبيق وبعد دقيقة في الخلفية</span></span><button class="sw ${S.lock?'on':''}" id="lkOn" aria-pressed="${!!S.lock}" aria-label="قفل بالبصمة"></button></div>
    <div class="set"><span>نسخة احتياطية<br><span class="small muted">${S.lastBackup?'آخر نسخة: '+S.lastBackup:'لم تُحفظ نسخة بعد'} — احفظها في Google Drive</span></span><button class="btn ghost sm" id="bkE">${ic('download')}حفظ</button></div>
-   <div class="set"><label for="bkF">استعادة من ملف</label><span><input type="file" id="bkF" accept="application/json,.json" class="visually-hidden"><label for="bkF" class="btn ghost sm" role="button" tabindex="0">${ic('upload')}اختيار ملف</label></span></div>
+   <div class="set"><label for="bkF">استعادة من ملف</label><span><input type="file" id="bkF" accept="application/json,.json,*/*" class="visually-hidden"><label for="bkF" class="btn ghost sm" role="button" tabindex="0">${ic('upload')}اختيار ملف</label></span></div>
   </div>
   <h2>ويدجت الشاشة الرئيسية</h2><div class="card"><p class="small" style="margin:0">اضغط مطولًا على مكان فارغ في الشاشة الرئيسية للجوال ← <b>الأدوات (Widgets)</b> ← ابحث عن <b>عافيتي</b> واسحبه للشاشة. يعرض سلسلتك وجلسات اليوم والماء، وتبدأ منه جلسة أو تضيف كوب ماء بلمسة.</p></div>
   <h2>التمرين</h2><div class="card">
@@ -1344,7 +1346,8 @@ function renderSettings(){
    ${TTS?'<div class="set"><span class="small muted">إن لم تسمع الصوت: ثبّت الصوت العربي في محرك Google</span><button class="btn ghost sm" id="ttsInst">تثبيت</button></div>':''}
    <div class="set"><span>تجربة أنماط الاهتزاز</span><button class="btn ghost sm" id="testV">جرّب</button></div>
   </div>
-  <h2>المظهر</h2><div class="card"><div class="set"><span>الوضع الليلي</span>${sw('dark',S.dark)}</div></div>
+  <h2>المظهر</h2><div class="card"><div class="set"><span>الوضع الليلي</span>${sw('dark',S.dark)}</div>
+   <div class="set"><label for="fsz">حجم الخط</label><select id="fsz">${[['n','عادي'],['l','كبير'],['x','كبير جدًا']].map(([k,n])=>`<option value="${k}" ${(S.fs||'n')===k?'selected':''}>${n}</option>`).join('')}</select></div></div>
   <h2>البرنامج</h2><div class="card">
    <div class="set"><span>اليوم الحالي</span><b>${S.progDay} / 180</b></div>
    <div class="set"><span>العودة يومًا للخلف</span><button class="btn ghost sm" id="back1">−1 يوم</button></div>
@@ -1386,6 +1389,7 @@ function renderSettings(){
   [['mlT','time'],['mlE','eve']].forEach(([id,k])=>$('#'+id).onchange=e=>{ if(e.target.value){ S.meal[k]=e.target.value; save(); reschedule(); } });
   on('#knOn',()=>{ S.knackOn=!S.knackOn; save(); reschedule(); render(); });
   on('#stT',()=>startTest());
+  $('#fsz').onchange=e=>{ S.fs=e.target.value; save(); render(); };
   on('#hcS',async()=>{ if(S.hc.on){ await hcSync(true); toast('تم التحديث'); render(); } else hcConnect(); });
   on('#hcSet',()=>{ HCP.openHealthConnectSettings().catch(()=>{}); });
   on('#lkOn',toggleLock); on('#bkE',exportBackup); on('#ppol',privacySheet);
@@ -1517,9 +1521,16 @@ function gluSheet(after){
     <button type="submit" class="btn accent">${ic('check')}حفظ القراءة</button></form><div id="gRes"></div>`,(m,close)=>{
     const f=m.querySelector('#gF'), inp=m.querySelector('#gV'), err=m.querySelector('#gErr');
     setTimeout(()=>inp.focus(),250);
-    inp.addEventListener('input',()=>{ inp.removeAttribute('aria-invalid'); err.textContent=''; });
+    inp.addEventListener('input',()=>{ inp.removeAttribute('aria-invalid'); err.textContent=''; delete f.dataset.unitOk; });
     f.addEventListener('submit',e=>{ e.preventDefault();
-      let n=numIn(inp.value); if(!mgU()) n=n*18;
+      const raw=numIn(inp.value);
+      if(isFinite(raw) && !f.dataset.unitOk && ((mgU()&&raw>0&&raw<35)||(!mgU()&&raw>=35&&raw<=600))){
+        const asMg=mgU()?Math.round(raw*18.0182):raw, alt=mgU()?'ملمول/ل':'ملغ/دل';
+        err.innerHTML=`هل تقصد ${raw} ${alt} (= ${gfmt(asMg)} ${GU()})؟ <button type="button" class="btn ghost sm" id="gConv">نعم، حوّلها</button> <button type="button" class="btn ghost sm" id="gKeep">لا، القيمة صحيحة</button>`;
+        m.querySelector('#gConv').onclick=()=>{ inp.value=mgU()?String(asMg):(raw/18.0182).toFixed(1); f.dataset.unitOk='1'; err.textContent=''; f.requestSubmit(); };
+        m.querySelector('#gKeep').onclick=()=>{ f.dataset.unitOk='1'; err.textContent=''; f.requestSubmit(); };
+        return; }
+      let n=raw; if(!mgU()) n=n*18.0182;
       if(!isFinite(n)||n<20||n>600){ inp.setAttribute('aria-invalid','true'); err.textContent=mgU()?'أدخل رقمًا بين 20 و600':'أدخل رقمًا بين 1.1 و33'; inp.focus(); return; }
       const ctx=(new FormData(f)).get('ctx')||'rnd'; gluAdd(n,ctx); Haptic.success();
       if(n<70) oneShot(9971,new Date(Date.now()+15*6e4),'أعد قياس السكر الآن','مرّت 15 دقيقة على علاج الانخفاض — تأكد أنه تجاوز '+gfmt(70)+'.','glu');
@@ -1769,19 +1780,38 @@ function reportSheet(days,doctor){
     m.querySelector('#rC').onclick=async()=>{ try{ await navigator.clipboard.writeText(t); toast('نُسخ التقرير'); }catch(e){ toast('تعذّر النسخ'); } };
   });
 }
-async function exportBackup(){
-  const data=JSON.stringify({app:'afiyati',v:3,at:new Date().toISOString(),state:S}), name='afiyati-backup-'+today()+'.json';
+const b64=u=>btoa(String.fromCharCode(...new Uint8Array(u))), unb64=t=>Uint8Array.from(atob(t),c=>c.charCodeAt(0));
+async function bkKey(pw,salt){ const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']); return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:310000,hash:'SHA-256'},k,{name:'AES-GCM',length:256},false,['encrypt','decrypt']); }
+async function bkEncrypt(txt,pw){ const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12)); const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await bkKey(pw,salt),new TextEncoder().encode(txt)); return JSON.stringify({app:'afiyati',enc:'aes-gcm-pbkdf2',at:new Date().toISOString(),salt:b64(salt),iv:b64(iv),ct:b64(ct)}); }
+async function bkDecrypt(o,pw){ const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(o.iv)},await bkKey(pw,unb64(o.salt)),unb64(o.ct)); return new TextDecoder().decode(pt); }
+function exportBackup(){
+  modal(`<form id="bxF" novalidate aria-labelledby="bxH"><h3 id="bxH">حفظ نسخة احتياطية</h3>
+    <div class="field"><label for="bxP">كلمة مرور للتشفير (اختيارية)</label><input id="bxP" type="password" autocomplete="new-password" minlength="6" aria-describedby="bxHint bxE"><span id="bxHint" class="small muted">إن وضعتها فلن يفتح الملف أحد غيرك. احفظها جيدًا — لا يمكن استعادة النسخة بدونها.</span><span id="bxE" class="err small" role="alert"></span></div>
+    <button type="submit" class="btn accent">${ic('download')}حفظ النسخة</button></form>`,(m,close)=>{
+    const f=m.querySelector('#bxF'), p=m.querySelector('#bxP');
+    f.addEventListener('submit',async e=>{ e.preventDefault(); const pw=p.value; if(pw&&pw.length<6){ p.setAttribute('aria-invalid','true'); m.querySelector('#bxE').textContent='6 أحرف على الأقل، أو اتركها فارغة'; p.focus(); return; }
+      close(); await doExport(pw); }); });
+}
+async function doExport(pw){
+  let data=JSON.stringify({app:'afiyati',v:3,at:new Date().toISOString(),state:S}); const name='afiyati-backup-'+today()+(pw?'-encrypted':'')+'.json';
+  if(pw){ try{ data=await bkEncrypt(data,pw); }catch(e){ toast('تعذّر التشفير'); return; } }
   if(FS&&SH){ try{ const w=await FS.writeFile({path:name,data,directory:'CACHE',encoding:'utf8'}); await SH.share({title:'نسخة احتياطية — عافيتي',files:[w.uri],dialogTitle:'احفظ النسخة في Drive أو أرسلها لنفسك'}); S.lastBackup=today(); save(); render(); return; }catch(e){ if(/cancel/i.test(String(e&&e.message||e))) return; } }
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([data],{type:'application/json'})); a.download=name; document.body.appendChild(a); a.click(); a.remove(); S.lastBackup=today(); save(); render();
 }
 function importBackup(file){
   if(!file) return; const rd=new FileReader();
-  rd.onload=()=>{ let o; try{ o=JSON.parse(rd.result); }catch(e){ toast('الملف ليس نسخة احتياطية صالحة'); return; }
+  rd.onload=async()=>{ let o; try{ o=JSON.parse(rd.result); }catch(e){ toast('الملف ليس نسخة احتياطية صالحة'); return; }
+    if(o&&o.enc==='aes-gcm-pbkdf2'){ modal(`<form id="biF" novalidate aria-labelledby="biH"><h3 id="biH">نسخة مشفّرة</h3><div class="field"><label for="biP">كلمة المرور</label><input id="biP" type="password" autocomplete="current-password" required aria-describedby="biE"><span id="biE" class="err small" role="alert"></span></div><button type="submit" class="btn accent">فتح</button></form>`,(m,close)=>{
+        const f=m.querySelector('#biF'), p=m.querySelector('#biP'); setTimeout(()=>p.focus(),250);
+        f.addEventListener('submit',async e=>{ e.preventDefault(); try{ const t=await bkDecrypt(o,p.value); close(); restoreObj(JSON.parse(t)); }catch(x){ p.setAttribute('aria-invalid','true'); m.querySelector('#biE').textContent='كلمة المرور غير صحيحة'; p.focus(); } }); }); return; }
+    restoreObj(o); };
+  rd.readAsText(file);
+}
+function restoreObj(o){ {
     if(!o||o.app!=='afiyati'||!o.state||!Array.isArray(o.state.logs)){ toast('الملف ليس نسخة احتياطية من عافيتي'); return; }
     modal(`<h3>استعادة النسخة؟</h3><p class="small muted">نسخة بتاريخ ${esc(String(o.at||'').slice(0,10))} تحتوي ${o.state.logs.length} جلسة. ستحلّ محل بياناتك الحالية على هذا الجهاز.</p><button class="btn accent" id="ry">استعادة</button><div style="height:8px"></div><button class="btn ghost" id="rn">إلغاء</button>`,(m,close)=>{
       m.querySelector('#rn').onclick=close;
-      m.querySelector('#ry').onclick=async()=>{ close(); S=Object.assign({},DEF,o.state); fixState(); save(); await scheduleReminders(); toast('تمت استعادة بياناتك'); tab='home'; render(); }; }); };
-  rd.readAsText(file);
+      m.querySelector('#ry').onclick=async()=>{ close(); S=Object.assign({},DEF,o.state); fixState(); save(); applySecure(); await scheduleReminders(); toast('تمت استعادة بياناتك'); tab='home'; render(); }; }); }
 }
 async function privacySheet(){
   let html='<p>تعذّر تحميل السياسة.</p>'; try{ const r=await fetch('privacypolicy.html'); const t=await r.text(); const d=new DOMParser().parseFromString(t,'text/html'); const mn=d.querySelector('main'); if(mn) html=mn.innerHTML; }catch(e){}
@@ -1790,6 +1820,7 @@ async function privacySheet(){
 
 /* ============ القفل بالبصمة ============ */
 let _bgAt=0;
+function applySecure(){ if(WB&&WB.setSecure) WB.setSecure({on:!!S.lock}).catch(()=>{}); }
 function showLock(){
   if(!S.lock||!BIO||document.getElementById('lockv')) return;
   const d=document.createElement('div'); d.id='lockv'; d.className='lockv'; d.setAttribute('role','dialog'); d.setAttribute('aria-modal','true'); d.setAttribute('aria-labelledby','lkH');
@@ -1798,10 +1829,10 @@ function showLock(){
 }
 async function unlock(){ try{ await BIO.verifyIdentity({reason:'افتح عافيتي',title:'عافيتي',subtitle:'تحقّق من هويتك',description:'استخدم البصمة أو قفل الجوال',useFallback:true,maxAttempts:5}); const d=document.getElementById('lockv'); d&&d.remove(); }catch(e){} }
 async function toggleLock(){
-  if(S.lock){ S.lock=false; save(); toast('أُلغي القفل'); render(); return; }
+  if(S.lock){ S.lock=false; save(); applySecure(); toast('أُلغي القفل'); render(); return; }
   if(!BIO){ toast('القفل متاح في تطبيق الجوال فقط'); return; }
   try{ const a=await BIO.isAvailable({useFallback:true}); if(!a.isAvailable){ toast('لا توجد بصمة أو قفل شاشة مفعّل على الجوال'); return; }
-    await BIO.verifyIdentity({reason:'تفعيل قفل عافيتي',title:'عافيتي',subtitle:'أكّد هويتك لتفعيل القفل',useFallback:true}); S.lock=true; save(); toast('فُعّل القفل بالبصمة'); render(); }catch(e){ toast('لم يُفعّل القفل'); }
+    await BIO.verifyIdentity({reason:'تفعيل قفل عافيتي',title:'عافيتي',subtitle:'أكّد هويتك لتفعيل القفل',useFallback:true}); S.lock=true; save(); applySecure(); toast('فُعّل القفل بالبصمة — ولن تظهر بياناتك في قائمة التطبيقات المفتوحة'); render(); }catch(e){ toast('لم يُفعّل القفل'); }
 }
 
 /* ============ تبويب «صحتي» ============ */
@@ -1827,6 +1858,7 @@ function dmBody(){
   <div class="card">
     <div class="grid3" style="margin-bottom:10px"><div class="stat"><b class="${lg?gClass(lg.v):''}">${lg?gfmt(lg.v):'—'}</b><span class="small muted">آخر قراءة</span></div><div class="stat"><b>${g7?gfmt(g7.avg):'—'}</b><span class="small muted">متوسط 7 أيام</span></div><div class="stat"><b>${g14?Math.round(g14.tir*100)+'%':'—'}</b><span class="small muted">ضمن النطاق</span></div></div>
     ${gluChart(14)}
+    ${(()=>{ const g30=gluStats(30); return g30&&g30.n>=10?`<div class="row" style="justify-content:space-between;margin-top:8px"><span class="small"><b>ضمن النطاق — 30 يومًا: ${Math.round(g30.tir*100)}%</b></span><span class="small muted">الهدف أكثر من 70%</span></div><div class="pbar" style="margin:6px 0"><i style="width:${Math.round(g30.tir*100)}%;background:${g30.tir>=.7?'var(--ok)':'#D97706'}"></i></div>`:''; })()}
     <p class="small muted" style="margin:6px 0 0">النطاق المظلّل ${gfmt(70)}–${gfmt(180)} ${GU()}. الهدف لأغلب البالغين: صائم ${gfmt(80)}–${gfmt(130)}، وبعد الأكل بساعتين أقل من ${gfmt(180)}${g14&&g14.low?` · <b style="color:var(--danger)">${g14.low} انخفاض خلال أسبوعين</b>`:''}.</p>
     ${S.hc.on?'<p class="small muted" style="margin:4px 0 0">تُضاف قراءات جهاز القياس أو الحسّاس المرتبط بـHealth Connect تلقائيًا.</p>':''}
   </div>
@@ -1841,6 +1873,7 @@ function dmBody(){
   <div class="card"><p class="small muted" style="margin-top:0">سجّل كل مرة بلمسة. السكري يزيد عدد مرات التبول والاستيقاظ ليلًا، والمذكرة تساعد طبيبك وتُظهر أثر التمارين.</p>
     <div class="row">${BLK.map(([k,n,i])=>`<button class="btn ghost bl" data-bl="${k}">${i}${n}<span class="cnt">${blToday(k)}</span></button>`).join('')}</div>
     <p class="small" style="margin:10px 0 0">الليلة الماضية: <b>${lastNight}</b> مرة · ${S.nightLess?'تتوقف تذكيرات الماء قبل النوم بساعتين.':'تذكيرات الماء لا تتوقف قبل النوم.'}</p>
+    ${S.bl.filter(x=>x.k==='void'&&Date.now()-x.ts<2*36e5).length>=4?`<div class="warn small" style="margin-top:8px">${blToday('void')} مرات تبوّل، منها 4 أو أكثر خلال ساعتين. قِس السكر — ارتفاعه يزيد التبول. وإن صاحب ذلك حرقان أو ألم أو حرارة فراجع الطبيب لتحليل البول واستبعاد الالتهاب.</div>`:''}
     ${noc!==null&&noc>=2?'<div class="warn small" style="margin-top:8px">الاستيقاظ للتبول مرتين أو أكثر كل ليلة يستحق مراجعة الطبيب — قد يرتبط بارتفاع السكر أو البروستاتا أو النوم.</div>':''}</div>
   <div class="sec"><h2>الساعة الذكية</h2></div>
   <div class="card"><div class="ev" style="padding:0"><span class="badge">${ic('pulse')}</span><div><b>${S.hc.on?'مرتبطة عبر Health Connect':'اربط ساعتك'}</b><p>${S.hc.on?`الخطوات اليوم ${stepsNow()??'—'} · النوم ${S.hc.sleepDate===today()&&S.hc.sleep?fmtH(S.hc.sleep):'—'}${S.hc.rhr?' · نبض الراحة '+S.hc.rhr:''}`:'لقراءة الخطوات والنوم والنبض وقراءات السكر من جهاز القياس تلقائيًا.'}</p></div></div>
@@ -1968,7 +2001,7 @@ if(LN){
 /* ============ تشغيل ============ */
 rollover(); render();
 if(S.onboarded) scheduleReminders();
-if(S.lock) showLock();
+if(S.lock){ applySecure(); showLock(); }
 if(S.hc.on) hcSync(true).then(ch=>{ if(ch&&screen==='tabs') render(); });
 setInterval(()=>{ if(screen==='tabs'){ const before=S.progDay, bd=S.dayDoneOn; rollover(); if(before!==S.progDay||bd!==S.dayDoneOn) render(); } },60000);
 </script>

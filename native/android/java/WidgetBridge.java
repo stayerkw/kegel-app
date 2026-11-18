@@ -2,6 +2,7 @@ package com.stayerkw.kegel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.WindowManager;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -23,5 +24,16 @@ public class WidgetBridge extends Plugin {
         e.apply();
         KegelWidget.refreshAll(getContext());
         call.resolve();
+    }
+
+    /** إخفاء محتوى التطبيق في قائمة التطبيقات المفتوحة عند تفعيل القفل */
+    @PluginMethod
+    public void setSecure(PluginCall call) {
+        final boolean on = Boolean.TRUE.equals(call.getBoolean("on", false));
+        getActivity().runOnUiThread(() -> {
+            if (on) getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+            else getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+            call.resolve();
+        });
     }
 }
