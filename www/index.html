@@ -427,6 +427,57 @@ body.dark .dpromo{background:linear-gradient(135deg,#0E2B22,#0C2430)}
 .quick .ic,.quick .hi-ic{width:24px;height:24px;color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.gheart{animation:none}}
 @media (max-width:360px){.stats{grid-template-columns:1fr}.wbody{grid-template-columns:1fr}.wart{aspect-ratio:4/3}.quick{grid-template-columns:repeat(2,1fr)}.gheart{width:104px;height:92px}.dwel h1{font-size:21px}}
+
+/* ===== الرئيسية: بطاقات قابلة للضغط، شريط الجلسات، عادات اليوم ===== */
+button.scard{border:0;font:inherit;color:inherit;text-align:start;width:100%;cursor:pointer}
+.scard{transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s ease}
+button.scard:active,.hmini:active,.scard.water:active{transform:scale(.97)}
+body.dark .scard,body.dark .dcard{border:1px solid var(--line)}
+.scov{position:absolute;inset:0;border:0;background:none;border-radius:inherit;cursor:pointer;z-index:1}
+.splus{position:absolute;inset-inline-end:8px;bottom:8px;z-index:2;width:44px;height:44px;border-radius:14px;border:0;display:grid;place-items:center;background:var(--water);color:#fff;box-shadow:0 6px 14px -6px rgba(47,127,193,.6)}
+.splus .ic{width:20px;height:20px}
+.scard.water .sv,.scard.water .sic{pointer-events:none}
+.spills{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0 0}
+.spill{border:1px solid var(--line);background:var(--bg);border-radius:14px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.spill.done{border-color:rgba(15,157,110,.35);background:rgba(15,157,110,.08)}
+.spill.next{border-color:var(--accent);background:var(--accentSoft)}
+.stt{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sst{display:inline-flex}.sst .ic{width:14px;height:14px}
+.spill.done .sst{color:#0F9D6E}.spill.next .sst{color:var(--accent)}
+.spill b{font-size:13px;color:var(--ink)}
+.spn{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wnext{margin:10px 0}
+.wactions{display:grid;grid-template-columns:1fr auto;gap:8px}
+.wactions .btn.ghost{width:auto;padding-inline:14px;font-size:15px;white-space:nowrap}
+.wactions .btn .ic{width:18px;height:18px}
+.qdur{font-size:12px;color:var(--muted);flex:none;font-variant-numeric:tabular-nums}
+.habits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.habits.one{grid-template-columns:1fr}
+.habits.three>:first-child{grid-column:1/-1}
+.hmini{position:relative;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:12px;text-align:start;font:inherit;color:inherit;display:flex;flex-direction:column;gap:6px;min-height:118px;min-width:0;transition:transform .18s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.hmini .hd{display:flex;align-items:center;justify-content:space-between;min-height:44px}
+.hmini .badge{width:40px;height:40px;border-radius:12px;display:grid;place-items:center}
+.hmini .badge .ic,.hmini .badge .hi-ic{width:24px;height:24px}
+.hmini.water .badge{background:var(--waterSoft);color:var(--water)}.hmini.heart .badge{background:var(--heartSoft);color:var(--heart)}.hmini.smoke .badge{background:var(--smokeSoft);color:var(--smoke)}
+.hmini .splus{position:static}
+.hmini.water .hd,.hmini.water .ht,.hmini.water .hv,.hmini.water .mini{position:relative}
+.hmini.water .hd>.badge,.hmini.water .ht,.hmini.water .hv,.hmini.water .mini{pointer-events:none}
+.ht{font-size:15px}.hv{font-size:22px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}.hv small{font-size:12px;font-weight:500;color:var(--muted)}
+.hmini .sub{font-size:12.5px;color:var(--muted)}
+.hmini .mini{display:block;height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:auto}
+.hmini .mini i{display:block;height:100%;border-radius:3px}
+.hmini.water .mini i{background:var(--water)}.hmini.heart .mini i{background:var(--heart)}.hmini.smoke .mini i{background:var(--smoke)}
+.rph{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rpromo .iconbtn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff;width:44px;height:44px;flex:none}
+.rpromo .rwarn{background:rgba(232,165,27,.16);border:1px solid rgba(232,165,27,.45);border-radius:12px;padding:8px 10px;font-size:13px}
+.rbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rbtns .btn.ghostw{margin-top:12px}
+.rpromo.dm .rp{width:100%}.rpromo.dm .mosque{opacity:.18}.rpromo.dm::before{display:none}
+.hban{margin:0 0 14px}
+.scard:focus-visible,.hmini:focus-visible,.scov:focus-visible,.splus:focus-visible,#qMore:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.scard,.hmini{transition:none}button.scard:active,.hmini:active,.scard.water:active{transform:none}}
+@media (max-width:360px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.scard{padding:10px;gap:8px}.sic{width:34px;height:34px}.sv b{font-size:18px}.wactions{grid-template-columns:1fr}.spills{gap:6px}.spill{padding:7px 8px}}
+@media (min-width:900px){body.wide-nav .hban{margin:14px 0 0}}
 /* الشاشات العريضة: شريط جانبي */
 @media (min-width:900px){
  body.wide-nav #app{max-width:none;margin:0;margin-inline-start:248px;padding-inline:28px;padding-bottom:40px}
@@ -1573,21 +1624,21 @@ function taskRow(x,i){ const d=new Date((x.date<today()?today():x.date)+'T12:00'
   return `<button class="trow" data-task="${i}"><span class="tdate${x.unset?' un':x.date<today()?' due':''}">${x.unset?`<b>—</b><small>سجّل</small>`:x.date<=today()?`<small>${x.date<today()?'متأخر':'اليوم'}</small>`:`<b>${d.getDate()}</b><small>${m}</small>`}</span><span class="ttx"><b>${esc(x.title)}</b><span>${x.sub?esc(x.sub)+' · ':''}${x.unset?'لم يُسجَّل بعد — اضغط لتسجيل آخر فحص':relDays(x.date)}</span></span><span class="tic ${x.tone}">${x.icon}</span></button>`; }
 function tasksSheet(){ const T=upcomingTasks(); modal(`<h3>كل المهام القادمة</h3><div class="tlist">${T.map(taskRow).join('')}</div>`,(m,close)=>{ m.querySelectorAll('[data-task]').forEach(b=>b.onclick=()=>{ close(); T[+b.dataset.task].act(); }); }); }
 let dRange='w';
-function dashHTML(plan,done,dayDone,idx){
+function dashHTML(plan,done,dayDone,idx,ex){
   const st=streak(), sNow=stepsNow(), wk=S.hc.week||{}, yS=wk[addDays(today(),-1)];
   const stepsDelta=sNow!=null&&yS?Math.round((sNow-yS)/yS*100):null;
   const adh=adhAvg(addDays(today(),-6),today()), adhPrev=adhAvg(addDays(today(),-13),addDays(today(),-7));
   const lg=gLast(), tasks=upcomingTasks(), soon=tasks.filter(x=>!x.unset&&x.date<=today()).length;
   const ring=(v,r,sw,col)=>{ const C=2*Math.PI*r; return `<circle cx="${r+sw}" cy="${r+sw}" r="${r}" fill="none" stroke="var(--ringBg)" stroke-width="${sw}"/><circle cx="${r+sw}" cy="${r+sw}" r="${r}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-Math.max(0,Math.min(1,v||0)))}" transform="rotate(-90 ${r+sw} ${r+sw})"/>`; };
   const bars=`<span class="mbars" aria-hidden="true"><i></i><i></i><i></i></span>`;
-  const stat=(cls,icon,val,unit,lbl,foot)=>`<div class="scard ${cls}"><span class="sic">${icon}</span><div class="sv"><b>${val}${unit?`<small> ${unit}</small>`:''}</b><span>${lbl}</span>${foot||''}</div>${bars}</div>`;
+  const stat=(cls,id,icon,val,unit,lbl,foot)=>`<button class="scard ${cls}" id="${id}"><span class="sic">${icon}</span><span class="sv"><b>${val}${unit?`<small> ${unit}</small>`:''}</b><span>${lbl}</span>${foot||''}</span>${bars}</button>`;
   const delta=(v)=>v==null?'':`<em class="${v>=0?'up':'down'}">${v>=0?'↑':'↓'} ${Math.abs(v)}%</em>`;
   const sleepTxt=S.hc.sleepDate===today()&&S.hc.sleep?`${Math.floor(S.hc.sleep/60)}h ${S.hc.sleep%60}m`:'—';
-  const s1=stat('steps',ic('steps'),sNow!=null?sNow.toLocaleString(LANG==='en'?'en':'ar'):'—','',sNow!=null?'خطوة اليوم':'اربط ساعتك للخطوات',delta(stepsDelta));
-  const s2=stat('sleep',hi('sleepy'),sleepTxt,'','مدة النوم','');
-  const s3=S.diabetes?stat('glu',ic('drop'),lg?gfmt(lg.v):'—',GU(),'سكر الدم',lg?`<em class="${gClass(lg.v)==='ok'?'ok':'warnc'}">${gClass(lg.v)==='ok'?ic('checkCircle')+' ضمن النطاق':ic('alert')+' خارج النطاق'}</em>`:'')
-    :stat('water',ic('drop'),waterToday(),'/ '+S.water.goal,'أكواب الماء','');
-  const s4=`<div class="scard adh"><span class="sic gold">${ic('trophy')}</span><div class="sv"><b>${adh==null?'—':Math.round(adh*100)+'%'}</b><span>الالتزام الأسبوعي</span>${adh!=null&&adhPrev!=null?delta(Math.round((adh-adhPrev)*100)):''}</div><svg class="sring" viewBox="0 0 56 56" aria-hidden="true">${ring(adh,22,6,'var(--accent2)')}</svg></div>`;
+  const s1=stat('stp','tSt',ic('steps'),sNow!=null?sNow.toLocaleString(LANG==='en'?'en':'ar'):'—','',sNow!=null?'خطوة اليوم':'اربط ساعتك للخطوات',delta(stepsDelta));
+  const s2=stat('sleep','tSl',hi('sleepy'),sleepTxt,'','مدة النوم','');
+  const s3=S.diabetes?stat('glu','tG',ic('drop'),lg?gfmt(lg.v):'—',GU(),'سكر الدم',lg?`<em class="${gClass(lg.v)==='ok'?'ok':'warnc'}">${gClass(lg.v)==='ok'?ic('checkCircle')+' ضمن النطاق':ic('alert')+' خارج النطاق'}</em>`:'')
+    :`<div class="scard water"><button class="scov" id="tW" aria-label="الماء — التفاصيل"></button><span class="sic">${ic('drop')}</span><span class="sv"><b>${waterToday()}<small> / ${S.water.goal}</small></b><span>أكواب الماء</span></span><button class="splus" id="wPlus" aria-label="أضف كوب ماء">${ic('plus')}</button></div>`;
+  const s4=`<button class="scard adh" id="tAd"><span class="sic gold">${ic('trophy')}</span><span class="sv"><b>${adh==null?'—':Math.round(adh*100)+'%'}</b><span>الالتزام الأسبوعي</span>${adh!=null&&adhPrev!=null?delta(Math.round((adh-adhPrev)*100)):''}</span><svg class="sring" viewBox="0 0 56 56" aria-hidden="true">${ring(adh,22,6,'var(--accent2)')}</svg></button>`;
   const dpct=Math.round(done/plan.n*100), workImg=isFem()?'<img src="img/ui/workout_f.webp" alt="" class="wimg" decoding="async">':IMG('posture','wimg');
   // بطاقة رمضان تظهر في أيام رمضان فقط (ramadanOn يحترم إيقاف الوضع من الإعدادات وتأكيد المستخدم لبداية الشهر ونهايته)
   const ramShow=ramadanOn();
@@ -1599,21 +1650,29 @@ function dashHTML(plan,done,dayDone,idx){
    <div class="dwel"><div><h1>مرحبًا بك في Vigoris</h1><p>لصحة أفضل .. خطوة بخطوة</p>${st?`<span class="dstreak">${ic('flame')} ${st} ${st===1?'يوم':'أيام'} متتالية</span>`:''}</div>${HEART_SVG}</div>
   </header>
   <div class="stats">${s1}${s2}${s3}${s4}</div>
+  ${ex.banner}
   <div class="dgrid">
   <section class="dcard wcard"><div class="dh"><h2>${ic('barbell')} تمارين اليوم</h2></div>
    <div class="wbody"><div class="wart">${workImg}</div>
     <div class="winfo"><div class="wring"><svg viewBox="0 0 120 120" aria-hidden="true">${ring(done/plan.n,52,8,'var(--accent)')}</svg><div><b>${dpct}%</b><span>من الهدف</span></div></div>
      <div class="wmeta"><span class="muted small">المستوى الحالي</span><span class="lvpill">${ic('chart')} ${LV_NAME[curLevel()]}</span>
       <span class="muted small" style="margin-top:8px">الجلسات المكتملة</span><b class="wdone"><bdi dir="ltr">${done} / ${plan.n}</bdi> ${done>=plan.n?`<span class="okc">${ic('checkCircle')}</span>`:''}</b></div></div></div>
+   <ol class="spills" aria-label="جلسات اليوم">${ex.pills}</ol>
    <p class="small muted wnext">${dayDone?'أحسنت، أنهيت جلسات اليوم':`التالية: جلسة ${idx+1} — ${PAT_NAME[plan.patterns[idx]]}${(plan.pos||[])[idx]?' · '+POS[plan.pos[idx]][0]:''}`}</p>
-   <button class="btn accent" id="${dayDone?'extra':'go'}">${ic('play')}${dayDone?'جلسة إضافية اختيارية':done?'متابعة التمرين':'ابدأ التمرين'}</button></section>
+   <div class="wactions"><button class="btn accent" id="${dayDone?'extra':'go'}">${ic('play')}${dayDone?'جلسة إضافية اختيارية':done?'متابعة التمرين':'ابدأ التمرين'}</button><button class="btn ghost" id="qMore" aria-haspopup="dialog">${ic('bolt')}تمارين أخرى</button></div></section>
+  ${ex.habits}
+  ${ramShow?`<section class="dcard rpromo${S.diabetes?' dm':''}">${MOSQUE_SVG}<div class="rp"><div class="rph"><h2>${ic('moon')} رمضان والصيام</h2><button class="iconbtn" id="ramSet" aria-label="إعداد وضع رمضان">${ic('set')}</button></div>
+   <p class="small">الإفطار ${S.ram.iftar} · السحور ${S.ram.suhoor} · ${hijriToday()}</p>
+   ${S.diabetes?`<p class="rwarn"><b>أفطر فورًا</b> إذا كان السكر أقل من ${gfmt(70)} أو أعلى من ${gfmt(300)} ${GU()}، أو شعرت بأعراض الانخفاض. قياس السكر لا يُفطر.</p>
+   <p class="small">قِس: قبل السحور، منتصف النهار، قبل الإفطار، وبعد الإفطار بساعتين.${lg?' آخر قراءة: <b>'+gfmt(lg.v)+'</b>':''}</p>
+   <div class="rbtns"><button class="btn ghostw" id="ramG">${ic('drop')}سجّل قراءة</button><button class="btn ghostw" id="dRam">${ic('books')}الإرشادات</button></div>`
+   :`<p class="small">تذكيرات الماء الآن بين الإفطار والسحور، والرياضة الخفيفة بعد الإفطار بساعتين.</p><button class="btn ghostw" id="dRam">${ic('books')}عرض الإرشادات</button>`}</div></section>`:''}
   <section class="dcard"><div class="dh"><h2>${ic('pulse')} نظرة عامة على صحتك</h2></div>
    <div class="rtabs" role="tablist" aria-label="الفترة">${[['w','أسبوع'],['m','شهر'],['q','ثلاثة أشهر'],['y','سنة']].map(([k,n])=>`<button role="tab" aria-selected="${dRange===k}" class="${dRange===k?'on':''}" data-rg="${k}">${n}</button>`).join('')}</div>
    <div id="dChart">${dashChart(dRange)}</div><p class="small muted" style="margin:4px 0 0">نسبة إكمال جلسات تمارين قاع الحوض اليومية.</p></section>
   <section class="dcard"><div class="dh"><h2>${ic('calendar')} مهام قادمة</h2></div>
    <div class="tlist">${tasks.slice(0,3).map(taskRow).join('')}</div>
    <button class="linkbtn" id="dAll">عرض جميع المهام ←</button></section>
-  ${ramShow?`<section class="dcard rpromo">${MOSQUE_SVG}<div class="rp"><h2>${ic('moon')} رمضان والصيام</h2><p><b>${S.diabetes?'الصيام لمريض السكري يحتاج احتياطات':'استعد لصيام صحي'}</b></p><p class="small">${S.diabetes?'احرص على قياس السكر بانتظام، وقيّم خطورة صيامك مع طبيبك.':'نظّم الماء والنوم والتمارين بين الإفطار والسحور.'}</p><button class="btn ghostw" id="dRam">${ic('books')}عرض الإرشادات</button></div></section>`:''}
   <section class="dcard dpromo"><div class="dp"><h2>${ic('leaf')} النظام الغذائي المتوسطي</h2><p>${missing('food').length?'أخبرنا بما لا يناسبك لنقترح وجباتك':mealFor(MEALS[new Date().getDay()]).m[1]+' — وجبة اليوم'}</p><button class="btn ghosta" id="dDiet">${ic('leaf')}عرض الخطة الغذائية</button></div><img src="img/ui/salad.webp" alt="" class="salad" decoding="async"></section>
   <section class="dcard"><div class="dh"><h2>${ic('bolt')} وصول سريع</h2></div>
    <div class="quick"><button id="qkR">${ic('chart')}<span>تقرير صحي</span></button><button id="qkD">${hi('stetho')}<span>تقرير الطبيب</span></button>${S.diabetes?`<button id="qkC">${ic('calendar')}<span>الفحوصات</span></button>`:`<button id="qkP">${ic('user')}<span>ملفي الصحي</span></button>`}<button id="qkS">${ic('set')}<span>الإعدادات</span></button></div></section>
@@ -1633,55 +1692,54 @@ function bindDash(){
   on('#qkS',()=>{ tab='set'; render(); window.scrollTo(0,0); });
 }
 
+/* بطاقة تنبيه واحدة في الرئيسية حسب الأولوية بدل تكديسها فوق بعض */
+function homeBanner(dayDone,gap,last){
+  const ra=ramAskCard(); if(ra) return ra;
+  if(!dayDone && gap>=2 && last) return `<div class="card hban" style="display:flex;gap:12px;align-items:center"><span class="ic-badge" style="margin:0">${ic('comeback')}</span><div style="flex:1"><b>سلسلتك تنتظرك</b><p class="small muted" style="margin:2px 0 0">غبت ${gap-1} ${gap-1===1?'يومًا':'أيام'}. دقيقة واحدة تكفي للعودة.</p></div><button class="btn accent sm" id="qBack" style="min-width:0">عودة</button></div>`;
+  if(S.suggestAdvance && !careHold() && !dayDone) return `<div class="card hban"><b class="hrow">${ic('arrowUp')} تبدو مستعدًا للتقدّم</b><p class="small muted">قيّمت جلساتك الأخيرة بأنها سهلة. هل تتقدّم يومًا في البرنامج؟</p><div class="row"><button class="btn accent sm" id="advY">نعم، تقدّم</button><button class="btn ghost sm" id="advN">لاحقًا</button></div></div>`;
+  return tutCard()||testCard()||profCard();
+}
+/* التمارين الإضافية في نافذة واحدة بدل أربع بلاطات */
+function quickSheet(plan){
+  const Q=[['q1',ic('bolt'),'جلسة سريعة','دقيقة','تحفظ سلسلتك في الأيام المزدحمة',()=>startSession('quick')],
+    ['qC',ic('target'),'تمرين التحكم','2 د','انقباضات سريعة ثم ثبات — للتحكم في القذف',()=>startSession('control')],
+    ['q2',ic('flame'),'النيران السريعة',String(plan.flicks||30),(plan.flicks||30)+' انقباضة: ضغط وإرخاء كل ثانية',()=>startSession('rapidq',plan)],
+    ['qB',hi('lungs'),'تنفّس القلب',S.br.min+' د',`${S.br.bpm} أنفاس/د · هذا الأسبوع ${Math.min(breathDays(addDays(today(),-6),today()),7)} من 3 أيام`,()=>breathSheet()]];
+  modal(`<h3 id="qmH">تمارين أخرى</h3><p class="small muted" style="margin-top:-4px">إضافية — لا تحل محل جلسات اليوم.</p>
+   <div class="tlist">${Q.map(([id,icn,t,d,sub])=>`<button class="trow" id="${id}"><span class="tic teal">${icn}</span><span class="ttx"><b>${t}</b><span>${sub}</span></span><span class="qdur">${d}</span></button>`).join('')}</div>`,
+   (m,close)=>Q.forEach(([id,,,,,f])=>{ m.querySelector('#'+id).onclick=()=>{ close(); f(); }; }));
+}
 function renderHome(){
   const plan=planFor(S.progDay), done=dailyDoneOn(today()), dayDone=S.dayDoneOn===today();
-  const st=streak(), last=lastActiveBeforeToday(), gap=last?dayDiff(last,today()):0;
-  const h=new Date().getHours(), greet=h<12?'صباح الخير':h<18?'مساء الخير':'مساء النور';
-  const idx=Math.min(done,plan.n-1), p=plan.patterns[idx], C=2*Math.PI*38, pct=S.progDay/180;
+  const last=lastActiveBeforeToday(), gap=last?dayDiff(last,today()):0;
+  const idx=Math.min(done,plan.n-1);
   const times=effectiveTimes(), slots=(plan.n===2?[0,2]:[0,1,2]);
-  const nextBox = dayDone
-    ? `<div class="nextbox"><p class="lbl">اكتمل اليوم</p><h3>أحسنت، أنهيت ${plan.n} من ${plan.n}</h3><p>نراك غدًا في اليوم ${Math.min(180,S.progDay+1)}. الراحة جزء من التدريب.</p><div style="height:12px"></div><button class="btn white" id="extra">${ic('bolt')}جلسة إضافية اختيارية</button></div>`
-    : `<div class="nextbox"><p class="lbl">جلستك التالية · ${sessionMinutes(plan,idx)} دقائق تقريبًا</p><h3>جلسة ${idx+1} من ${plan.n} — ${PAT_NAME[p]}</h3><p>${sessDesc(plan,p)}</p>${wave(p)}<div style="height:10px"></div><button class="btn white" id="go">${ic('play')}ابدأ الجلسة</button></div>`;
-  const planRows = slots.map((sl,i)=>{ const st2 = i<done?'done':(i===done&&!dayDone?'next':''); const pt=plan.patterns[i], ps=(plan.pos||[])[i];
-    return `<div class="slot ${st2}"><span class="tm">${times[sl].t}</span><span class="st">${st2==='done'?ic('check'):st2==='next'?ic('play'):ic('clock')}</span><span class="tx"><b>جلسة ${i+1} · ${PAT_NAME[pt]}${ps?' · '+POS[ps][0]:''}</b><span>${sessDesc(plan,pt)}</span></span>${st2==='next'?'<span class="tagx">التالية</span>':''}</div>`; }).join('');
-  const recover = (!dayDone && gap>=2 && last) ? `<div class="card" style="display:flex;gap:12px;align-items:center"><span class="ic-badge" style="margin:0">${ic('comeback')}</span><div style="flex:1"><b>سلسلتك تنتظرك</b><p class="small muted" style="margin:2px 0 0">غبت ${gap-1} ${gap-1===1?'يومًا':'أيام'}. دقيقة واحدة تكفي للعودة.</p></div><button class="btn accent sm" id="qBack" style="min-width:0">عودة</button></div>`:'';
-  const adv = S.suggestAdvance && !careHold() && !dayDone ? `<div class="card"><b class="hrow">${ic('arrowUp')} تبدو مستعدًا للتقدّم</b><p class="small muted">قيّمت جلساتك الأخيرة بأنها سهلة. هل تتقدّم يومًا في البرنامج؟</p><div class="row"><button class="btn accent sm" id="advY">نعم، تقدّم</button><button class="btn ghost sm" id="advN">لاحقًا</button></div></div>`:'';
+  const pills = slots.map((sl,i)=>{ const st2 = i<done?'done':(i===done&&!dayDone?'next':''); const pt=plan.patterns[i];
+    return `<li class="spill ${st2}"${st2==='next'?' aria-current="step"':''}><span class="stt"><bdi dir="ltr">${times[sl].t}</bdi><span class="sst">${st2==='done'?ic('check'):st2==='next'?ic('play'):ic('clock')}</span></span><b>جلسة ${i+1}</b><span class="spn">${PAT_NAME[pt]}</span></li>`; }).join('');
   const w=waterToday(), wg=S.water.goal, ht=heartToday(), hd=HEART.filter(([k])=>ht[k]).length, sw=smokeWindow(), sk=smokeToday(), snx=nextSmoke();
-  const tiles=[], sNow=stepsNow(), sg=S.stepGoal;
-  tiles.push(S.hc.on?`<button class="tile steps" id="tSt"><div class="hd"><span class="badge">${hi('walking')}</span><span class="sub">${S.hc.sleepDate===today()&&S.hc.sleep?'نوم '+fmtH(S.hc.sleep):''}</span></div><h3>المشي اليوم</h3><div class="big">${(sNow||0).toLocaleString(LANG==='en'?'en':'ar')}</div><div class="sub">${(sNow||0)>=sg?'وصلت لهدفك':'متبقٍ '+Math.max(0,sg-(sNow||0)).toLocaleString(LANG==='en'?'en':'ar')+' خطوة'}</div><div class="mini"><i style="width:${Math.min(100,(sNow||0)/sg*100)}%"></i></div></button>`
-    :`<button class="tile steps" id="tSt"><div class="hd"><span class="badge">${hi('walking')}</span><span class="sub">الساعة</span></div><h3>المشي والنوم</h3><div class="sub">اربط ساعتك لتعرف كم مشيت وكم بقي، ومدة نومك</div></button>`);
-  if(S.water.on) tiles.push(`<div class="tile water" id="tW"><div class="wave-bg" style="height:${Math.min(1,w/wg)*70+8}%"></div><div class="hd"><span class="badge">${ic('drop')}</span><button class="plusb" id="wPlus" aria-label="أضف كوب ماء">${ic('plus')}</button></div><h3>الماء</h3><div class="big">${w}<span class="sub"> من ${wg} أكواب</span></div><div class="mini"><i style="width:${Math.min(100,w/wg*100)}%"></i></div></div>`);
-  if(S.heart.on) tiles.push(`<button class="tile heart" id="tH"><div class="hd"><span class="badge">${hi('heartOrgan')}</span><span class="sub">${hd} من ${HEART.length}</span></div><h3>القلب والأداء</h3><div class="sub">${hd===HEART.length?'أكملت عادات اليوم':HEART.filter(([k])=>!ht[k]).map(x=>x[2].split(' ').slice(0,2).join(' ')).slice(0,2).join(' · ')}</div><div class="mini"><i style="width:${hd/HEART.length*100}%"></i></div></button>`);
-  if(S.smoke.on||S.smokeManual) tiles.push(`<button class="tile smoke" id="tS"><div class="hd"><span class="badge">${hi('noSmoke')}</span><span class="sub">${sk.ok} ناجحة</span></div><h3>بلا تدخين</h3>${sw?`<div class="big" id="smkT">${Math.floor((sw.end-Date.now())/6e4)}:${pad(Math.floor((sw.end-Date.now())/1e3)%60)}</div><div class="sub">فترة جارية — استمر</div>`:`<div class="sub">${snx?'الفترة التالية '+hm(new Date(snx).getHours()*60+new Date(snx).getMinutes()):''}</div>`}<div class="mini"><i style="width:${sw?Math.min(100,(Date.now()-sw.start)/(sw.end-sw.start)*100):0}%"></i></div></button>`);
-  tiles.push(`<button class="tile quick" id="q1"><div class="hd"><span class="badge">${ic('bolt')}</span><span class="sub">دقيقة</span></div><h3>جلسة سريعة</h3><div class="sub">تحفظ سلسلتك في الأيام المزدحمة</div></button>`);
-  tiles.push(`<button class="tile quick" id="qC"><div class="hd"><span class="badge">${ic('target')}</span><span class="sub">2 د</span></div><h3>تمرين التحكم</h3><div class="sub">انقباضات سريعة ثم ثبات — للتحكم في القذف</div></button>`);
-  tiles.push(`<button class="tile quick" id="q2"><div class="hd"><span class="badge">${ic('flame')}</span><span class="sub">${plan.flicks||30}</span></div><h3>النيران السريعة</h3><div class="sub">${plan.flicks||30} انقباضة: ضغط وإرخاء كل ثانية</div></button>`);
-  tiles.push(`<button class="tile quick" id="qB"><div class="hd"><span class="badge">${hi('lungs')}</span><span class="sub">${S.br.min} د</span></div><h3>تنفّس القلب</h3><div class="sub">${S.br.bpm} أنفاس/د · هذا الأسبوع ${Math.min(breathDays(addDays(today(),-6),today()),7)} من 3 أيام</div></button>`);
-  if(S.diabetes){ const lg=gLast(); tiles.push(`<button class="tile glu" id="tG"><div class="hd"><span class="badge">${ic('drop')}</span><span class="sub">${lg?GCTXN[lg.ctx]||'':''}</span></div><h3>السكر</h3><div class="big ${lg?gClass(lg.v):''}">${lg?gfmt(lg.v):'—'}<small style="font-size:12px;font-weight:500" class="muted"> ${GU()}</small></div><div class="sub">${lg?'منذ '+ago(lg.ts):'سجّل أول قراءة'}</div></button>`); }
+  const hm2=[];
+  // الماء هنا فقط لمن يتابع السكر (لغيره يظهر في البطاقات العلوية)
+  if(S.diabetes && S.water.on) hm2.push(`<div class="hmini water"><button class="scov" id="tW" aria-label="الماء — التفاصيل"></button><span class="hd"><span class="badge">${ic('drop')}</span><button class="splus" id="wPlus" aria-label="أضف كوب ماء">${ic('plus')}</button></span><b class="ht">الماء</b><span class="hv">${w}<small> / ${wg}</small></span><span class="mini"><i style="width:${Math.min(100,w/wg*100)}%"></i></span></div>`);
+  if(S.heart.on) hm2.push(`<button class="hmini heart" id="tH"><span class="hd"><span class="badge">${hi('heartOrgan')}</span><span class="sub">${hd} من ${HEART.length}</span></span><b class="ht">القلب والأداء</b><span class="sub">${hd===HEART.length?'أكملت عادات اليوم':HEART.filter(([k])=>!ht[k]).map(x=>x[2].split(' ').slice(0,2).join(' ')).slice(0,2).join(' · ')}</span><span class="mini"><i style="width:${hd/HEART.length*100}%"></i></span></button>`);
+  if(S.smoke.on||S.smokeManual) hm2.push(`<button class="hmini smoke" id="tS"><span class="hd"><span class="badge">${hi('noSmoke')}</span><span class="sub">${sk.ok} ناجحة</span></span><b class="ht">بلا تدخين</b>${sw?`<span class="hv" id="smkT">${Math.floor((sw.end-Date.now())/6e4)}:${pad(Math.floor((sw.end-Date.now())/1e3)%60)}</span><span class="sub">فترة جارية — استمر</span>`:`<span class="sub">${snx?'الفترة التالية '+hm(new Date(snx).getHours()*60+new Date(snx).getMinutes()):''}</span>`}<span class="mini"><i style="width:${sw?Math.min(100,(Date.now()-sw.start)/(sw.end-sw.start)*100):0}%"></i></span></button>`);
+  const habits = hm2.length?`<section class="dcard"><div class="dh"><h2>${ic('leaf')} عادات اليوم</h2></div><div class="habits${hm2.length===1?' one':hm2.length===3?' three':''}">${hm2.join('')}</div></section>`:'';
   app.innerHTML=`
-  ${dashHTML(plan,done,dayDone,idx)}
-  ${S.progDay>=180?'<div class="warn">وصلت لنهاية البرنامج — استمر بجلسات الصيانة يوميًا.</div>':''}
-  ${recover}${adv}${profCard()}${tutCard()}${ramAskCard()}${ramadanCard()}${testCard()}
-  <div class="sec"><h2>خطة اليوم</h2><span>${done} من ${plan.n} جلسات</span></div>
-  <div class="card plan">${planRows}</div>
-  <div class="sec"><h2>عاداتك الصحية</h2><span>اضغط للتفاصيل</span></div>
-  <div class="tiles">${tiles.join('')}</div>`;
-  bindDash(); bindProfCard(); bindTutCard();
-  const go=$('#go'); if(go) go.onclick=()=>startSession('daily',plan,idx);
-  const ex=$('#extra'); if(ex) ex.onclick=()=>startSession('quick');
-  const qb=$('#qBack'); if(qb) qb.onclick=()=>startSession('quick');
-  $('#q1').onclick=()=>startSession('quick'); $('#q2').onclick=()=>startSession('rapidq',plan); $('#qB').onclick=()=>breathSheet(); $('#qC').onclick=()=>startSession('control');
-  const tSt=$('#tSt'); if(tSt) tSt.onclick=()=>stepsSheet(); const tG=$('#tG'); if(tG) tG.onclick=()=>gluSheet();
-  const tc=$('#tcGo'); if(tc) tc.onclick=()=>startTest();
-  const rs=$('#ramSet'); if(rs) rs.onclick=ramSheet; bindRamAsk(); const rg=$('#ramG'); if(rg) rg.onclick=()=>gluSheet();
+  ${dashHTML(plan,done,dayDone,idx,{pills,habits,banner:(S.progDay>=180?'<div class="warn">وصلت لنهاية البرنامج — استمر بجلسات الصيانة يوميًا.</div>':'')+homeBanner(dayDone,gap,last)})}`;
+  bindDash(); bindProfCard(); bindTutCard(); bindRamAsk();
+  const on=(id,f)=>{ const e=$(id); if(e) e.onclick=f; };
+  on('#go',()=>startSession('daily',plan,idx));
+  on('#extra',()=>startSession('quick')); on('#qBack',()=>startSession('quick'));
+  on('#qMore',()=>quickSheet(plan));
+  on('#tSt',()=>stepsSheet()); on('#tSl',()=>stepsSheet()); on('#tG',()=>gluSheet());
+  on('#tAd',()=>{ tab='prog'; render(); window.scrollTo(0,0); });
+  on('#tcGo',()=>startTest());
+  on('#ramSet',ramSheet); on('#ramG',()=>gluSheet());
   if(S.hc.on) hcSync().then(ch=>{ if(ch&&screen==='tabs'&&tab==='home') renderHome(); });
   const wp=$('#wPlus'); if(wp) wp.onclick=e=>{ e.stopPropagation(); addWater(1); render(); };
-  const tW=$('#tW'); if(tW) tW.onclick=()=>waterSheet();
-  const tH=$('#tH'); if(tH) tH.onclick=()=>heartSheet();
-  const tS=$('#tS'); if(tS) tS.onclick=()=>smokeSheet();
+  on('#tW',()=>waterSheet()); on('#tH',()=>heartSheet()); on('#tS',()=>smokeSheet());
   if(document.getElementById('smkT') && !_smkTimer) _smkTimer=setInterval(tickSmoke,1000);
-  const ay=$('#advY'); if(ay) ay.onclick=()=>{ if(S.progDay<180) S.progDay++; S.suggestAdvance=false; save(); toast('تقدّمت إلى اليوم '+S.progDay); render(); };
-  const an=$('#advN'); if(an) an.onclick=()=>{ S.suggestAdvance=false; save(); render(); };
+  on('#advY',()=>{ if(S.progDay<180) S.progDay++; S.suggestAdvance=false; save(); toast('تقدّمت إلى اليوم '+S.progDay); render(); });
+  on('#advN',()=>{ S.suggestAdvance=false; save(); render(); });
 }
 function waterSheet(){
   modal(`<div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0;background:var(--waterSoft);color:var(--water)">${ic('drop')}</span><h3 style="margin:0">الماء اليوم</h3></div>${IMG('water','sm')}
@@ -2650,15 +2708,6 @@ function bindRamAsk(){ const w=ramWindow(); const done=(m)=>{ save(); reschedule
   on('#reY',()=>{ S.ram.end=addDays(today(),1); done('عيدك مبارك — تعود تذكيراتك المعتادة بعد رمضان'); });
   on('#reN',()=>{ S.ram.end=addDays(today(),2); done('غدًا آخر أيام رمضان'); }); }
 const ramWaterSlots=()=>{ let a=toMin(S.ram.iftar), b=toMin(S.ram.suhoor); if(b<=a) b+=1440; const out=[]; for(let m=a+15;m<=b-10&&out.length<S.water.goal;m+=Math.max(45,Math.floor((b-a-25)/Math.max(1,S.water.goal-1)))) out.push(m%1440); return out; };
-function ramadanCard(){
-  if(!ramadanOn()) return '';
-  const lg=gLast(), dm=S.diabetes;
-  return `<div class="card ramc"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${ic('moon')}</span><div style="flex:1"><b>وضع رمضان</b><p class="small muted" style="margin:2px 0 0">الإفطار ${S.ram.iftar} · السحور ${S.ram.suhoor} · ${hijriToday()}</p></div><button class="iconbtn" id="ramSet" aria-label="إعداد وضع رمضان">${ic('set')}</button></div>
-   ${dm?`<div class="warn small" style="margin-top:10px"><b>أفطر فورًا</b> إذا كان السكر أقل من ${gfmt(70)} أو أعلى من ${gfmt(300)} ${GU()}، أو شعرت بأعراض الانخفاض. قياس السكر لا يُفطر.</div>
-   <p class="small" style="margin:8px 0 0">قِس: قبل السحور، منتصف النهار، قبل الإفطار، وبعد الإفطار بساعتين.${lg?' آخر قراءة: <b>'+gfmt(lg.v)+'</b>':''}</p>
-   <button class="btn accent sm" id="ramG" style="margin-top:8px">${ic('drop')}سجّل قراءة</button>`:'<p class="small" style="margin:8px 0 0">تذكيرات الماء الآن بين الإفطار والسحور، والرياضة الخفيفة بعد الإفطار بساعتين.</p>'}
-  </div>`;
-}
 function ramSheet(){
   modal(`<form id="rmF" aria-labelledby="rmH"><h3 id="rmH">وضع رمضان</h3>
     <fieldset class="radios seg2"><legend>التفعيل</legend>${[['auto','يعمل في رمضان'],['off','متوقف']].map(([v,n])=>`<label><input type="radio" name="md" value="${v}" ${S.ram.mode!=='off'===(v==='auto')?'checked':''}> ${n}</label>`).join('')}</fieldset>

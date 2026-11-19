@@ -630,3 +630,10 @@ Stafford RE et al. Neurourol Urodyn 2016 — أثر التعليمات اللف�
 شدة 3 من 10|effort 3 of 10
 اليوم|Today
 واحد|one
+جلسة 1|Session {n}
+تمارين أخرى|More exercises
+عادات اليوم|Today's habits
+إضافية — لا تحل محل جلسات اليوم.|Extra — they don't replace today's sessions.
+جلسات اليوم|Today's sessions
+الماء — التفاصيل|Water — details
+الإرشادات|Guidelines
