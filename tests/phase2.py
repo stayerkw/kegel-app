@@ -105,6 +105,15 @@ async def main():
         check('التقرير الأسبوعي: بلا بيانات الملف', 'العمر' not in await pg.evaluate("reportText(7,false)"))
         await pg.close()
 
+        # رمضان: البطاقة لا تظهر خارج رمضان، وتظهر في أيامه فقط
+        for when, want in [('2026-11-19T10:00:00', False), ('2027-01-20T10:00:00', False), ('2027-02-20T10:00:00', True), ('2027-03-25T10:00:00', False)]:
+            pg2 = await b.new_page(viewport={'width': 390, 'height': 844})
+            await pg2.clock.install(time=when)
+            await pg2.add_init_script(MOCK + SPY + ";localStorage.setItem('kegel_v1'," + json.dumps(json.dumps(dict(BASE, diabetes=True, country='KW'))) + ")")
+            await pg2.goto(URL); await pg2.wait_for_timeout(600)
+            got = await pg2.evaluate("(tab='home',render(),!!document.querySelector('.rpromo'))")
+            check(f'رمضان: بطاقة الصيام في {when[:10]} = {want}', got == want, got)
+            await pg2.close()
         await b.close()
     bad = [n for n, ok in results if not ok]
     print(f'\n{len(results)-len(bad)}/{len(results)} passed')

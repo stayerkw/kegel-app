@@ -6,3 +6,4 @@ www/capacitor.js
 *.keystore
 *.p12
 keystore.properties
+__pycache__/

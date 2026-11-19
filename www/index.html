@@ -1343,7 +1343,8 @@ function dashHTML(plan,done,dayDone,idx){
     :stat('water',ic('drop'),waterToday(),'/ '+S.water.goal,'أكواب الماء','');
   const s4=`<div class="scard adh"><span class="sic gold">${ic('trophy')}</span><div class="sv"><b>${adh==null?'—':Math.round(adh*100)+'%'}</b><span>الالتزام الأسبوعي</span>${adh!=null&&adhPrev!=null?delta(Math.round((adh-adhPrev)*100)):''}</div><svg class="sring" viewBox="0 0 56 56" aria-hidden="true">${ring(adh,22,6,'var(--accent2)')}</svg></div>`;
   const dpct=Math.round(done/plan.n*100), workImg=isFem()?'<img src="img/ui/workout_f.webp" alt="" class="wimg" decoding="async">':IMG('posture','wimg');
-  const ramShow=(ramWindow()&&!ramadanOn())||(!ramWindow()&&S.diabetes&&(CTRY[ctry()]||[])[3]);
+  // بطاقة رمضان تظهر في أيام رمضان فقط (ramadanOn يحترم إيقاف الوضع من الإعدادات وتأكيد المستخدم لبداية الشهر ونهايته)
+  const ramShow=ramadanOn();
   return `<header class="dhero">
    <div class="dtop"><button class="dav" id="dAv" aria-label="الإعدادات">${ic('user')}</button>
     <button class="dbell" id="dBell" aria-label="المهام القادمة">${ic('bell')}${soon?`<b>${soon}</b>`:''}</button>
@@ -2837,7 +2838,8 @@ if(LN){
 /* ============ تشغيل ============ */
 startL10n();
 rollover(); render();
-if(!S.ctryInit){ S.ctryInit=1; const c=detectCountry(); if(!S.onboarded&&c&&CTRY[c]) S.gUnit=CTRY[c][1]; if(c&&CTRY[c]&&!CTRY[c][3]) S.ram.mode='off'; save(); }
+// الدولة التي اختارها المستخدم أولًا، ثم المكتشفة
+if(!S.ctryInit){ S.ctryInit=1; const c=ctry(); if(!S.onboarded&&c&&CTRY[c]) S.gUnit=CTRY[c][1]; if(c&&CTRY[c]&&!CTRY[c][3]) S.ram.mode='off'; save(); }
 if(S.onboarded) scheduleReminders();
 if(S.doc&&S.doc.pend) setTimeout(docConfirm,1500);
 if(S.lock){ applySecure(); showLock(); }
