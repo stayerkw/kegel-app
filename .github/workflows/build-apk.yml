@@ -77,6 +77,19 @@ jobs:
           cd android && chmod +x gradlew && ./gradlew assembleRelease bundleRelease --no-daemon
           grep -n "targetSdkVersion" variables.gradle || true
 
+      - name: فحص جاهزية المتجر
+        env:
+          PROD: ${{ github.event.inputs.production == 'true' }}
+        run: |
+          # كل بند غير مؤشَّر في PLAY_CHECKLIST.md يظهر تنبيهًا في نسخة المتجر
+          OPEN=$(grep -c '^- \[ \]' PLAY_CHECKLIST.md || true)
+          if [ "$PROD" = "true" ] && [ "$OPEN" -gt 0 ]; then
+            grep '^- \[ \]' PLAY_CHECKLIST.md | sed 's/^- \[ \] //; s/\*\*//g; s/`//g' | cut -c1-300 | while read -r L; do
+              echo "::warning title=قبل النشر على Google Play::$L"
+            done
+            { echo "## قبل النشر على Google Play: $OPEN بند مفتوح"; grep '^- \[ \]' PLAY_CHECKLIST.md; } >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: التوقيع
         env:
           KS_B64: ${{ secrets.KEYSTORE_B64 }}
