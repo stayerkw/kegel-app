@@ -630,3 +630,307 @@ Stafford RE et al. Neurourol Urodyn 2016 — أثر التعليمات اللف�
 شدة 3 من 10|effort 3 of 10
 اليوم|Today
 واحد|one
+جلسة 1|Session {n}
+تمارين أخرى|More exercises
+عادات اليوم|Today's habits
+إضافية — لا تحل محل جلسات اليوم.|Extra — they don't replace today's sessions.
+جلسات اليوم|Today's sessions
+الماء — التفاصيل|Water — details
+الإرشادات|Guidelines
+نصف حبة أفوكادو مع السلطة، وملعقة زيت زيتون بكر.|Half an avocado with salad, and a spoon of extra-virgin olive oil.
+توت أو فراولة أو عنب أحمر أو برتقال — كاملة لا عصير.|Berries, strawberries, red grapes or oranges — whole, not juice.
+توت أو فراولة أو عنب أحمر أو برتقال — كاملة لا عصير، مع حفنة مكسرات.|Berries, strawberries, red grapes or oranges — whole, not juice, with a handful of nuts.
+توت أو فراولة أو عنب أحمر أو برتقال — كاملة لا عصير، مع زبادي.|Berries, strawberries, red grapes or oranges — whole, not juice, with yogurt.
+ويدجت محايد|Discreet widget
+يخفي النصوص من ويدجت الشاشة الرئيسية ويبقي الحلقات والأرقام|Hides text on the home-screen widget, keeping only rings and numbers
+المس الشاشة للعودة|Tap the screen to return
+المس للعودة إلى التمرين|Tap to return to the workout
+تعتيم الشاشة (وضع الجيب)|Dim screen (pocket mode)
+فحص الأسبوع|Weekly check-in
+فحص الأسبوع (دقيقة)|Weekly check-in (1 min)
+فحص الأسبوع الآن|Weekly check-in now
+أعد فحص هذا الأسبوع|Redo this week's check-in
+مقارنة بأول فحص|Compared with first check-in
+التسرّب|Leakage
+التنقيط|Dribble
+التنقيط بعد التبول|Post-void dribble
+صلابة الانتصاب|Erection hardness
+الانتصاب الصباحي|Morning erections
+مرات التسرّب|Leak episodes
+أطول ثبات|Longest hold
+أطول ثبات (ث)|Longest hold (s)
+انقباضات سريعة|Quick flicks
+لم يتغير|No change
+لم يحدث|None
+1–2 مرات|1–2 times
+3–6 مرات|3–6 times
+يوميًا تقريبًا|Almost daily
+أحيانًا|Sometimes
+غالبًا|Often
+لا يحدث انتصاب|No erection
+يكبر لكنه غير صلب|Larger but not hard
+صلب لكن غير كافٍ للإيلاج|Hard but not enough for penetration
+كافٍ للإيلاج لكن غير صلب تمامًا|Enough for penetration but not fully hard
+صلب تمامًا|Fully hard
+لم تكن هناك محاولة|No attempt this week
+لم ألاحظ|None noticed
+1–2 صباح|1–2 mornings
+3–4 صباحات|3–4 mornings
+5 أو أكثر|5 or more
+كم مرة تسرّب منك البول هذا الأسبوع؟|How many times did you leak urine this week?
+هل حدث تنقيط بعد انتهاء التبول؟|Did you have dribbling after you finished urinating?
+عندما حاولت هذا الأسبوع، ما صلابة الانتصاب؟|When you tried this week, how hard was your erection?
+في كم صباح لاحظت انتصابًا صباحيًا هذا الأسبوع؟|On how many mornings did you notice a morning erection this week?
+أضيف سؤالين اختياريين عن الانتصاب؟|Add two optional questions about erections?
+صلابة الانتصاب والانتصاب الصباحي من أوضح مؤشرات صحة الأوعية، ويفيدان طبيبك. يمكنك إيقافهما في أي وقت.|Erection hardness and morning erections are clear signs of blood-vessel health and help your doctor. You can turn them off at any time.
+نعم، أضفهما|Yes, add them
+لا، ولا تسألني مجددًا|No, and don't ask again
+نقارن إجاباتك بأسبوعك الأول لنريك تقدّمك الحقيقي. الإجابات على جهازك فقط.|We compare your answers with your first week to show your real progress. Answers stay on your device.
+أول فحص هو نقطة البداية التي نقيس عليها تقدّمك. الإجابات على جهازك فقط.|Your first check-in is the starting point we measure your progress against. Answers stay on your device.
+اختر إجابة سؤال التسرّب|Choose an answer for the leakage question
+حُفظ فحص الأسبوع|Weekly check-in saved
+أين يظهر تحسنك أولًا؟|Where will you see improvement first?
+لهدف الانتصاب: صلابة الانتصاب والانتصاب الصباحي، ويدعمهما الالتزام والمشي.|For erections: erection hardness and morning erections, supported by consistency and walking.
+لهدف التحكم بالمثانة: عدد مرات التسرّب.|For bladder control: number of leak episodes.
+لهدف التحكم بالمثانة: عدد مرات التسرّب والتنقيط بعد التبول.|For bladder control: leak episodes and post-void dribble.
+للتحكم في القذف: الثبات الأطول والانقباضات السريعة في اختبار القوة.|For ejaculation control: longer holds and quick flicks in the strength test.
+بعد الولادة ودعم الحوض: الثبات التدريجي في اختبار القوة، ثم التسرّب.|After childbirth and for pelvic support: gradual hold time in the strength test, then leakage.
+للياقة العامة: أطول ثبات وعدد الانقباضات السريعة.|For general fitness: longest hold and number of quick flicks.
+كل المؤشرات: أسبوعك الأول ↔ الآن|All measures: your first week ↔ now
+نحتاج قياسًا ثانيًا لنقارن. أكمل فحص الأسبوع القادم واختبار القوة كل أسبوعين.|We need a second measurement to compare. Do next week's check-in and the strength test every two weeks.
+ابدأ بفحص الأسبوع واختبار القوة لنحفظ نقطة البداية.|Start with the weekly check-in and the strength test to save your starting point.
+الأرقام لم تتحسن بعد.|The numbers haven't improved yet.
+راجع التدريب التفاعلي للتأكد أنك تشدّ العضلة الصحيحة دون الأرداف أو حبس النفس.|Review the interactive training to make sure you squeeze the right muscle without your buttocks or holding your breath.
+مرّ 12 أسبوعًا دون تحسن واضح: يُنصح بمراجعة طبيب أو أخصائي علاج طبيعي لقاع الحوض.|12 weeks without clear improvement: see a doctor or a pelvic floor physiotherapist.
+نتائج اختبار القوة|Strength test results
+منحنى أطول ثبات والانقباضات السريعة عبر الاختبارات|Chart of longest hold and quick flicks across tests
+أنماط الانتصاب الصباحي|Morning erection patterns
+لا يظهر نمط واضح في بياناتك حتى الآن.|No clear pattern in your data yet.
+في الأسابيع التي نمت فيها 7 ساعات أو أكثر، كان الانتصاب الصباحي أكثر تكرارًا.|In weeks when you slept 7 hours or more, morning erections were more frequent.
+في الأسابيع التي نمت فيها أقل من 7 ساعات، كان الانتصاب الصباحي أكثر تكرارًا.|In weeks when you slept under 7 hours, morning erections were more frequent.
+في أسابيع الالتزام العالي بالتمارين، كان الانتصاب الصباحي أكثر تكرارًا.|In weeks of high exercise consistency, morning erections were more frequent.
+الالتزام بالتمارين لم يرتبط بزيادة الانتصاب الصباحي حتى الآن.|Exercise consistency hasn't been linked to more morning erections so far.
+في الأسابيع التي كان سكرك فيها ضمن النطاق أغلب الوقت، كان الانتصاب الصباحي أكثر تكرارًا.|In weeks when your glucose was in range most of the time, morning erections were more frequent.
+ارتفاع السكر لم يرتبط بتراجع الانتصاب الصباحي في بياناتك حتى الآن.|High glucose hasn't been linked to fewer morning erections in your data so far.
+في الأسابيع التي مشيت فيها 3 أيام أو أكثر، كان الانتصاب الصباحي أكثر تكرارًا.|In weeks when you walked 3 days or more, morning erections were more frequent.
+المشي لم يرتبط بزيادة الانتصاب الصباحي في بياناتك حتى الآن.|Walking hasn't been linked to more morning erections in your data so far.
+تراجع الانتصاب الصباحي بوضوح في الأسابيع الأخيرة. هذا مؤشر يستحق مراجعة الطبيب، لأنه قد يرتبط بالأوعية الدموية أو الهرمونات.|Morning erections have clearly dropped in recent weeks. This is worth a doctor's visit, as it can be linked to blood vessels or hormones.
+ماذا تتوقع ومتى؟|What to expect, and when?
+الأسبوع الأول|Week 1
+تعلّم الشد الصحيح. الحركة الذكية قبل الكحة قد تقلل التسرّب من الأسبوع الأول نفسه.|Learn the correct squeeze. The Knack before a cough can reduce leakage from the very first week.
+الأسابيع 2–11|Weeks 2–11
+بناء القوة بالتكرار اليومي. يلاحظ بعض الناس تحسنًا قبل نهاية هذه المرحلة، لكن لا تحكم مبكرًا.|Build strength with daily repetition. Some people notice improvement before the end of this stage, but don't judge too early.
+الأسبوع 12 (3 أشهر)|Week 12 (3 months)
+المدة التي توصي الإرشادات بتقييم النتيجة عندها، وفيها ظهر تحسن الانتصاب في الدراسات.|The point at which guidelines recommend assessing results, and when erections improved in studies.
+بعد 3 أشهر|After 3 months
+استمر للحفاظ على النتيجة. إن لم تلاحظ أي تحسن رغم الالتزام، راجع طبيبًا أو أخصائي علاج طبيعي لقاع الحوض.|Keep going to maintain results. If you notice no improvement despite consistency, see a doctor or a pelvic floor physiotherapist.
+هذه مدد تقريبية من الدراسات، وليست وعدًا مضمونًا — الاستجابة تختلف من شخص لآخر.|These are approximate timeframes from studies, not a guarantee — responses vary from person to person.
+الحركة الذكية: شدّ قبل الكحة|The Knack: squeeze before you cough
+بلا شد|No squeeze
+مع الشد قبل الكحة|Squeezing before the cough
+بلا شد: الضغط يدفع للأسفل. مع الشد المسبق: الأرجوحة ترتفع وتصدّ الضغط|No squeeze: pressure pushes down. With a pre-squeeze: the sling lifts and blocks the pressure
+ذكرت ألمًا في الحوض أو جراحة حديثة أو صعوبة في إفراغ المثانة. الانقباضات الإضافية قد تزيد الإجهاد أو الألم، فاسأل طبيبك أو أخصائي العلاج الطبيعي أولًا.|You mentioned pelvic pain, recent surgery or difficulty emptying your bladder. Extra contractions may add strain or pain, so ask your doctor or physiotherapist first.
+قبل أي ضغط مفاجئ على البطن — كحة، عطسة، ضحكة، رفع شيء ثقيل، أو النهوض من الجلوس — اشدد قاع الحوض|Before any sudden pressure on your belly — a cough, sneeze, laugh, lifting something heavy, or standing up — squeeze your pelvic floor
+قبلها بثانية|a second before
+وأبقه مشدودًا حتى تنتهي. الضغط ينزل من البطن، والعضلة المشدودة مسبقًا تصدّه.|and keep it squeezed until it's over. Pressure comes down from the belly, and the pre-squeezed muscle blocks it.
+شدّ خفيف وقصير، والتنفس مستمر.|A light, short squeeze, and keep breathing.
+اكحّ وأنت ما زلت شادًّا.|Cough while still squeezing.
+أفلت ببطء بعد انتهاء الكحة.|Release slowly after the cough.
+في دراسة عشوائية، قلّت كمية التسرّب مع الكحة المتوسطة بشكل كبير بعد أسبوع واحد من تعلّم هذه الحركة.|In a randomized study, leakage with a medium cough dropped substantially one week after learning this move.
+ذكّرني مرتين يوميًا في أوقات متغيرة (ليس وقت النوم)|Remind me twice a day at varying times (not during sleep)
+تمرين موجّه (دقيقة)|Guided practice (1 min)
+استعد|Get ready
+تنفّس طبيعيًا|Breathe normally
+اشدّ الآن|Squeeze now
+شدّ خفيف وثابت|Light, steady squeeze
+اكحّ كحة خفيفة|Give a light cough
+وأنت ما زلت شادًّا|while still squeezing
+أفلت ببطء|Release slowly
+دع العضلة ترتخي بالكامل|Let the muscle relax completely
+راحة|Rest
+أحسنت|Well done
+استخدمها قبل كل كحة أو عطسة أو رفع شيء ثقيل حتى تصبح تلقائية.|Use it before every cough, sneeze or heavy lift until it becomes automatic.
+إنهاء|Finish
+عصرة ما بعد التبول|Post-void squeeze
+بعد التبول تبقى قطرات في المجرى، والشدّة تدفعها للخارج|After urinating, drops stay in the urethra, and the squeeze pushes them out
+الشدّة|Squeeze
+للخارج|Out
+ذكرت ألمًا مزمنًا في الحوض أو صعوبة في إفراغ المثانة. التنقيط هنا قد يكون له سبب يحتاج تقييمًا، فراجع طبيب المسالك قبل هذه الحركة.|You mentioned chronic pelvic pain or difficulty emptying your bladder. Dribbling may then have a cause that needs assessment, so see a urologist before trying this.
+بعد انتهاء التبول تبقى قطرات في المجرى وتخرج لاحقًا على الملابس. الحل يستغرق ثوانٍ:|After you finish urinating, drops stay in the urethra and later leak onto your clothes. The fix takes seconds:
+بعد آخر قطرة، انتظر ثانيتين.|After the last drop, wait two seconds.
+اشدد قاع الحوض بقوة مرة أو مرتين — كأنك تعصر المجرى من الداخل.|Squeeze your pelvic floor firmly once or twice — as if milking the urethra from inside.
+أو بديلًا: ضع إصبعين خلف كيس الصفن واضغط برفق، ثم مرّرهما للأمام نحو القضيب.|Or instead: place two fingers behind the scrotum, press gently, and slide them forward toward the penis.
+في تجربتين عشوائيتين، خفّفت تمارين قاع الحوض مع «العصرة» التنقيط بعد التبول لدى أغلب المشاركين خلال 3 أشهر.|In two randomized trials, pelvic floor exercises with the "squeeze-out" relieved post-void dribble in most participants within 3 months.
+ذكّرني بها لمدة أسبوعين حتى تصبح عادة|Remind me for two weeks until it's a habit
+عوامل قد تؤثر على الانتصاب|Factors that may affect erections
+اختر ما ينطبق عليك. نضيف الخلاصة إلى تقرير الطبيب ليناقشها معك. يبقى على جهازك فقط.|Choose what applies to you. We add a summary to your doctor report to discuss with you. It stays on your device.
+أدوية|Medications
+نمط الحياة|Lifestyle
+مدرّات البول للضغط (مثل هيدروكلوروثيازيد)|Blood-pressure water pills (e.g. hydrochlorothiazide)
+حاصرات بيتا (مثل أتينولول وميتوبرولول)|Beta-blockers (e.g. atenolol, metoprolol)
+مضادات الاكتئاب أو القلق|Antidepressants or anti-anxiety medicines
+أدوية البروستاتا (فيناسترايد أو دوتاسترايد)|Prostate medicines (finasteride or dutasteride)
+مسكنات قوية (أفيونية) لفترة طويلة|Strong (opioid) painkillers long-term
+مضادات الحساسية المنوّمة أو أدوية الحموضة القديمة|Sedating antihistamines or older heartburn medicines
+التدخين أو النيكوتين|Smoking or nicotine
+الكحول|Alcohol
+ركوب الدراجة لفترات طويلة بمقعد ضيق|Long cycling on a narrow saddle
+الجلوس الطويل معظم اليوم|Sitting most of the day
+قلة النوم المزمنة|Chronic lack of sleep
+توتر مرتفع أو قلق من الأداء|High stress or performance anxiety
+لا توقف أي دواء بنفسك.|Don't stop any medicine on your own.
+بعض الأدوية خطرة إن أُوقفت فجأة. اسأل طبيبك عن بديل إن ظننت أن دواءً يؤثر عليك.|Some medicines are dangerous to stop suddenly. Ask your doctor about an alternative if you think a medicine affects you.
+حُفظ — سيظهر في تقرير الطبيب|Saved — it will appear in your doctor report
+أدوية وعادات شائعة تؤثر على الانتصاب ويمكن علاج أغلبها. راجعها قبل زيارة الطبيب.|Common medicines and habits that affect erections, most of them treatable. Review them before seeing your doctor.
+لم تختر أي عامل.|You haven't chosen any factor.
+راجعها الآن|Review now
+تعديل|Edit
+الحركة الذكية|The Knack
+شدّ قبل الكحة والرفع — يقلل التسرّب|Squeeze before coughing and lifting — reduces leakage
+شدّ قبل الكحة والعطس والرفع|Squeeze before coughing, sneezing and lifting
+ثوانٍ|Seconds
+توقف التنقيط على الملابس|Stop dribbling on your clothes
+الحركة الذكية قبل الكحة|The Knack before a cough
+درس قصير وتمرين موجّه|Short lesson and guided practice
+توقف التنقيط في ثوانٍ|Stop dribbling in seconds
+جدول زمني صادق للنتائج|An honest timeline of results
+الحركة الذكية: شدّ قبل الضغط|The Knack: squeeze before pressure
+سنذكّرك بها مرتين يوميًا في أوقات متغيرة. يمكنك إيقاف التذكير من الإعدادات.|We'll remind you twice a day at varying times. You can turn the reminder off in Settings.
+تذكير الحركة الذكية|Knack reminder
+مرتين يوميًا في أوقات متغيرة: شدّ قبل الكحة والرفع|Twice a day at varying times: squeeze before coughing and lifting
+أسئلة الانتصاب في فحص الأسبوع|Erection questions in the weekly check-in
+اختيارية — صلابة الانتصاب والانتصاب الصباحي|Optional — erection hardness and morning erections
+فُعّلت الأسئلة|Questions turned on
+أُوقفت الأسئلة وحُذفت إجاباتها|Questions turned off and their answers deleted
+يُحذف العمر والحالات والحساسية وإجابات فحص الأسبوع وعوامل الانتصاب.|Deletes age, conditions, allergies, weekly check-in answers and erection factors.
+ألم في الصدر أو ضيق نفس أو دوخة أثناء الجهد الجنسي|Chest pain, breathlessness or dizziness during sexual exertion
+يستدعي تقييمًا قلبيًا قبل الاستمرار — ضعف الانتصاب نفسه قد يسبق أمراض القلب بسنوات.|needs a heart evaluation before continuing — erectile problems themselves can precede heart disease by years.
+حاصرات بيتا قد تُخفي أعراض الانخفاض مثل الرجفة وتسارع القلب — اعتمد على القياس لا على الإحساس.|Beta-blockers can mask low-sugar symptoms such as shaking and a racing heart — rely on the reading, not on how you feel.
+يمكنك البدء.|You can start.
+بدون إنسولين أو حبوب تُنزل السكر بشدة، يندر أن ينخفض السكر أثناء الرياضة. احمل معك مصدر سكر سريع احتياطًا، وتوقف إن شعرت بارتجاف أو تعرّق أو دوخة.|Without insulin or pills that can drop glucose sharply, lows during exercise are rare. Carry fast-acting sugar just in case, and stop if you feel shaky, sweaty or dizzy.
+توقفت بسبب ألم|I stopped because of pain
+1. استلقِ على جنبك الأيسر ووسادة بين ركبتيك|1. Lie on your left side with a pillow between your knees
+أثناء الحمل يُفضَّل الجنب بدل الظهر، خاصة بعد الأشهر الثلاثة الأولى، لأن الاستلقاء الطويل على الظهر قد يضغط على الأوعية الكبيرة. ويمكنك التمرين جالسة أيضًا.|During pregnancy, lying on your side is preferred over your back, especially after the first trimester, as lying flat on your back for long can press on large blood vessels. You can also exercise seated.
+على الجنب|on your side
+استلقِ على جنبك الأيسر، ووسادة بين ركبتيك.|Lie on your left side, with a pillow between your knees.
+استلقِ على جنبك أو اجلس|Lie on your side or sit
+أستخدم دواءً من حاصرات بيتا (مثل بيسوبرولول أو أتينولول)|I take a beta-blocker (e.g. bisoprolol or atenolol)
+صعوبة في إفراغ المثانة، أو تدفق بول ضعيف جدًا|Difficulty emptying the bladder, or a very weak urine stream
+لا تجربها والمثانة ممتلئة جدًا، ولا إن كان لديك تضخم في البروستاتا أو التهابات بولية متكررة.|Don't try it with a very full bladder, or if you have an enlarged prostate or recurrent urinary infections.
+قبل الحركة الذكية|Before the Knack
+بعض الحالات تحتاج تقييم مختص قبل إضافة انقباضات جديدة.|Some conditions need a specialist's assessment before adding new contractions.
+قبل عصرة ما بعد التبول|Before the post-void squeeze
+بعض الحالات تحتاج تقييم مختص أولًا.|Some conditions need a specialist's assessment first.
+توقّف التنقيط بعد التبول|Stop post-void dribble
+ذكرت تنقيطًا بعد التبول. حركة تستغرق ثوانٍ تحل أغلب الحالات.|You mentioned dribbling after urinating. A move that takes seconds solves most cases.
+كيف؟|How?
+ذكرت تسرّبًا هذا الأسبوع. شدّة قبل الكحة بثانية تقلله من الأسبوع الأول.|You mentioned leakage this week. A squeeze one second before a cough reduces it from the first week.
+تعلّمها|Learn it
+أسئلة قصيرة نقارن بها أسبوعك الأول لنريك تقدّمك الحقيقي.|Short questions we compare with your first week to show your real progress.
+أجب عن أسئلة قصيرة لنحفظ نقطة البداية ونقيس عليها تقدّمك.|Answer short questions to save your starting point and measure progress against it.
+أسئلة قصيرة تقيس تقدّمك الحقيقي مقارنة بأسبوعك الأول.|Short questions that measure your real progress against your first week.
+عادة جديدة: بعد التبول|New habit: after urinating
+شدّة أو اثنتان لقاع الحوض بعد آخر قطرة — تُخرج المتبقي وتمنع التنقيط.|One or two pelvic floor squeezes after the last drop — push out what's left and stop dribbling.
+تنبيه|Alert
+إغلاق|Close
+أعد الاختبار الآن|Retake the test now
+ما الذي يحسّن الانتصاب والتحكم فعلًا؟ كل نقطة من دراسة منشورة.|What actually improves erections and control? Every point comes from a published study.
+الحركة الذكية قبل الكحة قد تقلل التسرّب من|The Knack before a cough can reduce leakage from
+(Miller 1998). أما تقوية العضلة نفسها فتحتاج تكرارًا يوميًا، وتوصي الإرشادات بتقييم النتيجة بعد|(Miller 1998). Strengthening the muscle itself takes daily repetition, and guidelines recommend assessing results after
+3 أشهر على الأقل|at least 3 months
+(NICE NG123)، وهي المدة التي ظهر فيها تحسن الانتصاب في الدراسات (Dorey 2005). يلاحظ بعض الناس تحسنًا قبل ذلك. لذلك نسألك أسبوعيًا، ونقيس القوة كل أسبوعين، ونقارن دائمًا بأسبوعك الأول.|(NICE NG123), which is also when erections improved in studies (Dorey 2005). Some people notice improvement earlier. That's why we ask weekly, measure strength every two weeks, and always compare with your first week.
+إن لم تلاحظ أي تحسن بعد 12 أسبوعًا من الالتزام، راجع طبيبًا أو أخصائي علاج طبيعي لقاع الحوض.|If you notice no improvement after 12 weeks of consistency, see a doctor or a pelvic floor physiotherapist.
+Miller 1998، J Am Geriatr Soc · NICE NG123 · Dorey 2005، BJU Int|Miller 1998, J Am Geriatr Soc · NICE NG123 · Dorey 2005, BJU Int
+NICE NG123 — Urinary incontinence and pelvic organ prolapse in women (2019): تدريب قاع الحوض 3 أشهر على الأقل|NICE NG123 — Urinary incontinence and pelvic organ prolapse in women (2019): pelvic floor training for at least 3 months
+NIH — Clinical Methods: Impotence (الانتصاب الصباحي في التمييز بين الأسباب)|NIH — Clinical Methods: Impotence (morning erections in telling causes apart)
+اليد على الأرداف: يجب أن تبقى ليّنة|Hand on the buttocks: they should stay soft
+شدة الشد: 3 من 10|Squeeze strength: 3 out of 10
+المدة التي توصي الإرشادات بتقييم نتيجة التمارين عندها.|The point at which guidelines recommend assessing your results.
+شدّ|Squeeze
+ثبات|Hold
+إرخاء|Release
+الطابق 1|Floor 1
+قوة الشد|Squeeze strength
+حركة عضلات قاع الحوض|Pelvic floor movement
+استعداد|Get ready
+العانة|Pubic bone
+انقباض|Contract
+إفلات|Release
+المرحلة الأخيرة — أحسنت!|Last phase — well done!
+10–15 دقيقة بعد الغداء والعشاء (2:30 م و9 م)|10–15 minutes after lunch and dinner (2:30 pm and 9 pm)
+أثناء انتظار القهوة أو الشاي|While waiting for coffee or tea
+بعد الصلاة|After prayer
+بعد تفريش الأسنان|After brushing your teeth
+عند إشارة المرور أو في الزحمة|At a traffic light or in traffic
+تذكير المشي بعد الأكل|After-meal walk reminder
+تعديل الهدف|Edit goal
+شهيق — أرخِ قاع الحوض|Inhale — relax your pelvic floor
+زفير طويل|Long exhale
+أبقِ كما هو|Keep as is
+أردافي بقيت ليّنة طوال الشد|My buttocks stayed soft throughout the squeeze
+بطني لم يُشدّ أو يندفع للخارج|My belly didn't tense or push out
+تنفّست طوال الجلسة ولم أحبس نفسي|I breathed throughout and didn't hold my breath
+ابدأ (3 دقائق)|Start (3 min)
+اختيار|Choose
+اربط الدقيقة بعاداتك|Link the minute to your habits
+اربط جلسة الدقيقة بعاداتك|Link the one-minute session to your habits
+ربط جلسة الدقيقة بعاداتك|Link the one-minute session to habits
+اشرب كوب ماء.|Drink a glass of water.
+التمرين المرتبط بعادة ثابتة يصبح تلقائيًا. اختر عادتين أو ثلاثًا، وحدّد وقتها المعتاد ليصلك تذكير لطيف.|Exercise tied to a fixed habit becomes automatic. Pick two or three habits and set their usual time for a gentle reminder.
+التوتر وشدّ العضلات اللاإرادي يعاكسان الاسترخاء الذي يحتاجه الجسم. جلسة قصيرة تساعدك على الهدوء، وليست علاجًا.|Stress and involuntary muscle tension work against the relaxation the body needs. A short session helps you calm down; it isn't a treatment.
+الشاشة معتمة والصوت يقودك — الجوال في جيبك|Screen dimmed, the voice guides you — phone in your pocket
+المشي مع الكيجل|Walking with Kegels
+امشِ واشدّ (4 دقائق، صوتية)|Walk and squeeze (4 min, audio)
+امشِ واشدّ — 4 دقائق|Walk and squeeze — 4 minutes
+شدّ خفيف وامشِ|Light squeeze and walk
+خطوتك عادية والتنفس طبيعي — شدّ خفيف فقط.|Normal pace, normal breathing — a light squeeze only.
+بدل الشد، يمكنك تجربة جلسة الإرخاء: تنفّس بطيء يترك قاع الحوض يرتخي. توقف إن زاد الألم.|Instead of squeezing, you can try the relaxation session: slow breathing that lets the pelvic floor relax. Stop if the pain increases.
+بعد تفريش الأسنان، عند الإشارة، بعد الصلاة|After brushing, at a traffic light, after prayer
+بعض الحالات تحتاج احتياطات خاصة مع المشي.|Some conditions need special precautions with walking.
+تجنّب النيكوتين في الساعة السابقة، لأنه يضيّق الأوعية.|Avoid nicotine in the hour before, as it narrows blood vessels.
+تجنّب وجبة دسمة جدًا قبلها مباشرة.|Avoid a very heavy meal right before.
+تمارين قاع الحوض مع المشي معًا أفضل للانتصاب والقلب والسكر من أيٍّ منهما وحده.|Pelvic floor exercises plus walking work better for erections, heart and blood sugar than either alone.
+تهيئة واسترخاء|Prepare and relax
+تُحسب من جلسات اليوم (مرة واحدة يوميًا)|Counts toward today's sessions (once a day)
+جلسة إضافية — جلسات اليوم مكتملة|Extra session — today's sessions are complete
+جلسات الكيجل|Kegel sessions
+جلسة إرخاء 3 دقائق: شهيق بطيء يترك قاع الحوض يرتخي، وزفير طويل.|A 3-minute relaxation session: slow inhale letting the pelvic floor relax, and a long exhale.
+جلسة الإرخاء|Relaxation session
+جلسة الدقيقة|One-minute session
+جلسة الدقيقة الصوتية|Audio one-minute session
+دع العضلة تنزل وتتسع مع الشهيق، ولا تشدّ شيئًا.|Let the muscle drop and widen as you inhale, and don't squeeze anything.
+أرخِ البطن والفك والكتفين.|Relax your belly, jaw and shoulders.
+دقائق المشي|Walking minutes
+دقائق المشي (من الساعة أو يدويًا)|Walking minutes (from your watch or manual)
+زيادة الثواني مع تعويض بعضلات أخرى لا تقوّي العضلة الصحيحة. أكّد الثلاثة:|Adding seconds while compensating with other muscles doesn't strengthen the right one. Confirm all three:
+شهيق يرخي قاع الحوض وزفير طويل — للتوتر وشدّ العضلات|An inhale that relaxes the pelvic floor and a long exhale — for stress and muscle tension
+في الأسابيع التي مشيت فيها 3 أيام أو أكثر، كانت صلابة الانتصاب أعلى.|In weeks when you walked 3 days or more, erection hardness was higher.
+قبل أن نزيد الشدة|Before we increase intensity
+قبل العلاقة: تهدئة التوتر وإرخاء الحوض|Before intimacy: calm stress and relax the pelvis
+قبل العلاقة: تهيئة واسترخاء|Before intimacy: prepare and relax
+إرخاء قاع الحوض وتهدئة التوتر|Relax the pelvic floor and calm stress
+قيّمت أغلب جلساتك الأخيرة بأنها صعبة. الشدة الزائدة ترهق العضلة وتبطئ التحسن، فالأفضل الرجوع أسبوعًا ثم التقدّم من جديد.|You rated most recent sessions as hard. Too much intensity tires the muscle and slows progress, so it's better to step back a week and build up again.
+لم تختر عادات بعد|No habits chosen yet
+نخفف الشدة قليلًا؟|Ease the intensity a bit?
+نعم، خفّف|Yes, ease it
+هدف الأسبوع المشترك|Combined weekly goal
+هدف مشترك يدعم الانتصاب والقلب|A combined goal supporting erections and heart
+دع العضلة تنزل بالكامل قبل التكرار التالي — الإفلات الكامل جزء من القوة.|Let the muscle drop fully before the next rep — a full release is part of strength.
+سُجّلت 10 دقائق مشي|10 minutes of walking logged
+هدف المشي الأسبوعي|Weekly walking goal
+التوصية العامة 150 دقيقة أسبوعيًا. اختر ما يناسب قدرتك وعمرك، وابدأ أقل إن كنت تبدأ من الصفر.|The general recommendation is 150 minutes a week. Choose what suits your ability and age, and start lower if you're starting from zero.
+«امشِ واشدّ» تظهر بعد إتقان التدريب التفاعلي للشد الصحيح.|"Walk and squeeze" appears after you master the interactive training.
+المشي مع جرح أو تنميل في القدم|Walking with a foot wound or numbness
+لا يُنصح بالمشي الذي يحمل وزن الجسم ما دام في القدم جرح لم يلتئم. يمكنك أداء جلسات قاع الحوض جالسًا، وراجع طبيبك بشأن النشاط المناسب.|Weight-bearing walking isn't advised while a foot wound hasn't healed. You can do pelvic floor sessions seated, and ask your doctor about suitable activity.
+فهمت|Got it
+مشي بعد الأكل|Walk after eating
+10–15 دقيقة مشي بعد الوجبة تخفّض ارتفاع السكر بعدها.|A 10–15 minute walk after a meal lowers the glucose rise afterwards.
+60 ثانية فقط — تُحسب من جلسات اليوم.|Just 60 seconds — counts toward today's sessions.
+سيصلك تذكير مع كل عادة اخترتها|You'll get a reminder with each habit you chose
+أُوقفت تذكيرات العادات|Habit reminders turned off
+نبقى في مستواك الآن — الدقة قبل المدة. راجع التدريب التفاعلي إن احتجت.|We'll keep your level for now — precision before duration. Review the interactive training if needed.
+خففنا التكرارات في جلستك التالية. توقف إن شعرت بألم.|We've reduced the reps in your next session. Stop if you feel pain.
+الإرخاء|Relaxation
+امشِ واشدّ|Walk and squeeze
+تقدّم|Advance
+الأسبوع|This week

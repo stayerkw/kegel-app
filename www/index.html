@@ -426,7 +426,206 @@ body.dark .dpromo{background:linear-gradient(135deg,#0E2B22,#0C2430)}
 .quick button{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:12px 4px;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;font-size:12px;color:var(--ink);min-height:84px}
 .quick .ic,.quick .hi-ic{width:24px;height:24px;color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.gheart{animation:none}}
-@media (max-width:360px){.stats{grid-template-columns:1fr}.wbody{grid-template-columns:1fr}.wart{aspect-ratio:4/3}.quick{grid-template-columns:repeat(2,1fr)}.gheart{width:104px;height:92px}.dwel h1{font-size:21px}}
+@media (max-width:360px){.stats{grid-template-columns:1fr}.wbody{grid-template-columns:38% 1fr}.wring{width:92px;height:92px}.wring b{font-size:20px}.quick{grid-template-columns:repeat(2,1fr)}.gheart{width:104px;height:92px}.dwel h1{font-size:21px}}
+
+
+
+/* ===== الدفعة الأولى: المقارنة، الجدول الزمني، منحنى الاختبار، رسوم الحركة الذكية والعصرة ===== */
+.cmp{display:grid;grid-template-columns:1fr auto;grid-template-areas:'n s' 'v v';gap:2px 8px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:14px}.cmp .cn{grid-area:n;font-weight:600}.cmp .cv{grid-area:v}.cmp em{grid-area:s}
+.cmp:first-of-type{border-top:0}.cmp .cv{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.cmp em{font-style:normal;font-weight:700;font-size:12.5px}.cmp em.ok{color:#0F9D6E}.cmp em.warnc{color:#C77700}.cmp em.muted{color:var(--muted)}
+.cmpd summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:14px;padding:8px 0;min-height:44px;display:flex;align-items:center}
+.tline{list-style:none;margin:0;padding:0;position:relative}
+.tline li{position:relative;padding:0 0 14px;padding-inline-start:22px;display:flex;flex-direction:column;gap:3px}
+.tline li::before{content:"";position:absolute;inset-inline-start:4px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--line);box-shadow:0 0 0 3px var(--card)}
+.tline li::after{content:"";position:absolute;inset-inline-start:8px;top:18px;bottom:0;width:2px;background:var(--line)}
+.tline li:last-child::after{display:none}
+.tline li.past::before{background:var(--accent)}.tline li.here::before{background:var(--accent);box-shadow:0 0 0 4px var(--accentSoft)}
+.tline li.here b{color:var(--title)}.tline .tagx{margin-inline-start:6px;font-size:11px}
+.tcurve{width:100%;height:auto;max-height:190px;display:block}.tcurve .th,.tcurve .tf{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.tcurve .th{stroke:var(--accent)}.tcurve .tf{stroke:#D9573F;stroke-dasharray:5 4}.tcurve .thp{fill:var(--accent)}.tcurve .tfp{fill:#D9573F}
+.lgd{display:flex;gap:14px;font-size:12px;color:var(--muted);flex-wrap:wrap}.lgd i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-inline-end:5px}
+.lgd i.th{background:var(--accent)}.lgd i.tf{background:#D9573F}
+.tsvg.knk,.tsvg.pmd{width:100%;max-width:340px;display:block;margin:6px auto 10px;direction:ltr}
+.knk .kt,.pmd .kt{font:600 11px system-ui,sans-serif;fill:var(--muted);unicode-bidi:plaintext}
+.knk .karr{fill:none;stroke:#D9573F;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.knk .kar{animation:kpush 1.8s ease-in-out infinite}
+@keyframes kpush{0%,20%{transform:translateY(-6px);opacity:.3}60%,100%{transform:translateY(4px);opacity:1}}
+.knk .ksl{fill:none;stroke-width:8;stroke-linecap:round}.knk .ksl.sag{stroke:#94A3B8}.knk .ksl.lift{stroke:var(--accent)}
+.knk .kblock{stroke:var(--accent);stroke-width:3;stroke-linecap:round;opacity:.6}
+.knk .kdrop{fill:#2F7FC1;animation:kdrip 1.8s ease-in infinite}
+@keyframes kdrip{0%,50%{opacity:0;transform:translateY(-6px)}70%{opacity:1}100%{opacity:0;transform:translateY(8px)}}
+.pmd .pt{fill:none;stroke:#94A3B8;stroke-width:16;stroke-linecap:round;opacity:.35}
+.pmd .pm{stroke:var(--accent);stroke-width:6;stroke-linecap:round}
+.pmd .pdr circle{fill:#2F7FC1}.pmd .pdr{animation:pflow 2.4s ease-in-out infinite}
+@keyframes pflow{0%,30%{transform:translateX(0);opacity:1}90%{transform:translateX(90px);opacity:0}100%{transform:translateX(0);opacity:0}}
+.knp{text-align:center;padding:10px 0 14px}.knb{font-size:30px;font-weight:800;margin:12px 0 6px;padding:22px 10px;border-radius:22px;background:var(--bg);transition:background .2s,color .2s}
+.knb.on{background:var(--accentSoft);color:var(--accent)}
+.lq{margin:0 0 14px}
+@media (prefers-reduced-motion:reduce){.knk .kar,.knk .kdrop,.pmd .pdr{animation:none}.knb{transition:none}}
+/* ===== شاشة التمرين الغامرة: هالة بلون المرحلة، حلقة متدرجة، نقطة ضوئية، معاينة المرحلة القادمة، وضع الجيب ===== */
+body.immersive{--orbA:#22D3EE;--orbB:#0A8E9E;--orbGlow:rgba(34,211,238,.28);background:radial-gradient(110% 60% at 50% 15%,var(--orbGlow) 0%,rgba(7,26,46,0) 58%) fixed,linear-gradient(#071A2E,#040F1C) fixed;background-color:#040F1C}
+body.immersive.ph-rl,body.immersive.ph-out,body.immersive.ph-ready{--orbA:#94A3B8;--orbB:#475569;--orbGlow:rgba(148,163,184,.16)}
+body.immersive.ph-hold,body.immersive.ph-e3{--orbA:#A5B4FC;--orbB:#06B6D4;--orbGlow:rgba(129,140,248,.28)}
+body.immersive.ph-e2{--orbA:#67E8F9;--orbB:#6366F1;--orbGlow:rgba(103,232,249,.24)}
+.tbtns{display:flex;gap:8px}
+.ring-wrap.orb::before{display:none}
+.orb-aura{position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle,var(--orbGlow,rgba(34,211,238,.2)) 0%,transparent 70%);transform:scale(var(--orbScale,.85));transition:transform .14s linear;pointer-events:none}
+.og-a{stop-color:var(--orbA,#22D3EE)}.og-b{stop-color:var(--orbB,#0A8E9E)}
+.ring-ticks{stroke:var(--line);stroke-width:2;stroke-dasharray:2 9.52}
+body.immersive .ring-ticks{stroke:rgba(255,255,255,.14)}
+body.immersive #ring{stroke:url(#orbGrad);filter:drop-shadow(0 0 8px var(--orbGlow))}
+.ring-dot{fill:#fff;opacity:0;transition:opacity .2s}
+body.immersive .ring-dot{opacity:1;filter:drop-shadow(0 0 6px var(--orbA))}
+body.immersive.ph-ready .ring-dot{opacity:0}
+body.immersive .count{font-size:64px;text-shadow:0 6px 24px rgba(0,0,0,.35)}
+.count.pop{animation:numPop .26s cubic-bezier(.16,1,.3,1)}
+@keyframes numPop{0%{transform:scale(1.12);opacity:.75}100%{transform:scale(1);opacity:1}}
+.next-pill{display:inline-flex;align-items:center;gap:6px;margin:6px auto 0;padding:5px 14px;border-radius:999px;font-size:12.5px;font-weight:600;min-height:28px;box-sizing:border-box;background:var(--accentSoft);color:var(--accent);visibility:hidden;opacity:0;transition:opacity .25s ease}
+.next-pill.show{visibility:visible;opacity:1}
+body.immersive .next-pill{background:rgba(255,255,255,.08);color:#CBD5E1;border:1px solid rgba(255,255,255,.1)}
+body.immersive .next-pill.soon{background:rgba(34,211,238,.16);color:#A5F3FC;border-color:rgba(34,211,238,.35)}
+.elv-bars{display:flex;gap:6px;justify-content:center;margin:4px 0 2px}
+.elv-bars i{width:28px;height:6px;border-radius:6px;background:var(--line);transition:background .25s,transform .25s}
+body.immersive .elv-bars i{background:rgba(255,255,255,.14)}
+.elv-bars i.on{background:var(--orbA,var(--accent));transform:scaleY(1.3)}
+body.immersive #lvH{stroke:url(#orbGrad)}
+body.immersive.ph-sq #lvH,body.immersive.ph-hold #lvH,body.immersive.ph-e3 #lvH{filter:drop-shadow(0 0 6px var(--orbGlow))}
+.dim-veil{position:fixed;inset:0;z-index:90;background:#000;color:#334155;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;cursor:pointer}
+.dim-veil b{font-size:44px;color:#475569;font-variant-numeric:tabular-nums}
+.dim-veil span{font-size:16px;color:#3F4E63}
+.dim-veil small{font-size:12px;color:#253246;margin-top:24px}
+.dim-veil:focus{outline:none}
+/* الفيديو الطبي في شاشة التمرين */
+.med-stage{background:#071A2E;width:100%;max-width:720px;margin:2px auto 0;aspect-ratio:720/412;border-radius:18px;overflow:hidden;position:relative}
+.med-stage video{display:block;width:100%;height:100%;object-fit:contain;background:#071A2E;pointer-events:none}
+.med-stage video::-webkit-media-controls{display:none!important}
+/* هالة بيضاء خافتة جدًا خلف العدّاد حتى يبقى الرقم و«ثانية» واضحين */
+
+body.immersive .count{text-shadow:0 2px 10px rgba(0,0,0,.45)}
+body.immersive .ring-center .muted{color:#C7D7E2}
+@media (prefers-reduced-motion:reduce){.count.pop{animation:none}.orb-aura{transition:none;transform:scale(.95)}.next-pill,.elv-bars i{transition:none}body.immersive{transition:none}}
+/* ===== الرئيسية: بطاقات قابلة للضغط، شريط الجلسات، عادات اليوم ===== */
+button.scard{border:0;font:inherit;color:inherit;text-align:start;width:100%;cursor:pointer}
+.scard{transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s ease}
+button.scard:active,.hmini:active,.scard.water:active{transform:scale(.97)}
+body.dark .scard,body.dark .dcard{border:1px solid var(--line)}
+.scov{position:absolute;inset:0;border:0;background:none;border-radius:inherit;cursor:pointer;z-index:1}
+.splus{position:absolute;inset-inline-end:8px;bottom:8px;z-index:2;width:44px;height:44px;border-radius:14px;border:0;display:grid;place-items:center;background:var(--water);color:#fff;box-shadow:0 6px 14px -6px rgba(47,127,193,.6)}
+.splus .ic{width:20px;height:20px}
+.scard.water .sv,.scard.water .sic{pointer-events:none}
+.spills{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0 0}
+.spill{border:1px solid var(--line);background:var(--bg);border-radius:14px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.spill.done{border-color:rgba(15,157,110,.35);background:rgba(15,157,110,.08)}
+.spill.next{border-color:var(--accent);background:var(--accentSoft)}
+.stt{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sst{display:inline-flex}.sst .ic{width:14px;height:14px}
+.spill.done .sst{color:#0F9D6E}.spill.next .sst{color:var(--accent)}
+.spill b{font-size:13px;color:var(--ink)}
+.spn{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wnext{margin:10px 0}
+.wactions{display:grid;grid-template-columns:1fr auto;gap:8px}
+.wactions .btn.ghost{width:auto;padding-inline:14px;font-size:15px;white-space:nowrap}
+.wactions .btn .ic{width:18px;height:18px}
+.qdur{font-size:12px;color:var(--muted);flex:none;font-variant-numeric:tabular-nums}
+.habits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.habits.one{grid-template-columns:1fr}
+.habits.three>:first-child{grid-column:1/-1}
+.hmini{position:relative;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:12px;text-align:start;font:inherit;color:inherit;display:flex;flex-direction:column;gap:6px;min-height:118px;min-width:0;transition:transform .18s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.hmini .hd{display:flex;align-items:center;justify-content:space-between;min-height:44px}
+.hmini .badge{width:40px;height:40px;border-radius:12px;display:grid;place-items:center}
+.hmini .badge .ic,.hmini .badge .hi-ic{width:24px;height:24px}
+.hmini.water .badge{background:var(--waterSoft);color:var(--water)}.hmini.heart .badge{background:var(--heartSoft);color:var(--heart)}.hmini.smoke .badge{background:var(--smokeSoft);color:var(--smoke)}
+.hmini .splus{position:static}
+.hmini.water .hd,.hmini.water .ht,.hmini.water .hv,.hmini.water .mini{position:relative}
+.hmini.water .hd>.badge,.hmini.water .ht,.hmini.water .hv,.hmini.water .mini{pointer-events:none}
+.ht{font-size:15px}.hv{font-size:22px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}.hv small{font-size:12px;font-weight:500;color:var(--muted)}
+.hmini .sub{font-size:12.5px;color:var(--muted)}
+.hmini .mini{display:block;height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:auto}
+.hmini .mini i{display:block;height:100%;border-radius:3px}
+.hmini.water .mini i{background:var(--water)}.hmini.heart .mini i{background:var(--heart)}.hmini.smoke .mini i{background:var(--smoke)}
+.rph{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rpromo .iconbtn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff;width:44px;height:44px;flex:none}
+.rpromo .rwarn{background:rgba(232,165,27,.16);border:1px solid rgba(232,165,27,.45);border-radius:12px;padding:8px 10px;font-size:13px}
+.rbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rbtns .btn.ghostw{margin-top:12px}
+.rpromo.dm .rp{width:100%}.rpromo.dm .mosque{opacity:.18}.rpromo.dm::before{display:none}
+.hban{margin:0 0 14px}
+.scard:focus-visible,.hmini:focus-visible,.scov:focus-visible,.splus:focus-visible,#qMore:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.scard,.hmini{transition:none}button.scard:active,.hmini:active,.scard.water:active{transform:none}}
+@media (max-width:360px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.scard{padding:10px;gap:8px}.sic{width:34px;height:34px}.sv b{font-size:18px}.wactions{grid-template-columns:1fr}.spills{gap:6px}.spill{padding:7px 8px}}
+@media (min-width:900px){body.wide-nav .hban{margin:14px 0 0}}
+
+/* ===== شاشة التمرين والعدّاد الاحترافي 3.0 (من التصميم المعتمد) ===== */
+body.immersive{--orbA:#22D3EE;--orbB:#0A8E9E;--orbGlow:rgba(34,211,238,.26);--orbRingBg:rgba(255,255,255,.07);background:radial-gradient(95% 52% at 50% 14%,var(--orbGlow) 0%,rgba(7,26,46,.92) 56%,#040F1C 100%) fixed;background-color:#040F1C}
+body.immersive.ph-ready{--orbA:#38BDF8;--orbB:#0284C7;--orbGlow:rgba(56,189,248,.16)}
+body.immersive.ph-sq,body.immersive.ph-e1,body.immersive.ph-e2{--orbA:#22D3EE;--orbB:#0A8E9E;--orbGlow:rgba(34,211,238,.28)}
+body.immersive.ph-hold,body.immersive.ph-e3{--orbA:#A78BFA;--orbB:#06B6D4;--orbGlow:rgba(139,92,246,.30)}
+body.immersive.ph-rl,body.immersive.ph-out{--orbA:#94A3B8;--orbB:#475569;--orbGlow:rgba(148,163,184,.12)}
+body.immersive.ph-in{--orbA:#38BDF8;--orbB:#0EA5E9;--orbGlow:rgba(56,189,248,.24)}
+.sess{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:6px;min-height:calc(100dvh - 40px);justify-content:space-between;color:#F0F9FF}
+.sess .topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0}
+.sess .top-actions{display:flex;gap:8px;align-items:center}
+.sess .iconbtn{width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);color:#F0F9FF}
+.sess .iconbtn:active{transform:scale(.94)}
+.sess .top-meta{flex:1;text-align:center;min-width:0}
+.sess .top-meta b{display:block;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sess .top-meta .sub{font-size:12px;color:#8BB2C9;margin-top:2px;font-variant-numeric:tabular-nums;min-height:15px}
+.sess .orb-stage{--orb:258px;position:relative;width:var(--orb);height:var(--orb);margin:2px auto;display:grid;place-items:center;flex:none}
+.sess .orb-aura{position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,transparent 48%,var(--orbGlow) 64%,transparent 78%);transform:scale(var(--orbScale,.92));transition:transform .16s linear;pointer-events:none}
+.sess .orb-svg{position:absolute;inset:0;width:100%;height:100%;z-index:2;overflow:visible}
+.sess .dial-core{position:absolute;width:calc(var(--orb)*.643);height:calc(var(--orb)*.643);border-radius:50%;z-index:3;background:radial-gradient(circle at 50% 25%,#0D2942 0%,#061524 72%,#040E19 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 8px 20px rgba(255,255,255,.05),0 14px 32px rgba(0,0,0,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.sess .phase-chip{font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;margin-bottom:4px;background:rgba(34,211,238,.14);color:var(--orbA);border:1px solid rgba(34,211,238,.25);transition:color .3s,background .3s,border-color .3s;max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.ph-rl .sess .phase-chip,body.ph-out .sess .phase-chip{background:rgba(148,163,184,.14);color:#CBD5E1;border-color:rgba(148,163,184,.25)}
+body.ph-hold .sess .phase-chip,body.ph-e3 .sess .phase-chip{background:rgba(167,139,250,.18);color:#DDD6FE;border-color:rgba(167,139,250,.35)}
+body.immersive .sess .count{font-size:calc(var(--orb,258px)*.256);font-weight:800;line-height:.95;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.45)}
+.sess .count.pop{animation:numPop .24s cubic-bezier(.16,1,.3,1)}
+.sess .sec-lbl{font-size:12.5px;font-weight:600;color:#8BB2C9;margin-top:4px}
+.sess .ring-ticks{fill:none;stroke:rgba(255,255,255,.14);stroke-width:2.2;stroke-dasharray:1.8 9.93}
+.sess .ring-track{fill:none;stroke:var(--orbRingBg);stroke-width:11}
+.sess #ring{fill:none;stroke:url(#orbGrad);stroke-width:11;stroke-linecap:round;filter:drop-shadow(0 0 8px var(--orbGlow))}
+.sess .ring-comet{fill:#fff;filter:drop-shadow(0 0 8px var(--orbA)) drop-shadow(0 0 3px #fff)}
+body.ph-ready .sess .ring-comet{opacity:0}
+.sess .orb-stage.beat{animation:beat .35s cubic-bezier(.16,1,.3,1)}
+.sess .elv-bars{display:flex;gap:8px;justify-content:center;align-items:center;height:18px;margin:-2px 0 0}
+.sess .elv-bars i{width:34px;height:6px;border-radius:999px;background:rgba(255,255,255,.12);transition:background .25s,transform .25s,box-shadow .25s}
+.sess .elv-bars i.on{background:var(--orbA);transform:scaleY(1.3);box-shadow:0 0 12px var(--orbGlow)}
+.sess .anat-card{position:relative;border-radius:20px;padding:10px 14px 8px;background:linear-gradient(180deg,rgba(13,41,66,.55) 0%,rgba(5,19,34,.75) 100%);border:1px solid rgba(255,255,255,.10);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 26px -14px rgba(0,0,0,.6);overflow:hidden;width:100%;max-width:720px;margin:0 auto;box-sizing:border-box}
+.sess .anat-head{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:#8BB2C9;margin-bottom:2px}
+.sess .anat-head b{color:var(--orbA);font-variant-numeric:tabular-nums;font-size:12px}
+.sess .anat-svg{width:100%;height:106px;display:block;overflow:visible;direction:ltr}
+.sess .anat-svg .atx{fill:rgba(148,163,184,.65);font-size:9.5px;font-family:inherit}
+.sess .anat-svg .lv-glow{stroke:var(--orbA)}
+.sess .anat-meter{height:4px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:4px}
+.sess .anat-meter i{display:block;height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--orbB),var(--orbA));box-shadow:0 0 10px var(--orbGlow);transition:width .08s linear}
+.sess .med-stage{margin:4px 0 0;border-radius:12px}
+.sess .guide-box{text-align:center;margin:2px 0}
+.sess .phase{font-size:24px;font-weight:800;margin:0;color:#fff!important}
+.sess .hint{font-size:13.5px;color:#8BB2C9;margin:4px 8px 0;min-height:38px;line-height:1.5}
+.sess .next-pill{display:inline-flex;visibility:visible;opacity:1;align-items:center;gap:6px;margin-top:4px;padding:5px 14px;border-radius:999px;font-size:12px;font-weight:600;background:rgba(255,255,255,.055);color:#CBD5E1;border:1px solid rgba(255,255,255,.10);transition:all .25s ease;min-height:0}
+.sess .next-pill.soon{background:rgba(34,211,238,.18);color:#CCFBF1;border-color:rgba(34,211,238,.45);box-shadow:0 0 16px rgba(34,211,238,.22)}
+.sess .dots{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:2px 0}
+.sess .dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .25s ease}
+.sess .dots i.on{background:var(--orbB)}.sess .dots i.cur{background:var(--orbA);transform:scale(1.35);box-shadow:0 0 10px var(--orbGlow)}
+.sess .pbar{height:6px;border-radius:999px;background:rgba(255,255,255,.10);overflow:hidden;margin:8px 0 0}
+.sess .pbar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--orbB),var(--orbA));transition:width .15s linear}
+.sess .controls{display:grid;grid-template-columns:1.35fr 1fr;gap:10px;margin-top:4px}
+.sess .btn{min-height:52px;border-radius:16px;font-weight:700;font-size:15.5px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:10px}
+.sess .btn:active{transform:scale(.97)}
+.sess .btn.primary{background:#F0F9FF;color:#051829;box-shadow:0 8px 22px -8px rgba(240,249,255,.35)}
+.sess .btn.ghost{background:rgba(255,255,255,.055);color:#F0F9FF;border:1px solid rgba(255,255,255,.10)}
+.sess .pocket-tip{text-align:center;font-size:12px;color:#8BB2C9;margin:2px 0 0;opacity:.85}
+/* الشاشات القصيرة: كل عناصر التمرين في شاشة واحدة بلا تمرير */
+@media (max-height:800px){.sess{gap:4px}.sess .orb-stage{--orb:224px}.sess .hint{min-height:0;font-size:13px}.sess .med-stage{aspect-ratio:auto}.sess .med-stage video{max-height:150px}.sess .anat-svg{height:88px}}
+@media (max-height:700px){.sess .orb-stage{--orb:190px}.sess .pocket-tip{display:none}.sess .med-stage{aspect-ratio:auto}.sess .med-stage video{max-height:112px}.sess .anat-svg{height:70px}.sess .anat-card{padding:8px 12px 6px}.sess .phase{font-size:21px}.sess .btn{min-height:46px}.sess .next-pill{margin-top:2px}.sess .topbar .top-meta b{font-size:13px}}
+@media (max-height:600px){.sess .orb-stage{--orb:160px}.sess .phase-chip{display:none}.sess .anat-card{display:none}}
+@media (max-height:760px){body.immersive .art.sm{max-height:104px;width:auto;margin:0 auto;display:block}body.immersive h1.center{font-size:22px;margin:6px 0}}
+@media (prefers-reduced-motion:reduce){.sess .count.pop,.sess .orb-aura,.sess .anat-meter i,.sess .orb-stage.beat{animation:none!important;transition:none!important}}
+/* أهداف لمس لا تقل عن 44 بكسل */
+.dtheme button{min-height:44px;min-width:44px}
+.rtabs button{min-height:44px}
+.linkbtn{min-height:44px}
+.sw::before{content:"";position:absolute;inset:-8px -4px}
 /* الشاشات العريضة: شريط جانبي */
 @media (min-width:900px){
  body.wide-nav #app{max-width:none;margin:0;margin-inline-start:248px;padding-inline:28px;padding-bottom:40px}
@@ -651,7 +850,7 @@ function planFor(day){
   const holdSec = ph.n===4 ? lerp(15,25,t) : 25;
   return prescribe({day,phase:ph,reps,sq,rl,n,patterns,light,holdSec},t);
 }
-const PAT_NAME={control:'التحكم',breath:'التنفّس',classic:'كلاسيكي',steps:'السلّم',rapid:'النيران السريعة',hold:'الثبات الطويل',elevator:'المصعد'};
+const PAT_NAME={minute:'جلسة الدقيقة',walk:'امشِ واشدّ',relax:'الإرخاء',control:'التحكم',breath:'التنفّس',classic:'كلاسيكي',steps:'السلّم',rapid:'النيران السريعة',hold:'الثبات الطويل',elevator:'المصعد'};
 
 /* بناء الجدول الزمني للجلسة */
 function buildSession(kind,plan,idx){
@@ -663,10 +862,18 @@ function buildSession(kind,plan,idx){
     for(let r=1;r<=reps;r++){add('in',b.ti,r);add('out',b.te,r);} }
   else if(kind==='quick'){ pattern='classic'; reps=6; title='جلسة سريعة — دقيقة واحدة';
     for(let r=1;r<=reps;r++){add('sq',5,r);add('rl',5,r);} }
+  else if(kind==='minute'){ pattern='minute'; reps=4; title='جلسة الدقيقة';
+    for(let r=1;r<=reps;r++){ for(let q=0;q<3;q++){add('sq',1,r);add('rl',1,r);} add('sq',5,r,'hold'); add('rl',5,r); } }
+  else if(kind==='walk'){ pattern='walk'; reps=20; title='امشِ واشدّ — 4 دقائق';
+    for(let r=1;r<=reps;r++){add('sq',3,r,'walk');add('rl',9,r);} }
+  else if(kind==='relax'){ pattern='relax'; const mins=(plan&&plan.min)||4; reps=mins*6; title='جلسة الإرخاء — '+mins+' دقائق';
+    for(let r=1;r<=reps;r++){add('in',4,r,'rx');add('out',6,r,'rx');} }
   else if(kind==='rapidq'){ pattern='rapid'; reps=(plan&&plan.flicks)||30; title='النيران السريعة — '+reps+' انقباضة';
     for(let r=1;r<=reps;r++){add('sq',1,r);add('rl',1,r);} }
   else{
-    pattern=plan.patterns[idx]||'classic'; var pos=(plan.pos||[])[idx]; title='جلسة '+(idx+1)+' من '+plan.n+' — '+PAT_NAME[pattern]+(pos?' · '+POS[pos][0]:'');
+    // الإرهاق: جلسة سابقة «صعبة» ← تكرارات أقل بالربع في الجلسة التالية
+    const fa=fatigueAdj(); if(fa<1) plan={...plan,reps:Math.max(4,Math.round(plan.reps*fa)),eased:true};
+    pattern=plan.patterns[idx]||'classic'; var pos=(plan.pos||[])[idx]; title='جلسة '+(idx+1)+' من '+plan.n+' — '+PAT_NAME[pattern]+(pos?' · '+POS[pos][0]:'')+(plan.eased?' · مخففة':'');
     if(pattern==='classic'){ reps=plan.reps; for(let r=1;r<=reps;r++){add('sq',plan.sq,r);add('rl',plan.rl,r);} }
     else if(pattern==='steps'){ reps=Math.max(3,Math.ceil(plan.reps/2)); for(let r=1;r<=reps;r++){[1,2,3,2,1].forEach(s=>{add('sq',s,r);add('rl',2,r);});} }
     else if(pattern==='rapid'){ reps=plan.flicks||30; for(let r=1;r<=reps;r++){add('sq',1,r);add('rl',1,r);} }
@@ -675,7 +882,7 @@ function buildSession(kind,plan,idx){
   }
   steps.unshift({t:'ready',d:(typeof pos!=='undefined'&&pos)?7:3,rep:0});
   const total=steps.reduce((a,s)=>a+s.d,0);
-  return {kind,idx,pattern,reps,title,steps,total,pos:(typeof pos!=='undefined'?pos:null)};
+  return {kind,idx,pattern,reps,title,steps,total,pos:(typeof pos!=='undefined'?pos:null),countAs:kind==='minute'&&minuteCounts()?'daily':null};
 }
 function sessionMinutes(plan,idx){ return Math.max(1,Math.round(buildSession('daily',plan,idx).total/60)); }
 
@@ -767,7 +974,13 @@ async function notifPermission(){
 function learnedSlots(){
   const need=planFor(S.progDay).n, map=need===2?[0,2]:[0,1,2], by={}, cut=addDays(today(),-21), slots=[[],[],[]];
   S.logs.filter(l=>l.kind==='daily'&&!l.skipped&&l.date>=cut).forEach(l=>(by[l.date]=by[l.date]||[]).push(l.ts));
-  Object.values(by).forEach(a=>a.sort((x,y)=>x-y).slice(0,need).forEach((ts,i)=>{ const t=new Date(ts); slots[map[i]].push(t.getHours()*60+t.getMinutes()); }));
+  // كل جلسة تُنسب لأقرب موعد تذكير (لا لترتيبها في اليوم) — جلسة الظهر لا تُحسب صباحية إن تُخطّي الصباح
+  const rem=S.reminders.map(toMin);
+  Object.values(by).forEach(a=>{ const used={};
+    a.map(ts=>{ const t=new Date(ts); return t.getHours()*60+t.getMinutes(); })
+     .map(m=>({m,k:map.reduce((best,k)=>Math.abs(m-rem[k])<Math.abs(m-rem[best])?k:best,map[0])}))
+     .sort((x,y)=>Math.abs(x.m-rem[x.k])-Math.abs(y.m-rem[y.k]))
+     .forEach(({m,k})=>{ if(!used[k]){ used[k]=1; slots[k].push(m); } }); });
   return slots;
 }
 function effectiveTimes(){
@@ -783,7 +996,8 @@ const toMin=t=>{ const [h,m]=t.split(':').map(Number); return h*60+m; };
 const WMSG=[['وقت كوب ماء','كوب الآن يحافظ على نشاطك وصحة مثانتك.'],['اشرب كوبًا من الماء','الترطيب المنتظم يقلل تهيّج المثانة.'],['استراحة ماء','كوب واحد الآن يقرّبك من هدفك اليومي.'],['لا تنسَ الماء','وزّع شربك على اليوم بدل كمية كبيرة مرة واحدة.']];
 const waterToday=()=>S.waterLog[today()]||0;
 function waterSlots(){ if(typeof ramadanOn==='function'&&ramadanOn()) return ramWaterSlots(); const [fh,fm]=S.water.from.split(':').map(Number),[th,tm]=S.water.to.split(':').map(Number), out=[]; let end=th*60+tm;
-  if(S.nightLess){ let b=toMin(S.bed); if(b<6*60) b+=1440; end=Math.min(end,b-120); }
+  // وقت النوم يُحسب نسبةً لبداية فترة الماء: النوم قبل بدايتها يعني فجر اليوم التالي (لمن ينام صباحًا بعد دوام ليلي)
+  if(S.nightLess){ let b=toMin(S.bed); if(b<=fh*60+fm) b+=1440; end=Math.min(end,b-120); }
   for(let m=fh*60+fm;m<=end;m+=S.water.every) out.push(m); return out; }
 /* فترات بلا تدخين: تبدأ كل 3 ساعات وتستمر 40 دقيقة */
 function smokeSlots(){ const a=toMin(S.smoke.from); let b=toMin(S.smoke.to); if(b<=a) b+=1440; const out=[]; for(let m=a;m<=b;m+=S.smoke.every) out.push(m); return out; }
@@ -805,7 +1019,10 @@ function smokeRecord(ok){ const d=today(), r=Object.assign({ok:0,slip:0},S.smoke
 function smokeStartManual(){ const st=Date.now(); S.smokeManual={start:st,end:st+S.smoke.dur*6e4}; save(); Haptic.heavy();
   if(LN) LN.schedule({notifications:[{id:7999,title:'أحسنت، أتممت '+S.smoke.dur+' دقيقة بدون تدخين',body:'كل فترة تنجح فيها تُضعف الرغبة أكثر.',schedule:{at:new Date(S.smokeManual.end),allowWhileIdle:true},channelId:'smoke',smallIcon:'ic_stat_notify',actionTypeId:'SMOKE_END',extra:{go:'smokeEnd'}}]}).catch(()=>{});
   toast('بدأت '+S.smoke.dur+' دقيقة بدون تدخين'); }
-let _rs; function reschedule(){ clearTimeout(_rs); _rs=setTimeout(scheduleReminders,1200); }
+let _rs=null; function reschedule(){ clearTimeout(_rs); _rs=setTimeout(()=>{ _rs=null; scheduleReminders(); },1200); }
+/* عند إغلاق التطبيق أو إخفائه قبل انتهاء المهلة: جدولة التذكيرات فورًا حتى لا يضيع آخر تعديل */
+function flushReschedule(){ if(_rs){ clearTimeout(_rs); _rs=null; scheduleReminders(); } }
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden') flushReschedule(); });
 let _typesDone=false;
 // إشعارات لمرة واحدة تُنشأ لحظيًا (نهاية فترة بلا تدخين، إعادة قياس السكر) — لا تلغيها إعادة جدولة التذكيرات الدورية
 const ONESHOT_IDS=new Set([7999,9970,9971]);
@@ -922,7 +1139,15 @@ function addWater(n){
 }
 function updateWidget(){
   if(!WB||!S.onboarded) return; const plan=planFor(S.progDay);
-  try{ WB.update({day:String(S.progDay),streak:String(streak()),done:String(Math.min(dailyDoneOn(today()),plan.n)),need:String(plan.n),water:String(waterToday()),waterGoal:String(S.water.goal),dayDone:S.dayDoneOn===today()}).catch(()=>{}); }catch(e){}
+  try{ WB.update({day:String(S.progDay),streak:String(streak()),done:String(Math.min(dailyDoneOn(today()),plan.n)),need:String(plan.n),water:String(waterToday()),waterGoal:String(S.water.goal),dayDone:S.dayDoneOn===today(),lang:LANG==='en'?'en':'ar',discreet:!!S.wDiscreet}).catch(()=>{}); }catch(e){}
+}
+/* أكواب الماء المضافة من الويدجت دون فتح التطبيق: تُسجّل في يومها الصحيح */
+async function pullWidgetWater(){
+  if(!WB||!WB.consumePendingWater) return false;
+  try{ const r=await WB.consumePendingWater(); const items=(r&&r.items)||[]; let n=0;
+    items.forEach(({date,n:k})=>{ if(/^\d{4}-\d{2}-\d{2}$/.test(date)&&k>0&&k<50){ S.waterLog[date]=(S.waterLog[date]||0)+k; n+=k; } });
+    if(n){ save(); updateWidget(); reschedule(); if(screen==='tabs') render(); }
+    return n>0; }catch(e){ return false; }
 }
 function startNext(){ const plan=planFor(S.progDay); if(S.dayDoneOn===today()) startSession('quick'); else startSession('daily',plan,Math.min(dailyDoneOn(today()),plan.n-1)); }
 let _lastUrl={u:'',t:0};
@@ -930,6 +1155,7 @@ function handleUrl(u){
   if(!u||!S.onboarded) return; const now=Date.now();
   if(u===_lastUrl.u && now-_lastUrl.t<3000) return; _lastUrl={u,t:now};
   if(u.indexOf('water')>-1){ addWater(1); toast('أُضيف كوب ماء — '+waterToday()+' من '+S.water.goal); if(screen!=='session'){ screen='tabs'; tab='home'; render(); } }
+  else if(u.indexOf('minute')>-1){ if(screen!=='session') startMinute(false); }
   else if(u.indexOf('session')>-1){ if(screen!=='session') startNext(); }
   else if(screen!=='session'){ screen='tabs'; tab='home'; render(); }
 }
@@ -1125,7 +1351,9 @@ const COND=[ // [المفتاح، النص، شرط الظهور]
   ['pelvicSurg','جراحة حديثة في الحوض أو البروستاتا، أو قسطرة بولية حاليًا',()=>true],
   ['hernia','فتق',()=>true],
   ['gout','النقرس',()=>true],
-  ['warfarin','أستخدم دواء الوارفارين لمنع التجلط',()=>true]
+  ['warfarin','أستخدم دواء الوارفارين لمنع التجلط',()=>true],
+  ['beta','أستخدم دواءً من حاصرات بيتا (مثل بيسوبرولول أو أتينولول)',()=>has('htn')||has('heart')],
+  ['voiding','صعوبة في إفراغ المثانة، أو تدفق بول ضعيف جدًا',()=>true]
 ];
 const ALG=[['fish','السمك'],['shell','الروبيان والمحار'],['nuts','المكسرات'],['peanut','الفول السوداني'],['dairy','الحليب ومشتقاته (أو عدم تحمّل اللاكتوز)'],['gluten','القمح والجلوتين (السيلياك)'],['egg','البيض'],['sesame','السمسم'],['legumes','البقوليات']];
 const STAGES=[['none','لا شيء مما يلي'],['preg','حامل'],['pp6','ولدتُ خلال آخر 6 أسابيع'],['pp','بعد الولادة (أكثر من 6 أسابيع)'],['meno','سن اليأس أو بعده']];
@@ -1140,7 +1368,8 @@ const htn=()=>has('htn');
 // متطلبات كل ميزة من أسئلة: لا يُسأل إلا ما يلزمها وما لم يُسأل بعد
 const NEED={
   kegel:['pelvicPain','pelvicSurg'],
-  aerobic:['heart','htn','neuro','retino','insulin'],
+  aerobic:['heart','htn','neuro','retino','insulin','beta'],
+  knack:['pelvicPain','pelvicSurg','voiding'],
   resist:['heart','htn','retino','hernia'],
   food:['ckd','gout','warfarin','__alg']
 };
@@ -1148,6 +1377,11 @@ function missing(feature){ return NEED[feature].filter(k=>k==='__alg'?!P().aAske
 
 // المصادر: لكل قاعدة مرجع حقيقي يدعمها
 const SRC={
+  acog:['ACOG Committee Opinion 804 — Physical Activity and Exercise During Pregnancy and the Postpartum Period (2020)','https://doi.org/10.1097/AOG.0000000000003772','إرشاد رسمي'],
+  ahasex:['AHA — Sexual Activity and Cardiovascular Disease (Levine 2012)','https://doi.org/10.1161/CIR.0b013e3182447787','إرشاد رسمي'],
+  knack:['Miller JM, et al. The Knack: pelvic muscle precontraction reduces cough-related leakage. J Am Geriatr Soc 1998','https://doi.org/10.1111/j.1532-5415.1998.tb02721.x','تجربة عشوائية'],
+  pmd:['Paterson J, et al. Pelvic floor exercises as a treatment for post-micturition dribble. Br J Urol 1997','https://pubmed.ncbi.nlm.nih.gov/9202555/','تجربة عشوائية'],
+  pmd2:['Dorey G, et al. Pelvic floor exercises for post-micturition dribble in men with ED: RCT. Urol Nurs 2004','https://pubmed.ncbi.nlm.nih.gov/15658735/','تجربة عشوائية'],
   colberg:['ADA — Physical Activity/Exercise and Diabetes (Colberg 2016، الجدول 5)','https://doi.org/10.2337/dc16-1728','إرشاد رسمي'],
   mayo:['Mayo Clinic — رفع الأثقال وضغط الدم','https://www.mymlc.com/health-information/faqs/w/weightlifting-bad-for-your-blood-pressure','مرجع طبي تثقيفي'],
   acsm:['ACSM — التمرين للوقاية من ارتفاع الضغط وعلاجه','https://acsm.org/exercise-for-the-prevention-and-treatment-of-hypertension/','إرشاد رسمي'],
@@ -1158,6 +1392,9 @@ const SRC={
   ada6:['ADA — Standards of Care 2026، القسم 6 (انخفاض السكر)','https://pmc.ncbi.nlm.nih.gov/articles/PMC12690178','إرشاد رسمي']
 };
 const srcLink=k=>{ const s=SRC[k]; return `<a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a>`; };
+// رابط مختصر (المؤلف والسنة) للأماكن الضيقة
+const SRC_SHORT={knack:'Miller 1998',nice:'NICE NG123',dorey:'Dorey 2005',ehs:'Mulhall 2007',morn:'NIH',pmd:'Paterson 1997',pmd2:'Dorey 2004',acog:'ACOG 804',ahasex:'AHA 2012',drugs:'MedlinePlus'};
+const srcShort=k=>`<a href="${SRC[k][1]}" target="_blank" rel="noopener" title="${esc(SRC[k][0])}">${SRC_SHORT[k]||SRC[k][0]}</a>`;
 
 // قواعد السلامة للتمارين: [الميزة، الشرط، المستوى، النص، المصدر]
 const EXRULES=[
@@ -1185,16 +1422,24 @@ const MEAL_NOTE={
   warfarin:['مع الوارفارين: لا تمنع الخضار الورقية، لكن حافظ على كمية ثابتة منها كل أسبوع ولا تغيّرها فجأة لأنها تؤثر على مفعول الدواء.','vitk'],
   gout:['مع النقرس: اختر السلمون أو الهامور بدل السردين والماكريل والأنشوجة لأنها أغنى بالبيورين.','acr']
 };
-const MEAL_ALT=[['chicken','دجاج مشوي بلا جلد مع خضار','صدر دجاج مشوي أو مخبوز مع خضار وزيت زيتون.',[]],
-  ['yogurt','زبادي قليل الدسم مع فاكهة','كوب زبادي مع حفنة توت أو فراولة.',['dairy']],
-  ['eggs','بيض مع خضار','بيضتان مسلوقتان مع خيار وطماطم.',['egg']],
+const MEAL_ALT=[['chicken','دجاج مشوي بلا جلد مع خضار','صدر دجاج مشوي أو مخبوز مع خضار وزيت زيتون.',['ckd']],
+  ['yogurt','زبادي قليل الدسم مع فاكهة','كوب زبادي مع حفنة توت أو فراولة.',['dairy','ckd']],
+  ['eggs','بيض مع خضار','بيضتان مسلوقتان مع خيار وطماطم.',['egg','ckd']],
   ['veg2','خضار مشوية بزيت الزيتون','كوسا وباذنجان وفلفل مشوي بملعقة زيت زيتون بكر.',[]]];
+/* مرافقات اختيارية داخل نص الوجبة: تُحذف لمن ذكر حساسية منها بدل استبدال الوجبة كلها */
+const MEAL_PAIR={avocado:[[a=>a.egg===true,'مع البيض أو السلطة','مع السلطة']],
+  citrus:[[a=>a.dairy===true&&(a.nuts===true||a.peanut===true),'، مع زبادي أو مكسرات',''],
+    [a=>a.dairy===true,'، مع زبادي أو مكسرات','، مع حفنة مكسرات'],
+    [a=>a.nuts===true||a.peanut===true,'، مع زبادي أو مكسرات','، مع زبادي']]};
+const mealNotes=(tags,isFish)=>Object.keys(MEAL_NOTE).filter(k=>(tags.includes(k)||(k==='gout'&&isFish))&&has(k));
 function mealFor(m){ // يعيد الوجبة نفسها أو بديلًا آمنًا إن تعارضت مع حساسية
   const a=P().a, tags=MEAL_TAGS[m[0]]||[], conflict=tags.filter(t=>a[t]===true);
   if(m[0]==='fish'&&a.shell===true&&/روبيان|محار/.test(m[2])) conflict.push('shell');
-  if(!conflict.length) return {m,notes:Object.keys(MEAL_NOTE).filter(k=>(tags.includes(k)||(k==='gout'&&m[0]==='fish'))&&has(k))};
+  if(!conflict.length){ let txt=m[2];
+    const r=(MEAL_PAIR[m[0]]||[]).find(([f])=>f(a)); if(r) txt=txt.replace(r[1],r[2]);
+    return {m:txt===m[2]?m:[m[0],m[1],txt,m[3]],notes:mealNotes(tags,m[0]==='fish')}; }
   const alt=MEAL_ALT.find(([,,,t])=>!t.some(x=>a[x]===true))||MEAL_ALT[3];
-  return {m:[alt[0]==='veg2'?'veg':'leaf',alt[1],alt[2],'بديل لأنك ذكرت حساسية من '+conflict.map(c=>(ALG.find(x=>x[0]===c)||[,c])[1]).join(' و')+'.'],notes:[],swapped:true};
+  return {m:[alt[0]==='veg2'?'veg':'leaf',alt[1],alt[2],'بديل لأنك ذكرت حساسية من '+conflict.map(c=>(ALG.find(x=>x[0]===c)||[,c])[1]).join(' و')+'.'],notes:mealNotes(alt[3],false),swapped:true};
 }
 
 // ورقة الأسئلة: تعرض فقط ما يلزم ولم يُسأل، وتحفظ كل إجابة
@@ -1241,8 +1486,8 @@ function profCard(){ if(profDone()||P().dismissed||!S.onboarded) return '';
   return `<div class="card pfc"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${ic('user')}</span><div style="flex:1"><b>أكمل ملفك الصحي (دقيقة)</b><p class="small muted" style="margin:2px 0 0">العمر والحالات والحساسية — لنخصّص لك التمارين والغذاء ونخفي ما لا يخصّك.</p></div></div>
    <div class="btnrow" style="margin-top:10px"><button class="btn accent sm" id="pfGo">ابدأ</button><button class="btn ghost sm" id="pfLater">لاحقًا</button></div></div>`; }
 function bindProfCard(){ const g=$('#pfGo'); if(g) g.onclick=profAll; const l=$('#pfLater'); if(l) l.onclick=()=>{ P().dismissed=true; save(); render(); }; }
-function profClear(){ modal(`<h3>حذف الملف الصحي؟</h3><p class="small muted">يُحذف العمر والحالات والحساسية فقط. تبقى قراءاتك وجلساتك كما هي، وقسم السكري يبقى حسب إعداده.</p><div class="btnrow"><button class="btn danger" id="pcY">حذف</button><button class="btn ghost" id="pcN">إلغاء</button></div>`,(m,close)=>{
-  m.querySelector('#pcN').onclick=close; m.querySelector('#pcY').onclick=()=>{ S.prof=defProf(); S.prof.dismissed=true; save(); close(); toast('حُذف الملف الصحي'); render(); }; }); }
+function profClear(){ modal(`<h3>حذف الملف الصحي؟</h3><p class="small muted">يُحذف العمر والحالات والحساسية وإجابات فحص الأسبوع وعوامل الانتصاب. تبقى قراءاتك وجلساتك كما هي، وقسم السكري يبقى حسب إعداده.</p><div class="btnrow"><button class="btn danger" id="pcY">حذف</button><button class="btn ghost" id="pcN">إلغاء</button></div>`,(m,close)=>{
+  m.querySelector('#pcN').onclick=close; m.querySelector('#pcY').onclick=()=>{ S.prof=defProf(); S.prof.dismissed=true; S.wk=[]; S.edf=null; S.edOpt=undefined; save(); close(); toast('حُذف الملف الصحي'); render(); }; }); }
 function bpCard(){ return `<div class="card"><h3>قياس الضغط في البيت بالطريقة الصحيحة</h3><ol class="small" style="margin:0;padding-inline-start:18px;line-height:1.9">
     <li>لا قهوة ولا تدخين ولا رياضة قبل القياس بـ30 دقيقة، وأفرغ المثانة.</li><li>اجلس مستندًا وقدماك على الأرض، واسترح 5 دقائق بصمت.</li>
     <li>الذراع مسنودة بمستوى القلب، والكمّ على الجلد مباشرة.</li><li>خذ قراءتين بينهما دقيقة، صباحًا ومساءً، وسجّل المتوسط.</li></ol>
@@ -1265,13 +1510,13 @@ const TCUES_M=[
   ['wave','موجة البحر الباردة','تخيّل أنك تمشي في بحر بارد وموجة قادمة، فترفع الخصيتين للأعلى بعيدًا عن الماء.','تشعر بالخصيتين ترتفعان قليلًا.','ارفع الخصيتين بعيدًا عن الموجة'],
   ['gas','منع الغازات بهدوء','تخيّل أنك في مصعد مزدحم وتمنع خروج غازات — بهدوء ودون أن يلاحظ أحد.','تشعر بانقباض حول فتحة الشرج يرتفع للداخل، وليس بانقباض الأرداف.','امنع الغازات بهدوء'],
   ['marble','التقاط حبة صغيرة','تخيّل أنك تجلس على حبة صغيرة (حبة عنب) وتلتقطها بعضلات الحوض وترفعها للداخل.','إحساس بالرفع للأعلى من منطقة ما بين الخصيتين والشرج.','التقط الحبة وارفعها'],
-  ['urine','إيقاف البول (للتعرّف فقط)','في نهاية التبول جرّب إيقاف التدفق مرة واحدة لتتعرف على العضلة، ثم أكمل التبول. لا تكررها كتمرين لأنها قد تمنع إفراغ المثانة كاملًا.','يتوقف التدفق أو يبطؤ.','أوقف البول (تخيّلًا)']
+  ['urine','إيقاف البول (للتعرّف فقط)','في نهاية التبول جرّب إيقاف التدفق مرة واحدة لتتعرف على العضلة، ثم أكمل التبول. لا تكررها كتمرين لأنها قد تمنع إفراغ المثانة كاملًا. لا تجربها والمثانة ممتلئة جدًا، ولا إن كان لديك تضخم في البروستاتا أو التهابات بولية متكررة.','يتوقف التدفق أو يبطؤ.','أوقف البول (تخيّلًا)']
 ];
 const TCUES_F=[
   ['gaswee','منع الغازات والبول معًا','شدّي من الخلف إلى الأمام: كأنك تمنعين الغازات ثم البول، ثم ارفعي للداخل.','إحساس بانقباض يمتد من الخلف للأمام ويرتفع للداخل.','امنعي الغازات والبول وارفعي'],
   ['marble','التقاط حبة صغيرة','تخيّلي أنك تجلسين على حبة عنب وتلتقطينها بالمهبل وترفعينها للداخل.','إحساس بالرفع للأعلى، والأرداف ساكنة.','التقطي الحبة وارفعيها'],
   ['tissue','سحب منديل','تخيّلي أنك تسحبين منديلًا من علبته ببطء للأعلى والداخل.','حركة ناعمة للأعلى، دون دفع للأسفل.','اسحبي المنديل للأعلى'],
-  ['urine','إيقاف البول (للتعرّف فقط)','في نهاية التبول جرّبي إيقاف التدفق مرة واحدة لتتعرفي على العضلة. لا تكرريها كتمرين.','يتوقف التدفق أو يبطؤ.','أوقفي البول (تخيّلًا)']
+  ['urine','إيقاف البول (للتعرّف فقط)','في نهاية التبول جرّبي إيقاف التدفق مرة واحدة لتتعرفي على العضلة. لا تكرريها كتمرين. لا تجربيها والمثانة ممتلئة جدًا، ولا إن كانت لديك التهابات بولية متكررة.','يتوقف التدفق أو يبطؤ.','أوقفي البول (تخيّلًا)']
 ];
 const tutCues=()=>isFem()?TCUES_F:TCUES_M;
 const TUT=()=>S.tut||(S.tut={cue:null,rate:{},rounds:0,good:0,passed:false,issues:{},at:null,dismissed:false});
@@ -1316,7 +1561,10 @@ const BreathSensor={on:false,buf:[],h:null,ok:false,
     try{ if(typeof DeviceMotionEvent!=='undefined'&&DeviceMotionEvent.requestPermission) DeviceMotionEvent.requestPermission().catch(()=>{}); }catch(e){}
     window.addEventListener('devicemotion',this.h); this.on=true; },
   stop(){ if(this.h) window.removeEventListener('devicemotion',this.h); this.on=false; },
-  std(t0,t1){ const v=this.buf.filter(([t])=>t>=t0&&t<t1).map(x=>x[1]); if(v.length<8) return null; const m=v.reduce((a,b)=>a+b,0)/v.length; return Math.sqrt(v.reduce((a,b)=>a+(b-m)*(b-m),0)/v.length); }
+  std(t0,t1){ const v=this.buf.filter(([t])=>t>=t0&&t<t1).map(x=>x[1]); if(v.length<8) return null; const m=v.reduce((a,b)=>a+b,0)/v.length; return Math.sqrt(v.reduce((a,b)=>a+(b-m)*(b-m),0)/v.length); },
+  // مدى حركة البطن (من القاع للذروة) بعد تنعيم الاهتزاز: أصدق من الانحراف المعياري لتمييز التنفس عن الرجفة
+  range(t0,t1){ const v=this.buf.filter(([t])=>t>=t0&&t<t1).map(x=>x[1]); if(v.length<12) return null;
+    const k=5, sm=v.slice(k-1).map((_,i)=>v.slice(i,i+k).reduce((a,b)=>a+b,0)/k); return Math.max(...sm)-Math.min(...sm); }
 };
 
 // ---------- الواجهة ----------
@@ -1334,7 +1582,8 @@ function tutorial(startPage){
         <h3>الأخطاء الثلاثة الأكثر شيوعًا</h3>${SVG_MISTAKES}
         <p class="small">في هذا التدريب نصلح الثلاثة خطوة بخطوة، ونجد معًا الطريقة التي تناسب جسمك.</p>`;
       else if(page===1) h=`<h2>الوضعية والشدة</h2>
-        <div class="tstep"><b>1. استلقِ على ظهرك وركبتاك مثنيتان</b><p class="small muted">هذه أسهل وضعية للتعلّم لأن العضلة لا تحمل وزن الجسم. باعد ركبتيك بعرض الحوض.</p></div>
+        ${isPreg()?`<div class="tstep"><b>1. استلقِ على جنبك الأيسر ووسادة بين ركبتيك</b><p class="small muted">أثناء الحمل يُفضَّل الجنب بدل الظهر، خاصة بعد الأشهر الثلاثة الأولى، لأن الاستلقاء الطويل على الظهر قد يضغط على الأوعية الكبيرة. ويمكنك التمرين جالسة أيضًا.</p><span class="src">${ic('books')} ${srcLink('acog')}</span></div>`
+        :`<div class="tstep"><b>1. استلقِ على ظهرك وركبتاك مثنيتان</b><p class="small muted">هذه أسهل وضعية للتعلّم لأن العضلة لا تحمل وزن الجسم. باعد ركبتيك بعرض الحوض.</p></div>`}
         <div class="tstep"><b>2. ضع يدك على أردافك</b>${SVG_HAND}<p class="small muted">يدك هي «جهاز الإنذار»: يجب أن تبقى الأرداف ليّنة طوال الشد. إن شعرت بها تتصلب فالشد أقوى من اللازم.</p></div>
         <div class="tstep"><b>3. الشدة: 3 من 10 فقط</b>${SVG_EFFORT}<p class="small muted">الشد القوي يستدعي الأرداف والبطن وحبس النفس. ابدأ خفيفًا جدًا — القوة تأتي لاحقًا.</p></div>`;
       else if(page===2){ const C=tutCues();
@@ -1391,9 +1640,10 @@ function tutPractice(m,done){
     if(ph==='sq'&&!TU['n'+TU.i+Math.floor(el)]&&Math.floor(el)>0&&el<d){ TU['n'+TU.i+Math.floor(el)]=1; speak(['','اثنان','ثلاثة'][Math.floor(el)]||''); }
     if(el>=d){
       if(useS&&BreathSensor.ok){ const t0=TU.phT[TU.i], t1=performance.now();
-        if(ph==='pre'||ph==='in'){ const s=BreathSensor.std(t0+500,t1); if(s!=null) TU.base=TU.base==null?s:(TU.base*0.6+s*0.4); }
-        if(ph==='sq'&&TU.base&&TU.base>0.08){ const s=BreathSensor.std(t0+300,t1); if(s!=null&&s<TU.base*0.3){ TU.sensed++; $m('#tSensor').innerHTML=`<span class="warnc">${ic('alert')} ${T('يبدو أن نفسك توقف — عدّ بصوت أعلى')}</span>`; speak('لا تحبس نفسك'); } else $m('#tSensor').innerHTML=`<span class="okc">${ic('checkCircle')} ${T('تنفّسك مستمر — ممتاز')}</span>`; }
-        if(ph==='pre'&&!(TU.base>0.08)) $m('#tSensor').textContent=T('لم يلتقط الحسّاس حركة تنفّس كافية — أكمل بدونه');
+        // خط الأساس من مرحلة الاستعداد فقط (تنفّس هادئ طبيعي) — لا يُخلط بالشهيق الموجّه
+        if(ph==='pre'){ const s=BreathSensor.range(t0+500,t1); if(s!=null) TU.base=TU.base==null?s:(TU.base*0.6+s*0.4); }
+        if(ph==='sq'&&TU.base&&TU.base>0.25){ const s=BreathSensor.range(t0+300,t1); if(s!=null&&s<TU.base*0.3){ TU.sensed++; $m('#tSensor').innerHTML=`<span class="warnc">${ic('alert')} ${T('يبدو أن نفسك توقف — عدّ بصوت أعلى')}</span>`; speak('لا تحبس نفسك'); } else $m('#tSensor').innerHTML=`<span class="okc">${ic('checkCircle')} ${T('تنفّسك مستمر — ممتاز')}</span>`; }
+        if(ph==='pre'&&!(TU.base>0.25)) $m('#tSensor').textContent=T('لم يلتقط الحسّاس حركة تنفّس كافية — أكمل بدونه');
       } else if(useS&&ph==='pre') $m('#tSensor').textContent=T('الحسّاس غير متاح على هذا الجهاز — أكمل بدونه');
       TU.i++; if(TU.i>=R.length){ tutStop(); TU.ans={breath:TU.sensed?1:undefined}; const t=TUT(); t.rounds++; t.at=today(); save(); SFX.done(); done(); return; } enter(); }
   },100);
@@ -1444,7 +1694,7 @@ function renderOnb(){
       `<div style="height:12px"></div><button class="btn accent" id="nx" ${ob.goals.size?'':'disabled style="opacity:.5"'}>التالي</button>`;
   } else if(st===2){
     const C=[
-      ['طريقة إيقاف البول','أثناء التبول حاول إيقاف التدفق في منتصفه — العضلات التي تشدّها هي المطلوبة.<br><b style="color:var(--danger)">للتعرّف فقط — لا تتمرّن أثناء التبول بانتظام.</b>'],
+      ['طريقة إيقاف البول','أثناء التبول حاول إيقاف التدفق في منتصفه — العضلات التي تشدّها هي المطلوبة.<br><b style="color:var(--danger)">للتعرّف فقط — لا تتمرّن أثناء التبول بانتظام.</b> ولا تجربها والمثانة ممتلئة جدًا، أو مع تضخم البروستاتا أو التهابات بولية متكررة.'],
       ['طريقة منع الغازات','تخيّل أنك تمنع خروج الغازات، واضغط العضلات المسؤولة عن ذلك دون شدّ البطن.'],
       ['علامات الانقباض الصحيح','ارتفاع خفيف في الخصيتين وانسحاب بسيط للقضيب للداخل. إن شعرت بذلك فأنت تشدّ العضلة الصحيحة.']
     ];
@@ -1565,6 +1815,7 @@ function upcomingTasks(){
   if(docReady()&&S.doc.on) t.push({date:docNext(),title:'إرسال تقرير الطبيب',icon:hi('stetho'),tone:'blue',act:()=>sendDoc()});
   S.meds.filter(m=>m.on).forEach(md=>md.times.forEach(tm=>{ if(!medTaken(today(),md.id,tm)) t.push({date:today(),title:'جرعة '+md.name,sub:tm,icon:ic('pill'),tone:'pink',act:()=>{ tab='men'; S.hseg='dm'; render(); }}); }));
   if(S.onboarded) t.push({date:S.test?addDays(S.test.date,14):today(),title:'اختبار القوة',icon:ic('target'),tone:'teal',act:startTest});
+  if(S.onboarded) t.push({date:wkLast()?addDays(wkLast().date,7):today(),title:'فحص الأسبوع',icon:ic('check'),tone:'teal',act:wkSheet});
   if(isFem()) t.push({date:S.uiq.length?addDays(S.uiq[S.uiq.length-1].date,28):today(),title:'مقياس التسرّب الشهري',icon:ic('drop'),tone:'teal',act:leakSheet});
   else t.push({date:iiefLastDate()?addDays(iiefLastDate(),28):today(),title:'مؤشر الانتصاب الشهري',icon:ic('chart'),tone:'teal',act:iiefSheet});
   return t.sort((a,b)=>(a.unset-b.unset)||(a.date<b.date?-1:a.date>b.date?1:0));
@@ -1573,21 +1824,21 @@ function taskRow(x,i){ const d=new Date((x.date<today()?today():x.date)+'T12:00'
   return `<button class="trow" data-task="${i}"><span class="tdate${x.unset?' un':x.date<today()?' due':''}">${x.unset?`<b>—</b><small>سجّل</small>`:x.date<=today()?`<small>${x.date<today()?'متأخر':'اليوم'}</small>`:`<b>${d.getDate()}</b><small>${m}</small>`}</span><span class="ttx"><b>${esc(x.title)}</b><span>${x.sub?esc(x.sub)+' · ':''}${x.unset?'لم يُسجَّل بعد — اضغط لتسجيل آخر فحص':relDays(x.date)}</span></span><span class="tic ${x.tone}">${x.icon}</span></button>`; }
 function tasksSheet(){ const T=upcomingTasks(); modal(`<h3>كل المهام القادمة</h3><div class="tlist">${T.map(taskRow).join('')}</div>`,(m,close)=>{ m.querySelectorAll('[data-task]').forEach(b=>b.onclick=()=>{ close(); T[+b.dataset.task].act(); }); }); }
 let dRange='w';
-function dashHTML(plan,done,dayDone,idx){
+function dashHTML(plan,done,dayDone,idx,ex){
   const st=streak(), sNow=stepsNow(), wk=S.hc.week||{}, yS=wk[addDays(today(),-1)];
   const stepsDelta=sNow!=null&&yS?Math.round((sNow-yS)/yS*100):null;
   const adh=adhAvg(addDays(today(),-6),today()), adhPrev=adhAvg(addDays(today(),-13),addDays(today(),-7));
   const lg=gLast(), tasks=upcomingTasks(), soon=tasks.filter(x=>!x.unset&&x.date<=today()).length;
   const ring=(v,r,sw,col)=>{ const C=2*Math.PI*r; return `<circle cx="${r+sw}" cy="${r+sw}" r="${r}" fill="none" stroke="var(--ringBg)" stroke-width="${sw}"/><circle cx="${r+sw}" cy="${r+sw}" r="${r}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-Math.max(0,Math.min(1,v||0)))}" transform="rotate(-90 ${r+sw} ${r+sw})"/>`; };
   const bars=`<span class="mbars" aria-hidden="true"><i></i><i></i><i></i></span>`;
-  const stat=(cls,icon,val,unit,lbl,foot)=>`<div class="scard ${cls}"><span class="sic">${icon}</span><div class="sv"><b>${val}${unit?`<small> ${unit}</small>`:''}</b><span>${lbl}</span>${foot||''}</div>${bars}</div>`;
+  const stat=(cls,id,icon,val,unit,lbl,foot)=>`<button class="scard ${cls}" id="${id}"><span class="sic">${icon}</span><span class="sv"><b>${val}${unit?`<small> ${unit}</small>`:''}</b><span>${lbl}</span>${foot||''}</span>${bars}</button>`;
   const delta=(v)=>v==null?'':`<em class="${v>=0?'up':'down'}">${v>=0?'↑':'↓'} ${Math.abs(v)}%</em>`;
   const sleepTxt=S.hc.sleepDate===today()&&S.hc.sleep?`${Math.floor(S.hc.sleep/60)}h ${S.hc.sleep%60}m`:'—';
-  const s1=stat('steps',ic('steps'),sNow!=null?sNow.toLocaleString(LANG==='en'?'en':'ar'):'—','',sNow!=null?'خطوة اليوم':'اربط ساعتك للخطوات',delta(stepsDelta));
-  const s2=stat('sleep',hi('sleepy'),sleepTxt,'','مدة النوم','');
-  const s3=S.diabetes?stat('glu',ic('drop'),lg?gfmt(lg.v):'—',GU(),'سكر الدم',lg?`<em class="${gClass(lg.v)==='ok'?'ok':'warnc'}">${gClass(lg.v)==='ok'?ic('checkCircle')+' ضمن النطاق':ic('alert')+' خارج النطاق'}</em>`:'')
-    :stat('water',ic('drop'),waterToday(),'/ '+S.water.goal,'أكواب الماء','');
-  const s4=`<div class="scard adh"><span class="sic gold">${ic('trophy')}</span><div class="sv"><b>${adh==null?'—':Math.round(adh*100)+'%'}</b><span>الالتزام الأسبوعي</span>${adh!=null&&adhPrev!=null?delta(Math.round((adh-adhPrev)*100)):''}</div><svg class="sring" viewBox="0 0 56 56" aria-hidden="true">${ring(adh,22,6,'var(--accent2)')}</svg></div>`;
+  const s1=stat('stp','tSt',ic('steps'),sNow!=null?sNow.toLocaleString(LANG==='en'?'en':'ar'):'—','',sNow!=null?'خطوة اليوم':'اربط ساعتك للخطوات',delta(stepsDelta));
+  const s2=stat('sleep','tSl',hi('sleepy'),sleepTxt,'','مدة النوم','');
+  const s3=S.diabetes?stat('glu','tG',ic('drop'),lg?gfmt(lg.v):'—',GU(),'سكر الدم',lg?`<em class="${gClass(lg.v)==='ok'?'ok':'warnc'}">${gClass(lg.v)==='ok'?ic('checkCircle')+' ضمن النطاق':ic('alert')+' خارج النطاق'}</em>`:'')
+    :`<div class="scard water"><button class="scov" id="tW" aria-label="الماء — التفاصيل"></button><span class="sic">${ic('drop')}</span><span class="sv"><b>${waterToday()}<small> / ${S.water.goal}</small></b><span>أكواب الماء</span></span><button class="splus" id="wPlus" aria-label="أضف كوب ماء">${ic('plus')}</button></div>`;
+  const s4=`<button class="scard adh" id="tAd"><span class="sic gold">${ic('trophy')}</span><span class="sv"><b>${adh==null?'—':Math.round(adh*100)+'%'}</b><span>الالتزام الأسبوعي</span>${adh!=null&&adhPrev!=null?delta(Math.round((adh-adhPrev)*100)):''}</span><svg class="sring" viewBox="0 0 56 56" aria-hidden="true">${ring(adh,22,6,'var(--accent2)')}</svg></button>`;
   const dpct=Math.round(done/plan.n*100), workImg=isFem()?'<img src="img/ui/workout_f.webp" alt="" class="wimg" decoding="async">':IMG('posture','wimg');
   // بطاقة رمضان تظهر في أيام رمضان فقط (ramadanOn يحترم إيقاف الوضع من الإعدادات وتأكيد المستخدم لبداية الشهر ونهايته)
   const ramShow=ramadanOn();
@@ -1599,21 +1850,29 @@ function dashHTML(plan,done,dayDone,idx){
    <div class="dwel"><div><h1>مرحبًا بك في Vigoris</h1><p>لصحة أفضل .. خطوة بخطوة</p>${st?`<span class="dstreak">${ic('flame')} ${st} ${st===1?'يوم':'أيام'} متتالية</span>`:''}</div>${HEART_SVG}</div>
   </header>
   <div class="stats">${s1}${s2}${s3}${s4}</div>
+  ${ex.banner}
   <div class="dgrid">
   <section class="dcard wcard"><div class="dh"><h2>${ic('barbell')} تمارين اليوم</h2></div>
    <div class="wbody"><div class="wart">${workImg}</div>
     <div class="winfo"><div class="wring"><svg viewBox="0 0 120 120" aria-hidden="true">${ring(done/plan.n,52,8,'var(--accent)')}</svg><div><b>${dpct}%</b><span>من الهدف</span></div></div>
      <div class="wmeta"><span class="muted small">المستوى الحالي</span><span class="lvpill">${ic('chart')} ${LV_NAME[curLevel()]}</span>
       <span class="muted small" style="margin-top:8px">الجلسات المكتملة</span><b class="wdone"><bdi dir="ltr">${done} / ${plan.n}</bdi> ${done>=plan.n?`<span class="okc">${ic('checkCircle')}</span>`:''}</b></div></div></div>
+   <ol class="spills" aria-label="جلسات اليوم">${ex.pills}</ol>
    <p class="small muted wnext">${dayDone?'أحسنت، أنهيت جلسات اليوم':`التالية: جلسة ${idx+1} — ${PAT_NAME[plan.patterns[idx]]}${(plan.pos||[])[idx]?' · '+POS[plan.pos[idx]][0]:''}`}</p>
-   <button class="btn accent" id="${dayDone?'extra':'go'}">${ic('play')}${dayDone?'جلسة إضافية اختيارية':done?'متابعة التمرين':'ابدأ التمرين'}</button></section>
+   <div class="wactions"><button class="btn accent" id="${dayDone?'extra':'go'}">${ic('play')}${dayDone?'جلسة إضافية اختيارية':done?'متابعة التمرين':'ابدأ التمرين'}</button><button class="btn ghost" id="qMore" aria-haspopup="dialog">${ic('bolt')}تمارين أخرى</button></div></section>
+  ${ex.habits}
+  ${ramShow?`<section class="dcard rpromo${S.diabetes?' dm':''}">${MOSQUE_SVG}<div class="rp"><div class="rph"><h2>${ic('moon')} رمضان والصيام</h2><button class="iconbtn" id="ramSet" aria-label="إعداد وضع رمضان">${ic('set')}</button></div>
+   <p class="small">الإفطار ${S.ram.iftar} · السحور ${S.ram.suhoor} · ${hijriToday()}</p>
+   ${S.diabetes?`<p class="rwarn"><b>أفطر فورًا</b> إذا كان السكر أقل من ${gfmt(70)} أو أعلى من ${gfmt(300)} ${GU()}، أو شعرت بأعراض الانخفاض. قياس السكر لا يُفطر.</p>
+   <p class="small">قِس: قبل السحور، منتصف النهار، قبل الإفطار، وبعد الإفطار بساعتين.${lg?' آخر قراءة: <b>'+gfmt(lg.v)+'</b>':''}</p>
+   <div class="rbtns"><button class="btn ghostw" id="ramG">${ic('drop')}سجّل قراءة</button><button class="btn ghostw" id="dRam">${ic('books')}الإرشادات</button></div>`
+   :`<p class="small">تذكيرات الماء الآن بين الإفطار والسحور، والرياضة الخفيفة بعد الإفطار بساعتين.</p><button class="btn ghostw" id="dRam">${ic('books')}عرض الإرشادات</button>`}</div></section>`:''}
   <section class="dcard"><div class="dh"><h2>${ic('pulse')} نظرة عامة على صحتك</h2></div>
    <div class="rtabs" role="tablist" aria-label="الفترة">${[['w','أسبوع'],['m','شهر'],['q','ثلاثة أشهر'],['y','سنة']].map(([k,n])=>`<button role="tab" aria-selected="${dRange===k}" class="${dRange===k?'on':''}" data-rg="${k}">${n}</button>`).join('')}</div>
    <div id="dChart">${dashChart(dRange)}</div><p class="small muted" style="margin:4px 0 0">نسبة إكمال جلسات تمارين قاع الحوض اليومية.</p></section>
   <section class="dcard"><div class="dh"><h2>${ic('calendar')} مهام قادمة</h2></div>
    <div class="tlist">${tasks.slice(0,3).map(taskRow).join('')}</div>
    <button class="linkbtn" id="dAll">عرض جميع المهام ←</button></section>
-  ${ramShow?`<section class="dcard rpromo">${MOSQUE_SVG}<div class="rp"><h2>${ic('moon')} رمضان والصيام</h2><p><b>${S.diabetes?'الصيام لمريض السكري يحتاج احتياطات':'استعد لصيام صحي'}</b></p><p class="small">${S.diabetes?'احرص على قياس السكر بانتظام، وقيّم خطورة صيامك مع طبيبك.':'نظّم الماء والنوم والتمارين بين الإفطار والسحور.'}</p><button class="btn ghostw" id="dRam">${ic('books')}عرض الإرشادات</button></div></section>`:''}
   <section class="dcard dpromo"><div class="dp"><h2>${ic('leaf')} النظام الغذائي المتوسطي</h2><p>${missing('food').length?'أخبرنا بما لا يناسبك لنقترح وجباتك':mealFor(MEALS[new Date().getDay()]).m[1]+' — وجبة اليوم'}</p><button class="btn ghosta" id="dDiet">${ic('leaf')}عرض الخطة الغذائية</button></div><img src="img/ui/salad.webp" alt="" class="salad" decoding="async"></section>
   <section class="dcard"><div class="dh"><h2>${ic('bolt')} وصول سريع</h2></div>
    <div class="quick"><button id="qkR">${ic('chart')}<span>تقرير صحي</span></button><button id="qkD">${hi('stetho')}<span>تقرير الطبيب</span></button>${S.diabetes?`<button id="qkC">${ic('calendar')}<span>الفحوصات</span></button>`:`<button id="qkP">${ic('user')}<span>ملفي الصحي</span></button>`}<button id="qkS">${ic('set')}<span>الإعدادات</span></button></div></section>
@@ -1633,55 +1892,64 @@ function bindDash(){
   on('#qkS',()=>{ tab='set'; render(); window.scrollTo(0,0); });
 }
 
+/* بطاقة تنبيه واحدة في الرئيسية حسب الأولوية بدل تكديسها فوق بعض */
+function homeBanner(dayDone,gap,last){
+  const ra=ramAskCard(); if(ra) return ra;
+  if(!dayDone && gap>=2 && last) return `<div class="card hban" style="display:flex;gap:12px;align-items:center"><span class="ic-badge" style="margin:0">${ic('comeback')}</span><div style="flex:1"><b>سلسلتك تنتظرك</b><p class="small muted" style="margin:2px 0 0">غبت ${gap-1} ${gap-1===1?'يومًا':'أيام'}. دقيقة واحدة تكفي للعودة.</p></div><button class="btn accent sm" id="qBack" style="min-width:0">عودة</button></div>`;
+  if(S.suggestAdvance && !careHold() && !dayDone) return `<div class="card hban"><b class="hrow">${ic('arrowUp')} تبدو مستعدًا للتقدّم</b><p class="small muted">قيّمت جلساتك الأخيرة بأنها سهلة. هل تتقدّم يومًا في البرنامج؟</p><div class="row"><button class="btn accent sm" id="advY">نعم، تقدّم</button><button class="btn ghost sm" id="advN">لاحقًا</button></div></div>`;
+  if(S.suggestEase&&!careHold()) return easeCard();
+  const t=tutCard()||testCard(); if(t) return t;
+  if(wkDue()) return `<div class="card hban tcard"><span class="ic-badge" style="margin:0">${ic('check')}</span><div style="flex:1"><b>فحص الأسبوع (دقيقة)</b><p class="small muted" style="margin:2px 0 8px">${wkList().length?'أسئلة قصيرة نقارن بها أسبوعك الأول لنريك تقدّمك الحقيقي.':'أجب عن أسئلة قصيرة لنحفظ نقطة البداية ونقيس عليها تقدّمك.'}</p><div class="btnrow"><button class="btn accent sm" id="wkB">ابدأ</button><button class="btn ghost sm" id="wkLt">لاحقًا</button></div></div></div>`;
+  const l=wkLast();
+  if(!isF()&&l&&l.pmd>0&&!S.pmdSeen) return `<div class="card hban tcard"><span class="ic-badge" style="margin:0">${ic('drop')}</span><div style="flex:1"><b>توقّف التنقيط بعد التبول</b><p class="small muted" style="margin:2px 0 8px">ذكرت تنقيطًا بعد التبول. حركة تستغرق ثوانٍ تحل أغلب الحالات.</p><button class="btn accent sm" id="pmB">كيف؟</button></div></div>`;
+  if(l&&l.leak>0&&!S.knackSeen) return `<div class="card hban tcard"><span class="ic-badge" style="margin:0">${ic('shield')}</span><div style="flex:1"><b>الحركة الذكية قبل الكحة</b><p class="small muted" style="margin:2px 0 8px">ذكرت تسرّبًا هذا الأسبوع. شدّة قبل الكحة بثانية تقلله من الأسبوع الأول.</p><button class="btn accent sm" id="knB">تعلّمها</button></div></div>`;
+  return profCard();
+}
+/* التمارين الإضافية في نافذة واحدة بدل أربع بلاطات */
+function quickSheet(plan){
+  const Q=[['q1',ic('bolt'),'جلسة الدقيقة','دقيقة',minuteCounts()?'تُحسب من جلسات اليوم (مرة واحدة يوميًا)':'جلسة إضافية — جلسات اليوم مكتملة',()=>startMinute(false)],
+    ['qA',ic('volOn'),'جلسة الدقيقة الصوتية','دقيقة','الشاشة معتمة والصوت يقودك — الجوال في جيبك',()=>startMinute(true)],
+    ['qR',hi('lungs'),'جلسة الإرخاء','4 د','شهيق يرخي قاع الحوض وزفير طويل — للتوتر وشدّ العضلات',()=>startSession('relax',{min:4})],
+    ['qH',ic('clock'),'اربط الدقيقة بعاداتك','','بعد تفريش الأسنان، عند الإشارة، بعد الصلاة',()=>anchorsSheet()],
+    ['qC',ic('target'),'تمرين التحكم','2 د','انقباضات سريعة ثم ثبات — للتحكم في القذف',()=>startSession('control')],
+    ['q2',ic('flame'),'النيران السريعة',String(plan.flicks||30),(plan.flicks||30)+' انقباضة: ضغط وإرخاء كل ثانية',()=>startSession('rapidq',plan)],
+    ['qB',hi('lungs'),'تنفّس القلب',S.br.min+' د',`${S.br.bpm} أنفاس/د · هذا الأسبوع ${Math.min(breathDays(addDays(today(),-6),today()),7)} من 3 أيام`,()=>breathSheet()]];
+  modal(`<h3 id="qmH">تمارين أخرى</h3><p class="small muted" style="margin-top:-4px">إضافية — لا تحل محل جلسات اليوم.</p>
+   <div class="tlist">${Q.map(([id,icn,t,d,sub])=>`<button class="trow" id="${id}"><span class="tic teal">${icn}</span><span class="ttx"><b>${t}</b><span>${sub}</span></span><span class="qdur">${d}</span></button>`).join('')}</div>`,
+   (m,close)=>Q.forEach(([id,,,,,f])=>{ m.querySelector('#'+id).onclick=()=>{ close(); f(); }; }));
+}
 function renderHome(){
   const plan=planFor(S.progDay), done=dailyDoneOn(today()), dayDone=S.dayDoneOn===today();
-  const st=streak(), last=lastActiveBeforeToday(), gap=last?dayDiff(last,today()):0;
-  const h=new Date().getHours(), greet=h<12?'صباح الخير':h<18?'مساء الخير':'مساء النور';
-  const idx=Math.min(done,plan.n-1), p=plan.patterns[idx], C=2*Math.PI*38, pct=S.progDay/180;
+  const last=lastActiveBeforeToday(), gap=last?dayDiff(last,today()):0;
+  const idx=Math.min(done,plan.n-1);
   const times=effectiveTimes(), slots=(plan.n===2?[0,2]:[0,1,2]);
-  const nextBox = dayDone
-    ? `<div class="nextbox"><p class="lbl">اكتمل اليوم</p><h3>أحسنت، أنهيت ${plan.n} من ${plan.n}</h3><p>نراك غدًا في اليوم ${Math.min(180,S.progDay+1)}. الراحة جزء من التدريب.</p><div style="height:12px"></div><button class="btn white" id="extra">${ic('bolt')}جلسة إضافية اختيارية</button></div>`
-    : `<div class="nextbox"><p class="lbl">جلستك التالية · ${sessionMinutes(plan,idx)} دقائق تقريبًا</p><h3>جلسة ${idx+1} من ${plan.n} — ${PAT_NAME[p]}</h3><p>${sessDesc(plan,p)}</p>${wave(p)}<div style="height:10px"></div><button class="btn white" id="go">${ic('play')}ابدأ الجلسة</button></div>`;
-  const planRows = slots.map((sl,i)=>{ const st2 = i<done?'done':(i===done&&!dayDone?'next':''); const pt=plan.patterns[i], ps=(plan.pos||[])[i];
-    return `<div class="slot ${st2}"><span class="tm">${times[sl].t}</span><span class="st">${st2==='done'?ic('check'):st2==='next'?ic('play'):ic('clock')}</span><span class="tx"><b>جلسة ${i+1} · ${PAT_NAME[pt]}${ps?' · '+POS[ps][0]:''}</b><span>${sessDesc(plan,pt)}</span></span>${st2==='next'?'<span class="tagx">التالية</span>':''}</div>`; }).join('');
-  const recover = (!dayDone && gap>=2 && last) ? `<div class="card" style="display:flex;gap:12px;align-items:center"><span class="ic-badge" style="margin:0">${ic('comeback')}</span><div style="flex:1"><b>سلسلتك تنتظرك</b><p class="small muted" style="margin:2px 0 0">غبت ${gap-1} ${gap-1===1?'يومًا':'أيام'}. دقيقة واحدة تكفي للعودة.</p></div><button class="btn accent sm" id="qBack" style="min-width:0">عودة</button></div>`:'';
-  const adv = S.suggestAdvance && !careHold() && !dayDone ? `<div class="card"><b class="hrow">${ic('arrowUp')} تبدو مستعدًا للتقدّم</b><p class="small muted">قيّمت جلساتك الأخيرة بأنها سهلة. هل تتقدّم يومًا في البرنامج؟</p><div class="row"><button class="btn accent sm" id="advY">نعم، تقدّم</button><button class="btn ghost sm" id="advN">لاحقًا</button></div></div>`:'';
+  const pills = slots.map((sl,i)=>{ const st2 = i<done?'done':(i===done&&!dayDone?'next':''); const pt=plan.patterns[i];
+    return `<li class="spill ${st2}"${st2==='next'?' aria-current="step"':''}><span class="stt"><bdi dir="ltr">${times[sl].t}</bdi><span class="sst">${st2==='done'?ic('check'):st2==='next'?ic('play'):ic('clock')}</span></span><b>جلسة ${i+1}</b><span class="spn">${PAT_NAME[pt]}</span></li>`; }).join('');
   const w=waterToday(), wg=S.water.goal, ht=heartToday(), hd=HEART.filter(([k])=>ht[k]).length, sw=smokeWindow(), sk=smokeToday(), snx=nextSmoke();
-  const tiles=[], sNow=stepsNow(), sg=S.stepGoal;
-  tiles.push(S.hc.on?`<button class="tile steps" id="tSt"><div class="hd"><span class="badge">${hi('walking')}</span><span class="sub">${S.hc.sleepDate===today()&&S.hc.sleep?'نوم '+fmtH(S.hc.sleep):''}</span></div><h3>المشي اليوم</h3><div class="big">${(sNow||0).toLocaleString(LANG==='en'?'en':'ar')}</div><div class="sub">${(sNow||0)>=sg?'وصلت لهدفك':'متبقٍ '+Math.max(0,sg-(sNow||0)).toLocaleString(LANG==='en'?'en':'ar')+' خطوة'}</div><div class="mini"><i style="width:${Math.min(100,(sNow||0)/sg*100)}%"></i></div></button>`
-    :`<button class="tile steps" id="tSt"><div class="hd"><span class="badge">${hi('walking')}</span><span class="sub">الساعة</span></div><h3>المشي والنوم</h3><div class="sub">اربط ساعتك لتعرف كم مشيت وكم بقي، ومدة نومك</div></button>`);
-  if(S.water.on) tiles.push(`<div class="tile water" id="tW"><div class="wave-bg" style="height:${Math.min(1,w/wg)*70+8}%"></div><div class="hd"><span class="badge">${ic('drop')}</span><button class="plusb" id="wPlus" aria-label="أضف كوب ماء">${ic('plus')}</button></div><h3>الماء</h3><div class="big">${w}<span class="sub"> من ${wg} أكواب</span></div><div class="mini"><i style="width:${Math.min(100,w/wg*100)}%"></i></div></div>`);
-  if(S.heart.on) tiles.push(`<button class="tile heart" id="tH"><div class="hd"><span class="badge">${hi('heartOrgan')}</span><span class="sub">${hd} من ${HEART.length}</span></div><h3>القلب والأداء</h3><div class="sub">${hd===HEART.length?'أكملت عادات اليوم':HEART.filter(([k])=>!ht[k]).map(x=>x[2].split(' ').slice(0,2).join(' ')).slice(0,2).join(' · ')}</div><div class="mini"><i style="width:${hd/HEART.length*100}%"></i></div></button>`);
-  if(S.smoke.on||S.smokeManual) tiles.push(`<button class="tile smoke" id="tS"><div class="hd"><span class="badge">${hi('noSmoke')}</span><span class="sub">${sk.ok} ناجحة</span></div><h3>بلا تدخين</h3>${sw?`<div class="big" id="smkT">${Math.floor((sw.end-Date.now())/6e4)}:${pad(Math.floor((sw.end-Date.now())/1e3)%60)}</div><div class="sub">فترة جارية — استمر</div>`:`<div class="sub">${snx?'الفترة التالية '+hm(new Date(snx).getHours()*60+new Date(snx).getMinutes()):''}</div>`}<div class="mini"><i style="width:${sw?Math.min(100,(Date.now()-sw.start)/(sw.end-sw.start)*100):0}%"></i></div></button>`);
-  tiles.push(`<button class="tile quick" id="q1"><div class="hd"><span class="badge">${ic('bolt')}</span><span class="sub">دقيقة</span></div><h3>جلسة سريعة</h3><div class="sub">تحفظ سلسلتك في الأيام المزدحمة</div></button>`);
-  tiles.push(`<button class="tile quick" id="qC"><div class="hd"><span class="badge">${ic('target')}</span><span class="sub">2 د</span></div><h3>تمرين التحكم</h3><div class="sub">انقباضات سريعة ثم ثبات — للتحكم في القذف</div></button>`);
-  tiles.push(`<button class="tile quick" id="q2"><div class="hd"><span class="badge">${ic('flame')}</span><span class="sub">${plan.flicks||30}</span></div><h3>النيران السريعة</h3><div class="sub">${plan.flicks||30} انقباضة: ضغط وإرخاء كل ثانية</div></button>`);
-  tiles.push(`<button class="tile quick" id="qB"><div class="hd"><span class="badge">${hi('lungs')}</span><span class="sub">${S.br.min} د</span></div><h3>تنفّس القلب</h3><div class="sub">${S.br.bpm} أنفاس/د · هذا الأسبوع ${Math.min(breathDays(addDays(today(),-6),today()),7)} من 3 أيام</div></button>`);
-  if(S.diabetes){ const lg=gLast(); tiles.push(`<button class="tile glu" id="tG"><div class="hd"><span class="badge">${ic('drop')}</span><span class="sub">${lg?GCTXN[lg.ctx]||'':''}</span></div><h3>السكر</h3><div class="big ${lg?gClass(lg.v):''}">${lg?gfmt(lg.v):'—'}<small style="font-size:12px;font-weight:500" class="muted"> ${GU()}</small></div><div class="sub">${lg?'منذ '+ago(lg.ts):'سجّل أول قراءة'}</div></button>`); }
+  const hm2=[];
+  // الماء هنا فقط لمن يتابع السكر (لغيره يظهر في البطاقات العلوية)
+  if(S.diabetes && S.water.on) hm2.push(`<div class="hmini water"><button class="scov" id="tW" aria-label="الماء — التفاصيل"></button><span class="hd"><span class="badge">${ic('drop')}</span><button class="splus" id="wPlus" aria-label="أضف كوب ماء">${ic('plus')}</button></span><b class="ht">الماء</b><span class="hv">${w}<small> / ${wg}</small></span><span class="mini"><i style="width:${Math.min(100,w/wg*100)}%"></i></span></div>`);
+  if(S.heart.on) hm2.push(`<button class="hmini heart" id="tH"><span class="hd"><span class="badge">${hi('heartOrgan')}</span><span class="sub">${hd} من ${HEART.length}</span></span><b class="ht">القلب والأداء</b><span class="sub">${hd===HEART.length?'أكملت عادات اليوم':HEART.filter(([k])=>!ht[k]).map(x=>x[2].split(' ').slice(0,2).join(' ')).slice(0,2).join(' · ')}</span><span class="mini"><i style="width:${hd/HEART.length*100}%"></i></span></button>`);
+  if(S.smoke.on||S.smokeManual) hm2.push(`<button class="hmini smoke" id="tS"><span class="hd"><span class="badge">${hi('noSmoke')}</span><span class="sub">${sk.ok} ناجحة</span></span><b class="ht">بلا تدخين</b>${sw?`<span class="hv" id="smkT">${Math.floor((sw.end-Date.now())/6e4)}:${pad(Math.floor((sw.end-Date.now())/1e3)%60)}</span><span class="sub">فترة جارية — استمر</span>`:`<span class="sub">${snx?'الفترة التالية '+hm(new Date(snx).getHours()*60+new Date(snx).getMinutes()):''}</span>`}<span class="mini"><i style="width:${sw?Math.min(100,(Date.now()-sw.start)/(sw.end-sw.start)*100):0}%"></i></span></button>`);
+  const habits = hm2.length?`<section class="dcard"><div class="dh"><h2>${ic('leaf')} عادات اليوم</h2></div><div class="habits${hm2.length===1?' one':hm2.length===3?' three':''}">${hm2.join('')}</div></section>`:'';
   app.innerHTML=`
-  ${dashHTML(plan,done,dayDone,idx)}
-  ${S.progDay>=180?'<div class="warn">وصلت لنهاية البرنامج — استمر بجلسات الصيانة يوميًا.</div>':''}
-  ${recover}${adv}${profCard()}${tutCard()}${ramAskCard()}${ramadanCard()}${testCard()}
-  <div class="sec"><h2>خطة اليوم</h2><span>${done} من ${plan.n} جلسات</span></div>
-  <div class="card plan">${planRows}</div>
-  <div class="sec"><h2>عاداتك الصحية</h2><span>اضغط للتفاصيل</span></div>
-  <div class="tiles">${tiles.join('')}</div>`;
-  bindDash(); bindProfCard(); bindTutCard();
-  const go=$('#go'); if(go) go.onclick=()=>startSession('daily',plan,idx);
-  const ex=$('#extra'); if(ex) ex.onclick=()=>startSession('quick');
-  const qb=$('#qBack'); if(qb) qb.onclick=()=>startSession('quick');
-  $('#q1').onclick=()=>startSession('quick'); $('#q2').onclick=()=>startSession('rapidq',plan); $('#qB').onclick=()=>breathSheet(); $('#qC').onclick=()=>startSession('control');
-  const tSt=$('#tSt'); if(tSt) tSt.onclick=()=>stepsSheet(); const tG=$('#tG'); if(tG) tG.onclick=()=>gluSheet();
-  const tc=$('#tcGo'); if(tc) tc.onclick=()=>startTest();
-  const rs=$('#ramSet'); if(rs) rs.onclick=ramSheet; bindRamAsk(); const rg=$('#ramG'); if(rg) rg.onclick=()=>gluSheet();
+  ${dashHTML(plan,done,dayDone,idx,{pills,habits,banner:(S.progDay>=180?'<div class="warn">وصلت لنهاية البرنامج — استمر بجلسات الصيانة يوميًا.</div>':'')+homeBanner(dayDone,gap,last)})}`;
+  bindDash(); bindProfCard(); bindTutCard(); bindRamAsk();
+  const on=(id,f)=>{ const e=$(id); if(e) e.onclick=f; };
+  on('#go',()=>startSession('daily',plan,idx));
+  on('#extra',()=>startSession('quick')); on('#qBack',()=>startSession('quick'));
+  on('#qMore',()=>quickSheet(plan));
+  on('#tSt',()=>stepsSheet()); on('#tSl',()=>stepsSheet()); on('#tG',()=>gluSheet());
+  on('#tAd',()=>{ tab='prog'; render(); window.scrollTo(0,0); });
+  on('#tcGo',()=>startTest());
+  on('#ramSet',ramSheet); on('#ramG',()=>gluSheet());
   if(S.hc.on) hcSync().then(ch=>{ if(ch&&screen==='tabs'&&tab==='home') renderHome(); });
   const wp=$('#wPlus'); if(wp) wp.onclick=e=>{ e.stopPropagation(); addWater(1); render(); };
-  const tW=$('#tW'); if(tW) tW.onclick=()=>waterSheet();
-  const tH=$('#tH'); if(tH) tH.onclick=()=>heartSheet();
-  const tS=$('#tS'); if(tS) tS.onclick=()=>smokeSheet();
+  on('#tW',()=>waterSheet()); on('#tH',()=>heartSheet()); on('#tS',()=>smokeSheet());
   if(document.getElementById('smkT') && !_smkTimer) _smkTimer=setInterval(tickSmoke,1000);
-  const ay=$('#advY'); if(ay) ay.onclick=()=>{ if(S.progDay<180) S.progDay++; S.suggestAdvance=false; save(); toast('تقدّمت إلى اليوم '+S.progDay); render(); };
-  const an=$('#advN'); if(an) an.onclick=()=>{ S.suggestAdvance=false; save(); render(); };
+  on('#advY',advanceConfirm); bindEase();
+  on('#advN',()=>{ S.suggestAdvance=false; save(); render(); });
+  on('#wkB',wkSheet); on('#wkLt',()=>{ S.wkSnooze=today(); save(); render(); }); on('#pmB',pmdSheet); on('#knB',knackSheet);
 }
 function waterSheet(){
   modal(`<div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0;background:var(--waterSoft);color:var(--water)">${ic('drop')}</span><h3 style="margin:0">الماء اليوم</h3></div>${IMG('water','sm')}
@@ -1732,11 +2000,11 @@ const PH={
   in:['شهيق','ببطء من الأنف، واملأ بطنك بالهواء.'],out:['زفير','ببطء من الفم، أطول من الشهيق.'],
   sq:['اضغط الآن','شدّ للداخل وازفر بهدوء — لا تحبس نفسك.'],
   hold:['استمر بالضغط','حافظ على الانقباض وتنفّس بحرية — لا تحبس نفسك.'],
-  rl:['استرخِ تمامًا','أرح العضلة كاملًا — الراحة جزء من التمرين.'],
+  rl:['استرخِ تمامًا','دع العضلة تنزل بالكامل قبل التكرار التالي — الإفلات الكامل جزء من القوة.'],
   e1:['الطابق الأول','نصف ضغط خفيف.'],e2:['الطابق الثاني','زِد إلى ضغط كامل.'],e3:['الطابق الأعلى','أقصى ضغط ممكن… ثم انزل ببطء.']
 };
 function startSession(kind,plan,idx){
-  if(kind!=='breath'){
+  if(kind!=='breath'&&kind!=='relax'){
     if(missing('kegel').length){ ensureAsked('kegel',()=>startSession(kind,plan,idx),'قبل أول تمرين','بعض الحالات تحتاج تقييم مختص قبل تمارين التقوية.'); return; }
     if(has('pelvicSurg')&&!P().surgOk){ modal(`<h3>بعد الجراحة</h3><p>ذكرت جراحة حديثة في الحوض أو البروستاتا أو قسطرة بولية. هل سمح لك جرّاحك بتمارين قاع الحوض، وأُزيلت القسطرة؟</p><div class="btnrow"><button class="btn accent" id="sgY">نعم، سمح لي</button><button class="btn ghost" id="sgN">ليس بعد</button></div><p class="small muted">${ic('books')} ${srcLink('nice')}</p>`,(m,close)=>{
         m.querySelector('#sgY').onclick=()=>{ P().surgOk=today(); save(); close(); startSession(kind,plan,idx); };
@@ -1751,7 +2019,7 @@ function startSession(kind,plan,idx){
   drawSession(); enterStep();
   R.timer=setInterval(tick,100);
 }
-function curLabel(st){ const h=(st.t==='sq'||st.t==='e1')&&tutCueHint(); if(h) return [st.lbl==='hold'?PH.hold[0]:PH[st.t][0],h]; if(st.t==='sq'&&st.lbl==='hold') return PH.hold; if(st.t==='ready'&&R&&R.s.pos) return ['الوضعية: '+POS[R.s.pos][0],POS[R.s.pos][1]]; return PH[st.t]; }
+function curLabel(st){ if(st.lbl==='walk') return ['شدّ خفيف وامشِ','خطوتك عادية والتنفس طبيعي — شدّ خفيف فقط.']; if(st.lbl==='rx') return st.t==='in'?['شهيق — أرخِ قاع الحوض','دع العضلة تنزل وتتسع مع الشهيق، ولا تشدّ شيئًا.']:['زفير طويل','أرخِ البطن والفك والكتفين.']; const h=(st.t==='sq'||st.t==='e1')&&tutCueHint(); if(h) return [st.lbl==='hold'?PH.hold[0]:PH[st.t][0],h]; if(st.t==='sq'&&st.lbl==='hold') return PH.hold; if(st.t==='ready'&&R&&R.s.pos) return ['الوضعية: '+POS[R.s.pos][0],POS[R.s.pos][1]]; return PH[st.t]; }
 function enterStep(){
   const st=R.s.steps[R.i];
   if(st.t==='in'){ Haptic.light(); }
@@ -1767,7 +2035,7 @@ function enterStep(){
     else if(st.d>=2) speak(st.t==='rl'?'استرخِ':st.t==='sq'&&st.lbl==='hold'?'اضغط واثبت':curLabel(st)[0]);
   }
   R.lastSec=null; updateSession(true);
-  const rw=document.querySelector('.ring-wrap'); if(rw && st.t!=='ready'){ rw.classList.remove('beat'); void rw.offsetWidth; rw.classList.add('beat'); }
+  const rw=document.querySelector('.orb-stage'); if(rw && st.t!=='ready'){ rw.classList.remove('beat'); void rw.offsetWidth; rw.classList.add('beat'); }
 }
 function tick(){
   if(!R||R.paused) { if(R) R.last=performance.now(); return; }
@@ -1788,42 +2056,117 @@ function tick(){
   updateSession(false);
 }
 function drawSession(){
-  const C=2*Math.PI*96;
-  app.innerHTML=`
-  <div class="topbar"><button class="iconbtn" id="xBtn" aria-label="خروج">${ic('x')}</button>
-    <div class="center"><b id="sTitle" class="small">${R.s.title}</b><div class="small muted" id="repTxt"></div></div>
-    <button class="iconbtn" id="vBtn" aria-label="الصوت">${ic(S.voice?'volOn':'volOff')}</button></div>
-  <div class="ring-wrap"><svg width="240" height="240" viewBox="0 0 240 240">
-    <circle cx="120" cy="120" r="96" fill="none" stroke="var(--line)" stroke-width="10"/>
-    <circle id="ring" cx="120" cy="120" r="96" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}"/></svg>
-    <div class="ring-center"><div class="count" id="cnt">3</div><div class="small muted">ثانية</div></div></div>
-  ${R.s.kind==='breath'?'':liveHammock()}
-  <div class="phase" id="ph" role="status" aria-live="polite" aria-atomic="true">استعد</div><p class="hint" id="hint"></p>
-  <div class="dots" id="dots"></div>
-  <div class="pbar" style="margin:8px 0 16px"><i id="tot" style="width:0"></i></div>
-  <div class="row"><button class="btn" id="pBtn">${ic('pause')}إيقاف مؤقت</button><button class="btn ghost" id="sBtn">تخطّي الجلسة</button></div>
-  <p class="small muted center hrow" style="margin-top:14px;justify-content:center">${ic('bulb')} ضع الهاتف في جيبك: نبضة قوية = اضغط · نبضتان = استرخِ</p>`;
+  const C=2*Math.PI*103, breath=R.s.kind==='breath'||R.s.kind==='relax';
+  app.innerHTML=`<div class="sess">
+  <header class="topbar"><button class="iconbtn" id="xBtn" aria-label="خروج">${ic('x')}</button>
+    <div class="top-meta"><b id="sTitle">${R.s.title}</b><div class="sub" id="repTxt"></div></div>
+    <div class="top-actions"><button class="iconbtn" id="dimBtn" aria-label="تعتيم الشاشة (وضع الجيب)">${ic('eye')}</button><button class="iconbtn" id="vBtn" aria-label="الصوت">${ic(S.voice?'volOn':'volOff')}</button></div></header>
+  <section class="orb-stage" id="orb" aria-hidden="true"><div class="orb-aura"></div>
+    <svg class="orb-svg" viewBox="0 0 258 258"><defs><linearGradient id="orbGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="og-a"/><stop offset="1" class="og-b"/></linearGradient></defs>
+      <circle class="ring-ticks" cx="129" cy="129" r="118"/><circle class="ring-track" cx="129" cy="129" r="103"/>
+      <circle id="ring" cx="129" cy="129" r="103" transform="rotate(-90 129 129)" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${C.toFixed(2)}"/>
+      <g id="cometWrap"><circle class="ring-comet" cx="129" cy="26" r="6"/></g></svg>
+    <div class="dial-core"><span class="phase-chip" id="phChip">استعد</span><div class="count" id="cnt">3</div><div class="sec-lbl">ثانية</div></div></section>
+  ${R.s.pattern==='elevator'?'<div class="elv-bars" id="elvBars" aria-hidden="true"><i></i><i></i><i></i></div>':''}
+  ${breath?'':`<section class="anat-card" aria-hidden="true"><div class="anat-head"><span>حركة عضلات قاع الحوض</span><b id="anatPct">استعداد</b></div>
+    ${isFem()?ANAT_SVG:`<div class="med-stage"><video id="medVideo" muted playsinline preload="auto" disablepictureinpicture disableremoteplayback tabindex="-1"><source src="img/kegel_m.mp4" type="video/mp4"></video></div>`}
+    <div class="anat-meter"><i id="anatBar"></i></div></section>`}
+  <section class="guide-box"><div class="phase" id="ph" role="status" aria-live="polite" aria-atomic="true">استعد</div><p class="hint" id="hint"></p>
+    <span class="next-pill" id="nextPill" aria-hidden="true"></span></section>
+  <div><div class="dots" id="dots"></div><div class="pbar"><i id="tot"></i></div></div>
+  <div class="controls"><button class="btn primary" id="pBtn">${ic('pause')}إيقاف مؤقت</button><button class="btn ghost" id="sBtn">تخطّي الجلسة</button></div>
+  <p class="pocket-tip">ضع الهاتف في جيبك: نبضة قوية = اضغط · نبضتان = استرخِ</p></div>`;
   $('#pBtn').onclick=togglePause;
   $('#xBtn').onclick=()=>askExit();
   $('#sBtn').onclick=()=>askExit(true);
   $('#vBtn').onclick=()=>{ S.voice=!S.voice; save(); $('#vBtn').innerHTML=ic(S.voice?'volOn':'volOff'); };
+  $('#dimBtn').onclick=dimOn;
+  // الفيديو لا يعمل تلقائيًا ولا يعيد التشغيل: موضعه يتبع العدّاد فقط
+  const mv=$('#medVideo'); if(mv){ mv.muted=true; mv.defaultMuted=true; mv.loop=false; mv.autoplay=false; mv.pause();
+    mv.addEventListener('play',()=>mv.pause()); mv.addEventListener('loadedmetadata',()=>{ if(R) updateSession(false); });
+    medVideoBlob().then(u=>{ if(u&&mv.isConnected&&mv.src!==u){ mv.src=u; mv.load(); } }); }
 }
+/* التقديم الدقيق يحتاج ملفًا قابلًا للتقديم بالكامل: بعض الخوادم المحلية لا تدعم طلبات النطاق (Range)
+   فيبقى الفيديو عالقًا عند 0. نحمّل الملف (≈200 ك.ب) مرة واحدة إلى الذاكرة ونشغّله من رابط blob. */
+let _medBlob=null;
+function medVideoBlob(){ if(!_medBlob) _medBlob=fetch('img/kegel_m.mp4').then(r=>r.ok?r.blob():null).then(b=>b?URL.createObjectURL(b):null).catch(()=>null); return _medBlob; }
+/* الرسم التشريحي الزجاجي لقاع الحوض: ثلاث طبقات ألياف تتوهج وترتفع، وأسهم رفع، وعضو يرتفع (للنساء؛ وللرجال الفيديو الطبي) */
+const ANAT_SVG=`<svg class="anat-svg" viewBox="0 0 320 112"><defs>
+  <linearGradient id="slingGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0E7490"/><stop offset=".5" class="og-a"/><stop offset="1" stop-color="#0E7490"/></linearGradient>
+  <radialGradient id="organGrad" cx="50%" cy="35%" r="65%"><stop offset="0" stop-color="#38BDF8" stop-opacity=".30"/><stop offset="1" stop-color="#0C4A6E" stop-opacity=".08"/></radialGradient>
+  <filter id="muscleGlow" x="-25%" y="-40%" width="150%" height="180%"><feGaussianBlur stdDeviation="4.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <line x1="24" y1="92" x2="296" y2="92" stroke="rgba(255,255,255,.06)" stroke-dasharray="4 6"/><line x1="24" y1="54" x2="296" y2="54" stroke="rgba(255,255,255,.05)" stroke-dasharray="3 7"/>
+  <path d="M36 22 C24 44, 24 72, 46 88" fill="none" stroke="rgba(203,213,225,.28)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M284 22 C296 44, 296 72, 274 88" fill="none" stroke="rgba(203,213,225,.28)" stroke-width="8" stroke-linecap="round"/>
+  <text x="34" y="15" class="atx" text-anchor="middle">العانة</text><text x="286" y="15" class="atx" text-anchor="middle">العصعص</text>
+  <g id="lvO"><ellipse cx="160" cy="40" rx="46" ry="22" fill="url(#organGrad)" stroke="rgba(56,189,248,.35)" stroke-width="1.5"/><ellipse cx="160" cy="36" rx="28" ry="11" fill="rgba(255,255,255,.06)"/></g>
+  <path id="lvGlow" class="lv-glow" d="M46 62 Q160 104 274 62" fill="none" stroke-width="16" stroke-linecap="round" opacity="0" filter="url(#muscleGlow)"/>
+  <path id="lvH" d="M46 62 Q160 104 274 62" fill="none" stroke="url(#slingGrad)" stroke-width="9" stroke-linecap="round"/>
+  <path id="lvFiber1" d="M54 64 Q160 98 266 64" fill="none" stroke="rgba(224,249,255,.55)" stroke-width="1.6" stroke-dasharray="8 6" stroke-linecap="round"/>
+  <path id="lvFiber2" d="M62 67 Q160 108 258 67" fill="none" stroke="rgba(34,211,238,.35)" stroke-width="2" stroke-linecap="round"/>
+  <g id="liftArrows" opacity="0"><path d="M160 76 V52 M153 59 L160 51 L167 59" fill="none" stroke="#A5F3FC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M112 72 V56 M107 61 L112 55 L117 61" fill="none" stroke="#67E8F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".75"/>
+    <path d="M208 72 V56 M203 61 L208 55 L213 61" fill="none" stroke="#67E8F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".75"/></g></svg>`;
+const CONTRACT=['sq','hold','e1','e2','e3'];
+function updateAnat(fill,st){
+  const pct=Math.round(fill*100), contracting=CONTRACT.includes(st.t);
+  const lbl=st.t==='ready'?T('استعداد'):T(contracting?pct+'% شد ورفع':pct+'% إفلات');
+  const ap=document.getElementById('anatPct'); if(ap&&ap.textContent!==lbl) ap.textContent=lbl;
+  const ab=document.getElementById('anatBar'); if(ab) ab.style.width=pct+'%';
+  const H=document.getElementById('lvH'); if(!H) return;
+  const sag=104-fill*46, d=`M46 62 Q160 ${sag.toFixed(1)} 274 62`;
+  H.setAttribute('d',d); const G=document.getElementById('lvGlow'); G.setAttribute('d',d); G.setAttribute('opacity',(fill*0.65).toFixed(2));
+  document.getElementById('lvFiber1').setAttribute('d',`M54 64 Q160 ${(sag-5).toFixed(1)} 266 64`);
+  document.getElementById('lvFiber2').setAttribute('d',`M62 67 Q160 ${(sag+5).toFixed(1)} 258 67`);
+  document.getElementById('lvO').setAttribute('transform',`translate(0 ${(-fill*13).toFixed(1)})`);
+  const arr=document.getElementById('liftArrows'); arr.setAttribute('opacity',contracting?Math.min(1,fill*1.4).toFixed(2):'0'); arr.setAttribute('transform',`translate(0 ${(-fill*10).toFixed(1)})`);
+}
+// شارة المرحلة داخل القرص
+const PH_CHIP={ready:'استعد',sq:'انقباض',hold:'ثبات',rl:'إفلات',e1:'33% شد',e2:'66% شد',e3:'100% شد',in:'شهيق',out:'زفير'};
+/* موضع الفيديو الطبي = fill (0 استرخاء كامل ← 1 انقباض ورفع كامل) في كل الأنماط: الكلاسيكي والمصعد والثبات الطويل */
+function syncMedVideo(fill){
+  const video=document.getElementById('medVideo'); if(!video) return;
+  const duration=Number.isFinite(video.duration)&&video.duration>0?video.duration:4;
+  const t=Math.max(0,Math.min(duration-0.001,fill*duration));
+  // لا نطلب موضعًا جديدًا إلا إذا تغيّر بأكثر من ربع إطار (15 إطارًا/ث) — يمنع تراكم طلبات التقديم على WebView
+  if(video.readyState>=1&&Math.abs(video.currentTime-t)>0.016) video.currentTime=t;
+  if(!video.paused) video.pause();
+}
+/* وضع الجيب: شاشة سوداء تقريبًا (خصوصية + توفير بطارية OLED) والصوت والاهتزاز مستمران؛ لمسة واحدة للعودة */
+function dimOn(){ if(document.getElementById('dimV')) return;
+  const v=document.createElement('div'); v.className='dim-veil'; v.id='dimV'; v.setAttribute('role','button'); v.tabIndex=0;
+  v.setAttribute('aria-label',T('المس للعودة إلى التمرين'));
+  v.innerHTML=`<b id="dimN"></b><span id="dimP"></span><small>${T('المس الشاشة للعودة')}</small>`;
+  const off=()=>v.remove(); v.onclick=off; v.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '||e.key==='Escape') off(); };
+  document.body.appendChild(v); v.focus(); if(R) updateSession(true); }
+const dimOff=()=>{ const v=document.getElementById('dimV'); if(v) v.remove(); };
+const PH_CLS=['ph-ready','ph-sq','ph-rl','ph-hold','ph-in','ph-out','ph-e1','ph-e2','ph-e3'];
 function updateSession(full){
-  const st=R.s.steps[R.i], C=2*Math.PI*96;
+  const st=R.s.steps[R.i], C=2*Math.PI*103;
   let frac=Math.min(1,R.e/st.d);
   let fill = st.t==='out' ? 1-frac : st.t==='in' ? frac : st.t==='rl' ? 1-frac : st.t==='ready' ? 0 :
              st.t==='e1' ? frac/3 : st.t==='e2' ? 1/3+frac/3 : st.t==='e3' ? 2/3+frac/3 : frac;
   const ring=$('#ring'); if(!ring) return;
-  ring.setAttribute('stroke-dashoffset', C*(1-fill));
-  ring.setAttribute('stroke', st.t==='rl'||st.t==='out'?'var(--relax)':'var(--accent)');
-  $('#cnt').textContent=Math.max(1,Math.ceil(st.d-R.e));
-  const sag=Math.round(84-fill*52), H=$('#lvH'), O=$('#lvO');
-  if(H){ const d=`M36 44 Q130 ${sag} 224 44`; H.setAttribute('d',d); H.style.d=`path("${d}")`; H.setAttribute('stroke',st.t==='rl'||st.t==='ready'?'var(--relax)':'var(--accent)'); }
-  if(O) O.style.transform=`translateY(${(-fill*14).toFixed(1)}px)`;
+  syncMedVideo(fill); updateAnat(fill,st);
+  ring.setAttribute('stroke-dashoffset', (C*(1-fill)).toFixed(2));
+  const secs=Math.max(1,Math.ceil(st.d-R.e)), cnt=$('#cnt');
+  if(cnt.textContent!==String(secs)){ cnt.textContent=secs; if(!full){ cnt.classList.remove('pop'); void cnt.offsetWidth; cnt.classList.add('pop'); } }
+  // الهالة تتنفس مع المرحلة، والنقطة الضوئية تدور على طرف القوس
+  const orb=$('#orb'); if(orb) orb.style.setProperty('--orbScale',(0.86+fill*0.20).toFixed(3));
+  const cw=$('#cometWrap'); if(cw) cw.setAttribute('transform',`rotate(${(fill*360).toFixed(2)} 129 129)`);
+  // شارة «القادم» ظاهرة دائمًا، وتتوهج قبل نهاية المرحلة بثانيتين
+  const np=$('#nextPill'), nx=R.s.steps[R.i+1], left=st.d-R.e;
+  if(np){ const t=nx?(LANG==='en'?'Next: '+T(curLabel(nx)[0])+' · '+Math.round(nx.d)+' s':T('القادم: '+curLabel(nx)[0]+' · '+Math.round(nx.d)+' ث')):T('المرحلة الأخيرة — أحسنت!');
+    if(np.textContent!==t) np.textContent=t; np.classList.toggle('soon',!nx||(st.d>2&&left<=2&&st.t!=='ready')); }
+  const dn=document.getElementById('dimN'); if(dn){ dn.textContent=secs; const dp=document.getElementById('dimP'); if(dp) dp.textContent=$('#ph').textContent; }
   $('#tot').style.width=(R.elapsed/R.s.total*100)+'%';
   if(full){
+    const pc=st.t==='sq'&&st.lbl==='hold'?'ph-hold':'ph-'+st.t;
+    if(!document.body.classList.contains(pc)){ document.body.classList.remove(...PH_CLS); document.body.classList.add(pc); }
+    const eb=$('#elvBars'); if(eb){ const lv=st.t==='e1'?1:st.t==='e2'?2:st.t==='e3'?3:0; eb.querySelectorAll('i').forEach((b,k)=>b.classList.toggle('on',k<lv)); }
     const L=curLabel(st);
-    $('#ph').textContent=L[0]; $('#ph').style.color=st.t==='rl'?'var(--muted)':'var(--accent)';
+    $('#ph').textContent=L[0];
+    const chip=$('#phChip'); if(chip) chip.textContent=T(st.t==='ready'&&R.s.pos?POS[R.s.pos][0]:PH_CHIP[pc.slice(3)]||'');
     $('#hint').textContent=L[1];
     const rep=st.rep||0, n=R.s.reps;
     $('#repTxt').textContent= rep? `${R.s.kind==='breath'?'نَفَس':'تكرار'} ${rep} من ${n}` : '';
@@ -1846,14 +2189,17 @@ function askExit(isSkip){
     <p class="muted small">${partial?'أنجزت '+Math.round(pct*100)+'% من الجلسة — يمكنك احتسابها مكتملة.':'ستفقد تقدّم هذه الجلسة. الجلسة المتخطاة لا تكسر السلسلة لكنها لا تُحسب.'}</p>
     ${partial?'<button class="btn accent" id="mCount">احسب ما أنجزته</button><div style="height:8px"></div>':''}
     <button class="btn ${partial?'ghost':''}" id="mExit">${isSkip?'تخطّي':'خروج'}</button><div style="height:8px"></div>
+    <button class="btn ghost" id="mPain">${ic('alert')}توقفت بسبب ألم</button><div style="height:8px"></div>
     <button class="btn ghost" id="mStay">متابعة التمرين</button>`,
   (m,close)=>{
     m.querySelector('#mStay').onclick=()=>{ close(); if(!wasPaused) togglePause(false); };
     m.querySelector('#mExit').onclick=()=>{ close(); endSession(isSkip?'skip':'quit'); };
+    // الألم يوقف التدرّج ويعرض نصيحة المختص بدل احتساب الجلسة
+    m.querySelector('#mPain').onclick=()=>{ close(); endSession('quit'); S.painAt=today(); S.suggestAdvance=false; save(); painSheet(); };
     const c=m.querySelector('#mCount'); if(c) c.onclick=()=>{ close(); finishSession(true); };
   });
 }
-function stopEngine(){ document.body.classList.remove('immersive'); if(R&&R.timer) clearInterval(R.timer); keepAwake(false); try{speechSynthesis.cancel();}catch(e){} }
+function stopEngine(){ document.body.classList.remove('immersive',...PH_CLS); dimOff(); if(R&&R.timer) clearInterval(R.timer); keepAwake(false); try{speechSynthesis.cancel();}catch(e){} }
 function endSession(how){
   stopEngine();
   if(how==='skip' && R.s.kind==='daily'){ S.logs.push({date:today(),ts:Date.now(),kind:'daily',skipped:true,pattern:R.s.pattern,reps:0,dur:0}); save(); toast('تم تخطّي الجلسة'); }
@@ -1864,10 +2210,10 @@ function finishSession(partial){
   stopEngine();
   const s=R.s, repsDone = partial ? (R.s.steps[R.i].rep||s.reps) : s.reps;
   const gapBefore = (()=>{ const l=lastActiveBeforeToday(); return l?dayDiff(l,today()):0; })();
-  const log={date:today(),ts:Date.now(),kind:s.kind,pattern:s.pattern,reps:repsDone,dur:Math.round(R.elapsed),partial:!!partial};
+  const log={date:today(),ts:Date.now(),kind:s.countAs||s.kind,pattern:s.pattern,reps:repsDone,dur:Math.round(R.elapsed),partial:!!partial};
   S.logs.push(log);
   if(s.kind==='breath'){ heartSet('breath',true); }
-  if(s.kind==='daily'){
+  if(log.kind==='daily'){
     const plan=planFor(S.progDay);
     if(dailyDoneOn(today())>=plan.n){ S.dayDoneOn=today(); log.dayComplete=true; if(S.progDay===plan.phase.to){ S.phDone=S.phDone||{}; S.phDone[plan.phase.n]=1; } }
   }
@@ -1899,8 +2245,8 @@ function renderDone(){
   <button class="btn" id="home">العودة للرئيسية</button>`;
   app.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{
     log.rating=b.dataset.r; app.querySelectorAll('[data-r]').forEach(x=>x.classList.toggle('on',x===b));
-    evalAdvance(); save();
-    if(b.dataset.r==='hard') toast('لا بأس — إن تكررت الصعوبة خذ وقتك، وتوقف إن شعرت بألم.');
+    evalAdvance(); evalEase(); save();
+    if(b.dataset.r==='hard') toast('خففنا التكرارات في جلستك التالية. توقف إن شعرت بألم.');
     if(b.dataset.r==='pain'){ S.painAt=today(); S.suggestAdvance=false; save(); painSheet(); }
   });
   setTimeout(confetti,150);
@@ -1911,14 +2257,16 @@ function renderDone(){
 const careHold=()=>!!S.warned||(S.painAt&&dayDiff(S.painAt,today())<28);
 function painSheet(){ modal(`<h3>توقّف عن التمارين الآن</h3><p>الألم أثناء تمارين قاع الحوض ليس طبيعيًا. أوقف التمارين، ولا تزد شدتها.</p>
   <p class="small muted">قد تكون العضلات مشدودة أكثر من اللازم، وفي هذه الحالة تمارين التقوية قد تزيد المشكلة. ننصحك بمراجعة طبيب أو أخصائي علاج طبيعي لقاع الحوض قبل المتابعة.</p>
-  <p class="small muted">أوقفنا اقتراح التقدّم في البرنامج لمدة 4 أسابيع.</p><button class="btn accent" id="pOk">فهمت</button>`,(m,close)=>{ m.querySelector('#pOk').onclick=close; }); }
+  <p class="small muted">أوقفنا اقتراح التقدّم في البرنامج لمدة 4 أسابيع.</p><p class="small">بدل الشد، يمكنك تجربة جلسة الإرخاء: تنفّس بطيء يترك قاع الحوض يرتخي. توقف إن زاد الألم.</p>
+  <div class="btnrow"><button class="btn accent" id="pOk">فهمت</button><button class="btn ghost" id="pRx">جلسة الإرخاء</button></div>`,(m,close)=>{ m.querySelector('#pOk').onclick=close; m.querySelector('#pRx').onclick=()=>{ close(); startSession('relax',{min:4}); }; }); }
 function evalAdvance(){
   if(careHold()){ S.suggestAdvance=false; return; }
-  // 3 أيام متتالية مختلفة بتقييم «سهلة» لآخر جلسة يومية في كل يوم
+  // 3 أيام متتالية كل جلساتها المقيّمة «سهلة»: جلسة صعبة أو مؤلمة واحدة تُسقط اليوم
   const byDay={};
-  S.logs.filter(l=>l.kind==='daily'&&!l.skipped&&l.rating).forEach(l=>byDay[l.date]=l.rating);
+  S.logs.filter(l=>l.kind==='daily'&&!l.skipped&&l.rating).forEach(l=>{ (byDay[l.date]=byDay[l.date]||[]).push(l.rating); });
   const days=Object.keys(byDay).sort().slice(-3);
-  if(days.length===3 && days.every(d=>byDay[d]==='easy') && dayDiff(days[0],days[2])===2) S.suggestAdvance=true;
+  const adh=adhAvg(addDays(today(),-6),today());
+  if(days.length===3 && days.every(d=>byDay[d].every(r=>r==='easy')) && dayDiff(days[0],days[2])===2 && (adh==null||adh>=0.7)) S.suggestAdvance=true;
 }
 
 
@@ -1954,6 +2302,12 @@ function renderMen(head){
   <div class="sec"><h2>تمارينك المتخصصة</h2></div>
   <div class="tiles"><button class="tile quick" id="mC"><div class="hd"><span class="badge">${ic('target')}</span><span class="sub">2 د</span></div><h3>تمرين التحكم</h3><div class="sub">5 انقباضات سريعة ثم ثبات 10 ثوانٍ، 4 جولات</div></button>
   <button class="tile quick" id="mD"><div class="hd"><span class="badge">${ic('play')}</span><span class="sub">اليوم ${S.progDay}</span></div><h3>جلسة البرنامج</h3><div class="sub">تقوية الانتصاب والمثانة</div></button></div>
+  <div class="tiles"><button class="tile quick" id="mK"><div class="hd"><span class="badge">${ic('shield')}</span><span class="sub">دقيقة</span></div><h3>الحركة الذكية</h3><div class="sub">شدّ قبل الكحة والرفع — يقلل التسرّب</div></button>
+  <button class="tile quick" id="mP"><div class="hd"><span class="badge">${ic('drop')}</span><span class="sub">ثوانٍ</span></div><h3>عصرة ما بعد التبول</h3><div class="sub">توقف التنقيط على الملابس</div></button>
+  <button class="tile quick" id="mR"><div class="hd"><span class="badge">${hi('lungs')}</span><span class="sub">3 د</span></div><h3>تهيئة واسترخاء</h3><div class="sub">قبل العلاقة: تهدئة التوتر وإرخاء الحوض</div></button>
+  <button class="tile quick" id="mW"><div class="hd"><span class="badge">${ic('steps')}</span><span class="sub">الأسبوع</span></div><h3>المشي مع الكيجل</h3><div class="sub">هدف مشترك يدعم الانتصاب والقلب</div></button></div>
+  ${edfCard()}
+  <div class="warn small exw"><b>ألم في الصدر أو ضيق نفس أو دوخة أثناء الجهد الجنسي</b> يستدعي تقييمًا قلبيًا قبل الاستمرار — ضعف الانتصاب نفسه قد يسبق أمراض القلب بسنوات. <span class="src">${ic('books')} ${srcLink('ahasex')}</span></div>
   <div class="sec"><h2>ما تقوله الدراسات</h2></div>
   <div class="card" style="padding:4px 16px">${EVID.filter(([,t,d])=>S.diabetes||!/السكري|سكري/.test(t)).map(([i,t,d,l,src])=>`<div class="ev"><span class="badge">${ic(i)}</span><div><b>${t}</b><p>${d}</p><span class="lvl ${LV[l][1]}">${LV[l][0]}</span> <span class="small muted">${src}</span></div></div>`).join('')}</div>
   <div class="sec"><h2>أطعمة تدعم صحة الأوعية</h2></div>
@@ -1977,6 +2331,7 @@ function renderMen(head){
   <p class="small muted center">هذه معلومات تثقيفية مبنية على دراسات منشورة، ولا تغني عن استشارة الطبيب.</p>`;
   $('#mC').onclick=()=>startSession('control');
   $('#mD').onclick=()=>startNext();
+  $('#mK').onclick=knackSheet; $('#mP').onclick=pmdSheet; $('#mR').onclick=prepSheet; $('#mW').onclick=()=>{ tab='prog'; render(); setTimeout(()=>{ const e=document.getElementById('wk10'); if(e) e.closest('.card').scrollIntoView({block:'center'}); },60); }; const ef=$('#edfGo'); if(ef) ef.onclick=edfSheet;
   app.querySelectorAll('[data-seg]').forEach(b=>b.onclick=()=>{ S.hseg=b.dataset.seg; save(); render(); });
 }
 
@@ -1991,6 +2346,8 @@ function renderProg(){
   app.innerHTML=`<h1>تقدّمك</h1>
   <div class="card"><div class="row" style="justify-content:space-between"><h3>هذا الأسبوع</h3><b style="text-align:left">${Math.min(weekDone,weekGoal)}/${weekGoal}</b></div>
   <div class="pbar"><i style="width:${Math.min(100,weekDone/weekGoal*100)}%"></i></div></div>
+  ${progressHTML()}
+  ${walkCard()}
   <div class="card"><h3>آخر 7 أيام</h3>
   ${empty?ILL.empty+'<p class="muted center" style="margin-top:0">أكمل أول جلسة لتبدأ المنحنى</p>':
   '<div class="bars">'+last7.map((d,i)=>`<div><small>${counts[i]||''}</small><span class="${counts[i]?'':'zero'}" style="height:${Math.max(3,counts[i]/max*100)}%"></span><small>${AR_DAYS[new Date(d+'T12:00').getDay()]}</small></div>`).join('')+'</div>'}</div>
@@ -2007,6 +2364,370 @@ function renderProg(){
   <h2>الإنجازات</h2><div class="grid3">${ACH.map(([k,e,n])=>`<div class="ach ${S.ach[k]?'':'off'}"><span class="e">${achIc(e)}</span>${n}</div>`).join('')}</div>
   <h2>خريطة البرنامج</h2>${PHASES.map(p=>`<div class="card" style="padding:12px 14px;${p.n===plan.phase.n?'border-color:var(--accent)':''}"><div class="row" style="justify-content:space-between"><b>${p.n}. ${p.name}</b><span class="small muted" style="text-align:left">${p.from}–${p.to}</span></div><p class="small muted" style="margin:0">${p.goal}</p></div>`).join('')}`;
   const pT=$('#pT'); if(pT) pT.onclick=()=>startTest();
+  const wg=$('#wkGo'); if(wg) wg.onclick=wkSheet; bindWalk();
+}
+
+/* ============ الدفعة الأولى: الفحص الأسبوعي، جدول التوقعات، الحركة الذكية، عصرة ما بعد التبول، عوامل الانتصاب ============
+   - كل الإجابات على الجهاز فقط، وتُحذف مع الملف الصحي.
+   - لا يُعرض تحسن غير موجود: المقارنات من أرقام المستخدم الفعلية فقط.
+   - أسئلة الانتصاب اختيارية ويمكن إيقافها نهائيًا. */
+const SRC_B1={
+  nice:['NICE NG123 — Urinary incontinence and pelvic organ prolapse in women (2019): تدريب قاع الحوض 3 أشهر على الأقل','https://www.nice.org.uk/guidance/ng123','إرشاد رسمي'],
+  dorey:['Dorey G, et al. Pelvic floor exercises for erectile dysfunction. BJU Int 2005','https://doi.org/10.1111/j.1464-410X.2005.05690.x','تجربة عشوائية'],
+  ehs:['Mulhall JP, et al. Validation of the Erection Hardness Score. J Sex Med 2007','https://doi.org/10.1111/j.1743-6109.2007.00600.x','أداة معتمدة'],
+  morn:['NIH — Clinical Methods: Impotence (الانتصاب الصباحي في التمييز بين الأسباب)','https://www.ncbi.nlm.nih.gov/books/NBK297/','مرجع طبي'],
+  drugs:['MedlinePlus (NIH) — Drugs that may cause erection problems','https://medlineplus.gov/ency/article/004024.htm','مرجع طبي']
+};
+Object.assign(SRC,SRC_B1);
+
+// ---------- الفحص الأسبوعي ----------
+const WK_LEAK=['لم يحدث','1–2 مرات','3–6 مرات','يوميًا تقريبًا'];
+const WK_PMD=['لم يحدث','أحيانًا','غالبًا'];
+// مقياس صلابة الانتصاب (EHS) بصياغة مبسطة: 0 لا تكبير … 4 صلب تمامًا
+const WK_EHS=['لا يحدث انتصاب','يكبر لكنه غير صلب','صلب لكن غير كافٍ للإيلاج','كافٍ للإيلاج لكن غير صلب تمامًا','صلب تمامًا'];
+const WK_MORN=['لم ألاحظ','1–2 صباح','3–4 صباحات','5 أو أكثر'];
+const wkList=()=>S.wk||(S.wk=[]);
+const wkLast=()=>wkList().slice(-1)[0]||null;
+const wkFirst=()=>wkList()[0]||null;
+const progWeek=()=>Math.floor(Math.max(0,dayDiff(S.startDate||today(),today()))/7)+1;
+function wkDue(){
+  if(!S.onboarded||S.wkSnooze===today()) return false;
+  const l=wkLast();
+  if(!l) return dayDiff(S.startDate||today(),today())>=1;   // خط الأساس بعد اليوم الأول
+  return dayDiff(l.date,today())>=7;
+}
+const edAsk=()=>!isF()&&S.edOpt===true;
+// سياق الأسبوع يُحفظ مع كل فحص حتى تُقارن الأسابيع لاحقًا (النوم، الالتزام، السكر، المشي، التدخين)
+function wkContext(){
+  const from=addDays(today(),-6), days=Array.from({length:7},(_,i)=>addDays(today(),i-6));
+  const sl=days.map(d=>(S.hc.sleepLog||{})[d]).filter(v=>v>0);
+  const g=S.diabetes?gluStats(7):null, wk=S.hc.week||{}, st=days.map(d=>wk[d]).filter(v=>v>0);
+  const walk=days.filter(d=>S.heartLog[d]&&S.heartLog[d].walk).length;
+  const smk=S.smoke&&S.smoke.on?days.reduce((a,d)=>a+((S.smokeLog[d]||{}).ok||0),0):null;
+  return {adh:adhAvg(from,today()), sleep:sl.length>=3?Math.round(sl.reduce((a,b)=>a+b,0)/sl.length):null,
+    tir:g?g.tir:null, steps:st.length>=3?Math.round(st.reduce((a,b)=>a+b,0)/st.length):null, walk, smk};
+}
+function wkSheet(){
+  const fem=isF();
+  modal(`<form id="wkF" novalidate aria-labelledby="wkH"><h3 id="wkH">فحص الأسبوع (دقيقة)</h3>
+    <p class="small muted" style="margin-top:-4px">${wkList().length?'نقارن إجاباتك بأسبوعك الأول لنريك تقدّمك الحقيقي.':'أول فحص هو نقطة البداية التي نقيس عليها تقدّمك.'} الإجابات على جهازك فقط.</p>
+    <fieldset class="radios"><legend>كم مرة تسرّب منك البول هذا الأسبوع؟</legend>${WK_LEAK.map((t,i)=>`<label><input type="radio" name="leak" value="${i}"> ${t}</label>`).join('')}</fieldset>
+    ${fem?'':`<fieldset class="radios"><legend>هل حدث تنقيط بعد انتهاء التبول؟</legend>${WK_PMD.map((t,i)=>`<label><input type="radio" name="pmd" value="${i}"> ${t}</label>`).join('')}</fieldset>`}
+    <div id="wkEd"></div>
+    <div class="btnrow"><button class="btn accent" type="submit">حفظ</button><button class="btn ghost" type="button" id="wkL">لاحقًا</button></div></form>`,(m,close)=>{
+    const ed=m.querySelector('#wkEd');
+    const drawEd=()=>{
+      if(fem||S.edOpt===false){ ed.innerHTML=''; return; }
+      if(S.edOpt!==true){ ed.innerHTML=`<fieldset class="radios"><legend>أضيف سؤالين اختياريين عن الانتصاب؟</legend><p class="small muted" style="margin:0 0 6px">صلابة الانتصاب والانتصاب الصباحي من أوضح مؤشرات صحة الأوعية، ويفيدان طبيبك. يمكنك إيقافهما في أي وقت.</p>
+        <label><input type="radio" name="edo" value="1"> نعم، أضفهما</label><label><input type="radio" name="edo" value="0"> لا، ولا تسألني مجددًا</label></fieldset>`;
+        ed.querySelectorAll('input[name=edo]').forEach(r=>r.onchange=()=>{ S.edOpt=r.value==='1'; save(); drawEd(); }); return; }
+      ed.innerHTML=`<fieldset class="radios"><legend>عندما حاولت هذا الأسبوع، ما صلابة الانتصاب؟</legend>${[4,3,2,1,0].map(i=>`<label><input type="radio" name="ehs" value="${i}"> ${WK_EHS[i]}</label>`).join('')}<label><input type="radio" name="ehs" value="na"> لم تكن هناك محاولة</label></fieldset>
+        <fieldset class="radios"><legend>في كم صباح لاحظت انتصابًا صباحيًا هذا الأسبوع؟</legend>${WK_MORN.map((t,i)=>`<label><input type="radio" name="morn" value="${i}"> ${t}</label>`).join('')}</fieldset>
+        <p class="small muted"><span class="src">${ic('books')} ${srcLink('ehs')} · ${srcLink('morn')}</span></p>`; };
+    drawEd();
+    m.querySelector('#wkL').onclick=()=>{ S.wkSnooze=today(); save(); close(); render(); };
+    m.querySelector('#wkF').onsubmit=e=>{ e.preventDefault(); const fd=new FormData(e.target), num=k=>{ const v=fd.get(k); return v==null||v==='na'?null:+v; };
+      const leak=num('leak'); if(leak==null){ toast('اختر إجابة سؤال التسرّب'); return; }
+      const rec={date:today(),leak,pmd:fem?null:num('pmd'),ehs:edAsk()?num('ehs'):null,morn:edAsk()?num('morn'):null,ctx:wkContext()};
+      const L=wkList(); if(L.length&&L[L.length-1].date===today()) L.pop(); L.push(rec); if(L.length>104) L.splice(0,L.length-104);
+      save(); close(); toast('حُفظ فحص الأسبوع'); reschedule(); render();
+      // اقتراح الدرس المناسب لما ظهر في الإجابات
+      if(!fem&&rec.pmd>0&&!S.pmdSeen) setTimeout(pmdSheet,400);
+      else if(rec.leak>0&&!S.knackSeen) setTimeout(knackSheet,400);
+    };
+  });
+}
+
+// ---------- المقارنة الصادقة: أسبوعك الأول ↔ الآن ----------
+// أصغر = أفضل للتسرّب والتنقيط، وأكبر = أفضل للصلابة والصباحي والثبات والانقباضات
+function wkCompare(){
+  const L=wkList(), first=L[0], last=L[L.length-1], rows=[];
+  const firstOf=k=>L.find(x=>x[k]!=null), lastOf=k=>[...L].reverse().find(x=>x[k]!=null);
+  const add=(k,name,labels,better)=>{ const a=firstOf(k), b=lastOf(k); if(!a||!b||a===b) return;
+    const d=b[k]-a[k], st=d===0?'same':(better==='low'?(d<0?'up':'down'):(d>0?'up':'down'));
+    rows.push({k,name,from:labels[a[k]],to:labels[b[k]],st}); };
+  if(first&&last&&L.length>1){ add('leak','مرات التسرّب',WK_LEAK,'low'); if(!isF()){ add('pmd','التنقيط بعد التبول',WK_PMD,'low'); add('ehs','صلابة الانتصاب',WK_EHS,'high'); add('morn','الانتصاب الصباحي',WK_MORN,'high'); } }
+  const T0=(S.tests||[])[0], T1=(S.tests||[]).slice(-1)[0];
+  if(T0&&T1&&T0!==T1){
+    rows.push({k:'hold',name:'أطول ثبات',from:T0.hold+' ث',to:T1.hold+' ث',st:T1.hold>T0.hold?'up':T1.hold<T0.hold?'down':'same'});
+    rows.push({k:'flicks',name:'انقباضات سريعة',from:String(T0.flicks),to:String(T1.flicks),st:T1.flicks>T0.flicks?'up':T1.flicks<T0.flicks?'down':'same'});
+  }
+  return rows;
+}
+// «أين يظهر تحسنك أولًا؟» — المؤشر الأهم حسب هدف المستخدم
+function focusMetric(){
+  const g=S.goals||[];
+  if(!isF()&&g.includes('erection')) return {keys:['ehs','morn'],why:'لهدف الانتصاب: صلابة الانتصاب والانتصاب الصباحي، ويدعمهما الالتزام والمشي.'};
+  if(g.includes('bladder')||g.includes('recovery')) return {keys:isF()?['leak']:['leak','pmd'],why:'لهدف التحكم بالمثانة: عدد مرات التسرّب'+(isF()?'.':' والتنقيط بعد التبول.')};
+  if(g.includes('pe')) return {keys:['hold','flicks'],why:'للتحكم في القذف: الثبات الأطول والانقباضات السريعة في اختبار القوة.'};
+  if(g.includes('postpartum')||g.includes('prolapse')) return {keys:['hold','leak'],why:'بعد الولادة ودعم الحوض: الثبات التدريجي في اختبار القوة، ثم التسرّب.'};
+  return {keys:['hold','flicks','leak'],why:'للياقة العامة: أطول ثبات وعدد الانقباضات السريعة.'};
+}
+const ST_TXT={up:['تحسّن','ok'],same:['لم يتغير','muted'],down:['تراجع','warnc']};
+function progressHTML(){
+  const rows=wkCompare(), F=focusMetric(), fr=rows.filter(r=>F.keys.includes(r.k)), wk=progWeek(), adh=adhAvg(addDays(today(),-6),today());
+  const rowHTML=r=>`<div class="cmp"><span class="cn">${r.name}</span><span class="cv"><bdi>${r.from}</bdi> ← <bdi>${r.to}</bdi></span><em class="${ST_TXT[r.st][1]}">${ST_TXT[r.st][0]}</em></div>`;
+  let honest='';
+  if(rows.length&&rows.every(r=>r.st!=='up')){
+    const step=adh!=null&&adh<0.6?`الالتزام هذا الأسبوع ${Math.round(adh*100)}% — الانتظام اليومي هو العامل الأهم، فابدأ بجلسة الدقيقة في الأيام المزدحمة.`
+      :!(S.tut&&S.tut.passed)?'راجع التدريب التفاعلي للتأكد أنك تشدّ العضلة الصحيحة دون الأرداف أو حبس النفس.'
+      :wk<12?`أنت في الأسبوع ${wk}. التحسن يُقاس عادة بعد 12 أسبوعًا من الالتزام، فاستمر قبل الحكم.`
+      :'مرّ 12 أسبوعًا دون تحسن واضح: يُنصح بمراجعة طبيب أو أخصائي علاج طبيعي لقاع الحوض.';
+    honest=`<p class="small" style="margin:10px 0 0"><b>الأرقام لم تتحسن بعد.</b> ${step}</p>`;
+  }
+  return `<div class="card"><h3 style="margin:0 0 4px">أين يظهر تحسنك أولًا؟</h3><p class="small muted" style="margin:0 0 8px">${F.why}</p>
+    ${fr.length?fr.map(rowHTML).join(''):`<p class="small muted" style="margin:0">${wkList().length||(S.tests||[]).length?'نحتاج قياسًا ثانيًا لنقارن. أكمل فحص الأسبوع القادم واختبار القوة كل أسبوعين.':'ابدأ بفحص الأسبوع واختبار القوة لنحفظ نقطة البداية.'}</p>`}
+    ${rows.filter(r=>!F.keys.includes(r.k)).length?`<details class="cmpd"><summary>كل المؤشرات: أسبوعك الأول ↔ الآن</summary>${rows.filter(r=>!F.keys.includes(r.k)).map(rowHTML).join('')}</details>`:''}
+    ${honest}
+    <button class="btn ${wkDue()?'accent':'ghost'} sm" id="wkGo" style="margin-top:10px">${ic('check')}${wkDue()?'فحص الأسبوع الآن':'أعد فحص هذا الأسبوع'}</button></div>
+    ${testCurve()}${patternCard()}${timelineCard()}`;
+}
+// منحنى نتائج اختبار القوة
+function testCurve(){
+  const TS=(S.tests||[]).slice(-12); if(TS.length<2) return '';
+  const W=300,H=120,P=24, mx=Math.max(10,...TS.map(t=>t.hold)), mf=Math.max(10,...TS.map(t=>t.flicks));
+  const x=i=>P+i*(W-2*P)/(TS.length-1), y=(v,m)=>H-P-(v/m)*(H-2*P);
+  const line=(f,m)=>TS.map((t,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(f(t),m).toFixed(1)}`).join(' ');
+  return `<div class="card"><h3 style="margin:0 0 6px">نتائج اختبار القوة</h3>
+    <svg class="tcurve" viewBox="0 0 ${W} ${H}" role="img" aria-label="${T('منحنى أطول ثبات والانقباضات السريعة عبر الاختبارات')}">
+      <path class="gl2" d="M${P} ${H-P}H${W-P}"/><path class="th" d="${line(t=>t.hold,mx)}"/><path class="tf" d="${line(t=>t.flicks,mf)}"/>
+      ${TS.map((t,i)=>`<circle class="thp" cx="${x(i).toFixed(1)}" cy="${y(t.hold,mx).toFixed(1)}" r="3"/><circle class="tfp" cx="${x(i).toFixed(1)}" cy="${y(t.flicks,mf).toFixed(1)}" r="3"/>`).join('')}</svg>
+    <div class="lgd"><span><i class="th"></i>أطول ثبات (ث)</span><span><i class="tf"></i>انقباضات سريعة</span></div></div>`;
+}
+// ملاحظة نمط (لا سبب): بعد 4 أسابيع على الأقل، وفرق واضح بين مجموعتين في كل منهما أسبوعان أو أكثر
+function patternCard(){
+  if(isF()||!edAsk()) return '';
+  const L=wkList().filter(x=>x.morn!=null&&x.ctx); if(L.length<4) return L.length?`<div class="card"><h3 style="margin:0 0 4px">أنماط الانتصاب الصباحي</h3><p class="small muted" style="margin:0">نعرض ملاحظات تربط الانتصاب الصباحي بنومك وعاداتك بعد 4 أسابيع من الإجابات على الأقل (لديك ${L.length}).</p></div>`:'';
+  const avg=a=>a.reduce((s,x)=>s+x.morn,0)/a.length, notes=[];
+  const split=(f,yes,no)=>{ const A=L.filter(x=>f(x.ctx)===true), B=L.filter(x=>f(x.ctx)===false);
+    if(A.length>=2&&B.length>=2){ const d=avg(A)-avg(B); if(Math.abs(d)>=1) notes.push(d>0?yes:no); } };
+  split(c=>c.sleep==null?null:c.sleep>=420,'في الأسابيع التي نمت فيها 7 ساعات أو أكثر، كان الانتصاب الصباحي أكثر تكرارًا.','في الأسابيع التي نمت فيها أقل من 7 ساعات، كان الانتصاب الصباحي أكثر تكرارًا.');
+  split(c=>c.adh==null?null:c.adh>=0.7,'في أسابيع الالتزام العالي بالتمارين، كان الانتصاب الصباحي أكثر تكرارًا.','الالتزام بالتمارين لم يرتبط بزيادة الانتصاب الصباحي حتى الآن.');
+  if(S.diabetes) split(c=>c.tir==null?null:c.tir>=0.7,'في الأسابيع التي كان سكرك فيها ضمن النطاق أغلب الوقت، كان الانتصاب الصباحي أكثر تكرارًا.','ارتفاع السكر لم يرتبط بتراجع الانتصاب الصباحي في بياناتك حتى الآن.');
+  split(c=>c.walk==null?null:c.walk>=3,'في الأسابيع التي مشيت فيها 3 أيام أو أكثر، كان الانتصاب الصباحي أكثر تكرارًا.','المشي لم يرتبط بزيادة الانتصاب الصباحي في بياناتك حتى الآن.');
+  const LE=wkList().filter(x=>x.ehs!=null&&x.ctx&&x.ctx.walk!=null);
+  if(LE.length>=4){ const A=LE.filter(x=>x.ctx.walk>=3), B=LE.filter(x=>x.ctx.walk<3), av=a=>a.reduce((s,x)=>s+x.ehs,0)/a.length;
+    if(A.length>=2&&B.length>=2&&av(A)-av(B)>=0.5) notes.push('في الأسابيع التي مشيت فيها 3 أيام أو أكثر، كانت صلابة الانتصاب أعلى.'); }
+  const drop=L.length>=4&&avg(L.slice(-3))<=0.67&&avg(L.slice(0,Math.min(3,L.length-3)))>=2;
+  return `<div class="card"><h3 style="margin:0 0 4px">أنماط الانتصاب الصباحي</h3>
+    ${notes.length?`<ul class="small" style="margin:0;padding-inline-start:18px;line-height:1.8">${notes.map(n=>`<li>${n}</li>`).join('')}</ul>`:'<p class="small muted" style="margin:0">لا يظهر نمط واضح في بياناتك حتى الآن.</p>'}
+    <p class="small muted" style="margin:8px 0 0">ملاحظات من أسابيعك أنت (${L.length} أسابيع)، وليست سببًا مؤكدًا.</p>
+    ${drop?`<div class="warn small exw">تراجع الانتصاب الصباحي بوضوح في الأسابيع الأخيرة. هذا مؤشر يستحق مراجعة الطبيب، لأنه قد يرتبط بالأوعية الدموية أو الهرمونات. <span class="src">${ic('books')} ${srcLink('morn')}</span></div>`:''}</div>`;
+}
+// جدول توقعات صادق مع «أنت هنا»
+function timelineCard(){
+  const w=progWeek(), stages=[
+    [1,1,'الأسبوع الأول','تعلّم الشد الصحيح. الحركة الذكية قبل الكحة قد تقلل التسرّب من الأسبوع الأول نفسه.',['knack']],
+    [2,11,'الأسابيع 2–11','بناء القوة بالتكرار اليومي. يلاحظ بعض الناس تحسنًا قبل نهاية هذه المرحلة، لكن لا تحكم مبكرًا.',[]],
+    [12,12,'الأسبوع 12 (3 أشهر)',isF()?'المدة التي توصي الإرشادات بتقييم نتيجة التمارين عندها.':'المدة التي توصي الإرشادات بتقييم النتيجة عندها، وفيها ظهر تحسن الانتصاب في الدراسات.',isF()?['nice']:['nice','dorey']],
+    [13,999,'بعد 3 أشهر','استمر للحفاظ على النتيجة. إن لم تلاحظ أي تحسن رغم الالتزام، راجع طبيبًا أو أخصائي علاج طبيعي لقاع الحوض.',[]]];
+  return `<div class="card"><h3 style="margin:0 0 8px">ماذا تتوقع ومتى؟</h3><ol class="tline">${stages.map(([a,b,t,d,src])=>{ const here=w>=a&&w<=b, past=w>b;
+    return `<li class="${here?'here':past?'past':''}"${here?' aria-current="step"':''}><b>${t}${here?` <span class="tagx">أنت هنا · الأسبوع ${w}</span>`:''}</b><span class="small">${d}</span>${src.length?`<span class="src">${ic('books')} ${src.map(srcShort).join(' · ')}</span>`:''}</li>`; }).join('')}</ol>
+    <p class="small muted" style="margin:6px 0 0">هذه مدد تقريبية من الدراسات، وليست وعدًا مضمونًا — الاستجابة تختلف من شخص لآخر.</p></div>`;
+}
+
+// ---------- الحركة الذكية (The Knack) ----------
+const knackBlocked=()=>has('pelvicPain')||has('pelvicSurg')||has('voiding');
+const SVG_KNACK=`<svg class="tsvg knk" viewBox="0 0 300 130" role="img" aria-label="${'بلا شد: الضغط يدفع للأسفل. مع الشد المسبق: الأرجوحة ترتفع وتصدّ الضغط'}">
+  <g><text x="75" y="14" text-anchor="middle" class="kt">بلا شد</text>
+    <g class="kar"><path d="M75 26v26m-7-8 7 9 7-9" class="karr"/></g>
+    <path d="M20 70 Q75 118 130 70" class="ksl sag"/><circle cx="75" cy="112" r="4" class="kdrop"/></g>
+  <g><text x="225" y="14" text-anchor="middle" class="kt">مع الشد قبل الكحة</text>
+    <g class="kar"><path d="M225 26v26m-7-8 7 9 7-9" class="karr"/></g>
+    <path d="M170 70 Q225 84 280 70" class="ksl lift"/><path d="M205 64h40" class="kblock"/></g></svg>`;
+function knackSheet(){
+  S.knackSeen=true; save();
+  if(missing('knack').length){ ensureAsked('knack',knackSheet,'قبل الحركة الذكية','بعض الحالات تحتاج تقييم مختص قبل إضافة انقباضات جديدة.'); return; }
+  modal(`<h3>الحركة الذكية: شدّ قبل الكحة</h3>${SVG_KNACK}
+    ${knackBlocked()?`<div class="warn small">ذكرت ألمًا في الحوض أو جراحة حديثة أو صعوبة في إفراغ المثانة. الانقباضات الإضافية قد تزيد الإجهاد أو الألم، فاسأل طبيبك أو أخصائي العلاج الطبيعي أولًا.</div>`:
+    `<p class="small">قبل أي ضغط مفاجئ على البطن — كحة، عطسة، ضحكة، رفع شيء ثقيل، أو النهوض من الجلوس — اشدد قاع الحوض <b>قبلها بثانية</b> وأبقه مشدودًا حتى تنتهي. الضغط ينزل من البطن، والعضلة المشدودة مسبقًا تصدّه.</p>
+    <ol class="small" style="padding-inline-start:18px;line-height:1.9;margin:0"><li>شدّ خفيف وقصير، والتنفس مستمر.</li><li>اكحّ وأنت ما زلت شادًّا.</li><li>أفلت ببطء بعد انتهاء الكحة.</li></ol>
+    <p class="small muted">في دراسة عشوائية، قلّت كمية التسرّب مع الكحة المتوسطة بشكل كبير بعد أسبوع واحد من تعلّم هذه الحركة. <span class="src">${ic('books')} ${srcLink('knack')}</span></p>
+    <label class="chk"><input type="checkbox" id="knR" ${S.knackOn?'checked':''}> ذكّرني مرتين يوميًا في أوقات متغيرة (ليس وقت النوم)</label>
+    <div class="btnrow"><button class="btn accent" id="knP">${ic('play')}تمرين موجّه (دقيقة)</button><button class="btn ghost" id="knX">إغلاق</button></div>`}`,(m,close)=>{
+    const r=m.querySelector('#knR'); if(r) r.onchange=()=>{ S.knackOn=r.checked; save(); reschedule(); };
+    const p=m.querySelector('#knP'); if(p) p.onclick=()=>{ close(); knackPractice(); };
+    const x=m.querySelector('#knX'); if(x) x.onclick=close;
+  });
+}
+// تمرين موجّه: 3 جولات «استعد ← اشدّ ← اكحّ ← أفلت ← راحة»
+function knackPractice(){
+  const STEPS=[['استعد','تنفّس طبيعيًا',2000,null],['اشدّ الآن','شدّ خفيف وثابت',1200,'heavy'],['اكحّ كحة خفيفة','وأنت ما زلت شادًّا',1800,null],['أفلت ببطء','دع العضلة ترتخي بالكامل',3000,'double'],['راحة','',2500,null]];
+  let round=0, i=0, timer=null;
+  modal(`<div class="knp" aria-live="polite"><p class="small muted" id="kpR"></p><div class="knb" id="kpB"></div><p class="hint" id="kpH"></p></div><button class="btn ghost" id="kpX">إنهاء</button>`,(m,close)=>{
+    const step=()=>{ if(!m.isConnected){ clearTimeout(timer); return; }
+      if(i>=STEPS.length){ i=0; round++; }
+      if(round>=3){ m.querySelector('#kpB').textContent=T('أحسنت'); m.querySelector('#kpH').textContent=T('استخدمها قبل كل كحة أو عطسة أو رفع شيء ثقيل حتى تصبح تلقائية.'); S.knackDone=today(); save(); speak('أحسنت'); return; }
+      const [t,h,d,hp]=STEPS[i]; m.querySelector('#kpR').textContent=T('جولة '+(round+1)+' من 3'); m.querySelector('#kpB').textContent=T(t); m.querySelector('#kpH').textContent=h?T(h):'';
+      m.querySelector('#kpB').className='knb '+(i===1||i===2?'on':''); if(hp) Haptic[hp](); speak(t); i++; timer=setTimeout(step,d); };
+    m.querySelector('#kpX').onclick=()=>{ clearTimeout(timer); close(); };
+    m.addEventListener('close',()=>clearTimeout(timer));
+    step();
+  });
+}
+// أوقات تذكير متغيرة بين الاستيقاظ+ساعة والنوم−ساعتين (ثابتة لكل يوم حتى لا تتغير مع كل جدولة)
+function knackTimes(dayStr){
+  const w=toMin(S.wake)+60; let b=toMin(S.bed)-120; if(b<=w) b+=1440; const span=Math.max(120,b-w);
+  let seed=[...dayStr].reduce((a,c)=>a*31+c.charCodeAt(0)>>>0,7);
+  const rnd=()=>{ seed=(seed*1103515245+12345)>>>0; return seed/4294967296; };
+  const a=w+Math.round(rnd()*span*0.45), c=w+Math.round(span*0.55+rnd()*span*0.45);
+  return [a,c].map(m=>m%1440);
+}
+
+// ---------- عصرة ما بعد التبول (للرجال) ----------
+const SVG_PMD=`<svg class="tsvg pmd" viewBox="0 0 300 96" role="img" aria-label="${'بعد التبول تبقى قطرات في المجرى، والشدّة تدفعها للخارج'}">
+  <path d="M20 48 H230 q30 0 40 -8" class="pt"/><path d="M60 34v28M60 34" class="pm"/>
+  <g class="pdr"><circle cx="120" cy="48" r="5"/><circle cx="150" cy="48" r="5"/><circle cx="180" cy="48" r="5"/></g>
+  <text x="60" y="84" text-anchor="middle" class="kt">الشدّة</text><text x="255" y="84" text-anchor="middle" class="kt">للخارج</text></svg>`;
+function pmdSheet(){
+  S.pmdSeen=true; save();
+  if(missing('knack').length){ ensureAsked('knack',pmdSheet,'قبل عصرة ما بعد التبول','بعض الحالات تحتاج تقييم مختص أولًا.'); return; }
+  modal(`<h3>عصرة ما بعد التبول</h3>${SVG_PMD}
+    ${has('pelvicPain')||has('voiding')?`<div class="warn small">ذكرت ألمًا مزمنًا في الحوض أو صعوبة في إفراغ المثانة. التنقيط هنا قد يكون له سبب يحتاج تقييمًا، فراجع طبيب المسالك قبل هذه الحركة.</div>`:
+    `<p class="small">بعد انتهاء التبول تبقى قطرات في المجرى وتخرج لاحقًا على الملابس. الحل يستغرق ثوانٍ:</p>
+    <ol class="small" style="padding-inline-start:18px;line-height:1.9;margin:0"><li>بعد آخر قطرة، انتظر ثانيتين.</li><li>اشدد قاع الحوض بقوة مرة أو مرتين — كأنك تعصر المجرى من الداخل.</li><li>أو بديلًا: ضع إصبعين خلف كيس الصفن واضغط برفق، ثم مرّرهما للأمام نحو القضيب.</li></ol>
+    <p class="small muted">في تجربتين عشوائيتين، خفّفت تمارين قاع الحوض مع «العصرة» التنقيط بعد التبول لدى أغلب المشاركين خلال 3 أشهر. <span class="src">${ic('books')} ${srcLink('pmd')} · ${srcLink('pmd2')}</span></p>
+    <label class="chk"><input type="checkbox" id="pmR" ${S.pmdRem?'checked':''}> ذكّرني بها لمدة أسبوعين حتى تصبح عادة</label>`}
+    <button class="btn ghost" id="pmX">إغلاق</button>`,(m,close)=>{
+    const r=m.querySelector('#pmR'); if(r) r.onchange=()=>{ S.pmdRem=r.checked?today():null; save(); reschedule(); };
+    m.querySelector('#pmX').onclick=close;
+  });
+}
+
+// ---------- عوامل قد تؤثر على الانتصاب (لتحضير زيارة الطبيب) ----------
+const EDF=[
+  ['med','أدوية',[['thz','مدرّات البول للضغط (مثل هيدروكلوروثيازيد)'],['bb','حاصرات بيتا (مثل أتينولول وميتوبرولول)'],['ssri','مضادات الاكتئاب أو القلق'],['5ari','أدوية البروستاتا (فيناسترايد أو دوتاسترايد)'],['opi','مسكنات قوية (أفيونية) لفترة طويلة'],['ahist','مضادات الحساسية المنوّمة أو أدوية الحموضة القديمة']]],
+  ['life','نمط الحياة',[['smoke','التدخين أو النيكوتين'],['alc','الكحول'],['bike','ركوب الدراجة لفترات طويلة بمقعد ضيق'],['sit','الجلوس الطويل معظم اليوم'],['sleep','قلة النوم المزمنة'],['stress','توتر مرتفع أو قلق من الأداء']]]];
+function edfSheet(){
+  const cur=new Set((S.edf&&S.edf.items)||[]);
+  modal(`<form id="edF" novalidate aria-labelledby="edH"><h3 id="edH">عوامل قد تؤثر على الانتصاب</h3>
+    <p class="small muted" style="margin-top:-4px">اختر ما ينطبق عليك. نضيف الخلاصة إلى تقرير الطبيب ليناقشها معك. يبقى على جهازك فقط.</p>
+    ${EDF.map(([g,n,items])=>`<fieldset class="checks"><legend>${n}</legend>${items.map(([k,t])=>`<label class="chk"><input type="checkbox" name="f" value="${k}" ${cur.has(k)?'checked':''}> ${t}</label>`).join('')}</fieldset>`).join('')}
+    <div class="warn small"><b>لا توقف أي دواء بنفسك.</b> بعض الأدوية خطرة إن أُوقفت فجأة. اسأل طبيبك عن بديل إن ظننت أن دواءً يؤثر عليك. <span class="src">${ic('books')} ${srcLink('drugs')}</span></div>
+    <div class="btnrow"><button class="btn accent" type="submit">حفظ</button><button class="btn ghost" type="button" id="edX">إلغاء</button></div></form>`,(m,close)=>{
+    m.querySelector('#edX').onclick=close;
+    m.querySelector('#edF').onsubmit=e=>{ e.preventDefault(); const items=[...new FormData(e.target).getAll('f')]; S.edf={date:today(),items}; save(); close(); toast('حُفظ — سيظهر في تقرير الطبيب'); render(); };
+  });
+}
+const edfLabels=()=>((S.edf&&S.edf.items)||[]).map(k=>{ for(const [,,items] of EDF){ const f=items.find(x=>x[0]===k); if(f) return f[1]; } return k; });
+function edfCard(){ if(isF()) return '';
+  const n=((S.edf&&S.edf.items)||[]).length;
+  return `<div class="card"><div class="ev" style="padding:0"><span class="badge">${ic('pill')}</span><div><b>عوامل قد تؤثر على الانتصاب</b><p>${S.edf?(n?`اخترت ${n} — تظهر في تقرير الطبيب.`:'لم تختر أي عامل.'):'أدوية وعادات شائعة تؤثر على الانتصاب ويمكن علاج أغلبها. راجعها قبل زيارة الطبيب.'}</p><button class="btn ghost sm" id="edfGo">${S.edf?'تعديل':'راجعها الآن'}</button></div></div></div>`; }
+// سطور تقرير الطبيب
+function b1Report(){
+  const out=[], L=wkList(), f=L[0], l=L[L.length-1], sep=T('، ');
+  const parts=(x,short)=>[T('التسرّب')+': '+T(WK_LEAK[x.leak]), x.pmd!=null?T(short?'التنقيط':'التنقيط بعد التبول')+': '+T(WK_PMD[x.pmd]):null,
+    x.ehs!=null?T('صلابة الانتصاب')+' (EHS): '+x.ehs+'/4':null, x.morn!=null?T('الانتصاب الصباحي')+': '+T(WK_MORN[x.morn]):null].filter(Boolean).join(sep);
+  if(l){ out.push('• '+T('فحص الأسبوع')+' ('+l.date+'): '+parts(l,false)+'.');
+    if(f&&f!==l) out.push('  '+T('مقارنة بأول فحص')+' ('+f.date+'): '+parts(f,true)+'.'); }
+  if(S.edf&&S.edf.items.length) out.push('• '+T('عوامل قد تؤثر على الانتصاب')+' ('+S.edf.date+'): '+edfLabels().map(x=>T(x)).join(sep)+'.');
+  return out;
+}
+
+/* ============ الدفعة الثانية: جلسة الدقيقة وربطها بالعادات، الوضع الصوتي، التدرّج الأذكى، المشي مع الكيجل، جلسة الإرخاء ============ */
+
+// ---------- جلسة الدقيقة ----------
+// 60 ثانية: انقباضات سريعة ثم ثبات قصير. تُحسب جلسة من جلسات اليوم مرة واحدة فقط يوميًا (لا تُحسب مكررة).
+const minuteCounts=()=>!S.logs.some(l=>l.date===today()&&l.kind==='daily'&&l.pattern==='minute')&&dailyDoneOn(today())<planFor(S.progDay).n;
+function startMinute(audio){
+  startSession('minute');
+  if(audio&&R){ if(!S.voice){ S.voice=true; save(); } setTimeout(()=>{ if(R) dimOn(); },600); }
+}
+
+// ---------- ربط جلسة الدقيقة بعادات يومية ----------
+const ANCHORS=[['brush','بعد تفريش الأسنان','07:30'],['traffic','عند إشارة المرور أو في الزحمة','17:30'],['prayer','بعد الصلاة','13:00'],['coffee','أثناء انتظار القهوة أو الشاي','10:30']];
+const anc=()=>S.anchors||(S.anchors={});
+function anchorsSheet(){
+  modal(`<form id="anF" novalidate aria-labelledby="anH"><h3 id="anH">اربط جلسة الدقيقة بعاداتك</h3>
+    <p class="small muted" style="margin-top:-4px">التمرين المرتبط بعادة ثابتة يصبح تلقائيًا. اختر عادتين أو ثلاثًا، وحدّد وقتها المعتاد ليصلك تذكير لطيف.</p>
+    ${ANCHORS.map(([k,n,t])=>{ const a=anc()[k]||{}; return `<div class="anc"><label class="chk"><input type="checkbox" name="a_${k}" ${a.on?'checked':''}> ${n}</label><input type="time" name="t_${k}" value="${a.time||t}" aria-label="${n}"></div>`; }).join('')}
+    <div class="btnrow"><button class="btn accent" type="submit">حفظ</button><button class="btn ghost" type="button" id="anX">إلغاء</button></div></form>`,(m,close)=>{
+    m.querySelector('#anX').onclick=close;
+    m.querySelector('#anF').onsubmit=e=>{ e.preventDefault(); const fd=new FormData(e.target); let n=0;
+      ANCHORS.forEach(([k])=>{ const on=!!fd.get('a_'+k); anc()[k]={on,time:fd.get('t_'+k)||'08:00'}; if(on) n++; });
+      save(); reschedule(); close(); toast(n?'سيصلك تذكير مع كل عادة اخترتها':'أُوقفت تذكيرات العادات'); render(); };
+  });
+}
+function anchorNotifs(list,now){
+  const D=(i,h,m)=>new Date(now.getFullYear(),now.getMonth(),now.getDate()+i,h,m,0);
+  ANCHORS.forEach(([k,n],ai)=>{ const a=anc()[k]; if(!a||!a.on) return; const [h,m]=a.time.split(':').map(Number);
+    for(let i=0;i<7;i++){ const at=D(i,h,m); if(at>now) list.push({id:4200+ai*7+i,title:n+': جلسة الدقيقة',body:'60 ثانية فقط — تُحسب من جلسات اليوم.',schedule:{at,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'minute'}}); } });
+}
+
+// ---------- التدرّج الأذكى ----------
+// الإرهاق: إن قُيّمت آخر جلسة يومية «صعبة» (اليوم أو أمس) تقل التكرارات في الجلسة التالية بالربع
+function fatigueAdj(){
+  const L=S.logs.filter(l=>l.kind==='daily'&&!l.skipped&&l.rating&&dayDiff(l.date,today())<=1);
+  const last=L[L.length-1]; return last&&last.rating==='hard'?0.75:1;
+}
+// التراجع الآمن: 3 جلسات «صعبة» أو أكثر من آخر 5 مقيّمة خلال أسبوعين
+function evalEase(){
+  const L=S.logs.filter(l=>l.kind==='daily'&&!l.skipped&&l.rating&&dayDiff(l.date,today())<=14).slice(-5);
+  S.suggestEase=L.length>=3&&L.filter(l=>l.rating==='hard').length>=3&&S.progDay>1&&S.easeAsked!==today();
+}
+function easeCard(){ return `<div class="card hban"><b class="hrow">${ic('shield')} نخفف الشدة قليلًا؟</b><p class="small muted">قيّمت أغلب جلساتك الأخيرة بأنها صعبة. الشدة الزائدة ترهق العضلة وتبطئ التحسن، فالأفضل الرجوع أسبوعًا ثم التقدّم من جديد.</p><div class="row"><button class="btn accent sm" id="easeY">نعم، خفّف</button><button class="btn ghost sm" id="easeN">أبقِ كما هو</button></div></div>`; }
+function bindEase(){
+  const on=(id,f)=>{ const e=$(id); if(e) e.onclick=f; };
+  on('#easeY',()=>{ const from=S.progDay; S.progDay=Math.max(1,S.progDay-7); S.suggestEase=false; S.easeAsked=today(); save(); toast('رجعنا من اليوم '+from+' إلى اليوم '+S.progDay+' لأن الجلسات كانت صعبة'); render(); });
+  on('#easeN',()=>{ S.suggestEase=false; S.easeAsked=today(); save(); render(); });
+}
+// الدقة قبل المدة: لا تقدّم إلا بعد تأكيد أن الأرداف والبطن هادئة والتنفس مستمر
+function advanceConfirm(){
+  modal(`<form id="avF" novalidate aria-labelledby="avH"><h3 id="avH">قبل أن نزيد الشدة</h3>
+    <p class="small muted" style="margin-top:-4px">زيادة الثواني مع تعويض بعضلات أخرى لا تقوّي العضلة الصحيحة. أكّد الثلاثة:</p>
+    <label class="chk"><input type="checkbox" name="c"> أردافي بقيت ليّنة طوال الشد</label>
+    <label class="chk"><input type="checkbox" name="c"> بطني لم يُشدّ أو يندفع للخارج</label>
+    <label class="chk"><input type="checkbox" name="c"> تنفّست طوال الجلسة ولم أحبس نفسي</label>
+    <div class="btnrow"><button class="btn accent" type="submit">تقدّم</button><button class="btn ghost" type="button" id="avX">ليس بعد</button></div></form>`,(m,close)=>{
+    m.querySelector('#avX').onclick=()=>{ S.suggestAdvance=false; save(); close(); render(); };
+    m.querySelector('#avF').onsubmit=e=>{ e.preventDefault(); const ok=[...e.target.querySelectorAll('input[name=c]')].every(x=>x.checked);
+      if(!ok){ S.suggestAdvance=false; save(); close(); toast('نبقى في مستواك الآن — الدقة قبل المدة. راجع التدريب التفاعلي إن احتجت.'); render(); return; }
+      if(S.progDay<180) S.progDay++; S.suggestAdvance=false; save(); close(); toast('تقدّمت إلى اليوم '+S.progDay+': جلساتك سهلة، والتزامك جيد، ولا ألم'); render(); };
+  });
+}
+// النوع الأضعف من نتيجة اختبار القوة: الثبات (التحمّل) أو الانقباضات السريعة
+function weakType(){ const t=S.test; if(!t) return null;
+  if(t.flicks<10&&t.hold>=6) return 'rapid';
+  if(t.hold<5&&t.flicks>=10) return 'hold';
+  return null; }
+
+// ---------- المشي مع الكيجل ----------
+const walkGoal=()=>S.walkGoal||(P().age>=65||has('neuro')||has('heart')?100:150);
+function walkMinWeek(){
+  const days=Array.from({length:7},(_,i)=>addDays(today(),i-6)), wk=S.hc.week||{};
+  return Math.round(days.reduce((a,d)=>a+Math.max((S.walkLog||{})[d]||0,Math.round((wk[d]||0)/110)),0));
+}
+function walkCard(){
+  const plan=planFor(S.progDay), last7=Array.from({length:7},(_,i)=>addDays(today(),i-6));
+  const done=last7.reduce((a,d)=>a+dailyDoneOn(d),0), goal=plan.n*7, wm=walkMinWeek(), wg=walkGoal();
+  const canWS=S.tut&&S.tut.passed;
+  return `<div class="card"><h3 style="margin:0 0 4px">هدف الأسبوع المشترك</h3><p class="small muted" style="margin:0 0 10px">تمارين قاع الحوض مع المشي معًا أفضل للانتصاب والقلب والسكر من أيٍّ منهما وحده.</p>
+    <div class="cgoal"><span>${ic('target')} جلسات الكيجل</span><b><bdi dir="ltr">${Math.min(done,goal)} / ${goal}</bdi></b><div class="pbar"><i style="width:${Math.min(100,done/goal*100)}%"></i></div></div>
+    <div class="cgoal"><span>${ic('steps')} دقائق المشي${S.hc.on?' (من الساعة أو يدويًا)':''}</span><b><bdi dir="ltr">${wm} / ${wg}</bdi></b><div class="pbar"><i style="width:${Math.min(100,wm/wg*100)}%"></i></div></div>
+    <div class="btnrow" style="margin-top:10px"><button class="btn ghost sm" id="wk10">${ic('plus')}10 دقائق مشي</button><button class="btn ghost sm" id="wkG">تعديل الهدف</button></div>
+    ${canWS?`<button class="btn accent sm" id="wsGo" style="margin-top:8px">${ic('play')}امشِ واشدّ (4 دقائق، صوتية)</button>`:`<p class="small muted" style="margin:8px 0 0">«امشِ واشدّ» تظهر بعد إتقان التدريب التفاعلي للشد الصحيح.</p>`}</div>`;
+}
+function bindWalk(){
+  const on=(id,f)=>{ const e=$(id); if(e) e.onclick=f; };
+  on('#wk10',()=>{ const w=S.walkLog||(S.walkLog={}); w[today()]=(w[today()]||0)+10; Object.keys(w).sort().slice(0,-90).forEach(k=>delete w[k]); heartSet('walk',true); save(); toast('سُجّلت 10 دقائق مشي'); render(); });
+  on('#wkG',()=>modal(`<h3>هدف المشي الأسبوعي</h3><p class="small muted">التوصية العامة 150 دقيقة أسبوعيًا. اختر ما يناسب قدرتك وعمرك، وابدأ أقل إن كنت تبدأ من الصفر.</p>
+    <div class="btnrow3">${[60,100,150,200].map(v=>`<button class="btn ${walkGoal()===v?'accent':'ghost'} sm" data-wg="${v}">${v} د</button>`).join('')}</div>`,(m,close)=>{ m.querySelectorAll('[data-wg]').forEach(b=>b.onclick=()=>{ S.walkGoal=+b.dataset.wg; save(); close(); render(); }); }));
+  on('#wsGo',walkSqueeze);
+}
+function walkSqueeze(){
+  if(missing('aerobic').length){ ensureAsked('aerobic',walkSqueeze,'قبل المشي','بعض الحالات تحتاج احتياطات خاصة مع المشي.'); return; }
+  if(has('neuro')){ modal(`<h3>المشي مع جرح أو تنميل في القدم</h3><p class="small">لا يُنصح بالمشي الذي يحمل وزن الجسم ما دام في القدم جرح لم يلتئم. يمكنك أداء جلسات قاع الحوض جالسًا، وراجع طبيبك بشأن النشاط المناسب.</p><span class="src">${ic('books')} ${srcLink('colberg')}</span><button class="btn ghost" id="nX">فهمت</button>`,(m,close)=>{ m.querySelector('#nX').onclick=close; }); return; }
+  startSession('walk'); if(R&&!S.voice){ S.voice=true; save(); }
+}
+
+// ---------- جلسة الإرخاء والتهيئة ----------
+// شهيق مع ترك قاع الحوض ينزل ويتسع (الإرخاء العكسي)، وزفير طويل يهدّئ الجهاز العصبي
+function prepSheet(){
+  modal(`<h3>قبل العلاقة: تهيئة واسترخاء</h3>
+    <p class="small">التوتر وشدّ العضلات اللاإرادي يعاكسان الاسترخاء الذي يحتاجه الجسم. جلسة قصيرة تساعدك على الهدوء، وليست علاجًا.</p>
+    <ol class="small" style="padding-inline-start:18px;line-height:1.9;margin:0"><li>جلسة إرخاء 3 دقائق: شهيق بطيء يترك قاع الحوض يرتخي، وزفير طويل.</li><li>اشرب كوب ماء.</li><li>تجنّب النيكوتين في الساعة السابقة، لأنه يضيّق الأوعية. <span class="src">${ic('books')} ${srcShort('drugs')}</span></li><li>تجنّب وجبة دسمة جدًا قبلها مباشرة.</li></ol>
+    <div class="btnrow"><button class="btn accent" id="ppGo">${ic('play')}ابدأ (3 دقائق)</button><button class="btn ghost" id="ppX">إغلاق</button></div>`,(m,close)=>{
+    m.querySelector('#ppX').onclick=close; m.querySelector('#ppGo').onclick=()=>{ close(); startSession('relax',{min:3}); }; });
 }
 
 /* ============ التعليم ============ */
@@ -2014,12 +2735,12 @@ const ARTICLES=[
   ['اعثر على عضلاتك',`${IMG('anatomy')}<div class="pair"><figure>${IMG('squeeze')}<figcaption>انقباض</figcaption></figure><figure>${IMG('relax')}<figcaption>استرخاء</figcaption></figure></div><p>عضلات قاع الحوض عضلات لا تراها، لكنك تستخدمها يوميًا. تمتد كالأرجوحة من عظم العانة في الأمام إلى عظم العصعص في الخلف، وتحمل المثانة والأمعاء.</p><p><b>لتجدها:</b> أثناء التبول حاول إيقاف التدفق في منتصفه — العضلات التي تشدّها هي المطلوبة. هذه الطريقة للتعرف فقط؛ لا تمارس التمرين أثناء التبول بانتظام. طريقة أخرى: تخيّل أنك تمنع خروج الغازات واضغط العضلات المسؤولة عن ذلك.</p>${IMG('posture','sm')}<p><b>للتأكد:</b> تنفّس بحرية، ولا تشدّ بطنك أو فخذيك أو أردافك. إن انقبضت هذه العضلات فأنت تضغط خطأ.</p>`],
   ['لماذا 3 جلسات موزعة؟','<p>العضلة الصغيرة تتعب بسرعة. ثلاث جلسات قصيرة بينها ساعات تعطيها وقت التعافي، وتكرار التمرين في أوقات مختلفة يربطه بروتينك اليومي فيصبح عادة. جلسة واحدة طويلة تُتعب العضلة فتبدأ بالتعويض بعضلات البطن والأرداف، وهذا يقلل الفائدة.</p>'],
   ['الأخطاء الخمسة الشائعة','<p><b>1. حبس النفس:</b> تنفّس بانتظام طوال التمرين.<br><b>2. شدّ البطن أو الأرداف:</b> العضلة المطلوبة داخلية فقط.<br><b>3. الدفع للأسفل بدل الرفع للداخل:</b> الحركة الصحيحة رفع وشدّ للأعلى.<br><b>4. إهمال الإرخاء:</b> الإرخاء الكامل جزء من التمرين بنفس أهمية الضغط.<br><b>5. الإفراط:</b> المزيد ليس أفضل — التزم بالبرنامج، فالإجهاد يسبب نتائج عكسية.</p>'],
-  ['متى أرى النتائج؟','<p>تحسّن الإحساس بالعضلة والتحكم بالمثانة يبدأ خلال <b>2–4 أسابيع</b>. أما الانتصاب فتحسّن في التجارب بعد <b>6 أسابيع إلى 3 أشهر</b>، وتكتمل نتيجة تدريب القوة خلال <b>3–6 أشهر</b>. لذلك نقيس مؤشر الانتصاب شهريًا، واختبار القوة كل أسبوعين.</p><p class="small muted">Dorey 2005، BJU Int · Ahmad 2026، J Physiother</p>'],
+  ['متى أرى النتائج؟','<p>الحركة الذكية قبل الكحة قد تقلل التسرّب من <b>الأسبوع الأول</b> (Miller 1998). أما تقوية العضلة نفسها فتحتاج تكرارًا يوميًا، وتوصي الإرشادات بتقييم النتيجة بعد <b>3 أشهر على الأقل</b> (NICE NG123)، وهي المدة التي ظهر فيها تحسن الانتصاب في الدراسات (Dorey 2005). يلاحظ بعض الناس تحسنًا قبل ذلك. لذلك نسألك أسبوعيًا، ونقيس القوة كل أسبوعين، ونقارن دائمًا بأسبوعك الأول.</p><p>إن لم تلاحظ أي تحسن بعد 12 أسبوعًا من الالتزام، راجع طبيبًا أو أخصائي علاج طبيعي لقاع الحوض.</p><p class="small muted">Miller 1998، J Am Geriatr Soc · NICE NG123 · Dorey 2005، BJU Int</p>'],
   ['كيف تتدرّج خطتك؟',()=>`<p>العضلة تقوى بمبادئ تدريب القوة نفسها: <b>انقباضات قريبة من أقصى جهدك</b>، 8–12 مرة، <b>3 مرات يوميًا</b>، لمدة 8 أسابيع على الأقل. تبدأ مدة الانقباض بما تستطيعه وترتفع تدريجيًا حتى 10 ثوانٍ.</p>
    <p><b>اختبار كل أسبوعين:</b> نقيس أطول ثبات وعدد الانقباضات السريعة قبل التعب، فتُضبط خطتك تلقائيًا.</p>
    <p><b>الوضعيات:</b> البداية مستلقيًا لأن العضلة تعمل دون مقاومة الجاذبية، ثم جالسًا، ثم واقفًا، ثم أثناء المشي — كما في بروتوكول Dorey الذي حسّن الانتصاب.</p>
    <p><b>المستويات:</b> ${LV_NAME.slice(1).join(' ← ')}. مستواك الآن: <b>${LV_NAME[curLevel()]}</b>.</p><p class="small muted">Dorey 2004، Br J Gen Pract · مبادئ تدريب قاع الحوض — Bø، Br J Sports Med</p>`],
-  ['«الحيلة»: شدّ قبل الضغط','<p>اشدد قاع الحوض <b>قبل</b> أي ارتفاع مفاجئ في ضغط البطن: السعال، العطاس، رفع شيء ثقيل، أو الوقوف من الجلوس. هذه الحركة تُسمّى «The Knack» وتمنع تسرّب البول، وتحوّل التمرين إلى عادة تلقائية في يومك.</p><p>سنذكّرك بها مرة يوميًا. يمكنك إيقاف التذكير من الإعدادات.</p><p class="small muted"><span class="lvl b">أدلة متوسطة</span> Miller 1998، J Am Geriatr Soc — دُرست أكثر على النساء، وتُستخدم في تأهيل الرجال بعد جراحة البروستاتا.</p>'],
+  ['الحركة الذكية: شدّ قبل الضغط','<p>اشدد قاع الحوض <b>قبل</b> أي ارتفاع مفاجئ في ضغط البطن: السعال، العطاس، رفع شيء ثقيل، أو الوقوف من الجلوس. هذه الحركة تُسمّى «The Knack» وتمنع تسرّب البول، وتحوّل التمرين إلى عادة تلقائية في يومك.</p><p>سنذكّرك بها مرتين يوميًا في أوقات متغيرة. يمكنك إيقاف التذكير من الإعدادات.</p><p class="small muted"><span class="lvl b">أدلة متوسطة</span> Miller 1998، J Am Geriatr Soc — دُرست أكثر على النساء، وتُستخدم في تأهيل الرجال بعد جراحة البروستاتا.</p>'],
   ['تنفّس القلب: ما الذي تقوله الدراسات؟','<p>للقلب والتنفّس إيقاع مشترك يبلغ ذروته عند نحو <b>5.5–6 أنفاس في الدقيقة</b> («تردد الرنين»). عنده يرتفع تقلّب نبض القلب ويتحسّن منعكس الضغط الذي ينظّم الضغط.</p><p><b>الجرعة:</b> 5 دقائق على الأقل، 3 أيام أسبوعيًا أو أكثر، لمدة 4 أسابيع — والأفضل 10–15 دقيقة يوميًا. الأثر يتراكم مع الممارسة.</p><p><b>مع السكري:</b> التنفّس البطيء حسّن منعكس الضغط لدى مرضى السكري من النوع الثاني، وهم أكثر عرضة لاضطرابه.</p><p class="small muted">Lin 2014 · Chaddha 2019 · Shao 2024 · Brook 2013 (AHA) · Lehrer 2014</p>'],
   ['أنواع التمارين في البرنامج',()=>`<p>كل نوع يدرّب العضلة بطريقة مختلفة. الرسم يوضح مستوى الضغط عبر الزمن.</p>
    ${[['classic','الكلاسيكي','ضغط ثم إرخاء بنفس المدة.'],['steps','السلّم','انقباضات متدرجة الطول 1←2←3←2←1 ثانية.'],['rapid','النيران السريعة','ضغط وإرخاء كل ثانية لتدريب الألياف السريعة، وتفيد عند العطس والسعال.'],['hold','الثبات الطويل','انقباض واحد مستمر 15–25 ثانية لبناء التحمّل.'],['elevator','المصعد','ثلاثة مستويات: نصف ضغط، ضغط كامل، أقصى ضغط، ثم نزول.']].map(([k,n,d])=>`<div style="margin:12px 0"><b>${n}</b>${wave(k)}<p class="small muted" style="margin-top:0">${d}</p></div>`).join('')}`],
@@ -2033,10 +2754,15 @@ const ARTICLES=[
 function renderLearn(){
   app.innerHTML=`<h1>تعلّم</h1><p class="muted">مقالات قصيرة تساعدك على التمرين الصحيح.</p>
   <div class="card tcard"><div class="hrow" style="gap:12px"><span class="ic-badge" style="margin:0">${ic('target')}</span><div style="flex:1"><b>تدريب تفاعلي: الشد الصحيح</b><p class="small muted" style="margin:2px 0 0">${S.tut&&S.tut.passed?'أتقنته — راجعه متى شئت':'رسومات متحركة، ومختبر للإشارات، وتمرين موجّه مع كشف حبس النفس'}</p></div></div><button class="btn accent sm" id="tutL" style="margin-top:10px">${ic('play')}ابدأ</button></div>
+  <div class="lq tlist"><button class="trow" id="lK"><span class="tic teal">${ic('shield')}</span><span class="ttx"><b>الحركة الذكية قبل الكحة</b><span>درس قصير وتمرين موجّه</span></span></button>
+  ${isF()?'':`<button class="trow" id="lP"><span class="tic teal">${ic('drop')}</span><span class="ttx"><b>عصرة ما بعد التبول</b><span>توقف التنقيط في ثوانٍ</span></span></button>`}
+  <button class="trow" id="lT"><span class="tic teal">${ic('calendar')}</span><span class="ttx"><b>ماذا تتوقع ومتى؟</b><span>جدول زمني صادق للنتائج</span></span></button></div>
   <div class="warn"><b class="hrow">${ic('alert')} تحذير طبي</b> هذا التطبيق أداة لياقة عامة وليس منتجًا طبيًا. إن كنت تعاني ألمًا في الحوض، أعراضًا بولية مزمنة، أو خضعت لجراحة حديثة، استشر طبيبًا قبل البدء. توقف فورًا إذا شعرت بألم.</div>
   ${ARTICLES.map(a=>isF()&&a[0]==='كيجل للرجال بعد جراحة البروستاتا'?ART_F:a).map(([t,b],i)=>`<details ${i===0?'open':''}><summary>${t}</summary><div>${typeof b==='function'?b():b}</div></details>`).join('')}
   ${CREDIT}`;
   const tl=$('#tutL'); if(tl) tl.onclick=()=>tutorial(0);
+  const on=(id,f)=>{ const e=$(id); if(e) e.onclick=f; };
+  on('#lK',knackSheet); on('#lP',pmdSheet); on('#lT',()=>modal(timelineCard().replace('class="card"','class=""')+'<button class="btn ghost" id="tlX">إغلاق</button>',(m,close)=>{ m.querySelector('#tlX').onclick=close; }));
 }
 
 /* ============ الإعدادات ============ */
@@ -2087,7 +2813,7 @@ function renderSettings(){
   </div>
   <h2>السكري والنوم</h2><div class="card">
    <div class="set"><span>متابعة السكري<br><span class="small muted">قسم السكري وفحص ما قبل الرياضة</span></span><button class="sw ${S.diabetes?'on':''}" id="dmOn" aria-pressed="${!!S.diabetes}" aria-label="متابعة السكري"></button></div>
-   ${S.diabetes?'':'<!--'}<div class="set"><label for="gU">وحدة السكر</label><select id="gU"><option value="mg" ${mgU()?'selected':''}>ملغ/دل</option><option value="mmol" ${mgU()?'':'selected'}>ملمول/ل</option></select></div>${S.diabetes?'':'-->'}
+   ${S.diabetes?`<div class="set"><label for="gU">وحدة السكر</label><select id="gU"><option value="mg" ${mgU()?'selected':''}>ملغ/دل</option><option value="mmol" ${mgU()?'':'selected'}>ملمول/ل</option></select></div>`:''}
    <div class="set"><label for="bedT">وقت النوم</label><input type="time" id="bedT" value="${S.bed}"></div>
    <div class="set"><label for="wakeT">وقت الاستيقاظ</label><input type="time" id="wakeT" value="${S.wake}"></div>
    <div class="set"><span>إيقاف تذكير الماء قبل النوم بساعتين<br><span class="small muted">يقلل الاستيقاظ للتبول ليلًا</span></span><button class="sw ${S.nightLess?'on':''}" id="nlOn" aria-pressed="${!!S.nightLess}" aria-label="إيقاف الماء قبل النوم"></button></div>
@@ -2098,7 +2824,9 @@ function renderSettings(){
    <div class="set"><label for="mlE">تذكير التحضير لغدٍ</label><input type="time" id="mlE" value="${S.meal.eve}"></div>
   </div>
   <h2>التمرين الذكي</h2><div class="card">
-   <div class="set"><span>تذكير «الحيلة» اليومي<br><span class="small muted">شدّ قاع الحوض قبل السعال والرفع</span></span><button class="sw ${S.knackOn?'on':''}" id="knOn" aria-pressed="${!!S.knackOn}" aria-label="تذكير الحيلة"></button></div>
+   <div class="set"><span>ربط جلسة الدقيقة بعاداتك<br><span class="small muted">${ANCHORS.filter(([k])=>(anc()[k]||{}).on).map(a=>a[1]).join('، ')||'لم تختر عادات بعد'}</span></span><button class="btn ghost sm" id="ancGo">اختيار</button></div>
+   ${S.diabetes?`<div class="set"><span>تذكير المشي بعد الأكل<br><span class="small muted">10–15 دقيقة بعد الغداء والعشاء (2:30 م و9 م)</span></span><button class="sw ${S.mealWalk?'on':''}" id="mwOn" aria-pressed="${!!S.mealWalk}" aria-label="تذكير المشي بعد الأكل"></button></div>`:''}
+   <div class="set"><span>تذكير الحركة الذكية<br><span class="small muted">مرتين يوميًا في أوقات متغيرة: شدّ قبل الكحة والرفع</span></span><button class="sw ${S.knackOn?'on':''}" id="knOn" aria-pressed="${!!S.knackOn}" aria-label="تذكير الحركة الذكية"></button></div>
    <div class="set"><span>مستواك: ${LV_NAME[curLevel()]}</span><button class="btn ghost sm" id="stT">اختبار القوة</button></div>
   </div>
   <h2>الساعة الذكية</h2><div class="card">
@@ -2106,6 +2834,8 @@ function renderSettings(){
    ${S.hc.on&&HCP?'<div class="set"><span class="small muted">إدارة الصلاحيات</span><button class="btn ghost sm" id="hcSet">فتح Health Connect</button></div>':''}
   </div>
   <h2>الأمان والنسخ الاحتياطي</h2><div class="card">
+   ${isF()?'':`<div class="set"><span>أسئلة الانتصاب في فحص الأسبوع<br><span class="small muted">اختيارية — صلابة الانتصاب والانتصاب الصباحي</span></span><button class="sw ${S.edOpt===true?'on':''}" id="edOn" aria-pressed="${S.edOpt===true}" aria-label="أسئلة الانتصاب في فحص الأسبوع"></button></div>`}
+   <div class="set"><span>ويدجت محايد<br><span class="small muted">يخفي النصوص من ويدجت الشاشة الرئيسية ويبقي الحلقات والأرقام</span></span><button class="sw ${S.wDiscreet?'on':''}" id="wdOn" aria-pressed="${!!S.wDiscreet}" aria-label="ويدجت محايد"></button></div>
    <div class="set"><span>قفل بالبصمة<br><span class="small muted">يُطلب عند فتح التطبيق وبعد دقيقة في الخلفية</span></span><button class="sw ${S.lock?'on':''}" id="lkOn" aria-pressed="${!!S.lock}" aria-label="قفل بالبصمة"></button></div>
    <div class="set"><span>نسخة احتياطية<br><span class="small muted">${S.lastBackup?'آخر نسخة: '+S.lastBackup:'لم تُحفظ نسخة بعد'} — احفظها في Google Drive</span></span><button class="btn ghost sm" id="bkE">${ic('download')}حفظ</button></div>
    <div class="set"><label for="bkF">استعادة من ملف</label><span><input type="file" id="bkF" accept="application/json,.json,*/*" class="visually-hidden"><label for="bkF" class="btn ghost sm" role="button" tabindex="0">${ic('upload')}اختيار ملف</label></span></div>
@@ -2168,6 +2898,9 @@ function renderSettings(){
   $('#fsz').onchange=e=>{ S.fs=e.target.value; save(); render(); };
   on('#hcS',async()=>{ if(S.hc.on){ await hcSync(true); toast('تم التحديث'); render(); } else hcConnect(); });
   on('#hcSet',()=>{ HCP.openHealthConnectSettings().catch(()=>{}); });
+  on('#ancGo',anchorsSheet); on('#mwOn',()=>{ S.mealWalk=!S.mealWalk; save(); reschedule(); render(); });
+  on('#edOn',()=>{ S.edOpt=S.edOpt===true?false:true; if(S.edOpt===false) wkList().forEach(x=>{ x.ehs=null; x.morn=null; }); save(); toast(S.edOpt?'فُعّلت الأسئلة':'أُوقفت الأسئلة وحُذفت إجاباتها'); render(); });
+  on('#wdOn',()=>{ S.wDiscreet=!S.wDiscreet; save(); updateWidget(); render(); });
   on('#lkOn',toggleLock); on('#bkE',exportBackup); on('#ppol',privacySheet);
   $('#bkF').onchange=e=>{ importBackup(e.target.files[0]); e.target.value=''; };
   $('#back1').onclick=()=>{ if(S.progDay>1){ S.progDay--; S.dayDoneOn=null; save(); render(); } };
@@ -2181,16 +2914,21 @@ function renderSettings(){
 const LV_NAME=['','مبتدئ','متمكّن','قوي','خبير'];
 function levelFromTest(t){ if(!t) return null; const h=t.hold,f=t.flicks; if(h>=10&&f>=15) return 4; if(h>=8&&f>=10) return 3; if(h>=5&&f>=6) return 2; return 1; }
 function curLevel(){ return S.test?levelFromTest(S.test):Math.min(3,S.level||1); }
-const POS={lie:['مستلقيًا','استلقِ على ظهرك، ركبتاك مثنيتان وقدماك على الأرض.'],sit:['جالسًا','اجلس على كرسي، ظهرك مستقيم وقدماك مسطّحتان على الأرض.'],stand:['واقفًا','قف وقدماك بعرض الكتفين، والركبتان مرتخيتان غير مقفلتين.'],walk:['أثناء المشي','امشِ بخطى عادية، واضغط ضغطًا متوسطًا مع كل انقباضة دون حبس النفس.']};
+const POS={side:['على الجنب','استلقِ على جنبك الأيسر، ووسادة بين ركبتيك.'],lie:['مستلقيًا','استلقِ على ظهرك، ركبتاك مثنيتان وقدماك على الأرض.'],sit:['جالسًا','اجلس على كرسي، ظهرك مستقيم وقدماك مسطّحتان على الأرض.'],stand:['واقفًا','قف وقدماك بعرض الكتفين، والركبتان مرتخيتان غير مقفلتين.'],walk:['أثناء المشي','امشِ بخطى عادية، واضغط ضغطًا متوسطًا مع كل انقباضة دون حبس النفس.']};
 const POS_BY_LV={1:['lie','lie','sit'],2:['lie','sit','stand'],3:['sit','stand','stand'],4:['stand','stand','walk']};
+/* الحامل: الاستلقاء على الجنب بدل الظهر (ACOG 804: تجنّب الاستلقاء على الظهر لفترات طويلة أثناء التمرين بعد الأشهر الثلاثة الأولى) */
+const isPreg=()=>isFem()&&P().stage==='preg';
+const posFor=lv=>POS_BY_LV[lv].map(k=>k==='lie'&&isPreg()?'side':k);
 const testDue=()=>!S.test||dayDiff(S.test.date,today())>=14;
 function prescribe(p,t){
-  const lv=curLevel(); p.lv=lv; p.flicks=30; p.pos=POS_BY_LV[lv].slice();
+  const lv=curLevel(); p.lv=lv; p.flicks=30; p.pos=posFor(lv);
   if(S.test){
     const h=Math.max(3,Math.min(10,Math.round(S.test.hold)));
     p.sq=p.light?Math.max(3,h-2):h; p.rl=Math.max(4,p.sq); p.reps=p.light?8:Math.round(8+4*t); p.n=3;
     p.flicks=Math.max(6,Math.min(30,Math.round(S.test.flicks))); p.holdSec=Math.max(8,Math.min(30,Math.round(S.test.hold*1.5)));
     if(p.patterns.length<3) p.patterns=['classic','rapid','classic'];
+    // التركيز على النوع الأضعف في اختبار القوة
+    const w=weakType(); if(w&&p.n===3&&!p.patterns.includes(w)){ p.patterns=p.patterns.slice(); p.patterns[1]=w; p.focus=w; }
   }
   if(p.n===2) p.pos=[p.pos[0],p.pos[2]];
   return p;
@@ -2208,7 +2946,7 @@ function renderTest(){
     <p class="muted center">دقيقتان فقط. نبني على النتيجة خطتك: مدة الانقباض = أقصى ثبات تستطيعه حتى 10 ثوانٍ، وعدد الانقباضات السريعة = ما تؤديه قبل التعب. نعيد الاختبار كل أسبوعين لنرفع مستواك.</p>
     <div class="card"><div class="ev"><span class="badge">${ic('hourglass')}</span><div><b>1. أطول ثبات</b><p>اضغط بأقصى قوة واثبت، وأرخِ عندما تشعر أن الضغط ضعف.</p></div></div>
     <div class="ev"><span class="badge">${ic('bolt')}</span><div><b>2. الانقباضات السريعة</b><p>اضغط وأرخِ بسرعة، واضغط الزر مع كل انقباضة حتى تتعب.</p></div></div></div>
-    <div class="warn small">استلقِ على ظهرك، وتنفّس بحرية. لا تشدّ البطن أو الأرداف — هذا يفسد القياس.</div>
+    <div class="warn small">${isPreg()?'استلقِ على جنبك أو اجلس':'استلقِ على ظهرك'}، وتنفّس بحرية. لا تشدّ البطن أو الأرداف — هذا يفسد القياس.</div>
     <button class="btn accent" id="tGo">${ic('play')}ابدأ الاختبار</button>`;
   } else if(TT.st==='hold'){
     h+=`<div class="ring-wrap" style="margin-top:20px"><div class="ring-center" style="position:static"><div class="count" id="tSec">0.0</div><div class="small muted">ثانية</div></div></div>
@@ -2230,7 +2968,7 @@ function renderTest(){
     ${prev?`<div class="card small">${pl<lv?'<b>تقدّمت مستوى!</b> ':''}الاختبار السابق (${prev.date}): ثبات ${prev.hold} ث، ${prev.flicks} انقباضة سريعة.</div>`:''}
     <div class="card"><h3>خطتك للأسبوعين القادمين</h3>
     <p class="small" style="margin:0">3 جلسات يوميًا · كل جلسة 8–12 انقباضة قريبة من أقصى جهدك، مدة كل منها <b>${h2} ث</b> وراحة مثلها · و<b>${Math.max(6,Math.min(30,t.flicks))}</b> انقباضة سريعة في جلسة السرعة.</p>
-    <p class="small muted" style="margin:6px 0 0">الوضعيات: ${POS_BY_LV[lv].map(k=>POS[k][0]).join(' ← ')}. ننتقل من الاستلقاء إلى الوقوف ثم المشي كلما زادت قوتك.</p></div>
+    <p class="small muted" style="margin:6px 0 0">الوضعيات: ${posFor(lv).map(k=>POS[k][0]).join(' ← ')}. ننتقل من الاستلقاء إلى الوقوف ثم المشي كلما زادت قوتك.</p></div>
     <button class="btn accent" id="tSave">${ic('check')}اعتمد خطتي</button><div style="height:8px"></div><button class="btn ghost" id="tRe">إعادة الاختبار</button>`;
   }
   app.innerHTML=h;
@@ -2334,9 +3072,12 @@ function exCheck(kind){
     const eve=new Date().getHours()>=17;
     let h='';
     if(v<70) h=`<div class="warn"><b>لا تبدأ الآن.</b> عالج الانخفاض أولًا: 15 غرامًا من سكر سريع، وأعد القياس بعد 15 دقيقة.</div>`;
-    else if(v<90) h=`<div class="warn"><b>تناول 15–30 غرامًا من الكربوهيدرات قبل البدء</b> (حبة فاكهة متوسطة أو كوب حليب)، ثم أعد القياس بعد 15 دقيقة. سنذكّرك.</div>`;
+    else if(v<90) h=P().c.insulin===false
+      ? `<div class="card"><b>يمكنك البدء.</b><p class="small" style="margin:6px 0 0">بدون إنسولين أو حبوب تُنزل السكر بشدة، يندر أن ينخفض السكر أثناء الرياضة. احمل معك مصدر سكر سريع احتياطًا، وتوقف إن شعرت بارتجاف أو تعرّق أو دوخة.</p></div>`
+      : `<div class="warn"><b>تناول 15–30 غرامًا من الكربوهيدرات قبل البدء</b> (حبة فاكهة متوسطة أو كوب حليب)، ثم أعد القياس بعد 15 دقيقة. سنذكّرك.</div>`;
     else if(v<=250) h=`<div class="card" style="border-color:var(--ok)"><b class="hrow" style="color:var(--ok)">${ic('checkCircle')} مناسب للرياضة</b><p class="small" style="margin:6px 0 0">احمل معك مصدر سكر سريع، واشرب ماء. إن شعرت بارتجاف أو تعرّق أو دوخة توقف وقِس.</p></div>`;
     else h=`<div class="warn"><b>السكر مرتفع (${gfmt(v)}).</b> إن وُجدت كيتونات أو شعرت بتعب أو غثيان: أجّل الرياضة. إن لم توجد كيتونات وتشعر بخير: نشاط خفيف إلى متوسط فقط، واشرب ماء، وأعد القياس.</div>`;
+    if(has('beta')&&v<=250) h+=`<p class="small warn exw">حاصرات بيتا قد تُخفي أعراض الانخفاض مثل الرجفة وتسارع القلب — اعتمد على القياس لا على الإحساس.</p>`;
     if(v>=70) h+=`<label class="chk"><input type="checkbox" id="xBed" ${eve?'checked':''}> ذكّرني بقياس السكر قبل النوم (خطر الانخفاض يستمر حتى 24 ساعة بعد الرياضة، ويزيد ليلًا بعد رياضة المساء)</label>`;
     h+=`<p class="small muted">إرشادات عامة من جمعية السكري الأمريكية، وتهمّ خصوصًا من يستخدم الإنسولين أو أدوية السلفونيل يوريا. اتبع تعليمات طبيبك إن اختلفت.</p><button class="btn accent" id="xOk">تم</button>`;
     return h;
@@ -2423,7 +3164,7 @@ async function hcSync(force){
     // نجمع فترات النوم ثم ندمج المتداخلة منها (ساعتان تسجلان نفس الليلة) فلا تُحسب المدة مرتين
     const iv=[]; (r.samples||[]).forEach(s=>{ if(s.stages&&s.stages.length){ s.stages.forEach(g=>{ if(g.stage!=='awake'&&g.stage!=='inBed') iv.push([+new Date(g.startDate),+new Date(g.endDate)]); }); } else if(!s.sleepState||['asleep','light','deep','rem'].includes(s.sleepState)) iv.push([+new Date(s.startDate),+new Date(s.endDate)]); });
     const mins=mergedMinutes(iv);
-    if(mins>0){ S.hc.sleep=Math.round(mins); S.hc.sleepDate=today(); if(mins>=420 && !heartToday().sleep) heartSet('sleep',true); } }catch(e){}
+    if(mins>0){ S.hc.sleep=Math.round(mins); S.hc.sleepDate=today(); const sl=S.hc.sleepLog=S.hc.sleepLog||{}; sl[today()]=Math.round(mins); Object.keys(sl).sort().slice(0,-120).forEach(k=>delete sl[k]); if(mins>=420 && !heartToday().sleep) heartSet('sleep',true); } }catch(e){}
   if(ok('bloodGlucose')) try{ const r=await HCP.readSamples({dataType:'bloodGlucose',startDate:iso(Date.now()-3*864e5),endDate:iso(now),limit:200});
     const have=new Set(S.glu.map(g=>g.id||g.ts));
     (r.samples||[]).forEach(s=>{ const id=s.platformId||('hc'+s.startDate), ts=new Date(s.startDate).getTime(); if(have.has(id)||have.has(ts)) return; let v=s.value; if(/mmol/i.test(s.unit||'')||(!s.unit&&v<40)) v=v*18.016; if(v>=20&&v<=600) gluAdd(v,'rnd',ts,'hc',id); }); }catch(e){}
@@ -2433,7 +3174,7 @@ async function hcSync(force){
     const s=(r.samples||[]).sort((a,b)=>new Date(b.endDate)-new Date(a.endDate))[0]; if(s) S.hc.rhr=Math.round(s.value); }catch(e){}
   save(); return before!==JSON.stringify(S.hc);
 }
-async function hcHrBetween(a,b){ if(!HCP||!S.hc.on) return null; try{ const r=await HCP.readSamples({dataType:'heartRate',startDate:iso(a),endDate:iso(b),limit:500}); const v=(r.samples||[]).map(s=>s.value).filter(Boolean); return v.length?Math.round(v.reduce((x,y)=>x+y,0)/v.length):null; }catch(e){ return null; } }
+async function hcHrBetween(a,b){ if(!HCP||!S.hc.on||(Array.isArray(S.hc.perm)&&!S.hc.perm.includes('heartRate'))) return null; try{ const r=await HCP.readSamples({dataType:'heartRate',startDate:iso(a),endDate:iso(b),limit:500}); const v=(r.samples||[]).map(s=>s.value).filter(Boolean); return v.length?Math.round(v.reduce((x,y)=>x+y,0)/v.length):null; }catch(e){ return null; } }
 const stepsNow=()=>S.hc.on&&S.hc.stepsDate===today()?S.hc.steps:null;
 const fmtH=m=>Math.floor(m/60)+' س '+(m%60?(m%60)+' د':'');
 function stepsSheet(){
@@ -2472,7 +3213,7 @@ function mealWeek(){ let n=0; for(let i=0;i<7;i++){ const l=S.mealLog[addDays(to
 
 /* ============ تنفّس القلب المبني على الدراسات ============ */
 function breathPlan(){ const B=S.br, cyc=60/B.bpm, ti=Math.round((B.ratio==='55'?cyc/2:cyc*0.4)*100)/100; return {ti,te:Math.round((cyc-ti)*100)/100,reps:Math.round(B.min*B.bpm)}; }
-function breathDays(from,to){ const set=new Set(); S.logs.filter(l=>l.kind==='breath'&&!l.skipped&&l.date>=from&&l.date<=to).forEach(l=>{ set[l.date]=(set[l.date]||0)+(l.dur||0); }); return Object.keys(set).filter(d=>set[d]>=300).length; }
+function breathDays(from,to){ const set={}; S.logs.filter(l=>l.kind==='breath'&&!l.skipped&&l.date>=from&&l.date<=to).forEach(l=>{ set[l.date]=(set[l.date]||0)+(l.dur||0); }); return Object.keys(set).filter(d=>set[d]>=300).length; }
 function breathWeeks(){ let w=0; for(let k=0;k<12;k++){ const to=addDays(today(),-7*k), from=addDays(to,-6); if(breathDays(from,to)>=3) w++; else if(k>0) break; } return w; }
 function breathSheet(){
   modal(`<div id="brB"></div>`,(m,close)=>{
@@ -2488,16 +3229,17 @@ function breathSheet(){
       <button class="btn accent" id="brStart">${ic('play')}ابدأ ${B.min} دقائق</button>
       <details style="margin-top:10px"><summary>الدراسات</summary><div class="small">
       <p><b>السرعة والنسبة:</b> مقارنة بين أنماط تنفّس مختلفة وجدت أن 5.5 نَفَس/د بنسبة متساوية أعطت أعلى تقلّب لنبض القلب. <span class="lvl b">أدلة متوسطة</span> Lin 2014، Int J Psychophysiol.</p>
-      ${htn()?'':'<!--'}<p><b>ضغط الدم:</b> تحليل تجميعي اعتمد معيار 10 أنفاس/د أو أقل، 5 دقائق أو أكثر، 3 أيام أسبوعيًا لمدة 4 أسابيع: انخفاض في الضغط والنبض. <span class="lvl b">أدلة متوسطة</span> Chaddha 2019، Complement Ther Med. وتحليل أحدث لـ31 دراسة أكّد انخفاض الضغط الانقباضي. Shao 2024، Mindfulness.</p>
-      ${htn()?'':'-->'}${S.diabetes?'':'<!--'}<p><b>السكري:</b> التنفّس بـ6 أنفاس/د حسّن حساسية منعكس الضغط فورًا لدى مرضى السكري من النوع الثاني. <span class="lvl c">أدلة أولية</span> Acta Diabetol، PMID 25956276.</p>
-      ${S.diabetes?'':'-->'}${htn()?'':'<!--'}<p><b>جمعية القلب الأمريكية</b> عدّت التنفّس البطيء الموجّه خيارًا مساعدًا معقولًا لخفض الضغط. Brook 2013، Hypertension.</p>
-      ${htn()?'':'-->'}<p class="muted">يكمّل العلاج ولا يغني عن أي دواء.</p></div></details>`;
+      ${htn()?`<p><b>ضغط الدم:</b> تحليل تجميعي اعتمد معيار 10 أنفاس/د أو أقل، 5 دقائق أو أكثر، 3 أيام أسبوعيًا لمدة 4 أسابيع: انخفاض في الضغط والنبض. <span class="lvl b">أدلة متوسطة</span> Chaddha 2019، Complement Ther Med. وتحليل أحدث لـ31 دراسة أكّد انخفاض الضغط الانقباضي. Shao 2024، Mindfulness.</p>
+      `:''}${S.diabetes?`<p><b>السكري:</b> التنفّس بـ6 أنفاس/د حسّن حساسية منعكس الضغط فورًا لدى مرضى السكري من النوع الثاني. <span class="lvl c">أدلة أولية</span> Acta Diabetol، PMID 25956276.</p>
+      `:''}${htn()?`<p><b>جمعية القلب الأمريكية</b> عدّت التنفّس البطيء الموجّه خيارًا مساعدًا معقولًا لخفض الضغط. Brook 2013، Hypertension.</p>
+      `:''}<p class="muted">يكمّل العلاج ولا يغني عن أي دواء.</p></div></details>`;
       m.querySelectorAll('input[type=radio]').forEach(r=>r.onchange=()=>{ const v=r.value; S.br[r.name]=r.name==='ratio'?v:+v; save(); draw(); });
       m.querySelector('#brStart').onclick=()=>{ close(); startSession('breath'); }; };
     draw(); });
 }
 
 /* ============ مؤشر الانتصاب IIEF-5 (صياغة مختصرة) ============ */
+/* تنبيه قبل النشر على Google Play: IIEF-5 محمي بحقوق ملكية — يلزم ترخيص أو استبداله بمقياس EHS. انظر PLAY_CHECKLIST.md */
 const FREQ=['تقريبًا لا أبدًا','أقل من النصف بكثير','نحو النصف','أكثر من النصف بكثير','دائمًا تقريبًا'];
 const IIEF=[
   ['ثقتك بقدرتك على الوصول للانتصاب والمحافظة عليه',null,['منخفضة جدًا','منخفضة','متوسطة','عالية','عالية جدًا'],1],
@@ -2558,6 +3300,7 @@ function reportText(days,doctor){
   const ex=Object.keys(S.heartLog).filter(d=>d>=from&&S.heartLog[d].walk).length, rs=Object.keys(S.heartLog).filter(d=>d>=from&&S.heartLog[d].resist).length;
   L1.push(`• الرياضة: هوائية ${ex} أيام، مقاومة ${rs} أيام.`);
   const sm=Object.keys(S.smokeLog).filter(d=>d>=from).reduce((a,d)=>a+(S.smokeLog[d].ok||0),0); if(S.smoke.on) L1.push(`• فترات بلا تدخين ناجحة: ${sm}.`);
+  b1Report().forEach(x=>L1.push(x));
   if(isF()){ const u=S.uiq[S.uiq.length-1]; L1.push(`• التسرّب: ${S.bl.filter(x=>x.k==='leak'&&x.ts>=Date.now()-days*864e5).length} مرة خلال الفترة${u?`، درجة الإزعاج ${u.s}/10 بتاريخ ${u.date}`:''}.`); }
   else if(ii) L1.push(`• مؤشر الانتصاب IIEF-5: ${ii.s}/25 (${iiefCat(ii.s)[0]}) بتاريخ ${ii.date}${S.iief.length>1?`، السابق ${S.iief[S.iief.length-2].s}`:''}.`);
   if(doctor && S.diabetes){ const gl=S.glu.filter(x=>x.ts>=Date.now()-days*864e5).slice(-40); if(gl.length){ L1.push('','قراءات السكر (آخر '+gl.length+'):'); gl.forEach(x=>{ const d=new Date(x.ts); L1.push(`${dstr(d)} ${pad(d.getHours())}:${pad(d.getMinutes())} — ${gfmt(x.v)} ${GU()} (${GCTXN[x.ctx]||''})`); }); } }
@@ -2649,15 +3392,6 @@ function bindRamAsk(){ const w=ramWindow(); const done=(m)=>{ save(); reschedule
   on('#reY',()=>{ S.ram.end=addDays(today(),1); done('عيدك مبارك — تعود تذكيراتك المعتادة بعد رمضان'); });
   on('#reN',()=>{ S.ram.end=addDays(today(),2); done('غدًا آخر أيام رمضان'); }); }
 const ramWaterSlots=()=>{ let a=toMin(S.ram.iftar), b=toMin(S.ram.suhoor); if(b<=a) b+=1440; const out=[]; for(let m=a+15;m<=b-10&&out.length<S.water.goal;m+=Math.max(45,Math.floor((b-a-25)/Math.max(1,S.water.goal-1)))) out.push(m%1440); return out; };
-function ramadanCard(){
-  if(!ramadanOn()) return '';
-  const lg=gLast(), dm=S.diabetes;
-  return `<div class="card ramc"><div class="hrow" style="gap:10px"><span class="ic-badge" style="margin:0">${ic('moon')}</span><div style="flex:1"><b>وضع رمضان</b><p class="small muted" style="margin:2px 0 0">الإفطار ${S.ram.iftar} · السحور ${S.ram.suhoor} · ${hijriToday()}</p></div><button class="iconbtn" id="ramSet" aria-label="إعداد وضع رمضان">${ic('set')}</button></div>
-   ${dm?`<div class="warn small" style="margin-top:10px"><b>أفطر فورًا</b> إذا كان السكر أقل من ${gfmt(70)} أو أعلى من ${gfmt(300)} ${GU()}، أو شعرت بأعراض الانخفاض. قياس السكر لا يُفطر.</div>
-   <p class="small" style="margin:8px 0 0">قِس: قبل السحور، منتصف النهار، قبل الإفطار، وبعد الإفطار بساعتين.${lg?' آخر قراءة: <b>'+gfmt(lg.v)+'</b>':''}</p>
-   <button class="btn accent sm" id="ramG" style="margin-top:8px">${ic('drop')}سجّل قراءة</button>`:'<p class="small" style="margin:8px 0 0">تذكيرات الماء الآن بين الإفطار والسحور، والرياضة الخفيفة بعد الإفطار بساعتين.</p>'}
-  </div>`;
-}
 function ramSheet(){
   modal(`<form id="rmF" aria-labelledby="rmH"><h3 id="rmH">وضع رمضان</h3>
     <fieldset class="radios seg2"><legend>التفعيل</legend>${[['auto','يعمل في رمضان'],['off','متوقف']].map(([v,n])=>`<label><input type="radio" name="md" value="${v}" ${S.ram.mode!=='off'===(v==='auto')?'checked':''}> ${n}</label>`).join('')}</fieldset>
@@ -2746,7 +3480,7 @@ const isF=isFem;
 const GOALS_M=[['erection','تقوية الانتصاب'],['pe','التحكم في سرعة القذف'],['bladder','تحسين السيطرة على المثانة'],['recovery','التعافي بعد جراحة البروستاتا'],['fitness','لياقة عامة ووقاية']];
 const GOALS_F=[['bladder','التحكم في تسرّب البول'],['postpartum','التعافي بعد الولادة'],['prolapse','دعم أعضاء الحوض (الهبوط)'],['sexual','تحسين الوظيفة الجنسية'],['fitness','لياقة عامة ووقاية']];
 const CUES_F=[
-  ['طريقة إيقاف البول','أثناء التبول حاولي إيقاف التدفق في منتصفه — العضلات التي تشدّينها هي المطلوبة.<br><b style="color:var(--danger)">للتعرّف فقط مرة واحدة</b>، ولا تتمرّني أثناء التبول بانتظام.'],
+  ['طريقة إيقاف البول','أثناء التبول حاولي إيقاف التدفق في منتصفه — العضلات التي تشدّينها هي المطلوبة.<br><b style="color:var(--danger)">للتعرّف فقط مرة واحدة</b>، ولا تتمرّني أثناء التبول بانتظام. ولا تجربيها والمثانة ممتلئة جدًا، أو مع التهابات بولية متكررة.'],
   ['طريقة منع الغازات','تخيّلي أنك تمنعين خروج الغازات، واضغطي العضلات المسؤولة عن ذلك دون شدّ البطن.'],
   ['علامات الانقباض الصحيح','إحساس بشدّ ورفع حول فتحتي المهبل والشرج إلى الداخل والأعلى، كأنك ترفعين شيئًا صغيرًا. إن شعرت بذلك فأنت تشدّين العضلة الصحيحة.']
 ];
@@ -2771,7 +3505,9 @@ function renderWomen(head){
   app.innerHTML=`${head}
   <div class="sec"><h2>تمارينك</h2></div>
   <div class="tiles"><button class="tile quick" id="mD"><div class="hd"><span class="badge">${ic('play')}</span><span class="sub">اليوم ${S.progDay}</span></div><h3>جلسة البرنامج</h3><div class="sub">تقوية قاع الحوض والتحكم</div></button>
-  <button class="tile quick" id="mC"><div class="hd"><span class="badge">${ic('target')}</span><span class="sub">2 د</span></div><h3>تمرين التحكم</h3><div class="sub">انقباضات سريعة ثم ثبات</div></button></div>
+  <button class="tile quick" id="mC"><div class="hd"><span class="badge">${ic('target')}</span><span class="sub">2 د</span></div><h3>تمرين التحكم</h3><div class="sub">انقباضات سريعة ثم ثبات</div></button>
+  <button class="tile quick" id="mK"><div class="hd"><span class="badge">${ic('shield')}</span><span class="sub">دقيقة</span></div><h3>الحركة الذكية</h3><div class="sub">شدّ قبل الكحة والعطس والرفع</div></button>
+  <button class="tile quick" id="mR"><div class="hd"><span class="badge">${hi('lungs')}</span><span class="sub">3 د</span></div><h3>تهيئة واسترخاء</h3><div class="sub">إرخاء قاع الحوض وتهدئة التوتر</div></button></div>
   <div class="sec"><h2>ما تقوله الدراسات</h2></div>
   <div class="card" style="padding:4px 16px">${WEVID.filter(([,t])=>S.diabetes||!/السكري|السكر/.test(t)).map(([i,t,d,l,src])=>`<div class="ev"><span class="badge">${ic(i)}</span><div><b>${t}</b><p>${d}</p><span class="lvl ${LV[l][1]}">${LV[l][0]}</span> <span class="small muted">${src}</span></div></div>`).join('')}</div>
   <div class="sec"><h2>نصائح يومية</h2></div>
@@ -2787,6 +3523,7 @@ function renderWomen(head){
   <p class="small muted center">معلومات تثقيفية مبنية على دراسات منشورة، ولا تغني عن استشارة الطبيبة.</p>`;
   $('#mC').onclick=()=>startSession('control');
   $('#mD').onclick=()=>startNext();
+  $('#mK').onclick=knackSheet; const mr=$('#mR'); if(mr) mr.onclick=prepSheet;
   app.querySelectorAll('[data-seg]').forEach(b=>b.onclick=()=>{ S.hseg=b.dataset.seg; save(); render(); });
 }
 /* مقياس إزعاج التسرّب الشهري (مقياس بسيط من التطبيق) */
@@ -3020,10 +3757,12 @@ function bindHealth(){
 }
 
 /* ============ إشعارات 2.5 ============ */
-const KNACK=[['قبل أن تسعل أو تعطس','اشدد قاع الحوض أولًا ثم اسعل — «الحيلة» تمنع التسرّب.'],['قبل أن ترفع شيئًا','شدّ قاع الحوض ثم ارفع، وتنفّس أثناء الرفع.'],['قبل أن تقف من الجلوس','انقباضة سريعة قبل الوقوف تحمي المثانة.']];
+const KNACK=[['قبل أن تسعل أو تعطس','اشدد قاع الحوض أولًا ثم اسعل — الحركة الذكية تمنع التسرّب.'],['قبل أن ترفع شيئًا','شدّ قاع الحوض ثم ارفع، وتنفّس أثناء الرفع.'],['قبل أن تقف من الجلوس','انقباضة سريعة قبل الوقوف تحمي المثانة.']];
 function moreNotifs(list,now){
   const D=(i,h,m)=>new Date(now.getFullYear(),now.getMonth(),now.getDate()+i,h,m,0);
-  try{ ramNotifs(list,now); checkNotifs(list,now); }catch(e){ console.log(e); }
+  try{ ramNotifs(list,now); checkNotifs(list,now); anchorNotifs(list,now); }catch(e){ console.log(e); }
+  // المشي 10–15 دقيقة بعد الوجبة لمن لديه سكري
+  if(S.diabetes&&S.mealWalk&&!ramadanOn()) for(let i=0;i<7;i++) [[14,30],[21,0]].forEach(([h,mi],k)=>{ const at=D(i,h,mi); if(at>now) list.push({id:4300+i*2+k,title:'مشي بعد الأكل',body:'10–15 دقيقة مشي بعد الوجبة تخفّض ارتفاع السكر بعدها.',schedule:{at,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'home'}}); });
   if(S.meal.on && !ramadanOn()){ const [h,m]=S.meal.time.split(':').map(Number), [eh,em]=S.meal.eve.split(':').map(Number);
     for(let i=0;i<7;i++){ const wd=(now.getDay()+i)%7, ml=MEALS[wd], at=D(i,h,m), ev=D(i,eh,em);
       if(at>now && !(i===0&&mealToday().focus)) list.push({id:9000+i*2,title:'غداء اليوم: '+ml[1],body:ml[2],schedule:{at,allowWhileIdle:true},channelId:'meals',smallIcon:'ic_stat_notify',actionTypeId:'MEAL',extra:{go:'meal'}});
@@ -3031,7 +3770,12 @@ function moreNotifs(list,now){
   S.meds.filter(x=>x.on).forEach((md,mi)=>md.times.forEach((t,ti)=>{ const [h,m]=t.split(':').map(Number);
     for(let i=0;i<7;i++){ const at=D(i,h,m); if(at<=now) continue; const d=dstr(at); if(medTaken(d,md.id,t)) continue;
       list.push({id:9300+i*20+mi*4+ti,title:'موعد دواء: '+md.name,body:(md.dose?md.dose+' — ':'')+'اضغط «أخذته» بعد تناوله.',schedule:{at,allowWhileIdle:true},channelId:'meds',smallIcon:'ic_stat_notify',actionTypeId:'MED',extra:{go:'med',key:d+'|'+md.id+'|'+t}}); } }));
-  if(S.knackOn) for(let i=0;i<7;i++){ const at=D(i,11,0); if(at>now){ const k=KNACK[i%3]; list.push({id:9900+i,title:k[0],body:k[1],schedule:{at,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'home'}}); } }
+  // الحركة الذكية: مرتين يوميًا في أوقات متغيرة خارج ساعات النوم، ولا تُذكَّر لمن لديه ما يمنعها
+  if(S.knackOn&&!knackBlocked()) for(let i=0;i<7;i++){ const ds=dstr(D(i,12,0)); knackTimes(ds).forEach((mm,k)=>{ const at=D(i,Math.floor(mm/60),mm%60); if(at>now){ const q=KNACK[(i*2+k)%KNACK.length]; list.push({id:9900+i*2+k,title:q[0],body:q[1],schedule:{at,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'home'}}); } }); }
+  // عصرة ما بعد التبول: تذكيران يوميًا لمدة أسبوعين من التفعيل
+  if(!isF()&&S.pmdRem&&!has('voiding')&&!has('pelvicPain')) for(let i=0;i<7;i++){ const d0=D(i,0,0); if(dayDiff(S.pmdRem,dstr(d0))>13) break; [[10,30],[16,30]].forEach(([h,mi],k)=>{ const at=D(i,h,mi); if(at>now) list.push({id:4100+i*2+k,title:'عادة جديدة: بعد التبول',body:'شدّة أو اثنتان لقاع الحوض بعد آخر قطرة — تُخرج المتبقي وتمنع التنقيط.',schedule:{at,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'home'}}); }); }
+  // فحص الأسبوع
+  if(S.onboarded){ const l=wkLast(); let at=l?new Date(l.date+'T20:30:00'):D(1,20,30); if(l) at.setDate(at.getDate()+7); if(at<=now) at=now.getHours()<20?D(0,20,30):D(1,20,30); list.push({id:9990,title:'فحص الأسبوع (دقيقة)',body:'أسئلة قصيرة تقيس تقدّمك الحقيقي مقارنة بأسبوعك الأول.',schedule:{at,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'wk'}}); }
   if(S.test){ const at=new Date(S.test.date+'T18:00:00'); at.setDate(at.getDate()+14); const a2=at>now?at:D(1,18,0); list.push({id:9960,title:'حان اختبار القوة',body:'دقيقتان لقياس تقدّمك ورفع مستوى خطتك.',schedule:{at:a2,allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'test'}}); }
   else if(S.onboarded) list.push({id:9960,title:'اختبر قوتك لتُبنى خطتك',body:'اختبار دقيقتين يحدد مدة انقباضك وعدد التكرارات المناسبة لك.',schedule:{at:D(now.getHours()<18?0:1,18,30),allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify',extra:{go:'test'}});
   if(isF()){ const l=S.uiq[S.uiq.length-1]; let at=l?new Date(l.date+'T21:00:00'):D(3,21,0); if(l) at.setDate(at.getDate()+30); if(at<=now) at=D(1,21,0); list.push({id:9950,title:'مقياس التسرّب الشهري',body:'سؤال واحد لقياس تحسّنك هذا الشهر.',schedule:{at,allowWhileIdle:true},channelId:'health',smallIcon:'ic_stat_notify',extra:{go:'leak'}}); }
@@ -3060,8 +3804,8 @@ if(APP){
     if(tab!=='home'){ tab='home'; render(); return; }
     APP.exitApp();
   });
-  APP.addListener('pause',()=>{ _bgAt=Date.now(); });
-  APP.addListener('resume',()=>{ if(S.lock && _bgAt && Date.now()-_bgAt>60000) showLock(); rollover(); if(screen!=='session'&&screen!=='test') render(); scheduleReminders(); hcSync().then(ch=>{ if(ch&&screen==='tabs') render(); }); });
+  APP.addListener('pause',()=>{ _bgAt=Date.now(); flushReschedule(); });
+  APP.addListener('resume',()=>{ pullWidgetWater(); if(S.lock && _bgAt && Date.now()-_bgAt>60000) showLock(); rollover(); if(screen!=='session'&&screen!=='test') render(); scheduleReminders(); hcSync().then(ch=>{ if(ch&&screen==='tabs') render(); }); });
   APP.addListener('appUrlOpen',e=>handleUrl(e&&e.url));
   try{ APP.getLaunchUrl().then(r=>{ if(r&&r.url) setTimeout(()=>handleUrl(r.url),300); }).catch(()=>{}); }catch(e){}
 }
@@ -3073,6 +3817,8 @@ if(LN){
     if(go==='med'){ const k=a.notification.extra.key; if(a.actionId==='take'&&k){ const [d,id,t]=k.split('|'); medMark(d,id,t,true); toast('سُجّل الدواء'); } if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='dm'; render(); } return; }
     if(go==='meal'){ if(a.actionId==='ate') mealSet('focus',true); if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='food'; render(); } return; }
     if(go==='test'){ if(screen==='tabs'||screen==='done') startTest(); return; }
+    if(go==='minute'){ if(screen==='tabs'||screen==='done') startMinute(false); return; }
+    if(go==='wk'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='home'; render(); setTimeout(wkSheet,300); } return; }
     if(go==='iief'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(iiefSheet,300); } return; }
     if(go==='report'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(()=>reportSheet(7,false),300); } return; }
     if(go==='doc'){ if(screen==='tabs'||screen==='done'){ screen='tabs'; tab='men'; S.hseg='ind'; render(); setTimeout(()=>{ if(a.actionId==='send') sendDoc(); },500); } return; }
@@ -3090,6 +3836,7 @@ rollover(); render();
 // الدولة التي اختارها المستخدم أولًا، ثم المكتشفة
 if(!S.ctryInit){ S.ctryInit=1; const c=ctry(); if(!S.onboarded&&c&&CTRY[c]) S.gUnit=CTRY[c][1]; if(c&&CTRY[c]&&!CTRY[c][3]) S.ram.mode='off'; save(); }
 if(S.onboarded) scheduleReminders();
+if(S.onboarded) pullWidgetWater();
 if(S.doc&&S.doc.pend) setTimeout(docConfirm,1500);
 if(S.lock){ applySecure(); showLock(); }
 if(S.hc.on) hcSync(true).then(ch=>{ if(ch&&screen==='tabs') render(); });

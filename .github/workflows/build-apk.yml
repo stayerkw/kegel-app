@@ -50,10 +50,10 @@ jobs:
           mkdir -p android/app/src/main/res/drawable
           cp assets/ic_stat_notify.png android/app/src/main/res/drawable/ic_stat_notify.png
 
-      - name: الأذونات (إشعارات دقيقة، اهتزاز، إعادة الجدولة بعد إعادة التشغيل)
+      - name: الأذونات (إشعارات، اهتزاز، إعادة الجدولة بعد إعادة التشغيل)
         run: |
           M=android/app/src/main/AndroidManifest.xml
-          for P in POST_NOTIFICATIONS SCHEDULE_EXACT_ALARM RECEIVE_BOOT_COMPLETED VIBRATE WAKE_LOCK USE_BIOMETRIC; do
+          for P in POST_NOTIFICATIONS RECEIVE_BOOT_COMPLETED VIBRATE WAKE_LOCK USE_BIOMETRIC; do
             grep -q "android.permission.$P\"" $M || sed -i "s#</manifest>#    <uses-permission android:name=\"android.permission.$P\" />\n</manifest>#" $M
           done
           cat $M
@@ -76,6 +76,19 @@ jobs:
           npx cap sync android
           cd android && chmod +x gradlew && ./gradlew assembleRelease bundleRelease --no-daemon
           grep -n "targetSdkVersion" variables.gradle || true
+
+      - name: فحص جاهزية المتجر
+        env:
+          PROD: ${{ github.event.inputs.production == 'true' }}
+        run: |
+          # كل بند غير مؤشَّر في PLAY_CHECKLIST.md يظهر تنبيهًا في نسخة المتجر
+          OPEN=$(grep -c '^- \[ \]' PLAY_CHECKLIST.md || true)
+          if [ "$PROD" = "true" ] && [ "$OPEN" -gt 0 ]; then
+            grep '^- \[ \]' PLAY_CHECKLIST.md | sed 's/^- \[ \] //; s/\*\*//g; s/`//g' | cut -c1-300 | while read -r L; do
+              echo "::warning title=قبل النشر على Google Play::$L"
+            done
+            { echo "## قبل النشر على Google Play: $OPEN بند مفتوح"; grep '^- \[ \]' PLAY_CHECKLIST.md; } >> $GITHUB_STEP_SUMMARY
+          fi
 
       - name: التوقيع
         env:
