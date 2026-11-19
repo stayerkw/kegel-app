@@ -428,6 +428,41 @@ body.dark .dpromo{background:linear-gradient(135deg,#0E2B22,#0C2430)}
 @media (prefers-reduced-motion:reduce){.gheart{animation:none}}
 @media (max-width:360px){.stats{grid-template-columns:1fr}.wbody{grid-template-columns:1fr}.wart{aspect-ratio:4/3}.quick{grid-template-columns:repeat(2,1fr)}.gheart{width:104px;height:92px}.dwel h1{font-size:21px}}
 
+
+/* ===== شاشة التمرين الغامرة: هالة بلون المرحلة، حلقة متدرجة، نقطة ضوئية، معاينة المرحلة القادمة، وضع الجيب ===== */
+body.immersive{--orbA:#22D3EE;--orbB:#0A8E9E;--orbGlow:rgba(34,211,238,.28);background:radial-gradient(110% 60% at 50% 15%,var(--orbGlow) 0%,rgba(7,26,46,0) 58%) fixed,linear-gradient(#071A2E,#040F1C) fixed;background-color:#040F1C}
+body.immersive.ph-rl,body.immersive.ph-out,body.immersive.ph-ready{--orbA:#94A3B8;--orbB:#475569;--orbGlow:rgba(148,163,184,.16)}
+body.immersive.ph-hold,body.immersive.ph-e3{--orbA:#A5B4FC;--orbB:#06B6D4;--orbGlow:rgba(129,140,248,.28)}
+body.immersive.ph-e2{--orbA:#67E8F9;--orbB:#6366F1;--orbGlow:rgba(103,232,249,.24)}
+.tbtns{display:flex;gap:8px}
+.ring-wrap.orb::before{display:none}
+.orb-aura{position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle,var(--orbGlow,rgba(34,211,238,.2)) 0%,transparent 70%);transform:scale(var(--orbScale,.85));transition:transform .14s linear;pointer-events:none}
+.og-a{stop-color:var(--orbA,#22D3EE)}.og-b{stop-color:var(--orbB,#0A8E9E)}
+.ring-ticks{stroke:var(--line);stroke-width:2;stroke-dasharray:2 9.52}
+body.immersive .ring-ticks{stroke:rgba(255,255,255,.14)}
+body.immersive #ring{stroke:url(#orbGrad);filter:drop-shadow(0 0 8px var(--orbGlow))}
+.ring-dot{fill:#fff;opacity:0;transition:opacity .2s}
+body.immersive .ring-dot{opacity:1;filter:drop-shadow(0 0 6px var(--orbA))}
+body.immersive.ph-ready .ring-dot{opacity:0}
+body.immersive .count{font-size:64px;text-shadow:0 6px 24px rgba(0,0,0,.35)}
+.count.pop{animation:numPop .26s cubic-bezier(.16,1,.3,1)}
+@keyframes numPop{0%{transform:scale(1.12);opacity:.75}100%{transform:scale(1);opacity:1}}
+.next-pill{display:inline-flex;align-items:center;gap:6px;margin:6px auto 0;padding:5px 14px;border-radius:999px;font-size:12.5px;font-weight:600;min-height:28px;box-sizing:border-box;background:var(--accentSoft);color:var(--accent);visibility:hidden;opacity:0;transition:opacity .25s ease}
+.next-pill.show{visibility:visible;opacity:1}
+body.immersive .next-pill{background:rgba(255,255,255,.08);color:#CBD5E1;border:1px solid rgba(255,255,255,.1)}
+body.immersive .next-pill.soon{background:rgba(34,211,238,.16);color:#A5F3FC;border-color:rgba(34,211,238,.35)}
+.elv-bars{display:flex;gap:6px;justify-content:center;margin:4px 0 2px}
+.elv-bars i{width:28px;height:6px;border-radius:6px;background:var(--line);transition:background .25s,transform .25s}
+body.immersive .elv-bars i{background:rgba(255,255,255,.14)}
+.elv-bars i.on{background:var(--orbA,var(--accent));transform:scaleY(1.3)}
+body.immersive #lvH{stroke:url(#orbGrad)}
+body.immersive.ph-sq #lvH,body.immersive.ph-hold #lvH,body.immersive.ph-e3 #lvH{filter:drop-shadow(0 0 6px var(--orbGlow))}
+.dim-veil{position:fixed;inset:0;z-index:90;background:#000;color:#334155;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;cursor:pointer}
+.dim-veil b{font-size:44px;color:#475569;font-variant-numeric:tabular-nums}
+.dim-veil span{font-size:16px;color:#3F4E63}
+.dim-veil small{font-size:12px;color:#253246;margin-top:24px}
+.dim-veil:focus{outline:none}
+@media (prefers-reduced-motion:reduce){.count.pop{animation:none}.orb-aura{transition:none;transform:scale(.95)}.next-pill,.elv-bars i{transition:none}body.immersive{transition:none}}
 /* ===== الرئيسية: بطاقات قابلة للضغط، شريط الجلسات، عادات اليوم ===== */
 button.scard{border:0;font:inherit;color:inherit;text-align:start;width:100%;cursor:pointer}
 .scard{transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s ease}
@@ -1889,13 +1924,18 @@ function drawSession(){
   app.innerHTML=`
   <div class="topbar"><button class="iconbtn" id="xBtn" aria-label="خروج">${ic('x')}</button>
     <div class="center"><b id="sTitle" class="small">${R.s.title}</b><div class="small muted" id="repTxt"></div></div>
-    <button class="iconbtn" id="vBtn" aria-label="الصوت">${ic(S.voice?'volOn':'volOff')}</button></div>
-  <div class="ring-wrap"><svg width="240" height="240" viewBox="0 0 240 240">
-    <circle cx="120" cy="120" r="96" fill="none" stroke="var(--line)" stroke-width="10"/>
-    <circle id="ring" cx="120" cy="120" r="96" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}"/></svg>
+    <div class="tbtns"><button class="iconbtn" id="dimBtn" aria-label="تعتيم الشاشة (وضع الجيب)">${ic('eye')}</button><button class="iconbtn" id="vBtn" aria-label="الصوت">${ic(S.voice?'volOn':'volOff')}</button></div></div>
+  <div class="ring-wrap orb" id="orb"><span class="orb-aura" aria-hidden="true"></span><svg width="240" height="240" viewBox="0 0 240 240" aria-hidden="true">
+    <defs><linearGradient id="orbGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="og-a"/><stop offset="1" class="og-b"/></linearGradient></defs>
+    <circle class="ring-ticks" cx="120" cy="120" r="110" fill="none"/>
+    <circle class="ring-bg" cx="120" cy="120" r="96" fill="none" stroke="var(--line)" stroke-width="10"/>
+    <circle id="ring" cx="120" cy="120" r="96" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}"/>
+    <circle class="ring-dot" id="ringDot" cx="216" cy="120" r="5.5"/></svg>
     <div class="ring-center"><div class="count" id="cnt">3</div><div class="small muted">ثانية</div></div></div>
+  ${R.s.pattern==='elevator'?'<div class="elv-bars" id="elvBars" aria-hidden="true"><i></i><i></i><i></i></div>':''}
   ${R.s.kind==='breath'?'':liveHammock()}
   <div class="phase" id="ph" role="status" aria-live="polite" aria-atomic="true">استعد</div><p class="hint" id="hint"></p>
+  <div class="center"><span class="next-pill" id="nextPill" aria-hidden="true"></span></div>
   <div class="dots" id="dots"></div>
   <div class="pbar" style="margin:8px 0 16px"><i id="tot" style="width:0"></i></div>
   <div class="row"><button class="btn" id="pBtn">${ic('pause')}إيقاف مؤقت</button><button class="btn ghost" id="sBtn">تخطّي الجلسة</button></div>
@@ -1904,7 +1944,17 @@ function drawSession(){
   $('#xBtn').onclick=()=>askExit();
   $('#sBtn').onclick=()=>askExit(true);
   $('#vBtn').onclick=()=>{ S.voice=!S.voice; save(); $('#vBtn').innerHTML=ic(S.voice?'volOn':'volOff'); };
+  $('#dimBtn').onclick=dimOn;
 }
+/* وضع الجيب: شاشة سوداء تقريبًا (خصوصية + توفير بطارية OLED) والصوت والاهتزاز مستمران؛ لمسة واحدة للعودة */
+function dimOn(){ if(document.getElementById('dimV')) return;
+  const v=document.createElement('div'); v.className='dim-veil'; v.id='dimV'; v.setAttribute('role','button'); v.tabIndex=0;
+  v.setAttribute('aria-label',T('المس للعودة إلى التمرين'));
+  v.innerHTML=`<b id="dimN"></b><span id="dimP"></span><small>${T('المس الشاشة للعودة')}</small>`;
+  const off=()=>v.remove(); v.onclick=off; v.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '||e.key==='Escape') off(); };
+  document.body.appendChild(v); v.focus(); if(R) updateSession(true); }
+const dimOff=()=>{ const v=document.getElementById('dimV'); if(v) v.remove(); };
+const PH_CLS=['ph-ready','ph-sq','ph-rl','ph-hold','ph-in','ph-out','ph-e1','ph-e2','ph-e3'];
 function updateSession(full){
   const st=R.s.steps[R.i], C=2*Math.PI*96;
   let frac=Math.min(1,R.e/st.d);
@@ -1913,12 +1963,23 @@ function updateSession(full){
   const ring=$('#ring'); if(!ring) return;
   ring.setAttribute('stroke-dashoffset', C*(1-fill));
   ring.setAttribute('stroke', st.t==='rl'||st.t==='out'?'var(--relax)':'var(--accent)');
-  $('#cnt').textContent=Math.max(1,Math.ceil(st.d-R.e));
+  const secs=Math.max(1,Math.ceil(st.d-R.e)), cnt=$('#cnt');
+  if(cnt.textContent!==String(secs)){ cnt.textContent=secs; if(!full){ cnt.classList.remove('pop'); void cnt.offsetWidth; cnt.classList.add('pop'); } }
+  // الهالة تتنفس مع المرحلة، والنقطة الضوئية تدور على طرف القوس
+  const orb=$('#orb'); if(orb) orb.style.setProperty('--orbScale',(0.78+fill*0.34).toFixed(3));
+  const dot=$('#ringDot'); if(dot) dot.setAttribute('transform',`rotate(${(fill*360).toFixed(1)} 120 120)`);
+  const np=$('#nextPill'), nx=R.s.steps[R.i+1], left=st.d-R.e;
+  if(np){ if(nx&&st.t!=='ready'&&st.d>2&&left<=3){ const t=T('القادم: '+curLabel(nx)[0]+' ('+Math.round(nx.d)+' ث)'); if(np.textContent!==t) np.textContent=t; np.classList.add('show'); np.classList.toggle('soon',left<=2); }
+    else np.classList.remove('show','soon'); }
+  const dn=document.getElementById('dimN'); if(dn){ dn.textContent=secs; const dp=document.getElementById('dimP'); if(dp) dp.textContent=$('#ph').textContent; }
   const sag=Math.round(84-fill*52), H=$('#lvH'), O=$('#lvO');
   if(H){ const d=`M36 44 Q130 ${sag} 224 44`; H.setAttribute('d',d); H.style.d=`path("${d}")`; H.setAttribute('stroke',st.t==='rl'||st.t==='ready'?'var(--relax)':'var(--accent)'); }
   if(O) O.style.transform=`translateY(${(-fill*14).toFixed(1)}px)`;
   $('#tot').style.width=(R.elapsed/R.s.total*100)+'%';
   if(full){
+    const pc=st.t==='sq'&&st.lbl==='hold'?'ph-hold':'ph-'+st.t;
+    if(!document.body.classList.contains(pc)){ document.body.classList.remove(...PH_CLS); document.body.classList.add(pc); }
+    const eb=$('#elvBars'); if(eb){ const lv=st.t==='e1'?1:st.t==='e2'?2:st.t==='e3'?3:0; eb.querySelectorAll('i').forEach((b,k)=>b.classList.toggle('on',k<lv)); }
     const L=curLabel(st);
     $('#ph').textContent=L[0]; $('#ph').style.color=st.t==='rl'?'var(--muted)':'var(--accent)';
     $('#hint').textContent=L[1];
@@ -1953,7 +2014,7 @@ function askExit(isSkip){
     const c=m.querySelector('#mCount'); if(c) c.onclick=()=>{ close(); finishSession(true); };
   });
 }
-function stopEngine(){ document.body.classList.remove('immersive'); if(R&&R.timer) clearInterval(R.timer); keepAwake(false); try{speechSynthesis.cancel();}catch(e){} }
+function stopEngine(){ document.body.classList.remove('immersive',...PH_CLS); dimOff(); if(R&&R.timer) clearInterval(R.timer); keepAwake(false); try{speechSynthesis.cancel();}catch(e){} }
 function endSession(how){
   stopEngine();
   if(how==='skip' && R.s.kind==='daily'){ S.logs.push({date:today(),ts:Date.now(),kind:'daily',skipped:true,pattern:R.s.pattern,reps:0,dur:0}); save(); toast('تم تخطّي الجلسة'); }

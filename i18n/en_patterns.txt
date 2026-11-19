@@ -112,3 +112,4 @@ ADA — Standards of Care in Diabetes {n}، القسم {n}|ADA — Standards of 
 تكرار {n} من {n}|Rep {n} of {n}
 {s}. واحد|{s}. One
 {s} — {s}|{s} — {s}
+القادم: {s} ({n} ث)|Next: {s} ({n} s)

@@ -643,3 +643,6 @@ Stafford RE et al. Neurourol Urodyn 2016 — أثر التعليمات اللف�
 توت أو فراولة أو عنب أحمر أو برتقال — كاملة لا عصير، مع زبادي.|Berries, strawberries, red grapes or oranges — whole, not juice, with yogurt.
 ويدجت محايد|Discreet widget
 يخفي النصوص من ويدجت الشاشة الرئيسية ويبقي الحلقات والأرقام|Hides text on the home-screen widget, keeping only rings and numbers
+المس الشاشة للعودة|Tap the screen to return
+المس للعودة إلى التمرين|Tap to return to the workout
+تعتيم الشاشة (وضع الجيب)|Dim screen (pocket mode)
