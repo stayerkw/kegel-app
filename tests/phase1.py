@@ -142,6 +142,9 @@ async def main():
         # 14) الألم يوقف التدرّج التلقائي
         easy = [{'date': d, 'kind': 'daily', 'rating': 'easy', 'ts': 1} for d in ['2026-11-16', '2026-11-17', '2026-11-18']]
         pg = await page(b, dict(base, logs=easy, painAt=None, warned=False))
+        # الدفعة الثانية: التقدّم يتطلب أيضًا التزامًا 70% أو أكثر في آخر 7 أيام
+        check('14 التزام ضعيف: لا يُقترح التقدّم', await pg.evaluate("(S.logs=[0,1,2].map(k=>({date:addDays(today(),-k),kind:'daily',rating:'easy',ts:1})),evalAdvance(),S.suggestAdvance!==true)"))
+        await pg.evaluate("(S.suggestAdvance=false,S.logs=[...Array(7).keys()].flatMap(k=>[0,1,2].map(j=>({date:addDays(today(),-k),kind:'daily',rating:k<3?'easy':'ok',ts:j}))))")
         await pg.evaluate('evalAdvance()')
         check('14 بدون ألم: يُقترح التقدّم', await pg.evaluate('S.suggestAdvance===true'))
         await pg.evaluate("S.suggestAdvance=false; S.painAt=today(); evalAdvance()")

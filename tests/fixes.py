@@ -26,9 +26,9 @@ async def main():
 
         # 2) قرار التقدّم: جلسة صعبة في اليوم تُسقطه
         r = await pg.evaluate("""(()=>{ const d=k=>addDays(today(),-k); S.suggestAdvance=false;
-          S.logs=[0,1,2].flatMap(k=>[{kind:'daily',date:d(k),rating:'hard',ts:1},{kind:'daily',date:d(k),rating:'easy',ts:2}]);
+          S.logs=[0,1,2,3,4,5,6].flatMap(k=>[1,2,3].map(j=>({kind:'daily',date:d(k),rating:k<3?(j===1?'hard':'easy'):'ok',ts:j})));
           evalAdvance(); const a=S.suggestAdvance;
-          S.logs=[0,1,2].flatMap(k=>[{kind:'daily',date:d(k),rating:'easy',ts:1},{kind:'daily',date:d(k),rating:'easy',ts:2}]);
+          S.logs=[0,1,2,3,4,5,6].flatMap(k=>[1,2,3].map(j=>({kind:'daily',date:d(k),rating:k<3?'easy':'ok',ts:j})));
           evalAdvance(); const b=S.suggestAdvance; S.logs=[]; S.suggestAdvance=false; return [a,b]; })()""")
         check('التقدّم: «صعبة» ثم «سهلة» في نفس اليوم لا تقترح التقدّم', r == [False, True], r)
 

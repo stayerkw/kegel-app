@@ -120,9 +120,13 @@ ADA — Standards of Care in Diabetes {n}، القسم {n}|ADA — Standards of 
 الالتزام هذا الأسبوع {n}% — الانتظام اليومي هو العامل الأهم، فابدأ بجلسة الدقيقة في الأيام المزدحمة.|Consistency this week is {n}% — daily regularity matters most, so use the one-minute session on busy days.
 أنت في الأسبوع {n}. التحسن يُقاس عادة بعد 12 أسبوعًا من الالتزام، فاستمر قبل الحكم.|You're in week {n}. Improvement is usually measured after 12 weeks of consistency, so keep going before judging.
 جولة {n} من 3|Round {n} of 3
-{s} ث|{s} s
 {s} · الأيام {n}–{n}|{s} · days {n}–{n}
 {n}% شد ورفع|{n}% squeeze and lift
 {n}% إفلات|{n}% released
 {n}% شد|{n}% squeeze
 القادم: {s} · {n} ث|Next: {s} · {n} s
+{n} دقائق مشي|{n} minutes walking
+جلسة الإرخاء — {n} دقائق|Relaxation session — {n} minutes
+{s}: جلسة الدقيقة|{s}: one-minute session
+رجعنا من اليوم {n} إلى اليوم {n} لأن الجلسات كانت صعبة|Moved back from day {n} to day {n} because sessions were hard
+تقدّمت إلى اليوم {n}: جلساتك سهلة، والتزامك جيد، ولا ألم|Advanced to day {n}: easy sessions, good consistency, no pain
