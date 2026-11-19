@@ -818,7 +818,13 @@ async function notifPermission(){
 function learnedSlots(){
   const need=planFor(S.progDay).n, map=need===2?[0,2]:[0,1,2], by={}, cut=addDays(today(),-21), slots=[[],[],[]];
   S.logs.filter(l=>l.kind==='daily'&&!l.skipped&&l.date>=cut).forEach(l=>(by[l.date]=by[l.date]||[]).push(l.ts));
-  Object.values(by).forEach(a=>a.sort((x,y)=>x-y).slice(0,need).forEach((ts,i)=>{ const t=new Date(ts); slots[map[i]].push(t.getHours()*60+t.getMinutes()); }));
+  // كل جلسة تُنسب لأقرب موعد تذكير (لا لترتيبها في اليوم) — جلسة الظهر لا تُحسب صباحية إن تُخطّي الصباح
+  const rem=S.reminders.map(toMin);
+  Object.values(by).forEach(a=>{ const used={};
+    a.map(ts=>{ const t=new Date(ts); return t.getHours()*60+t.getMinutes(); })
+     .map(m=>({m,k:map.reduce((best,k)=>Math.abs(m-rem[k])<Math.abs(m-rem[best])?k:best,map[0])}))
+     .sort((x,y)=>Math.abs(x.m-rem[x.k])-Math.abs(y.m-rem[y.k]))
+     .forEach(({m,k})=>{ if(!used[k]){ used[k]=1; slots[k].push(m); } }); });
   return slots;
 }
 function effectiveTimes(){
@@ -834,7 +840,8 @@ const toMin=t=>{ const [h,m]=t.split(':').map(Number); return h*60+m; };
 const WMSG=[['وقت كوب ماء','كوب الآن يحافظ على نشاطك وصحة مثانتك.'],['اشرب كوبًا من الماء','الترطيب المنتظم يقلل تهيّج المثانة.'],['استراحة ماء','كوب واحد الآن يقرّبك من هدفك اليومي.'],['لا تنسَ الماء','وزّع شربك على اليوم بدل كمية كبيرة مرة واحدة.']];
 const waterToday=()=>S.waterLog[today()]||0;
 function waterSlots(){ if(typeof ramadanOn==='function'&&ramadanOn()) return ramWaterSlots(); const [fh,fm]=S.water.from.split(':').map(Number),[th,tm]=S.water.to.split(':').map(Number), out=[]; let end=th*60+tm;
-  if(S.nightLess){ let b=toMin(S.bed); if(b<6*60) b+=1440; end=Math.min(end,b-120); }
+  // وقت النوم يُحسب نسبةً لبداية فترة الماء: النوم قبل بدايتها يعني فجر اليوم التالي (لمن ينام صباحًا بعد دوام ليلي)
+  if(S.nightLess){ let b=toMin(S.bed); if(b<=fh*60+fm) b+=1440; end=Math.min(end,b-120); }
   for(let m=fh*60+fm;m<=end;m+=S.water.every) out.push(m); return out; }
 /* فترات بلا تدخين: تبدأ كل 3 ساعات وتستمر 40 دقيقة */
 function smokeSlots(){ const a=toMin(S.smoke.from); let b=toMin(S.smoke.to); if(b<=a) b+=1440; const out=[]; for(let m=a;m<=b;m+=S.smoke.every) out.push(m); return out; }
@@ -856,7 +863,10 @@ function smokeRecord(ok){ const d=today(), r=Object.assign({ok:0,slip:0},S.smoke
 function smokeStartManual(){ const st=Date.now(); S.smokeManual={start:st,end:st+S.smoke.dur*6e4}; save(); Haptic.heavy();
   if(LN) LN.schedule({notifications:[{id:7999,title:'أحسنت، أتممت '+S.smoke.dur+' دقيقة بدون تدخين',body:'كل فترة تنجح فيها تُضعف الرغبة أكثر.',schedule:{at:new Date(S.smokeManual.end),allowWhileIdle:true},channelId:'smoke',smallIcon:'ic_stat_notify',actionTypeId:'SMOKE_END',extra:{go:'smokeEnd'}}]}).catch(()=>{});
   toast('بدأت '+S.smoke.dur+' دقيقة بدون تدخين'); }
-let _rs; function reschedule(){ clearTimeout(_rs); _rs=setTimeout(scheduleReminders,1200); }
+let _rs=null; function reschedule(){ clearTimeout(_rs); _rs=setTimeout(()=>{ _rs=null; scheduleReminders(); },1200); }
+/* عند إغلاق التطبيق أو إخفائه قبل انتهاء المهلة: جدولة التذكيرات فورًا حتى لا يضيع آخر تعديل */
+function flushReschedule(){ if(_rs){ clearTimeout(_rs); _rs=null; scheduleReminders(); } }
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden') flushReschedule(); });
 let _typesDone=false;
 // إشعارات لمرة واحدة تُنشأ لحظيًا (نهاية فترة بلا تدخين، إعادة قياس السكر) — لا تلغيها إعادة جدولة التذكيرات الدورية
 const ONESHOT_IDS=new Set([7999,9970,9971]);
@@ -1176,7 +1186,9 @@ const COND=[ // [المفتاح، النص، شرط الظهور]
   ['pelvicSurg','جراحة حديثة في الحوض أو البروستاتا، أو قسطرة بولية حاليًا',()=>true],
   ['hernia','فتق',()=>true],
   ['gout','النقرس',()=>true],
-  ['warfarin','أستخدم دواء الوارفارين لمنع التجلط',()=>true]
+  ['warfarin','أستخدم دواء الوارفارين لمنع التجلط',()=>true],
+  ['beta','أستخدم دواءً من حاصرات بيتا (مثل بيسوبرولول أو أتينولول)',()=>has('htn')||has('heart')],
+  ['voiding','صعوبة في إفراغ المثانة، أو تدفق بول ضعيف جدًا',()=>true]
 ];
 const ALG=[['fish','السمك'],['shell','الروبيان والمحار'],['nuts','المكسرات'],['peanut','الفول السوداني'],['dairy','الحليب ومشتقاته (أو عدم تحمّل اللاكتوز)'],['gluten','القمح والجلوتين (السيلياك)'],['egg','البيض'],['sesame','السمسم'],['legumes','البقوليات']];
 const STAGES=[['none','لا شيء مما يلي'],['preg','حامل'],['pp6','ولدتُ خلال آخر 6 أسابيع'],['pp','بعد الولادة (أكثر من 6 أسابيع)'],['meno','سن اليأس أو بعده']];
@@ -1191,7 +1203,8 @@ const htn=()=>has('htn');
 // متطلبات كل ميزة من أسئلة: لا يُسأل إلا ما يلزمها وما لم يُسأل بعد
 const NEED={
   kegel:['pelvicPain','pelvicSurg'],
-  aerobic:['heart','htn','neuro','retino','insulin'],
+  aerobic:['heart','htn','neuro','retino','insulin','beta'],
+  knack:['pelvicPain','pelvicSurg','voiding'],
   resist:['heart','htn','retino','hernia'],
   food:['ckd','gout','warfarin','__alg']
 };
@@ -1199,6 +1212,11 @@ function missing(feature){ return NEED[feature].filter(k=>k==='__alg'?!P().aAske
 
 // المصادر: لكل قاعدة مرجع حقيقي يدعمها
 const SRC={
+  acog:['ACOG Committee Opinion 804 — Physical Activity and Exercise During Pregnancy and the Postpartum Period (2020)','https://doi.org/10.1097/AOG.0000000000003772','إرشاد رسمي'],
+  ahasex:['AHA — Sexual Activity and Cardiovascular Disease (Levine 2012)','https://doi.org/10.1161/CIR.0b013e3182447787','إرشاد رسمي'],
+  knack:['Miller JM, et al. The Knack: pelvic muscle precontraction reduces cough-related leakage. J Am Geriatr Soc 1998','https://doi.org/10.1111/j.1532-5415.1998.tb02721.x','تجربة عشوائية'],
+  pmd:['Paterson J, et al. Pelvic floor exercises as a treatment for post-micturition dribble. Br J Urol 1997','https://pubmed.ncbi.nlm.nih.gov/9202555/','تجربة عشوائية'],
+  pmd2:['Dorey G, et al. Pelvic floor exercises for post-micturition dribble in men with ED: RCT. Urol Nurs 2004','https://pubmed.ncbi.nlm.nih.gov/15658735/','تجربة عشوائية'],
   colberg:['ADA — Physical Activity/Exercise and Diabetes (Colberg 2016، الجدول 5)','https://doi.org/10.2337/dc16-1728','إرشاد رسمي'],
   mayo:['Mayo Clinic — رفع الأثقال وضغط الدم','https://www.mymlc.com/health-information/faqs/w/weightlifting-bad-for-your-blood-pressure','مرجع طبي تثقيفي'],
   acsm:['ACSM — التمرين للوقاية من ارتفاع الضغط وعلاجه','https://acsm.org/exercise-for-the-prevention-and-treatment-of-hypertension/','إرشاد رسمي'],
@@ -1236,16 +1254,24 @@ const MEAL_NOTE={
   warfarin:['مع الوارفارين: لا تمنع الخضار الورقية، لكن حافظ على كمية ثابتة منها كل أسبوع ولا تغيّرها فجأة لأنها تؤثر على مفعول الدواء.','vitk'],
   gout:['مع النقرس: اختر السلمون أو الهامور بدل السردين والماكريل والأنشوجة لأنها أغنى بالبيورين.','acr']
 };
-const MEAL_ALT=[['chicken','دجاج مشوي بلا جلد مع خضار','صدر دجاج مشوي أو مخبوز مع خضار وزيت زيتون.',[]],
-  ['yogurt','زبادي قليل الدسم مع فاكهة','كوب زبادي مع حفنة توت أو فراولة.',['dairy']],
-  ['eggs','بيض مع خضار','بيضتان مسلوقتان مع خيار وطماطم.',['egg']],
+const MEAL_ALT=[['chicken','دجاج مشوي بلا جلد مع خضار','صدر دجاج مشوي أو مخبوز مع خضار وزيت زيتون.',['ckd']],
+  ['yogurt','زبادي قليل الدسم مع فاكهة','كوب زبادي مع حفنة توت أو فراولة.',['dairy','ckd']],
+  ['eggs','بيض مع خضار','بيضتان مسلوقتان مع خيار وطماطم.',['egg','ckd']],
   ['veg2','خضار مشوية بزيت الزيتون','كوسا وباذنجان وفلفل مشوي بملعقة زيت زيتون بكر.',[]]];
+/* مرافقات اختيارية داخل نص الوجبة: تُحذف لمن ذكر حساسية منها بدل استبدال الوجبة كلها */
+const MEAL_PAIR={avocado:[[a=>a.egg===true,'مع البيض أو السلطة','مع السلطة']],
+  citrus:[[a=>a.dairy===true&&(a.nuts===true||a.peanut===true),'، مع زبادي أو مكسرات',''],
+    [a=>a.dairy===true,'، مع زبادي أو مكسرات','، مع حفنة مكسرات'],
+    [a=>a.nuts===true||a.peanut===true,'، مع زبادي أو مكسرات','، مع زبادي']]};
+const mealNotes=(tags,isFish)=>Object.keys(MEAL_NOTE).filter(k=>(tags.includes(k)||(k==='gout'&&isFish))&&has(k));
 function mealFor(m){ // يعيد الوجبة نفسها أو بديلًا آمنًا إن تعارضت مع حساسية
   const a=P().a, tags=MEAL_TAGS[m[0]]||[], conflict=tags.filter(t=>a[t]===true);
   if(m[0]==='fish'&&a.shell===true&&/روبيان|محار/.test(m[2])) conflict.push('shell');
-  if(!conflict.length) return {m,notes:Object.keys(MEAL_NOTE).filter(k=>(tags.includes(k)||(k==='gout'&&m[0]==='fish'))&&has(k))};
+  if(!conflict.length){ let txt=m[2];
+    const r=(MEAL_PAIR[m[0]]||[]).find(([f])=>f(a)); if(r) txt=txt.replace(r[1],r[2]);
+    return {m:txt===m[2]?m:[m[0],m[1],txt,m[3]],notes:mealNotes(tags,m[0]==='fish')}; }
   const alt=MEAL_ALT.find(([,,,t])=>!t.some(x=>a[x]===true))||MEAL_ALT[3];
-  return {m:[alt[0]==='veg2'?'veg':'leaf',alt[1],alt[2],'بديل لأنك ذكرت حساسية من '+conflict.map(c=>(ALG.find(x=>x[0]===c)||[,c])[1]).join(' و')+'.'],notes:[],swapped:true};
+  return {m:[alt[0]==='veg2'?'veg':'leaf',alt[1],alt[2],'بديل لأنك ذكرت حساسية من '+conflict.map(c=>(ALG.find(x=>x[0]===c)||[,c])[1]).join(' و')+'.'],notes:mealNotes(alt[3],false),swapped:true};
 }
 
 // ورقة الأسئلة: تعرض فقط ما يلزم ولم يُسأل، وتحفظ كل إجابة
@@ -1316,13 +1342,13 @@ const TCUES_M=[
   ['wave','موجة البحر الباردة','تخيّل أنك تمشي في بحر بارد وموجة قادمة، فترفع الخصيتين للأعلى بعيدًا عن الماء.','تشعر بالخصيتين ترتفعان قليلًا.','ارفع الخصيتين بعيدًا عن الموجة'],
   ['gas','منع الغازات بهدوء','تخيّل أنك في مصعد مزدحم وتمنع خروج غازات — بهدوء ودون أن يلاحظ أحد.','تشعر بانقباض حول فتحة الشرج يرتفع للداخل، وليس بانقباض الأرداف.','امنع الغازات بهدوء'],
   ['marble','التقاط حبة صغيرة','تخيّل أنك تجلس على حبة صغيرة (حبة عنب) وتلتقطها بعضلات الحوض وترفعها للداخل.','إحساس بالرفع للأعلى من منطقة ما بين الخصيتين والشرج.','التقط الحبة وارفعها'],
-  ['urine','إيقاف البول (للتعرّف فقط)','في نهاية التبول جرّب إيقاف التدفق مرة واحدة لتتعرف على العضلة، ثم أكمل التبول. لا تكررها كتمرين لأنها قد تمنع إفراغ المثانة كاملًا.','يتوقف التدفق أو يبطؤ.','أوقف البول (تخيّلًا)']
+  ['urine','إيقاف البول (للتعرّف فقط)','في نهاية التبول جرّب إيقاف التدفق مرة واحدة لتتعرف على العضلة، ثم أكمل التبول. لا تكررها كتمرين لأنها قد تمنع إفراغ المثانة كاملًا. لا تجربها والمثانة ممتلئة جدًا، ولا إن كان لديك تضخم في البروستاتا أو التهابات بولية متكررة.','يتوقف التدفق أو يبطؤ.','أوقف البول (تخيّلًا)']
 ];
 const TCUES_F=[
   ['gaswee','منع الغازات والبول معًا','شدّي من الخلف إلى الأمام: كأنك تمنعين الغازات ثم البول، ثم ارفعي للداخل.','إحساس بانقباض يمتد من الخلف للأمام ويرتفع للداخل.','امنعي الغازات والبول وارفعي'],
   ['marble','التقاط حبة صغيرة','تخيّلي أنك تجلسين على حبة عنب وتلتقطينها بالمهبل وترفعينها للداخل.','إحساس بالرفع للأعلى، والأرداف ساكنة.','التقطي الحبة وارفعيها'],
   ['tissue','سحب منديل','تخيّلي أنك تسحبين منديلًا من علبته ببطء للأعلى والداخل.','حركة ناعمة للأعلى، دون دفع للأسفل.','اسحبي المنديل للأعلى'],
-  ['urine','إيقاف البول (للتعرّف فقط)','في نهاية التبول جرّبي إيقاف التدفق مرة واحدة لتتعرفي على العضلة. لا تكرريها كتمرين.','يتوقف التدفق أو يبطؤ.','أوقفي البول (تخيّلًا)']
+  ['urine','إيقاف البول (للتعرّف فقط)','في نهاية التبول جرّبي إيقاف التدفق مرة واحدة لتتعرفي على العضلة. لا تكرريها كتمرين. لا تجربيها والمثانة ممتلئة جدًا، ولا إن كانت لديك التهابات بولية متكررة.','يتوقف التدفق أو يبطؤ.','أوقفي البول (تخيّلًا)']
 ];
 const tutCues=()=>isFem()?TCUES_F:TCUES_M;
 const TUT=()=>S.tut||(S.tut={cue:null,rate:{},rounds:0,good:0,passed:false,issues:{},at:null,dismissed:false});
@@ -1367,7 +1393,10 @@ const BreathSensor={on:false,buf:[],h:null,ok:false,
     try{ if(typeof DeviceMotionEvent!=='undefined'&&DeviceMotionEvent.requestPermission) DeviceMotionEvent.requestPermission().catch(()=>{}); }catch(e){}
     window.addEventListener('devicemotion',this.h); this.on=true; },
   stop(){ if(this.h) window.removeEventListener('devicemotion',this.h); this.on=false; },
-  std(t0,t1){ const v=this.buf.filter(([t])=>t>=t0&&t<t1).map(x=>x[1]); if(v.length<8) return null; const m=v.reduce((a,b)=>a+b,0)/v.length; return Math.sqrt(v.reduce((a,b)=>a+(b-m)*(b-m),0)/v.length); }
+  std(t0,t1){ const v=this.buf.filter(([t])=>t>=t0&&t<t1).map(x=>x[1]); if(v.length<8) return null; const m=v.reduce((a,b)=>a+b,0)/v.length; return Math.sqrt(v.reduce((a,b)=>a+(b-m)*(b-m),0)/v.length); },
+  // مدى حركة البطن (من القاع للذروة) بعد تنعيم الاهتزاز: أصدق من الانحراف المعياري لتمييز التنفس عن الرجفة
+  range(t0,t1){ const v=this.buf.filter(([t])=>t>=t0&&t<t1).map(x=>x[1]); if(v.length<12) return null;
+    const k=5, sm=v.slice(k-1).map((_,i)=>v.slice(i,i+k).reduce((a,b)=>a+b,0)/k); return Math.max(...sm)-Math.min(...sm); }
 };
 
 // ---------- الواجهة ----------
@@ -1385,7 +1414,8 @@ function tutorial(startPage){
         <h3>الأخطاء الثلاثة الأكثر شيوعًا</h3>${SVG_MISTAKES}
         <p class="small">في هذا التدريب نصلح الثلاثة خطوة بخطوة، ونجد معًا الطريقة التي تناسب جسمك.</p>`;
       else if(page===1) h=`<h2>الوضعية والشدة</h2>
-        <div class="tstep"><b>1. استلقِ على ظهرك وركبتاك مثنيتان</b><p class="small muted">هذه أسهل وضعية للتعلّم لأن العضلة لا تحمل وزن الجسم. باعد ركبتيك بعرض الحوض.</p></div>
+        ${isPreg()?`<div class="tstep"><b>1. استلقِ على جنبك الأيسر ووسادة بين ركبتيك</b><p class="small muted">أثناء الحمل يُفضَّل الجنب بدل الظهر، خاصة بعد الأشهر الثلاثة الأولى، لأن الاستلقاء الطويل على الظهر قد يضغط على الأوعية الكبيرة. ويمكنك التمرين جالسة أيضًا.</p><span class="src">${ic('books')} ${srcLink('acog')}</span></div>`
+        :`<div class="tstep"><b>1. استلقِ على ظهرك وركبتاك مثنيتان</b><p class="small muted">هذه أسهل وضعية للتعلّم لأن العضلة لا تحمل وزن الجسم. باعد ركبتيك بعرض الحوض.</p></div>`}
         <div class="tstep"><b>2. ضع يدك على أردافك</b>${SVG_HAND}<p class="small muted">يدك هي «جهاز الإنذار»: يجب أن تبقى الأرداف ليّنة طوال الشد. إن شعرت بها تتصلب فالشد أقوى من اللازم.</p></div>
         <div class="tstep"><b>3. الشدة: 3 من 10 فقط</b>${SVG_EFFORT}<p class="small muted">الشد القوي يستدعي الأرداف والبطن وحبس النفس. ابدأ خفيفًا جدًا — القوة تأتي لاحقًا.</p></div>`;
       else if(page===2){ const C=tutCues();
@@ -1442,9 +1472,10 @@ function tutPractice(m,done){
     if(ph==='sq'&&!TU['n'+TU.i+Math.floor(el)]&&Math.floor(el)>0&&el<d){ TU['n'+TU.i+Math.floor(el)]=1; speak(['','اثنان','ثلاثة'][Math.floor(el)]||''); }
     if(el>=d){
       if(useS&&BreathSensor.ok){ const t0=TU.phT[TU.i], t1=performance.now();
-        if(ph==='pre'||ph==='in'){ const s=BreathSensor.std(t0+500,t1); if(s!=null) TU.base=TU.base==null?s:(TU.base*0.6+s*0.4); }
-        if(ph==='sq'&&TU.base&&TU.base>0.08){ const s=BreathSensor.std(t0+300,t1); if(s!=null&&s<TU.base*0.3){ TU.sensed++; $m('#tSensor').innerHTML=`<span class="warnc">${ic('alert')} ${T('يبدو أن نفسك توقف — عدّ بصوت أعلى')}</span>`; speak('لا تحبس نفسك'); } else $m('#tSensor').innerHTML=`<span class="okc">${ic('checkCircle')} ${T('تنفّسك مستمر — ممتاز')}</span>`; }
-        if(ph==='pre'&&!(TU.base>0.08)) $m('#tSensor').textContent=T('لم يلتقط الحسّاس حركة تنفّس كافية — أكمل بدونه');
+        // خط الأساس من مرحلة الاستعداد فقط (تنفّس هادئ طبيعي) — لا يُخلط بالشهيق الموجّه
+        if(ph==='pre'){ const s=BreathSensor.range(t0+500,t1); if(s!=null) TU.base=TU.base==null?s:(TU.base*0.6+s*0.4); }
+        if(ph==='sq'&&TU.base&&TU.base>0.25){ const s=BreathSensor.range(t0+300,t1); if(s!=null&&s<TU.base*0.3){ TU.sensed++; $m('#tSensor').innerHTML=`<span class="warnc">${ic('alert')} ${T('يبدو أن نفسك توقف — عدّ بصوت أعلى')}</span>`; speak('لا تحبس نفسك'); } else $m('#tSensor').innerHTML=`<span class="okc">${ic('checkCircle')} ${T('تنفّسك مستمر — ممتاز')}</span>`; }
+        if(ph==='pre'&&!(TU.base>0.25)) $m('#tSensor').textContent=T('لم يلتقط الحسّاس حركة تنفّس كافية — أكمل بدونه');
       } else if(useS&&ph==='pre') $m('#tSensor').textContent=T('الحسّاس غير متاح على هذا الجهاز — أكمل بدونه');
       TU.i++; if(TU.i>=R.length){ tutStop(); TU.ans={breath:TU.sensed?1:undefined}; const t=TUT(); t.rounds++; t.at=today(); save(); SFX.done(); done(); return; } enter(); }
   },100);
@@ -1495,7 +1526,7 @@ function renderOnb(){
       `<div style="height:12px"></div><button class="btn accent" id="nx" ${ob.goals.size?'':'disabled style="opacity:.5"'}>التالي</button>`;
   } else if(st===2){
     const C=[
-      ['طريقة إيقاف البول','أثناء التبول حاول إيقاف التدفق في منتصفه — العضلات التي تشدّها هي المطلوبة.<br><b style="color:var(--danger)">للتعرّف فقط — لا تتمرّن أثناء التبول بانتظام.</b>'],
+      ['طريقة إيقاف البول','أثناء التبول حاول إيقاف التدفق في منتصفه — العضلات التي تشدّها هي المطلوبة.<br><b style="color:var(--danger)">للتعرّف فقط — لا تتمرّن أثناء التبول بانتظام.</b> ولا تجربها والمثانة ممتلئة جدًا، أو مع تضخم البروستاتا أو التهابات بولية متكررة.'],
       ['طريقة منع الغازات','تخيّل أنك تمنع خروج الغازات، واضغط العضلات المسؤولة عن ذلك دون شدّ البطن.'],
       ['علامات الانقباض الصحيح','ارتفاع خفيف في الخصيتين وانسحاب بسيط للقضيب للداخل. إن شعرت بذلك فأنت تشدّ العضلة الصحيحة.']
     ];
@@ -1904,10 +1935,13 @@ function askExit(isSkip){
     <p class="muted small">${partial?'أنجزت '+Math.round(pct*100)+'% من الجلسة — يمكنك احتسابها مكتملة.':'ستفقد تقدّم هذه الجلسة. الجلسة المتخطاة لا تكسر السلسلة لكنها لا تُحسب.'}</p>
     ${partial?'<button class="btn accent" id="mCount">احسب ما أنجزته</button><div style="height:8px"></div>':''}
     <button class="btn ${partial?'ghost':''}" id="mExit">${isSkip?'تخطّي':'خروج'}</button><div style="height:8px"></div>
+    <button class="btn ghost" id="mPain">${ic('alert')}توقفت بسبب ألم</button><div style="height:8px"></div>
     <button class="btn ghost" id="mStay">متابعة التمرين</button>`,
   (m,close)=>{
     m.querySelector('#mStay').onclick=()=>{ close(); if(!wasPaused) togglePause(false); };
     m.querySelector('#mExit').onclick=()=>{ close(); endSession(isSkip?'skip':'quit'); };
+    // الألم يوقف التدرّج ويعرض نصيحة المختص بدل احتساب الجلسة
+    m.querySelector('#mPain').onclick=()=>{ close(); endSession('quit'); S.painAt=today(); S.suggestAdvance=false; save(); painSheet(); };
     const c=m.querySelector('#mCount'); if(c) c.onclick=()=>{ close(); finishSession(true); };
   });
 }
@@ -1972,11 +2006,11 @@ function painSheet(){ modal(`<h3>توقّف عن التمارين الآن</h3><
   <p class="small muted">أوقفنا اقتراح التقدّم في البرنامج لمدة 4 أسابيع.</p><button class="btn accent" id="pOk">فهمت</button>`,(m,close)=>{ m.querySelector('#pOk').onclick=close; }); }
 function evalAdvance(){
   if(careHold()){ S.suggestAdvance=false; return; }
-  // 3 أيام متتالية مختلفة بتقييم «سهلة» لآخر جلسة يومية في كل يوم
+  // 3 أيام متتالية كل جلساتها المقيّمة «سهلة»: جلسة صعبة أو مؤلمة واحدة تُسقط اليوم
   const byDay={};
-  S.logs.filter(l=>l.kind==='daily'&&!l.skipped&&l.rating).forEach(l=>byDay[l.date]=l.rating);
+  S.logs.filter(l=>l.kind==='daily'&&!l.skipped&&l.rating).forEach(l=>{ (byDay[l.date]=byDay[l.date]||[]).push(l.rating); });
   const days=Object.keys(byDay).sort().slice(-3);
-  if(days.length===3 && days.every(d=>byDay[d]==='easy') && dayDiff(days[0],days[2])===2) S.suggestAdvance=true;
+  if(days.length===3 && days.every(d=>byDay[d].every(r=>r==='easy')) && dayDiff(days[0],days[2])===2) S.suggestAdvance=true;
 }
 
 
@@ -2012,6 +2046,7 @@ function renderMen(head){
   <div class="sec"><h2>تمارينك المتخصصة</h2></div>
   <div class="tiles"><button class="tile quick" id="mC"><div class="hd"><span class="badge">${ic('target')}</span><span class="sub">2 د</span></div><h3>تمرين التحكم</h3><div class="sub">5 انقباضات سريعة ثم ثبات 10 ثوانٍ، 4 جولات</div></button>
   <button class="tile quick" id="mD"><div class="hd"><span class="badge">${ic('play')}</span><span class="sub">اليوم ${S.progDay}</span></div><h3>جلسة البرنامج</h3><div class="sub">تقوية الانتصاب والمثانة</div></button></div>
+  <div class="warn small exw"><b>ألم في الصدر أو ضيق نفس أو دوخة أثناء الجهد الجنسي</b> يستدعي تقييمًا قلبيًا قبل الاستمرار — ضعف الانتصاب نفسه قد يسبق أمراض القلب بسنوات. <span class="src">${ic('books')} ${srcLink('ahasex')}</span></div>
   <div class="sec"><h2>ما تقوله الدراسات</h2></div>
   <div class="card" style="padding:4px 16px">${EVID.filter(([,t,d])=>S.diabetes||!/السكري|سكري/.test(t)).map(([i,t,d,l,src])=>`<div class="ev"><span class="badge">${ic(i)}</span><div><b>${t}</b><p>${d}</p><span class="lvl ${LV[l][1]}">${LV[l][0]}</span> <span class="small muted">${src}</span></div></div>`).join('')}</div>
   <div class="sec"><h2>أطعمة تدعم صحة الأوعية</h2></div>
@@ -2145,7 +2180,7 @@ function renderSettings(){
   </div>
   <h2>السكري والنوم</h2><div class="card">
    <div class="set"><span>متابعة السكري<br><span class="small muted">قسم السكري وفحص ما قبل الرياضة</span></span><button class="sw ${S.diabetes?'on':''}" id="dmOn" aria-pressed="${!!S.diabetes}" aria-label="متابعة السكري"></button></div>
-   ${S.diabetes?'':'<!--'}<div class="set"><label for="gU">وحدة السكر</label><select id="gU"><option value="mg" ${mgU()?'selected':''}>ملغ/دل</option><option value="mmol" ${mgU()?'':'selected'}>ملمول/ل</option></select></div>${S.diabetes?'':'-->'}
+   ${S.diabetes?`<div class="set"><label for="gU">وحدة السكر</label><select id="gU"><option value="mg" ${mgU()?'selected':''}>ملغ/دل</option><option value="mmol" ${mgU()?'':'selected'}>ملمول/ل</option></select></div>`:''}
    <div class="set"><label for="bedT">وقت النوم</label><input type="time" id="bedT" value="${S.bed}"></div>
    <div class="set"><label for="wakeT">وقت الاستيقاظ</label><input type="time" id="wakeT" value="${S.wake}"></div>
    <div class="set"><span>إيقاف تذكير الماء قبل النوم بساعتين<br><span class="small muted">يقلل الاستيقاظ للتبول ليلًا</span></span><button class="sw ${S.nightLess?'on':''}" id="nlOn" aria-pressed="${!!S.nightLess}" aria-label="إيقاف الماء قبل النوم"></button></div>
@@ -2239,11 +2274,14 @@ function renderSettings(){
 const LV_NAME=['','مبتدئ','متمكّن','قوي','خبير'];
 function levelFromTest(t){ if(!t) return null; const h=t.hold,f=t.flicks; if(h>=10&&f>=15) return 4; if(h>=8&&f>=10) return 3; if(h>=5&&f>=6) return 2; return 1; }
 function curLevel(){ return S.test?levelFromTest(S.test):Math.min(3,S.level||1); }
-const POS={lie:['مستلقيًا','استلقِ على ظهرك، ركبتاك مثنيتان وقدماك على الأرض.'],sit:['جالسًا','اجلس على كرسي، ظهرك مستقيم وقدماك مسطّحتان على الأرض.'],stand:['واقفًا','قف وقدماك بعرض الكتفين، والركبتان مرتخيتان غير مقفلتين.'],walk:['أثناء المشي','امشِ بخطى عادية، واضغط ضغطًا متوسطًا مع كل انقباضة دون حبس النفس.']};
+const POS={side:['على الجنب','استلقِ على جنبك الأيسر، ووسادة بين ركبتيك.'],lie:['مستلقيًا','استلقِ على ظهرك، ركبتاك مثنيتان وقدماك على الأرض.'],sit:['جالسًا','اجلس على كرسي، ظهرك مستقيم وقدماك مسطّحتان على الأرض.'],stand:['واقفًا','قف وقدماك بعرض الكتفين، والركبتان مرتخيتان غير مقفلتين.'],walk:['أثناء المشي','امشِ بخطى عادية، واضغط ضغطًا متوسطًا مع كل انقباضة دون حبس النفس.']};
 const POS_BY_LV={1:['lie','lie','sit'],2:['lie','sit','stand'],3:['sit','stand','stand'],4:['stand','stand','walk']};
+/* الحامل: الاستلقاء على الجنب بدل الظهر (ACOG 804: تجنّب الاستلقاء على الظهر لفترات طويلة أثناء التمرين بعد الأشهر الثلاثة الأولى) */
+const isPreg=()=>isFem()&&P().stage==='preg';
+const posFor=lv=>POS_BY_LV[lv].map(k=>k==='lie'&&isPreg()?'side':k);
 const testDue=()=>!S.test||dayDiff(S.test.date,today())>=14;
 function prescribe(p,t){
-  const lv=curLevel(); p.lv=lv; p.flicks=30; p.pos=POS_BY_LV[lv].slice();
+  const lv=curLevel(); p.lv=lv; p.flicks=30; p.pos=posFor(lv);
   if(S.test){
     const h=Math.max(3,Math.min(10,Math.round(S.test.hold)));
     p.sq=p.light?Math.max(3,h-2):h; p.rl=Math.max(4,p.sq); p.reps=p.light?8:Math.round(8+4*t); p.n=3;
@@ -2266,7 +2304,7 @@ function renderTest(){
     <p class="muted center">دقيقتان فقط. نبني على النتيجة خطتك: مدة الانقباض = أقصى ثبات تستطيعه حتى 10 ثوانٍ، وعدد الانقباضات السريعة = ما تؤديه قبل التعب. نعيد الاختبار كل أسبوعين لنرفع مستواك.</p>
     <div class="card"><div class="ev"><span class="badge">${ic('hourglass')}</span><div><b>1. أطول ثبات</b><p>اضغط بأقصى قوة واثبت، وأرخِ عندما تشعر أن الضغط ضعف.</p></div></div>
     <div class="ev"><span class="badge">${ic('bolt')}</span><div><b>2. الانقباضات السريعة</b><p>اضغط وأرخِ بسرعة، واضغط الزر مع كل انقباضة حتى تتعب.</p></div></div></div>
-    <div class="warn small">استلقِ على ظهرك، وتنفّس بحرية. لا تشدّ البطن أو الأرداف — هذا يفسد القياس.</div>
+    <div class="warn small">${isPreg()?'استلقِ على جنبك أو اجلس':'استلقِ على ظهرك'}، وتنفّس بحرية. لا تشدّ البطن أو الأرداف — هذا يفسد القياس.</div>
     <button class="btn accent" id="tGo">${ic('play')}ابدأ الاختبار</button>`;
   } else if(TT.st==='hold'){
     h+=`<div class="ring-wrap" style="margin-top:20px"><div class="ring-center" style="position:static"><div class="count" id="tSec">0.0</div><div class="small muted">ثانية</div></div></div>
@@ -2288,7 +2326,7 @@ function renderTest(){
     ${prev?`<div class="card small">${pl<lv?'<b>تقدّمت مستوى!</b> ':''}الاختبار السابق (${prev.date}): ثبات ${prev.hold} ث، ${prev.flicks} انقباضة سريعة.</div>`:''}
     <div class="card"><h3>خطتك للأسبوعين القادمين</h3>
     <p class="small" style="margin:0">3 جلسات يوميًا · كل جلسة 8–12 انقباضة قريبة من أقصى جهدك، مدة كل منها <b>${h2} ث</b> وراحة مثلها · و<b>${Math.max(6,Math.min(30,t.flicks))}</b> انقباضة سريعة في جلسة السرعة.</p>
-    <p class="small muted" style="margin:6px 0 0">الوضعيات: ${POS_BY_LV[lv].map(k=>POS[k][0]).join(' ← ')}. ننتقل من الاستلقاء إلى الوقوف ثم المشي كلما زادت قوتك.</p></div>
+    <p class="small muted" style="margin:6px 0 0">الوضعيات: ${posFor(lv).map(k=>POS[k][0]).join(' ← ')}. ننتقل من الاستلقاء إلى الوقوف ثم المشي كلما زادت قوتك.</p></div>
     <button class="btn accent" id="tSave">${ic('check')}اعتمد خطتي</button><div style="height:8px"></div><button class="btn ghost" id="tRe">إعادة الاختبار</button>`;
   }
   app.innerHTML=h;
@@ -2392,9 +2430,12 @@ function exCheck(kind){
     const eve=new Date().getHours()>=17;
     let h='';
     if(v<70) h=`<div class="warn"><b>لا تبدأ الآن.</b> عالج الانخفاض أولًا: 15 غرامًا من سكر سريع، وأعد القياس بعد 15 دقيقة.</div>`;
-    else if(v<90) h=`<div class="warn"><b>تناول 15–30 غرامًا من الكربوهيدرات قبل البدء</b> (حبة فاكهة متوسطة أو كوب حليب)، ثم أعد القياس بعد 15 دقيقة. سنذكّرك.</div>`;
+    else if(v<90) h=P().c.insulin===false
+      ? `<div class="card"><b>يمكنك البدء.</b><p class="small" style="margin:6px 0 0">بدون إنسولين أو حبوب تُنزل السكر بشدة، يندر أن ينخفض السكر أثناء الرياضة. احمل معك مصدر سكر سريع احتياطًا، وتوقف إن شعرت بارتجاف أو تعرّق أو دوخة.</p></div>`
+      : `<div class="warn"><b>تناول 15–30 غرامًا من الكربوهيدرات قبل البدء</b> (حبة فاكهة متوسطة أو كوب حليب)، ثم أعد القياس بعد 15 دقيقة. سنذكّرك.</div>`;
     else if(v<=250) h=`<div class="card" style="border-color:var(--ok)"><b class="hrow" style="color:var(--ok)">${ic('checkCircle')} مناسب للرياضة</b><p class="small" style="margin:6px 0 0">احمل معك مصدر سكر سريع، واشرب ماء. إن شعرت بارتجاف أو تعرّق أو دوخة توقف وقِس.</p></div>`;
     else h=`<div class="warn"><b>السكر مرتفع (${gfmt(v)}).</b> إن وُجدت كيتونات أو شعرت بتعب أو غثيان: أجّل الرياضة. إن لم توجد كيتونات وتشعر بخير: نشاط خفيف إلى متوسط فقط، واشرب ماء، وأعد القياس.</div>`;
+    if(has('beta')&&v<=250) h+=`<p class="small warn exw">حاصرات بيتا قد تُخفي أعراض الانخفاض مثل الرجفة وتسارع القلب — اعتمد على القياس لا على الإحساس.</p>`;
     if(v>=70) h+=`<label class="chk"><input type="checkbox" id="xBed" ${eve?'checked':''}> ذكّرني بقياس السكر قبل النوم (خطر الانخفاض يستمر حتى 24 ساعة بعد الرياضة، ويزيد ليلًا بعد رياضة المساء)</label>`;
     h+=`<p class="small muted">إرشادات عامة من جمعية السكري الأمريكية، وتهمّ خصوصًا من يستخدم الإنسولين أو أدوية السلفونيل يوريا. اتبع تعليمات طبيبك إن اختلفت.</p><button class="btn accent" id="xOk">تم</button>`;
     return h;
@@ -2491,7 +2532,7 @@ async function hcSync(force){
     const s=(r.samples||[]).sort((a,b)=>new Date(b.endDate)-new Date(a.endDate))[0]; if(s) S.hc.rhr=Math.round(s.value); }catch(e){}
   save(); return before!==JSON.stringify(S.hc);
 }
-async function hcHrBetween(a,b){ if(!HCP||!S.hc.on) return null; try{ const r=await HCP.readSamples({dataType:'heartRate',startDate:iso(a),endDate:iso(b),limit:500}); const v=(r.samples||[]).map(s=>s.value).filter(Boolean); return v.length?Math.round(v.reduce((x,y)=>x+y,0)/v.length):null; }catch(e){ return null; } }
+async function hcHrBetween(a,b){ if(!HCP||!S.hc.on||(Array.isArray(S.hc.perm)&&!S.hc.perm.includes('heartRate'))) return null; try{ const r=await HCP.readSamples({dataType:'heartRate',startDate:iso(a),endDate:iso(b),limit:500}); const v=(r.samples||[]).map(s=>s.value).filter(Boolean); return v.length?Math.round(v.reduce((x,y)=>x+y,0)/v.length):null; }catch(e){ return null; } }
 const stepsNow=()=>S.hc.on&&S.hc.stepsDate===today()?S.hc.steps:null;
 const fmtH=m=>Math.floor(m/60)+' س '+(m%60?(m%60)+' د':'');
 function stepsSheet(){
@@ -2530,7 +2571,7 @@ function mealWeek(){ let n=0; for(let i=0;i<7;i++){ const l=S.mealLog[addDays(to
 
 /* ============ تنفّس القلب المبني على الدراسات ============ */
 function breathPlan(){ const B=S.br, cyc=60/B.bpm, ti=Math.round((B.ratio==='55'?cyc/2:cyc*0.4)*100)/100; return {ti,te:Math.round((cyc-ti)*100)/100,reps:Math.round(B.min*B.bpm)}; }
-function breathDays(from,to){ const set=new Set(); S.logs.filter(l=>l.kind==='breath'&&!l.skipped&&l.date>=from&&l.date<=to).forEach(l=>{ set[l.date]=(set[l.date]||0)+(l.dur||0); }); return Object.keys(set).filter(d=>set[d]>=300).length; }
+function breathDays(from,to){ const set={}; S.logs.filter(l=>l.kind==='breath'&&!l.skipped&&l.date>=from&&l.date<=to).forEach(l=>{ set[l.date]=(set[l.date]||0)+(l.dur||0); }); return Object.keys(set).filter(d=>set[d]>=300).length; }
 function breathWeeks(){ let w=0; for(let k=0;k<12;k++){ const to=addDays(today(),-7*k), from=addDays(to,-6); if(breathDays(from,to)>=3) w++; else if(k>0) break; } return w; }
 function breathSheet(){
   modal(`<div id="brB"></div>`,(m,close)=>{
@@ -2546,10 +2587,10 @@ function breathSheet(){
       <button class="btn accent" id="brStart">${ic('play')}ابدأ ${B.min} دقائق</button>
       <details style="margin-top:10px"><summary>الدراسات</summary><div class="small">
       <p><b>السرعة والنسبة:</b> مقارنة بين أنماط تنفّس مختلفة وجدت أن 5.5 نَفَس/د بنسبة متساوية أعطت أعلى تقلّب لنبض القلب. <span class="lvl b">أدلة متوسطة</span> Lin 2014، Int J Psychophysiol.</p>
-      ${htn()?'':'<!--'}<p><b>ضغط الدم:</b> تحليل تجميعي اعتمد معيار 10 أنفاس/د أو أقل، 5 دقائق أو أكثر، 3 أيام أسبوعيًا لمدة 4 أسابيع: انخفاض في الضغط والنبض. <span class="lvl b">أدلة متوسطة</span> Chaddha 2019، Complement Ther Med. وتحليل أحدث لـ31 دراسة أكّد انخفاض الضغط الانقباضي. Shao 2024، Mindfulness.</p>
-      ${htn()?'':'-->'}${S.diabetes?'':'<!--'}<p><b>السكري:</b> التنفّس بـ6 أنفاس/د حسّن حساسية منعكس الضغط فورًا لدى مرضى السكري من النوع الثاني. <span class="lvl c">أدلة أولية</span> Acta Diabetol، PMID 25956276.</p>
-      ${S.diabetes?'':'-->'}${htn()?'':'<!--'}<p><b>جمعية القلب الأمريكية</b> عدّت التنفّس البطيء الموجّه خيارًا مساعدًا معقولًا لخفض الضغط. Brook 2013، Hypertension.</p>
-      ${htn()?'':'-->'}<p class="muted">يكمّل العلاج ولا يغني عن أي دواء.</p></div></details>`;
+      ${htn()?`<p><b>ضغط الدم:</b> تحليل تجميعي اعتمد معيار 10 أنفاس/د أو أقل، 5 دقائق أو أكثر، 3 أيام أسبوعيًا لمدة 4 أسابيع: انخفاض في الضغط والنبض. <span class="lvl b">أدلة متوسطة</span> Chaddha 2019، Complement Ther Med. وتحليل أحدث لـ31 دراسة أكّد انخفاض الضغط الانقباضي. Shao 2024، Mindfulness.</p>
+      `:''}${S.diabetes?`<p><b>السكري:</b> التنفّس بـ6 أنفاس/د حسّن حساسية منعكس الضغط فورًا لدى مرضى السكري من النوع الثاني. <span class="lvl c">أدلة أولية</span> Acta Diabetol، PMID 25956276.</p>
+      `:''}${htn()?`<p><b>جمعية القلب الأمريكية</b> عدّت التنفّس البطيء الموجّه خيارًا مساعدًا معقولًا لخفض الضغط. Brook 2013، Hypertension.</p>
+      `:''}<p class="muted">يكمّل العلاج ولا يغني عن أي دواء.</p></div></details>`;
       m.querySelectorAll('input[type=radio]').forEach(r=>r.onchange=()=>{ const v=r.value; S.br[r.name]=r.name==='ratio'?v:+v; save(); draw(); });
       m.querySelector('#brStart').onclick=()=>{ close(); startSession('breath'); }; };
     draw(); });
@@ -2796,7 +2837,7 @@ const isF=isFem;
 const GOALS_M=[['erection','تقوية الانتصاب'],['pe','التحكم في سرعة القذف'],['bladder','تحسين السيطرة على المثانة'],['recovery','التعافي بعد جراحة البروستاتا'],['fitness','لياقة عامة ووقاية']];
 const GOALS_F=[['bladder','التحكم في تسرّب البول'],['postpartum','التعافي بعد الولادة'],['prolapse','دعم أعضاء الحوض (الهبوط)'],['sexual','تحسين الوظيفة الجنسية'],['fitness','لياقة عامة ووقاية']];
 const CUES_F=[
-  ['طريقة إيقاف البول','أثناء التبول حاولي إيقاف التدفق في منتصفه — العضلات التي تشدّينها هي المطلوبة.<br><b style="color:var(--danger)">للتعرّف فقط مرة واحدة</b>، ولا تتمرّني أثناء التبول بانتظام.'],
+  ['طريقة إيقاف البول','أثناء التبول حاولي إيقاف التدفق في منتصفه — العضلات التي تشدّينها هي المطلوبة.<br><b style="color:var(--danger)">للتعرّف فقط مرة واحدة</b>، ولا تتمرّني أثناء التبول بانتظام. ولا تجربيها والمثانة ممتلئة جدًا، أو مع التهابات بولية متكررة.'],
   ['طريقة منع الغازات','تخيّلي أنك تمنعين خروج الغازات، واضغطي العضلات المسؤولة عن ذلك دون شدّ البطن.'],
   ['علامات الانقباض الصحيح','إحساس بشدّ ورفع حول فتحتي المهبل والشرج إلى الداخل والأعلى، كأنك ترفعين شيئًا صغيرًا. إن شعرت بذلك فأنت تشدّين العضلة الصحيحة.']
 ];
@@ -3110,7 +3151,7 @@ if(APP){
     if(tab!=='home'){ tab='home'; render(); return; }
     APP.exitApp();
   });
-  APP.addListener('pause',()=>{ _bgAt=Date.now(); });
+  APP.addListener('pause',()=>{ _bgAt=Date.now(); flushReschedule(); });
   APP.addListener('resume',()=>{ if(S.lock && _bgAt && Date.now()-_bgAt>60000) showLock(); rollover(); if(screen!=='session'&&screen!=='test') render(); scheduleReminders(); hcSync().then(ch=>{ if(ch&&screen==='tabs') render(); }); });
   APP.addListener('appUrlOpen',e=>handleUrl(e&&e.url));
   try{ APP.getLaunchUrl().then(r=>{ if(r&&r.url) setTimeout(()=>handleUrl(r.url),300); }).catch(()=>{}); }catch(e){}
