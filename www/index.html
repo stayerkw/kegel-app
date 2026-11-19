@@ -471,6 +471,74 @@ label.chk input{width:22px;height:22px;flex:none;margin:0}
 .exw .src .ic{width:13px;height:13px;vertical-align:-2px}
 fieldset.chks{border:0;padding:0;margin:10px 0}fieldset.chks legend{font-weight:700;margin-bottom:4px}
 .pfc{border:1px solid var(--accent)}
+/* ===== التدريب التعليمي ===== */
+.tutm .sheet{max-height:92vh}
+.tut h2{margin:6px 0 8px;color:var(--title)}.tut h3{margin:16px 0 8px}
+.tsteps{margin:4px 0 10px}
+.tut svg text,.tlbl{direction:ltr;unicode-bidi:plaintext}
+.tlbl{font-size:11px;fill:var(--muted);font-family:inherit}.tacc{fill:var(--accent);font-weight:700}
+.tsling{width:100%;max-width:340px;display:block;margin:8px auto}
+.tsl-p{transition:d .6s cubic-bezier(.16,1,.3,1)}.tsl-b{fill:var(--accent);transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.tarr{opacity:0;transition:opacity .3s,transform .6s cubic-bezier(.16,1,.3,1)}
+.tsl-t1,.tsl-t2{font-size:12px;font-weight:700;fill:var(--title);font-family:inherit;opacity:0;transition:opacity .3s}
+.tsling.up .tsl-p{d:path("M40 70 Q150 96 260 70")}.tsling.up .tsl-b{transform:translateY(-26px)}.tsling.up .tarr{opacity:1;transform:translateY(-6px)}.tsling.up .tsl-t1{opacity:1}
+.tsling.rel .tsl-t2{opacity:1}
+/* عرض متكرر: 3 ث شد ثم 3 ث إفلات */
+.tsling.demo .tsl-p{animation:slP 6s cubic-bezier(.45,0,.2,1) infinite}
+.tsling.demo .tsl-b{animation:slB 6s cubic-bezier(.45,0,.2,1) infinite}
+.tsling.demo .tarr{animation:slA 6s infinite}
+.tsling.demo .tsl-t1{animation:slT1 6s infinite}.tsling.demo .tsl-t2{animation:slT2 6s infinite}
+@keyframes slP{0%,8%{d:path("M40 70 Q150 150 260 70")}30%,52%{d:path("M40 70 Q150 96 260 70")}74%,100%{d:path("M40 70 Q150 150 260 70")}}
+@keyframes slB{0%,8%{transform:none}30%,52%{transform:translateY(-26px)}74%,100%{transform:none}}
+@keyframes slA{0%,12%{opacity:0;transform:translateY(6px)}30%,50%{opacity:1;transform:translateY(-6px)}60%,100%{opacity:0;transform:translateY(-6px)}}
+@keyframes slT1{0%,10%{opacity:0}22%,52%{opacity:1}58%,100%{opacity:0}}
+@keyframes slT2{0%,58%{opacity:0}66%,94%{opacity:1}100%{opacity:0}}
+.tmist{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.tmist figure{margin:0;text-align:center;background:var(--bg);border-radius:14px;padding:10px 4px}
+.tmist svg{width:62px;height:62px}.tmist figcaption{font-size:12px;margin-top:4px}
+.tstrike{stroke-dasharray:90;stroke-dashoffset:90;animation:strike .5s cubic-bezier(.16,1,.3,1) forwards}
+.tmist figure:nth-child(2) .tstrike{animation-delay:.15s}.tmist figure:nth-child(3) .tstrike{animation-delay:.3s}
+@keyframes strike{to{stroke-dashoffset:0}}
+.teff{width:100%;max-width:340px;display:block;margin:6px auto}
+.teb{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);animation:bar .4s cubic-bezier(.16,1,.3,1) forwards;animation-delay:calc(.25s + var(--i)*.15s)}
+@keyframes bar{to{transform:scaleY(1)}}
+.tbr{width:100%;max-width:340px;display:block;margin:8px auto}
+.tbz{opacity:.1}.tbz1{animation:bz1 8s linear infinite}.tbz2{animation:bz2 8s linear infinite}
+@keyframes bz1{0%,24%{opacity:.1}26%,49%{opacity:.32}51%,100%{opacity:.1}}
+@keyframes bz2{0%,74%{opacity:.1}76%,99%{opacity:.32}100%{opacity:.1}}
+.tbr-dot{fill:var(--card);stroke:var(--water);stroke-width:4;offset-rotate:0deg;animation:dot 8s linear infinite}
+@keyframes dot{from{offset-distance:0%}to{offset-distance:100%}}
+.thand{width:100%;max-width:280px;display:block;margin:6px auto}
+.tglute{transform-box:fill-box;transform-origin:center;animation:glute 6s cubic-bezier(.45,0,.2,1) infinite}
+.tg-tense{opacity:0;animation:tense 6s infinite}.th-ok{animation:hOk 6s infinite}.th-bad{opacity:0;animation:hBad 6s infinite}
+@keyframes glute{0%,45%{transform:none}55%,90%{transform:scale(.9,1.06)}100%{transform:none}}
+@keyframes tense{0%,48%{opacity:0}56%,90%{opacity:1}98%,100%{opacity:0}}
+@keyframes hOk{0%,45%{opacity:1}52%,94%{opacity:0}100%{opacity:1}}
+@keyframes hBad{0%,48%{opacity:0}56%,90%{opacity:1}98%,100%{opacity:0}}
+.tstep{background:var(--bg);border-radius:16px;padding:12px;margin:10px 0}.tstep p{margin:6px 0 0}
+.tcue{border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;transition:border-color .2s,background .2s}
+.tcue.best{border-color:var(--accent);background:var(--accentSoft)}
+.tcue-h{display:flex;justify-content:space-between;align-items:center;gap:8px}.tcue p{margin:6px 0}
+.trate{display:flex;flex-wrap:wrap;gap:6px}
+.trate button{min-height:40px;padding:6px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:13px;transition:background .15s,border-color .15s,color .15s}
+.trate button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.tq{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.tq span{flex:1;font-size:14px}
+.tcheck{background:var(--bg);border-radius:14px;padding:10px 12px;margin:10px 0}.tcheck summary{font-weight:700;display:flex;gap:6px;align-items:center}.tcheck summary .ic{width:18px;height:18px}
+.tprac{display:flex;flex-direction:column;align-items:center;gap:6px;margin:12px 0}
+.tring{position:relative;width:132px;height:132px}.tring svg{width:100%;height:100%}.tring>div{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.tring b{font-size:40px;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}.tring span{font-size:12px;color:var(--muted)}
+.tphase{font-size:20px;font-weight:800;color:var(--title)}
+.tsens{min-height:20px}.tsens .ic{width:16px;height:16px;vertical-align:-3px}.warnc{color:#C77700}.okc{color:#0F9D6E}
+.tok{border:1px solid #0F9D6E}.tfix{border:1px solid var(--line)}
+.tnav{margin-top:14px}
+.tcard{border:1px solid var(--accent)}
+@media (prefers-reduced-motion:reduce){
+ .tsling.demo .tsl-p,.tsling.demo .tsl-b,.tsling.demo .tarr,.tsling.demo .tsl-t1,.tsling.demo .tsl-t2,.tbz1,.tbz2,.tbr-dot,.tglute,.tg-tense,.th-ok,.th-bad{animation:none}
+ .tsling.demo .tsl-p{d:path("M40 70 Q150 96 260 70")}.tsling.demo .tarr,.tsling.demo .tsl-t1{opacity:1}.tsling.demo .tsl-b{transform:translateY(-26px)}
+ .tbz{opacity:.25}.tbr-dot{display:none}.th-bad{opacity:0}
+ .tstrike{animation:none;stroke-dashoffset:0}.teb{animation:none;transform:none}
+ .tsl-p,.tsl-b,.tarr{transition-duration:.01s}
+}
 </style>
 </head>
 <body>
@@ -1180,6 +1248,182 @@ function bpCard(){ return `<div class="card"><h3>قياس الضغط في الب
     <li>الذراع مسنودة بمستوى القلب، والكمّ على الجلد مباشرة.</li><li>خذ قراءتين بينهما دقيقة، صباحًا ومساءً، وسجّل المتوسط.</li></ol>
     <p class="small muted" style="margin:6px 0 0">${S.diabetes?'الهدف لأغلب مرضى السكري أقل من 130/80 حسب ADA. ':'هدفك يحدده طبيبك. '}${ic('alert')} 180/120 أو أعلى مع ألم صدر أو ضيق نفس: اتصل بالإسعاف ${emerg()}.</p></div>`; }
 
+/* ============ التدريب التعليمي: تعلّم الشد الصحيح ============
+   1) الأخطاء الشائعة  2) الوضعية وشدة 3 من 10 ويد على الأرداف  3) مختبر الإشارات (يجرّب المستخدم عدة طرق ويحفظ الأنسب له)
+   4) تمرين موجّه: شهيق ← زفير مع شد خفيف والعدّ بصوت ← إفلات، مع حسّاس اختياري يكشف حبس النفس  5) فحص ذاتي وتغذية راجعة.
+   الإشارة الناجحة تُستخدم بعدها في كل الجلسات. */
+const TUT_SRC=[
+  ['Stafford RE et al. Neurourol Urodyn 2016 — أثر التعليمات اللفظية على عضلات قاع الحوض لدى الرجال','https://pubmed.ncbi.nlm.nih.gov/25727781/'],
+  ['Ben Ami N et al. IJERPH 2022 — مقارنة ست تعليمات لفظية لدى الرجال','https://www.mdpi.com/1660-4601/19/19/12031'],
+  ['POGP (جمعية العلاج الطبيعي البريطانية لصحة الحوض) — تمارين قاع الحوض للرجال','https://thepogp.co.uk/_userfiles/pages/files/POGP-PelvicFloorMen(UL).pdf'],
+  ['Continence Foundation of Australia — قاع الحوض لدى الرجال','https://continence.org.au/news/male-pelvic-floor-what-you-need-know'],
+  ['Squeezy (تطبيق معتمد من NHS) — كيف تجد عضلات قاع الحوض','https://squeezyapp.com/articles/how-to-find-your-pelvic-floor/']
+];
+// [المعرّف، العنوان، الطريقة، كيف تعرف أنك نجحت، اختصار يُقال أثناء الجلسة]
+const TCUES_M=[
+  ['penis','قصّر القضيب','تخيّل أنك تسحب القضيب للداخل نحو جسمك، كأنك تقصّره قليلًا. حركة صغيرة جدًا.','تشعر بشد خفيف عند قاعدة القضيب، والأرداف ساكنة.','اسحب القضيب للداخل'],
+  ['wave','موجة البحر الباردة','تخيّل أنك تمشي في بحر بارد وموجة قادمة، فترفع الخصيتين للأعلى بعيدًا عن الماء.','تشعر بالخصيتين ترتفعان قليلًا.','ارفع الخصيتين بعيدًا عن الموجة'],
+  ['gas','منع الغازات بهدوء','تخيّل أنك في مصعد مزدحم وتمنع خروج غازات — بهدوء ودون أن يلاحظ أحد.','تشعر بانقباض حول فتحة الشرج يرتفع للداخل، وليس بانقباض الأرداف.','امنع الغازات بهدوء'],
+  ['marble','التقاط حبة صغيرة','تخيّل أنك تجلس على حبة صغيرة (حبة عنب) وتلتقطها بعضلات الحوض وترفعها للداخل.','إحساس بالرفع للأعلى من منطقة ما بين الخصيتين والشرج.','التقط الحبة وارفعها'],
+  ['urine','إيقاف البول (للتعرّف فقط)','في نهاية التبول جرّب إيقاف التدفق مرة واحدة لتتعرف على العضلة، ثم أكمل التبول. لا تكررها كتمرين لأنها قد تمنع إفراغ المثانة كاملًا.','يتوقف التدفق أو يبطؤ.','أوقف البول (تخيّلًا)']
+];
+const TCUES_F=[
+  ['gaswee','منع الغازات والبول معًا','شدّي من الخلف إلى الأمام: كأنك تمنعين الغازات ثم البول، ثم ارفعي للداخل.','إحساس بانقباض يمتد من الخلف للأمام ويرتفع للداخل.','امنعي الغازات والبول وارفعي'],
+  ['marble','التقاط حبة صغيرة','تخيّلي أنك تجلسين على حبة عنب وتلتقطينها بالمهبل وترفعينها للداخل.','إحساس بالرفع للأعلى، والأرداف ساكنة.','التقطي الحبة وارفعيها'],
+  ['tissue','سحب منديل','تخيّلي أنك تسحبين منديلًا من علبته ببطء للأعلى والداخل.','حركة ناعمة للأعلى، دون دفع للأسفل.','اسحبي المنديل للأعلى'],
+  ['urine','إيقاف البول (للتعرّف فقط)','في نهاية التبول جرّبي إيقاف التدفق مرة واحدة لتتعرفي على العضلة. لا تكرريها كتمرين.','يتوقف التدفق أو يبطؤ.','أوقفي البول (تخيّلًا)']
+];
+const tutCues=()=>isFem()?TCUES_F:TCUES_M;
+const TUT=()=>S.tut||(S.tut={cue:null,rate:{},rounds:0,good:0,passed:false,issues:{},at:null,dismissed:false});
+function tutCueHint(){ const t=S.tut; if(!t||!t.cue) return null; const c=tutCues().find(x=>x[0]===t.cue); if(!c) return null;
+  const add=[]; if(t.issues.glute) add.push('الأرداف مرتخية'); if(t.issues.breath) add.push('عدّ بصوت'); if(t.issues.glute||t.issues.belly) add.push('شدة 3 من 10');
+  return c[4]+(add.length?' — '+add.join(' · '):''); }
+
+// ---------- الرسومات ----------
+const SLING_REL="M40 70 Q150 150 260 70", SLING_UP="M40 70 Q150 96 260 70";
+const SVG_SLING=`<svg class="tsling" viewBox="0 0 300 175" role="img" aria-label="عضلات قاع الحوض ترتفع مع الشد وتنزل مع الإفلات"><title>عضلات قاع الحوض كالأرجوحة</title>
+ <path d="M30 40 C40 120,90 160,150 160 C210 160,260 120,270 40" fill="none" stroke="var(--line)" stroke-width="14" stroke-linecap="round"/>
+ <text x="24" y="28" class="tlbl">عظم العانة</text><text x="276" y="28" text-anchor="end" class="tlbl">العصعص</text>
+ <path class="tsl-p" d="${SLING_REL}" fill="none" stroke="var(--accent)" stroke-width="12" stroke-linecap="round"/>
+ <circle class="tsl-b" cx="150" cy="108" r="9"/>
+ <g class="tarr"><path d="M150 82 V50" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/><path d="M140 60 L150 48 L160 60" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g>
+ <text class="tsl-t1" x="150" y="172" text-anchor="middle">شدّ: ترتفع للداخل</text><text class="tsl-t2" x="150" y="172" text-anchor="middle">أفلت: تنزل وترتخي</text>
+</svg>`;
+const SVG_MISTAKES=`<div class="tmist">
+ <figure><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M14 30 Q14 64 40 64 Q66 64 66 30" fill="var(--heartSoft)" stroke="var(--heart)" stroke-width="3"/><path d="M40 30 V62" stroke="var(--heart)" stroke-width="3"/><path d="M22 40 Q28 34 34 40M46 40 Q52 34 58 40" stroke="var(--heart)" stroke-width="3" fill="none"/><path class="tstrike" d="M10 14 L70 70" stroke="var(--heart)" stroke-width="5" stroke-linecap="round"/></svg><figcaption>شدّ الأرداف</figcaption></figure>
+ <figure><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M40 12 V30M40 30 C26 30 16 40 16 56 C16 66 26 68 32 62 C38 56 40 44 40 30 C40 44 42 56 48 62 C54 68 64 66 64 56 C64 40 54 30 40 30" fill="var(--waterSoft)" stroke="var(--water)" stroke-width="3"/><rect x="24" y="4" width="32" height="10" rx="5" fill="var(--heart)"/><path class="tstrike" d="M10 14 L70 70" stroke="var(--heart)" stroke-width="5" stroke-linecap="round"/></svg><figcaption>حبس النفس</figcaption></figure>
+ <figure><svg viewBox="0 0 80 80" aria-hidden="true"><ellipse cx="40" cy="44" rx="24" ry="22" fill="var(--smokeSoft)" stroke="var(--smoke)" stroke-width="3"/><path d="M40 52 V72M32 64 L40 74 L48 64" stroke="var(--heart)" stroke-width="4" fill="none" stroke-linecap="round"/><path class="tstrike" d="M10 14 L70 70" stroke="var(--heart)" stroke-width="5" stroke-linecap="round"/></svg><figcaption>الدفع للأسفل بالبطن</figcaption></figure></div>`;
+const SVG_EFFORT=`<svg class="teff" viewBox="0 0 300 74" role="img" aria-label="شدة الشد: 3 من 10"><title>الشدة المطلوبة 3 من 10</title>
+ ${Array.from({length:10},(_,i)=>`<rect x="${8+i*29}" y="${34-i*2.6}" width="22" height="${18+i*2.6}" rx="5" fill="var(--line)"/>${i<3?`<rect class="teb" style="--i:${i}" x="${8+i*29}" y="${34-i*2.6}" width="22" height="${18+i*2.6}" rx="5" fill="var(--accent)"/>`:''}`).join('')}
+ <text x="8" y="70" class="tlbl">خفيف</text><text x="80" y="18" text-anchor="middle" class="tlbl tacc">هنا</text><text x="292" y="70" text-anchor="end" class="tlbl">أقصى قوة</text></svg>`;
+const BR_D="M10 70 C40 70 50 20 80 20 C110 20 120 70 150 70 C180 70 190 20 220 20 C250 20 260 70 290 70";
+const SVG_BREATH=`<svg class="tbr" viewBox="0 0 300 96" role="img" aria-label="الشد مع الزفير"><title>شهيق للاسترخاء، وزفير مع الشد</title>
+ <rect class="tbz tbz1" x="80" y="10" width="70" height="70" rx="10" fill="var(--accent)"/><rect class="tbz tbz2" x="220" y="10" width="70" height="70" rx="10" fill="var(--accent)"/>
+ <path d="${BR_D}" fill="none" stroke="var(--water)" stroke-width="4" stroke-linecap="round"/>
+ <circle class="tbr-dot" r="8" style="offset-path:path('${BR_D}')"/>
+ <text x="45" y="92" text-anchor="middle" class="tlbl">شهيق: أرخِ</text><text x="115" y="92" text-anchor="middle" class="tlbl tacc">زفير: اشدّ</text><text x="185" y="92" text-anchor="middle" class="tlbl">شهيق: أفلت</text><text x="255" y="92" text-anchor="middle" class="tlbl tacc">زفير: اشدّ</text></svg>`;
+const SVG_HAND=`<svg class="thand" viewBox="0 0 220 130" role="img" aria-label="اليد على الأرداف: يجب أن تبقى ليّنة"><title>فحص الأرداف باليد</title>
+ <g transform="translate(55 64)"><circle r="56" fill="var(--accentSoft)"/>
+  <g class="tglute"><path d="M-30 -14 Q-30 28 0 28 Q30 28 30 -14" fill="var(--card)" stroke="var(--muted)" stroke-width="3"/><path d="M0 -14 V26" stroke="var(--muted)" stroke-width="2"/>
+   <path class="tg-tense" d="M-22 -2 Q-15 -9 -8 -2M8 -2 Q15 -9 22 -2" stroke="var(--heart)" stroke-width="3" fill="none"/></g>
+  <path d="M10 -24 l6 26 M18 -26 l6 26 M26 -24 l5 24 M34 -18 l3 20 M6 -12 q-8 6 -2 16 l14 14 q10 8 22 -2" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/></g>
+ <g class="th-ok"><circle cx="160" cy="48" r="16" fill="var(--accentSoft)"/><path d="M152 48 l6 6 l11 -12" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><text x="160" y="90" text-anchor="middle" class="tlbl">صحيح: ليّنة</text></g>
+ <g class="th-bad"><circle cx="160" cy="48" r="16" fill="var(--heartSoft)"/><path d="M160 39 v11 M160 57 v1" stroke="var(--heart)" stroke-width="4" stroke-linecap="round"/><text x="160" y="90" text-anchor="middle" class="tlbl">خطأ: متصلبة</text></g></svg>`;
+
+// ---------- حسّاس الجوال لكشف حبس النفس (تجريبي) ----------
+const BreathSensor={on:false,buf:[],h:null,ok:false,
+  start(){ this.buf=[]; this.ok=false; this.h=e=>{ const g=e.accelerationIncludingGravity; if(!g||g.z==null) return; const p=Math.atan2(g.y||0,g.z)*57.3; this.buf.push([performance.now(),p]); this.ok=true; if(this.buf.length>3000) this.buf.splice(0,1000); };
+    try{ if(typeof DeviceMotionEvent!=='undefined'&&DeviceMotionEvent.requestPermission) DeviceMotionEvent.requestPermission().catch(()=>{}); }catch(e){}
+    window.addEventListener('devicemotion',this.h); this.on=true; },
+  stop(){ if(this.h) window.removeEventListener('devicemotion',this.h); this.on=false; },
+  std(t0,t1){ const v=this.buf.filter(([t])=>t>=t0&&t<t1).map(x=>x[1]); if(v.length<8) return null; const m=v.reduce((a,b)=>a+b,0)/v.length; return Math.sqrt(v.reduce((a,b)=>a+(b-m)*(b-m),0)/v.length); }
+};
+
+// ---------- الواجهة ----------
+let TU=null; // حالة التمرين الموجّه
+function tutorial(startPage){
+  const t=TUT(); let page=startPage||0; const N=5;
+  modal(`<div class="tut" id="tutB"></div>`,(m,close)=>{
+    m.classList.add('tutm');
+    m.addEventListener('close',()=>{ tutStop(); });
+    const draw=()=>{ const B=m.querySelector('#tutB');
+      const dots=`<div class="steps tsteps">${Array.from({length:N},(_,i)=>`<i class="${i<=page?'on':''}"></i>`).join('')}</div>`;
+      let h='';
+      if(page===0) h=`<h2>تعلّم الشد الصحيح</h2><p>عضلات قاع الحوض داخلية ولا تُرى، لذلك يخطئ كثيرون في البداية. الشد الصحيح صغير وخفي: سحب للداخل والأعلى، والأرداف والنفس والبطن مرتخية.</p>
+        ${SVG_SLING.replace('class="tsling"','class="tsling demo"')}<p class="small muted center">العضلة كأرجوحة بين عظم العانة والعصعص — عند الشد ترتفع للأعلى، وعند الإفلات تنزل.</p>
+        <h3>الأخطاء الثلاثة الأكثر شيوعًا</h3>${SVG_MISTAKES}
+        <p class="small">في هذا التدريب نصلح الثلاثة خطوة بخطوة، ونجد معًا الطريقة التي تناسب جسمك.</p>`;
+      else if(page===1) h=`<h2>الوضعية والشدة</h2>
+        <div class="tstep"><b>1. استلقِ على ظهرك وركبتاك مثنيتان</b><p class="small muted">هذه أسهل وضعية للتعلّم لأن العضلة لا تحمل وزن الجسم. باعد ركبتيك بعرض الحوض.</p></div>
+        <div class="tstep"><b>2. ضع يدك على أردافك</b>${SVG_HAND}<p class="small muted">يدك هي «جهاز الإنذار»: يجب أن تبقى الأرداف ليّنة طوال الشد. إن شعرت بها تتصلب فالشد أقوى من اللازم.</p></div>
+        <div class="tstep"><b>3. الشدة: 3 من 10 فقط</b>${SVG_EFFORT}<p class="small muted">الشد القوي يستدعي الأرداف والبطن وحبس النفس. ابدأ خفيفًا جدًا — القوة تأتي لاحقًا.</p></div>`;
+      else if(page===2){ const C=tutCues();
+        h=`<h2>مختبر الإشارات</h2><p class="small">جرّب كل طريقة مرة أو مرتين (شد خفيف 3 ثوانٍ ثم إفلات)، ثم قيّمها. سنحفظ الطريقة التي شعرت بها أوضح، ونذكّرك بها في كل جلسة.</p>
+        ${C.map(([id,ti,how,chk])=>{ const r=t.rate[id]; return `<div class="tcue ${t.cue===id?'best':''}"><div class="tcue-h"><b>${ti}</b>${t.cue===id?`<span class="tagx">الأنسب لك</span>`:''}</div><p class="small">${how}</p><p class="small muted">${ic('check')} ${chk}</p>
+          <div class="trate" role="group" aria-label="${ti}"><button data-rt="${id}|2" class="${r===2?'on':''}">شعرت بها بوضوح</button><button data-rt="${id}|1" class="${r===1?'on':''}">قليلًا</button><button data-rt="${id}|0" class="${r===0?'on':''}">لم أشعر</button><button data-rt="${id}|-1" class="${r===-1?'on':''}">شددت الأرداف</button></div></div>`; }).join('')}
+        <details class="tcheck"><summary>${ic('target')} طرق للتأكد أنك تشد العضلة الصحيحة</summary><div class="small">
+          ${isFem()?`<p><b>المرآة:</b> بمرآة يد، يجب أن تري منطقة العجان (بين المهبل والشرج) ترتفع للداخل قليلًا.</p>`:`<p><b>المرآة:</b> قف جانبيًا أمام المرآة: يجب أن ترى قاعدة القضيب تنسحب للداخل والخصيتين ترتفعان قليلًا.</p>`}
+          <p><b>اللمس:</b> ضع أصابعك على ${isFem()?'العجان (بين المهبل والشرج)':'المنطقة بين الخصيتين والشرج'}: يجب أن تشعر بها ترتفع للأعلى عند الشد، لا أن تبرز للأسفل.</p>
+          <p><b>البطن:</b> ضع يدك فوق السرة: لا يجب أن يتصلب ما فوق السرة. شدّ خفيف أسفل البطن طبيعي.</p>
+          <p><b>بعد التبول${isFem()?'':' (للرجال)'}:</b> ${isFem()?'شد العضلة يجب ألا يدفع شيئًا للأسفل.':'شدّة واحدة بعد انتهاء التبول تُخرج آخر قطرات البول — علامة أن العضلة الصحيحة تعمل.'}</p></div></details>`; }
+      else if(page===3){ const c=tutCues().find(x=>x[0]===t.cue)||tutCues()[0];
+        h=`<h2>تمرين موجّه</h2><p class="small"><span>3 تكرارات بالإشارة:</span> <b>${c[1]}</b></p><p class="small">اشدّ مع الزفير، وعدّ بصوت مسموع «واحد، اثنان، ثلاثة» — من يعدّ بصوت لا يستطيع حبس نفسه.</p>
+        ${SVG_BREATH}${SVG_SLING}
+        <div class="tprac"><div class="tring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="var(--ringBg)" stroke-width="8"/><circle id="tRing" cx="60" cy="60" r="52" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)"/></svg><div><b id="tNum">—</b><span id="tRep"></span></div></div>
+          <div class="tphase" id="tPh" role="status" aria-live="polite">جاهز؟</div><p class="small muted center" id="tHint">${c[2]}</p>
+          <div id="tSensor" class="small center tsens"></div></div>
+        <label class="chk"><input type="checkbox" id="tUseS"> ${ic('pulse')} استخدم الجوال لكشف حبس النفس (تجريبي): استلقِ وضع الجوال على بطنك أسفل السرة</label>
+        <button class="btn accent" id="tGo">${ic('play')}ابدأ التمرين (45 ثانية)</button>`; }
+      else if(page===4){ const q=TU&&TU.ans||{};
+        h=`<h2>كيف كان؟</h2><p class="small">أجب بصدق — الهدف أن نعدّل الطريقة لا أن ننجح من أول مرة.</p>
+        ${[['felt','شعرت بشد ورفع للداخل'],['glute','انقبضت الأرداف أو الفخذان'],['breath','حبست نفسي أو توقف صوتي أثناء العد'],['belly','تصلّب البطن أو شعرت بدفع للأسفل']].map(([k,n])=>`<div class="tq"><span>${n}</span><div class="trate"><button data-q="${k}|1" class="${q[k]===1?'on':''}">نعم</button><button data-q="${k}|0" class="${q[k]===0?'on':''}">لا</button></div></div>`).join('')}
+        ${TU&&TU.sensed?`<div class="warn small">${ic('pulse')} الحسّاس لاحظ أن حركة تنفّسك توقفت أثناء الشد في ${TU.sensed} من 3 تكرارات.</div>`:''}
+        <div id="tFb"></div>`; }
+      B.innerHTML=dots+h+`<div class="btnrow tnav">${page>0?`<button class="btn ghost" id="tBack">السابق</button>`:''}${page<4?`<button class="btn ${page===3?'ghost':'accent'}" id="tNext">${page===3?'تخطَّ إلى التقييم':'التالي'}</button>`:`<button class="btn accent" id="tDone">إنهاء</button>`}</div>
+        <details class="small srcs"><summary>المراجع</summary><ol>${TUT_SRC.map(([n,u])=>`<li><a href="${u}" target="_blank" rel="noopener">${n}</a></li>`).join('')}</ol></details>`;
+      const on=(s,f)=>{ const e=B.querySelector(s); if(e) e.onclick=f; };
+      on('#tBack',()=>{ tutStop(); page--; draw(); B.scrollIntoView&&m.querySelector('.sheet').scrollTo(0,0); });
+      on('#tNext',()=>{ tutStop(); if(page===2&&!t.cue) t.cue=tutCues()[0][0]; page++; save(); draw(); m.querySelector('.sheet').scrollTo(0,0); });
+      on('#tDone',()=>{ close(); render(); });
+      B.querySelectorAll('[data-rt]').forEach(b=>b.onclick=()=>{ const [id,v]=b.dataset.rt.split('|'); t.rate[id]=+v; if(+v===-1) t.issues.glute=true;
+        const best=Object.entries(t.rate).filter(([,r])=>r>0).sort((a,b)=>b[1]-a[1]); t.cue=best.length?best[0][0]:t.cue; save(); Haptic.light(); draw(); });
+      on('#tGo',()=>tutPractice(m,()=>{ page=4; draw(); m.querySelector('.sheet').scrollTo(0,0); }));
+      B.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{ const [k,v]=b.dataset.q.split('|'); TU=TU||{}; TU.ans=TU.ans||{}; TU.ans[k]=+v; draw(); tutFeedback(B); });
+      if(page===4) tutFeedback(B);
+    };
+    draw(); });
+}
+function tutStop(){ if(TU&&TU.timer){ clearInterval(TU.timer); TU.timer=null; } BreathSensor.stop(); }
+function tutPractice(m,done){
+  const c=tutCues().find(x=>x[0]===TUT().cue)||tutCues()[0], useS=m.querySelector('#tUseS')&&m.querySelector('#tUseS').checked;
+  const R=[]; for(let i=1;i<=3;i++){ R.push(['in',4,i,'شهيق — أرخِ كل شيء']); R.push(['sq',3,i,c[4]]); R.push(['rl',8,i,'أفلت تمامًا — دع العضلة تنزل']); }
+  R.unshift(['pre',useS?10:3,0,useS?'تنفّس بهدوء — نقيس حركة تنفّسك':'استعد']);
+  TU={i:0,t0:performance.now(),timer:null,ans:{},sensed:0,base:null,phT:{}}; if(useS) BreathSensor.start();
+  const $m=s=>m.querySelector(s), ring=$m('#tRing'), C=326.7;
+  m.querySelector('#tGo').disabled=true; m.querySelector('#tGo').style.opacity=.5;
+  const enter=()=>{ const [ph,d,rep,txt]=R[TU.i]; TU.phT[TU.i]=performance.now();
+    $m('#tPh').textContent=T({pre:'استعد',in:'شهيق',sq:'ازفر واشدّ — عدّ بصوت',rl:'أفلت'}[ph]); $m('#tHint').textContent=T(txt);
+    $m('#tRep').textContent=rep?T('تكرار '+rep+' من 3'):''; const sl=m.querySelector('.tsling'); if(sl){ sl.classList.toggle('up',ph==='sq'); sl.classList.toggle('rel',ph==='rl'); }
+    speak(ph==='sq'?txt+'. واحد':ph==='in'?'شهيق':ph==='rl'?'أفلت':txt); if(ph==='sq') Haptic.double(); };
+  enter();
+  const me=TU; TU.timer=setInterval(()=>{ if(TU!==me||!R[me.i]){ clearInterval(me.timer); return; } const [ph,d]=R[TU.i], el=(performance.now()-TU.phT[TU.i])/1000;
+    ring.style.strokeDashoffset=C*(1-Math.min(1,el/d)); $m('#tNum').textContent=ph==='sq'?String(Math.min(3,Math.floor(el)+1)):Math.max(0,Math.ceil(d-el));
+    if(ph==='sq'&&!TU['n'+TU.i+Math.floor(el)]&&Math.floor(el)>0&&el<d){ TU['n'+TU.i+Math.floor(el)]=1; speak(['','اثنان','ثلاثة'][Math.floor(el)]||''); }
+    if(el>=d){
+      if(useS&&BreathSensor.ok){ const t0=TU.phT[TU.i], t1=performance.now();
+        if(ph==='pre'||ph==='in'){ const s=BreathSensor.std(t0+500,t1); if(s!=null) TU.base=TU.base==null?s:(TU.base*0.6+s*0.4); }
+        if(ph==='sq'&&TU.base&&TU.base>0.08){ const s=BreathSensor.std(t0+300,t1); if(s!=null&&s<TU.base*0.3){ TU.sensed++; $m('#tSensor').innerHTML=`<span class="warnc">${ic('alert')} ${T('يبدو أن نفسك توقف — عدّ بصوت أعلى')}</span>`; speak('لا تحبس نفسك'); } else $m('#tSensor').innerHTML=`<span class="okc">${ic('checkCircle')} ${T('تنفّسك مستمر — ممتاز')}</span>`; }
+        if(ph==='pre'&&!(TU.base>0.08)) $m('#tSensor').textContent=T('لم يلتقط الحسّاس حركة تنفّس كافية — أكمل بدونه');
+      } else if(useS&&ph==='pre') $m('#tSensor').textContent=T('الحسّاس غير متاح على هذا الجهاز — أكمل بدونه');
+      TU.i++; if(TU.i>=R.length){ tutStop(); TU.ans={breath:TU.sensed?1:undefined}; const t=TUT(); t.rounds++; t.at=today(); save(); SFX.done(); done(); return; } enter(); }
+  },100);
+}
+function tutFeedback(B){ const q=(TU&&TU.ans)||{}, t=TUT(), fb=B.querySelector('#tFb'); if(!fb) return;
+  if(['felt','glute','breath','belly'].some(k=>q[k]===undefined)){ fb.innerHTML=''; return; }
+  t.issues={glute:q.glute===1,breath:q.breath===1,belly:q.belly===1};
+  const tips=[];
+  if(q.glute) tips.push(['الأرداف','خفّف الشدة إلى 2 من 10 — الحركة الصحيحة صغيرة لا يراها أحد. باعد ركبتيك قليلًا، وأبقِ يدك على الأرداف: إن تصلبت توقف وابدأ أخف.']);
+  if(q.breath) tips.push(['النفس','عدّ بصوت مسموع طوال الشد؛ إن توقف صوتك فأنت حابس نفسك. أو أطلق صوت «سسس» طويلًا وأنت تشد — الشد يكون على الزفير.']);
+  if(q.belly) tips.push(['البطن','إن شعرت بدفع للأسفل فهذا عكس المطلوب. فكّر في «سحب للداخل والأعلى» لا «ضغط». جرّب إشارة أخرى من المختبر، وتجنّب تخيّل «رفع المثانة» لأنه يشد البطن.']);
+  if(!q.felt) tips.push(['لم تشعر بها','جرّب إشارة أخرى من مختبر الإشارات، أو استخدم المرآة أو اللمس للتأكد. الاستلقاء أسهل من الجلوس.']);
+  const ok=q.felt&&!q.glute&&!q.breath&&!q.belly;
+  // الجولة تُحتسب مرة واحدة حتى لو غيّر المستخدم إجابته
+  if(ok&&!TU.counted){ t.good++; TU.counted=true; } else if(!ok&&TU.counted){ t.good=Math.max(0,t.good-1); TU.counted=false; }
+  if(t.good>=2) t.passed=true;
+  const struggle=t.rounds>=3&&t.good===0;
+  save();
+  fb.innerHTML=ok?`<div class="card tok"><b class="hrow">${ic('checkCircle')} ${t.passed?'أتقنت الشد الصحيح':'ممتاز — شد صحيح'}</b><p class="small">${t.passed?'سنذكّرك بإشارتك في كل جلسة. حافظ على الشد الخفيف والعدّ بصوت.':'أعد التمرين مرة أخرى للتثبيت — مرتان ناجحتان تكفيان.'}</p>${t.passed?'':`<button class="btn accent sm" id="tAgain">${ic('repeat')}مرة أخرى</button>`}</div>`
+    :`${tips.map(([h,p])=>`<div class="card tfix"><b>${h}</b><p class="small">${p}</p></div>`).join('')}
+     ${struggle?`<div class="warn small">جرّبت ${t.rounds} مرات دون أن تشعر بالشد الصحيح. هذا شائع، والحل الأفضل جلسة مع أخصائي علاج طبيعي لقاع الحوض: يستخدم الموجات فوق الصوتية أو جهاز «البيوفيدباك» ليريك العضلة وهي تعمل على الشاشة.</div>`:''}
+     <div class="btnrow"><button class="btn accent sm" id="tAgain">${ic('repeat')}أعد التمرين</button><button class="btn ghost sm" id="tLab">مختبر الإشارات</button></div>`;
+  const a=fb.querySelector('#tAgain'); if(a) a.onclick=()=>{ document.querySelectorAll('dialog').forEach(d=>d.close()); tutorial(3); };
+  const l=fb.querySelector('#tLab'); if(l) l.onclick=()=>{ document.querySelectorAll('dialog').forEach(d=>d.close()); tutorial(2); };
+}
+function tutCard(){ const t=S.tut; if(t&&(t.passed||t.dismissed)) return ''; if(!S.onboarded) return '';
+  return `<div class="card tcard"><div class="hrow" style="gap:12px"><span class="ic-badge" style="margin:0">${ic('target')}</span><div style="flex:1"><b>هل تشدّ العضلة الصحيحة؟</b><p class="small muted" style="margin:2px 0 0">تدريب تفاعلي 3 دقائق: تجد الطريقة التي تناسبك، وتتخلّص من شدّ الأرداف وحبس النفس.</p></div></div>
+   <div class="btnrow" style="margin-top:10px"><button class="btn accent sm" id="tutGo">ابدأ التدريب</button><button class="btn ghost sm" id="tutLater">أتقنته</button></div></div>`; }
+function bindTutCard(){ const g=$('#tutGo'); if(g) g.onclick=()=>tutorial(0); const l=$('#tutLater'); if(l) l.onclick=()=>{ TUT().dismissed=true; save(); render(); }; }
+
 /* ============ التهيئة (Onboarding) ============ */
 let ob={step:0,goals:new Set(S.goals),q:[null,null,null],flip:{}};
 function renderOnb(){
@@ -1208,6 +1452,7 @@ function renderOnb(){
     h=`<h1>أين عضلاتك؟</h1><p class="muted">أهم خطوة: أن تعرف العضلة الصحيحة. اضغط كل بطاقة لقلبها.</p>${IMG('anatomy')}<div class="pair"><figure>${IMG('squeeze')}<figcaption>الانقباض: ترتفع العضلة</figcaption></figure><figure>${IMG('relax')}<figcaption>الاسترخاء: تنزل وترتخي</figcaption></figure></div>`+
       C.map(([t,b],i)=>`<div class="flip ${ob.flip[i]?'on':''}" data-f="${i}"><div class="in"><div class="f"><h3>${i+1}. ${t}</h3><p class="muted small">اضغط للقراءة</p></div><div class="b"><p>${b}</p></div></div></div>`).join('')+
       `${IMG('posture','sm')}<div class="warn">للتأكد: تنفّس بحرية، ولا تشدّ بطنك أو فخذيك أو أردافك. إن انقبضت هذه فأنت تضغط خطأ.</div>
+      <button class="btn ghost" id="tutO">${ic('target')}جرّب التدريب التفاعلي الآن (3 دقائق)</button><div style="height:8px"></div>
       <button class="btn accent" id="nx">فهمت، التالي</button>`;
   } else if(st===3){
     const Q=[['هل أدّيت تمارين كيجل من قبل؟',['لا، أول مرة','نعم، أحيانًا','نعم، بانتظام']],
@@ -1252,6 +1497,7 @@ function renderOnb(){
   app.querySelectorAll('[data-r]').forEach(inp=>inp.onchange=()=>{ S.reminders[+inp.dataset.r]=inp.value; save(); });
   const nx=$('#nx'); if(nx) nx.onclick=()=>{ if(nx.disabled) return; if(st===0&&!S.langOk){ S.langOk=true; save(); } if(st<6){ ob.step++; renderOnb(); window.scrollTo(0,0);} else finishOnb(true); };
   const sk=$('#skipN'); if(sk) sk.onclick=()=>finishOnb(false);
+  const to=$('#tutO'); if(to) to.onclick=()=>tutorial(0);
   const pf=$('#pfOnb'); if(pf) pf.onclick=()=>profSheet(['__age',...COND.filter(([,,v])=>v()).map(c=>c[0]),'__alg','__smoke','__stage'],{title:'ملفك الصحي',why:'يساعدنا على تخصيص التمارين والغذاء والتنبيهات.',ok:'حفظ',then:()=>renderOnb()});
   const ow=$('#obW'); if(ow) ow.onclick=()=>{ S.water.on=!S.water.on; save(); renderOnb(); };
 }
@@ -1415,12 +1661,12 @@ function renderHome(){
   app.innerHTML=`
   ${dashHTML(plan,done,dayDone,idx)}
   ${S.progDay>=180?'<div class="warn">وصلت لنهاية البرنامج — استمر بجلسات الصيانة يوميًا.</div>':''}
-  ${recover}${adv}${profCard()}${ramAskCard()}${ramadanCard()}${testCard()}
+  ${recover}${adv}${profCard()}${tutCard()}${ramAskCard()}${ramadanCard()}${testCard()}
   <div class="sec"><h2>خطة اليوم</h2><span>${done} من ${plan.n} جلسات</span></div>
   <div class="card plan">${planRows}</div>
   <div class="sec"><h2>عاداتك الصحية</h2><span>اضغط للتفاصيل</span></div>
   <div class="tiles">${tiles.join('')}</div>`;
-  bindDash(); bindProfCard();
+  bindDash(); bindProfCard(); bindTutCard();
   const go=$('#go'); if(go) go.onclick=()=>startSession('daily',plan,idx);
   const ex=$('#extra'); if(ex) ex.onclick=()=>startSession('quick');
   const qb=$('#qBack'); if(qb) qb.onclick=()=>startSession('quick');
@@ -1505,7 +1751,7 @@ function startSession(kind,plan,idx){
   drawSession(); enterStep();
   R.timer=setInterval(tick,100);
 }
-function curLabel(st){ if(st.t==='sq'&&st.lbl==='hold') return PH.hold; if(st.t==='ready'&&R&&R.s.pos) return ['الوضعية: '+POS[R.s.pos][0],POS[R.s.pos][1]]; return PH[st.t]; }
+function curLabel(st){ const h=(st.t==='sq'||st.t==='e1')&&tutCueHint(); if(h) return [st.lbl==='hold'?PH.hold[0]:PH[st.t][0],h]; if(st.t==='sq'&&st.lbl==='hold') return PH.hold; if(st.t==='ready'&&R&&R.s.pos) return ['الوضعية: '+POS[R.s.pos][0],POS[R.s.pos][1]]; return PH[st.t]; }
 function enterStep(){
   const st=R.s.steps[R.i];
   if(st.t==='in'){ Haptic.light(); }
@@ -1649,7 +1895,7 @@ function renderDone(){
   ${fresh.length?'<div class="card"><h3>إنجاز جديد!</h3>'+fresh.map(([e,n])=>'<p class="hrow"><span class="ic-badge" style="margin:0">'+achIc(e)+'</span>'+n+'</p>').join('')+'</div>':''}
   ${first?'<div class="card"><h3 class="hrow">'+ic('sprout')+' بداية رائعة</h3><p class="small muted">أكملت أول جلسة. البرنامج الكامل 180 يومًا يتدرّج معك خطوة بخطوة — استمر 3 جلسات يوميًا.</p></div>':''}
   <div class="card"><h3>كيف كانت الجلسة؟</h3><div class="rate">
-    <button data-r="easy">سهلة</button><button data-r="ok">مناسبة</button><button data-r="hard">صعبة</button><button data-r="pain">مؤلمة</button></div></div>
+    <button data-r="easy">سهلة</button><button data-r="ok">مناسبة</button><button data-r="hard">صعبة</button><button data-r="pain">مؤلمة</button></div><button class="linkbtn" id="tutFix">${ic('target')} شددت أردافي أو حبست نفسي؟ تدرّب على الشد الصحيح</button></div>
   <button class="btn" id="home">العودة للرئيسية</button>`;
   app.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{
     log.rating=b.dataset.r; app.querySelectorAll('[data-r]').forEach(x=>x.classList.toggle('on',x===b));
@@ -1659,6 +1905,7 @@ function renderDone(){
   });
   setTimeout(confetti,150);
   $('#home').onclick=()=>{ screen='tabs'; tab='home'; render(); window.scrollTo(0,0); };
+  const tf=$('#tutFix'); if(tf) tf.onclick=()=>tutorial(0);
 }
 // الألم أو الأعراض المزمنة لا يُبنى عليها تدرّج تلقائي في التقوية: يتوقف اقتراح التقدّم ويُنصح بتقييم مختص
 const careHold=()=>!!S.warned||(S.painAt&&dayDiff(S.painAt,today())<28);
@@ -1785,9 +2032,11 @@ const ARTICLES=[
 ];
 function renderLearn(){
   app.innerHTML=`<h1>تعلّم</h1><p class="muted">مقالات قصيرة تساعدك على التمرين الصحيح.</p>
+  <div class="card tcard"><div class="hrow" style="gap:12px"><span class="ic-badge" style="margin:0">${ic('target')}</span><div style="flex:1"><b>تدريب تفاعلي: الشد الصحيح</b><p class="small muted" style="margin:2px 0 0">${S.tut&&S.tut.passed?'أتقنته — راجعه متى شئت':'رسومات متحركة، ومختبر للإشارات، وتمرين موجّه مع كشف حبس النفس'}</p></div></div><button class="btn accent sm" id="tutL" style="margin-top:10px">${ic('play')}ابدأ</button></div>
   <div class="warn"><b class="hrow">${ic('alert')} تحذير طبي</b> هذا التطبيق أداة لياقة عامة وليس منتجًا طبيًا. إن كنت تعاني ألمًا في الحوض، أعراضًا بولية مزمنة، أو خضعت لجراحة حديثة، استشر طبيبًا قبل البدء. توقف فورًا إذا شعرت بألم.</div>
   ${ARTICLES.map(a=>isF()&&a[0]==='كيجل للرجال بعد جراحة البروستاتا'?ART_F:a).map(([t,b],i)=>`<details ${i===0?'open':''}><summary>${t}</summary><div>${typeof b==='function'?b():b}</div></details>`).join('')}
   ${CREDIT}`;
+  const tl=$('#tutL'); if(tl) tl.onclick=()=>tutorial(0);
 }
 
 /* ============ الإعدادات ============ */
@@ -2611,7 +2860,7 @@ function docCard(){
 const BK_SCHEMA=1; // رقم بنية ملف النسخة الاحتياطية (النسخ الأقدم بلا رقم تُعامل كبنية 0)
 function validState(st){
   if(!st||typeof st!=='object'||Array.isArray(st)) return false;
-  const D=/^\d{4}-\d{2}-\d{2}$/, arr=['logs','glu','a1c','meds','bl','iief','uiq','tests'], obj=['prof','ach','waterLog','heartLog','smokeLog','medLog','mealLog','checks','doc','ram','hc','water','heart','smoke'];
+  const D=/^\d{4}-\d{2}-\d{2}$/, arr=['logs','glu','a1c','meds','bl','iief','uiq','tests'], obj=['prof','tut','ach','waterLog','heartLog','smokeLog','medLog','mealLog','checks','doc','ram','hc','water','heart','smoke'];
   if(!Array.isArray(st.logs)) return false;
   for(const k of arr) if(st[k]!==undefined&&!Array.isArray(st[k])) return false;
   for(const k of obj) if(st[k]!==undefined&&(st[k]===null||typeof st[k]!=='object'||Array.isArray(st[k]))) return false;

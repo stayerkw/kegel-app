@@ -107,3 +107,8 @@
 ADA — Standards of Care in Diabetes {n}، القسم {n} (التوصية {n})|ADA — Standards of Care in Diabetes {n}, Section {n} (Rec. {n})
 ADA — Standards of Care in Diabetes {n}، القسم {n}|ADA — Standards of Care in Diabetes {n}, Section {n}
 بديل لأنك ذكرت حساسية من {s}.|Alternative because you reported an allergy to {s}.
+الحسّاس لاحظ أن حركة تنفّسك توقفت أثناء الشد في {n} من {n} تكرارات.|The sensor noticed your breathing stopped during the squeeze in {n} of {n} repetitions.
+جرّبت {n} مرات دون أن تشعر بالشد الصحيح. هذا شائع، والحل الأفضل جلسة مع أخصائي علاج طبيعي لقاع الحوض: يستخدم الموجات فوق الصوتية أو جهاز «البيوفيدباك» ليريك العضلة وهي تعمل على الشاشة.|You've tried {n} times without feeling the correct squeeze. That's common — the best next step is a session with a pelvic floor physiotherapist, who can use ultrasound or biofeedback to show the muscle working on screen.
+تكرار {n} من {n}|Rep {n} of {n}
+{s}. واحد|{s}. One
+{s} — {s}|{s} — {s}

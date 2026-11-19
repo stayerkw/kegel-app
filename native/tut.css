@@ -1,0 +1,68 @@
+/* ===== التدريب التعليمي ===== */
+.tutm .sheet{max-height:92vh}
+.tut h2{margin:6px 0 8px;color:var(--title)}.tut h3{margin:16px 0 8px}
+.tsteps{margin:4px 0 10px}
+.tut svg text,.tlbl{direction:ltr;unicode-bidi:plaintext}
+.tlbl{font-size:11px;fill:var(--muted);font-family:inherit}.tacc{fill:var(--accent);font-weight:700}
+.tsling{width:100%;max-width:340px;display:block;margin:8px auto}
+.tsl-p{transition:d .6s cubic-bezier(.16,1,.3,1)}.tsl-b{fill:var(--accent);transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.tarr{opacity:0;transition:opacity .3s,transform .6s cubic-bezier(.16,1,.3,1)}
+.tsl-t1,.tsl-t2{font-size:12px;font-weight:700;fill:var(--title);font-family:inherit;opacity:0;transition:opacity .3s}
+.tsling.up .tsl-p{d:path("M40 70 Q150 96 260 70")}.tsling.up .tsl-b{transform:translateY(-26px)}.tsling.up .tarr{opacity:1;transform:translateY(-6px)}.tsling.up .tsl-t1{opacity:1}
+.tsling.rel .tsl-t2{opacity:1}
+/* عرض متكرر: 3 ث شد ثم 3 ث إفلات */
+.tsling.demo .tsl-p{animation:slP 6s cubic-bezier(.45,0,.2,1) infinite}
+.tsling.demo .tsl-b{animation:slB 6s cubic-bezier(.45,0,.2,1) infinite}
+.tsling.demo .tarr{animation:slA 6s infinite}
+.tsling.demo .tsl-t1{animation:slT1 6s infinite}.tsling.demo .tsl-t2{animation:slT2 6s infinite}
+@keyframes slP{0%,8%{d:path("M40 70 Q150 150 260 70")}30%,52%{d:path("M40 70 Q150 96 260 70")}74%,100%{d:path("M40 70 Q150 150 260 70")}}
+@keyframes slB{0%,8%{transform:none}30%,52%{transform:translateY(-26px)}74%,100%{transform:none}}
+@keyframes slA{0%,12%{opacity:0;transform:translateY(6px)}30%,50%{opacity:1;transform:translateY(-6px)}60%,100%{opacity:0;transform:translateY(-6px)}}
+@keyframes slT1{0%,10%{opacity:0}22%,52%{opacity:1}58%,100%{opacity:0}}
+@keyframes slT2{0%,58%{opacity:0}66%,94%{opacity:1}100%{opacity:0}}
+.tmist{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.tmist figure{margin:0;text-align:center;background:var(--bg);border-radius:14px;padding:10px 4px}
+.tmist svg{width:62px;height:62px}.tmist figcaption{font-size:12px;margin-top:4px}
+.tstrike{stroke-dasharray:90;stroke-dashoffset:90;animation:strike .5s cubic-bezier(.16,1,.3,1) forwards}
+.tmist figure:nth-child(2) .tstrike{animation-delay:.15s}.tmist figure:nth-child(3) .tstrike{animation-delay:.3s}
+@keyframes strike{to{stroke-dashoffset:0}}
+.teff{width:100%;max-width:340px;display:block;margin:6px auto}
+.teb{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);animation:bar .4s cubic-bezier(.16,1,.3,1) forwards;animation-delay:calc(.25s + var(--i)*.15s)}
+@keyframes bar{to{transform:scaleY(1)}}
+.tbr{width:100%;max-width:340px;display:block;margin:8px auto}
+.tbz{opacity:.1}.tbz1{animation:bz1 8s linear infinite}.tbz2{animation:bz2 8s linear infinite}
+@keyframes bz1{0%,24%{opacity:.1}26%,49%{opacity:.32}51%,100%{opacity:.1}}
+@keyframes bz2{0%,74%{opacity:.1}76%,99%{opacity:.32}100%{opacity:.1}}
+.tbr-dot{fill:var(--card);stroke:var(--water);stroke-width:4;offset-rotate:0deg;animation:dot 8s linear infinite}
+@keyframes dot{from{offset-distance:0%}to{offset-distance:100%}}
+.thand{width:100%;max-width:280px;display:block;margin:6px auto}
+.tglute{transform-box:fill-box;transform-origin:center;animation:glute 6s cubic-bezier(.45,0,.2,1) infinite}
+.tg-tense{opacity:0;animation:tense 6s infinite}.th-ok{animation:hOk 6s infinite}.th-bad{opacity:0;animation:hBad 6s infinite}
+@keyframes glute{0%,45%{transform:none}55%,90%{transform:scale(.9,1.06)}100%{transform:none}}
+@keyframes tense{0%,48%{opacity:0}56%,90%{opacity:1}98%,100%{opacity:0}}
+@keyframes hOk{0%,45%{opacity:1}52%,94%{opacity:0}100%{opacity:1}}
+@keyframes hBad{0%,48%{opacity:0}56%,90%{opacity:1}98%,100%{opacity:0}}
+.tstep{background:var(--bg);border-radius:16px;padding:12px;margin:10px 0}.tstep p{margin:6px 0 0}
+.tcue{border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;transition:border-color .2s,background .2s}
+.tcue.best{border-color:var(--accent);background:var(--accentSoft)}
+.tcue-h{display:flex;justify-content:space-between;align-items:center;gap:8px}.tcue p{margin:6px 0}
+.trate{display:flex;flex-wrap:wrap;gap:6px}
+.trate button{min-height:40px;padding:6px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:13px;transition:background .15s,border-color .15s,color .15s}
+.trate button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.tq{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.tq span{flex:1;font-size:14px}
+.tcheck{background:var(--bg);border-radius:14px;padding:10px 12px;margin:10px 0}.tcheck summary{font-weight:700;display:flex;gap:6px;align-items:center}.tcheck summary .ic{width:18px;height:18px}
+.tprac{display:flex;flex-direction:column;align-items:center;gap:6px;margin:12px 0}
+.tring{position:relative;width:132px;height:132px}.tring svg{width:100%;height:100%}.tring>div{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.tring b{font-size:40px;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}.tring span{font-size:12px;color:var(--muted)}
+.tphase{font-size:20px;font-weight:800;color:var(--title)}
+.tsens{min-height:20px}.tsens .ic{width:16px;height:16px;vertical-align:-3px}.warnc{color:#C77700}.okc{color:#0F9D6E}
+.tok{border:1px solid #0F9D6E}.tfix{border:1px solid var(--line)}
+.tnav{margin-top:14px}
+.tcard{border:1px solid var(--accent)}
+@media (prefers-reduced-motion:reduce){
+ .tsling.demo .tsl-p,.tsling.demo .tsl-b,.tsling.demo .tarr,.tsling.demo .tsl-t1,.tsling.demo .tsl-t2,.tbz1,.tbz2,.tbr-dot,.tglute,.tg-tense,.th-ok,.th-bad{animation:none}
+ .tsling.demo .tsl-p{d:path("M40 70 Q150 96 260 70")}.tsling.demo .tarr,.tsling.demo .tsl-t1{opacity:1}.tsling.demo .tsl-b{transform:translateY(-26px)}
+ .tbz{opacity:.25}.tbr-dot{display:none}.th-bad{opacity:0}
+ .tstrike{animation:none;stroke-dashoffset:0}.teb{animation:none;transform:none}
+ .tsl-p,.tsl-b,.tarr{transition-duration:.01s}
+}
