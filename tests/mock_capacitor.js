@@ -4,7 +4,7 @@ const mk=(n)=>({
   checkPermissions:async()=>({display:'granted'}), requestPermissions:async()=>({display:'granted'}),
   getPending:async()=>({notifications:[]}), cancel:async()=>{}, createChannel:async()=>{}, registerActionTypes:async()=>{},
   schedule:async(o)=>{window.__sched=o.notifications;}, addListener:(e,f)=>{window['__l_'+n+'_'+e]=f; return {remove(){}};},
-  update:async(o)=>{window.__wb.push(o);}, impact:async()=>{}, notification:async()=>{}, vibrate:async()=>{},
+  update:async(o)=>{window.__wb.push(o);}, consumePendingWater:async()=>{ const r={items:window.__pendW||[]}; window.__pendW=[]; return r; }, impact:async()=>{}, notification:async()=>{}, vibrate:async()=>{},
   keepAwake:async()=>{}, speak:async(o)=>{window.__said=(window.__said||[]).concat([o.text]);}, openInstall:async()=>{}, allowSleep:async()=>{}, getLaunchUrl:async()=>({url:''}), exitApp(){}, changeExactNotificationSetting:async()=>{}
 });
 window.Capacitor={isNativePlatform:()=>true, registerPlugin:(n)=>mk(n)};

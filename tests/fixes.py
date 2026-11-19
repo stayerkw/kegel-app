@@ -73,6 +73,14 @@ async def main():
         r = await pg.evaluate("(tab='men',S.hseg='men',render(),document.querySelector('#app').innerText.includes('تقييمًا قلبيًا'))")
         check('قسم الرجال: تنبيه ألم الصدر أثناء الجهد', r)
 
+        # الويدجت: أكواب الماء المضافة من الشاشة الرئيسية تُسجّل في يومها، وتُرسل اللغة والوضع المحايد
+        r = await pg.evaluate("""(async()=>{ const y=addDays(today(),-1); S.waterLog={}; window.__pendW=[{date:y,n:2},{date:today(),n:1}];
+          await pullWidgetWater(); S.wDiscreet=true; updateWidget(); const w=window.__wb[window.__wb.length-1];
+          return [S.waterLog[y], S.waterLog[today()], w.discreet, w.lang]; })()""")
+        check('الويدجت: مزامنة الماء + الوضع المحايد + اللغة', r == [2, 1, True, 'ar'], r)
+        r = await pg.evaluate("(async()=>{ window.__pendW=[]; return await pullWidgetWater(); })()")
+        check('الويدجت: لا شيء معلّق = لا تغيير', r is False, r)
+
         # 9) لا حيلة تعليقات HTML في القوالب
         r = await pg.evaluate("document.documentElement.outerHTML.includes(\"'<!--'\")")
         check('تنظيف: لا إخفاء بالتعليقات', not r)

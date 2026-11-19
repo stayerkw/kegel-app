@@ -983,7 +983,15 @@ function addWater(n){
 }
 function updateWidget(){
   if(!WB||!S.onboarded) return; const plan=planFor(S.progDay);
-  try{ WB.update({day:String(S.progDay),streak:String(streak()),done:String(Math.min(dailyDoneOn(today()),plan.n)),need:String(plan.n),water:String(waterToday()),waterGoal:String(S.water.goal),dayDone:S.dayDoneOn===today()}).catch(()=>{}); }catch(e){}
+  try{ WB.update({day:String(S.progDay),streak:String(streak()),done:String(Math.min(dailyDoneOn(today()),plan.n)),need:String(plan.n),water:String(waterToday()),waterGoal:String(S.water.goal),dayDone:S.dayDoneOn===today(),lang:LANG==='en'?'en':'ar',discreet:!!S.wDiscreet}).catch(()=>{}); }catch(e){}
+}
+/* أكواب الماء المضافة من الويدجت دون فتح التطبيق: تُسجّل في يومها الصحيح */
+async function pullWidgetWater(){
+  if(!WB||!WB.consumePendingWater) return false;
+  try{ const r=await WB.consumePendingWater(); const items=(r&&r.items)||[]; let n=0;
+    items.forEach(({date,n:k})=>{ if(/^\d{4}-\d{2}-\d{2}$/.test(date)&&k>0&&k<50){ S.waterLog[date]=(S.waterLog[date]||0)+k; n+=k; } });
+    if(n){ save(); updateWidget(); reschedule(); if(screen==='tabs') render(); }
+    return n>0; }catch(e){ return false; }
 }
 function startNext(){ const plan=planFor(S.progDay); if(S.dayDoneOn===today()) startSession('quick'); else startSession('daily',plan,Math.min(dailyDoneOn(today()),plan.n-1)); }
 let _lastUrl={u:'',t:0};
@@ -2199,6 +2207,7 @@ function renderSettings(){
    ${S.hc.on&&HCP?'<div class="set"><span class="small muted">إدارة الصلاحيات</span><button class="btn ghost sm" id="hcSet">فتح Health Connect</button></div>':''}
   </div>
   <h2>الأمان والنسخ الاحتياطي</h2><div class="card">
+   <div class="set"><span>ويدجت محايد<br><span class="small muted">يخفي النصوص من ويدجت الشاشة الرئيسية ويبقي الحلقات والأرقام</span></span><button class="sw ${S.wDiscreet?'on':''}" id="wdOn" aria-pressed="${!!S.wDiscreet}" aria-label="ويدجت محايد"></button></div>
    <div class="set"><span>قفل بالبصمة<br><span class="small muted">يُطلب عند فتح التطبيق وبعد دقيقة في الخلفية</span></span><button class="sw ${S.lock?'on':''}" id="lkOn" aria-pressed="${!!S.lock}" aria-label="قفل بالبصمة"></button></div>
    <div class="set"><span>نسخة احتياطية<br><span class="small muted">${S.lastBackup?'آخر نسخة: '+S.lastBackup:'لم تُحفظ نسخة بعد'} — احفظها في Google Drive</span></span><button class="btn ghost sm" id="bkE">${ic('download')}حفظ</button></div>
    <div class="set"><label for="bkF">استعادة من ملف</label><span><input type="file" id="bkF" accept="application/json,.json,*/*" class="visually-hidden"><label for="bkF" class="btn ghost sm" role="button" tabindex="0">${ic('upload')}اختيار ملف</label></span></div>
@@ -2261,6 +2270,7 @@ function renderSettings(){
   $('#fsz').onchange=e=>{ S.fs=e.target.value; save(); render(); };
   on('#hcS',async()=>{ if(S.hc.on){ await hcSync(true); toast('تم التحديث'); render(); } else hcConnect(); });
   on('#hcSet',()=>{ HCP.openHealthConnectSettings().catch(()=>{}); });
+  on('#wdOn',()=>{ S.wDiscreet=!S.wDiscreet; save(); updateWidget(); render(); });
   on('#lkOn',toggleLock); on('#bkE',exportBackup); on('#ppol',privacySheet);
   $('#bkF').onchange=e=>{ importBackup(e.target.files[0]); e.target.value=''; };
   $('#back1').onclick=()=>{ if(S.progDay>1){ S.progDay--; S.dayDoneOn=null; save(); render(); } };
@@ -3152,7 +3162,7 @@ if(APP){
     APP.exitApp();
   });
   APP.addListener('pause',()=>{ _bgAt=Date.now(); flushReschedule(); });
-  APP.addListener('resume',()=>{ if(S.lock && _bgAt && Date.now()-_bgAt>60000) showLock(); rollover(); if(screen!=='session'&&screen!=='test') render(); scheduleReminders(); hcSync().then(ch=>{ if(ch&&screen==='tabs') render(); }); });
+  APP.addListener('resume',()=>{ pullWidgetWater(); if(S.lock && _bgAt && Date.now()-_bgAt>60000) showLock(); rollover(); if(screen!=='session'&&screen!=='test') render(); scheduleReminders(); hcSync().then(ch=>{ if(ch&&screen==='tabs') render(); }); });
   APP.addListener('appUrlOpen',e=>handleUrl(e&&e.url));
   try{ APP.getLaunchUrl().then(r=>{ if(r&&r.url) setTimeout(()=>handleUrl(r.url),300); }).catch(()=>{}); }catch(e){}
 }
@@ -3181,6 +3191,7 @@ rollover(); render();
 // الدولة التي اختارها المستخدم أولًا، ثم المكتشفة
 if(!S.ctryInit){ S.ctryInit=1; const c=ctry(); if(!S.onboarded&&c&&CTRY[c]) S.gUnit=CTRY[c][1]; if(c&&CTRY[c]&&!CTRY[c][3]) S.ram.mode='off'; save(); }
 if(S.onboarded) scheduleReminders();
+if(S.onboarded) pullWidgetWater();
 if(S.doc&&S.doc.pend) setTimeout(docConfirm,1500);
 if(S.lock){ applySecure(); showLock(); }
 if(S.hc.on) hcSync(true).then(ch=>{ if(ch&&screen==='tabs') render(); });

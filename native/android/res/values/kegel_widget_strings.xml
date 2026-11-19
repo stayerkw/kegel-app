@@ -2,11 +2,21 @@
 <resources>
     <string name="w_title">Vigoris</string>
     <string name="w_day_fmt">اليوم %1$s من 180</string>
-    <string name="w_streak_lbl">أيام متتالية</string>
-    <string name="w_sessions_lbl">جلسات اليوم</string>
-    <string name="w_water_lbl">أكواب الماء</string>
+    <string name="w_sessions_lbl">جلسات</string>
+    <string name="w_water_lbl">ماء</string>
     <string name="w_go">ابدأ الجلسة</string>
     <string name="w_extra">جلسة إضافية</string>
     <string name="w_add_water">+ كوب ماء</string>
-    <string name="w_desc">سلسلتك وجلسات اليوم والماء، مع بدء جلسة بلمسة</string>
+    <string name="w_water_added">أُضيف كوب ماء</string>
+    <string name="w_desc">سلسلتك وجلسات اليوم والماء، مع بدء جلسة وإضافة الماء بلمسة</string>
+    <!-- English (يختارها التطبيق حسب لغته لا حسب لغة الجهاز) -->
+    <string name="w_day_fmt_en">Day %1$s of 180</string>
+    <string name="w_sessions_lbl_en">sessions</string>
+    <string name="w_water_lbl_en">water</string>
+    <string name="w_go_en">Start session</string>
+    <string name="w_extra_en">Extra session</string>
+    <string name="w_add_water_en">+ Glass of water</string>
+    <!-- الوضع المحايد: بلا أي كلمة تكشف طبيعة التطبيق -->
+    <string name="w_go_discreet">ابدأ</string>
+    <string name="w_go_discreet_en">Start</string>
 </resources>
