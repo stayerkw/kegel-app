@@ -122,3 +122,7 @@ ADA — Standards of Care in Diabetes {n}، القسم {n}|ADA — Standards of 
 جولة {n} من 3|Round {n} of 3
 {s} ث|{s} s
 {s} · الأيام {n}–{n}|{s} · days {n}–{n}
+{n}% شد ورفع|{n}% squeeze and lift
+{n}% إفلات|{n}% released
+{n}% شد|{n}% squeeze
+القادم: {s} · {n} ث|Next: {s} · {n} s

@@ -496,6 +496,14 @@ body.immersive.ph-sq #lvH,body.immersive.ph-hold #lvH,body.immersive.ph-e3 #lvH{
 .dim-veil span{font-size:16px;color:#3F4E63}
 .dim-veil small{font-size:12px;color:#253246;margin-top:24px}
 .dim-veil:focus{outline:none}
+/* الفيديو الطبي في شاشة التمرين */
+.med-stage{background:#071A2E;width:100%;max-width:720px;margin:2px auto 0;aspect-ratio:720/412;border-radius:18px;overflow:hidden;position:relative}
+.med-stage video{display:block;width:100%;height:100%;object-fit:contain;background:#071A2E;pointer-events:none}
+.med-stage video::-webkit-media-controls{display:none!important}
+/* هالة بيضاء خافتة جدًا خلف العدّاد حتى يبقى الرقم و«ثانية» واضحين */
+
+body.immersive .count{text-shadow:0 2px 10px rgba(0,0,0,.45)}
+body.immersive .ring-center .muted{color:#C7D7E2}
 @media (prefers-reduced-motion:reduce){.count.pop{animation:none}.orb-aura{transition:none;transform:scale(.95)}.next-pill,.elv-bars i{transition:none}body.immersive{transition:none}}
 /* ===== الرئيسية: بطاقات قابلة للضغط، شريط الجلسات، عادات اليوم ===== */
 button.scard{border:0;font:inherit;color:inherit;text-align:start;width:100%;cursor:pointer}
@@ -547,6 +555,68 @@ body.dark .scard,body.dark .dcard{border:1px solid var(--line)}
 @media (prefers-reduced-motion:reduce){.scard,.hmini{transition:none}button.scard:active,.hmini:active,.scard.water:active{transform:none}}
 @media (max-width:360px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.scard{padding:10px;gap:8px}.sic{width:34px;height:34px}.sv b{font-size:18px}.wactions{grid-template-columns:1fr}.spills{gap:6px}.spill{padding:7px 8px}}
 @media (min-width:900px){body.wide-nav .hban{margin:14px 0 0}}
+
+/* ===== شاشة التمرين والعدّاد الاحترافي 3.0 (من التصميم المعتمد) ===== */
+body.immersive{--orbA:#22D3EE;--orbB:#0A8E9E;--orbGlow:rgba(34,211,238,.26);--orbRingBg:rgba(255,255,255,.07);background:radial-gradient(95% 52% at 50% 14%,var(--orbGlow) 0%,rgba(7,26,46,.92) 56%,#040F1C 100%) fixed;background-color:#040F1C}
+body.immersive.ph-ready{--orbA:#38BDF8;--orbB:#0284C7;--orbGlow:rgba(56,189,248,.16)}
+body.immersive.ph-sq,body.immersive.ph-e1,body.immersive.ph-e2{--orbA:#22D3EE;--orbB:#0A8E9E;--orbGlow:rgba(34,211,238,.28)}
+body.immersive.ph-hold,body.immersive.ph-e3{--orbA:#A78BFA;--orbB:#06B6D4;--orbGlow:rgba(139,92,246,.30)}
+body.immersive.ph-rl,body.immersive.ph-out{--orbA:#94A3B8;--orbB:#475569;--orbGlow:rgba(148,163,184,.12)}
+body.immersive.ph-in{--orbA:#38BDF8;--orbB:#0EA5E9;--orbGlow:rgba(56,189,248,.24)}
+.sess{display:flex;flex-direction:column;gap:6px;min-height:calc(100dvh - 40px);justify-content:space-between;color:#F0F9FF}
+.sess .topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0}
+.sess .top-actions{display:flex;gap:8px;align-items:center}
+.sess .iconbtn{width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);color:#F0F9FF}
+.sess .iconbtn:active{transform:scale(.94)}
+.sess .top-meta{flex:1;text-align:center;min-width:0}
+.sess .top-meta b{display:block;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sess .top-meta .sub{font-size:12px;color:#8BB2C9;margin-top:2px;font-variant-numeric:tabular-nums;min-height:15px}
+.sess .orb-stage{position:relative;width:258px;height:258px;margin:2px auto;display:grid;place-items:center}
+.sess .orb-aura{position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,transparent 48%,var(--orbGlow) 64%,transparent 78%);transform:scale(var(--orbScale,.92));transition:transform .16s linear;pointer-events:none}
+.sess .orb-svg{position:absolute;inset:0;width:258px;height:258px;z-index:2;overflow:visible}
+.sess .dial-core{position:absolute;width:166px;height:166px;border-radius:50%;z-index:3;background:radial-gradient(circle at 50% 25%,#0D2942 0%,#061524 72%,#040E19 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 8px 20px rgba(255,255,255,.05),0 14px 32px rgba(0,0,0,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.sess .phase-chip{font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;margin-bottom:4px;background:rgba(34,211,238,.14);color:var(--orbA);border:1px solid rgba(34,211,238,.25);transition:color .3s,background .3s,border-color .3s;max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.ph-rl .sess .phase-chip,body.ph-out .sess .phase-chip{background:rgba(148,163,184,.14);color:#CBD5E1;border-color:rgba(148,163,184,.25)}
+body.ph-hold .sess .phase-chip,body.ph-e3 .sess .phase-chip{background:rgba(167,139,250,.18);color:#DDD6FE;border-color:rgba(167,139,250,.35)}
+body.immersive .sess .count{font-size:66px;font-weight:800;line-height:.95;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.45)}
+.sess .count.pop{animation:numPop .24s cubic-bezier(.16,1,.3,1)}
+.sess .sec-lbl{font-size:12.5px;font-weight:600;color:#8BB2C9;margin-top:4px}
+.sess .ring-ticks{fill:none;stroke:rgba(255,255,255,.14);stroke-width:2.2;stroke-dasharray:1.8 9.93}
+.sess .ring-track{fill:none;stroke:var(--orbRingBg);stroke-width:11}
+.sess #ring{fill:none;stroke:url(#orbGrad);stroke-width:11;stroke-linecap:round;filter:drop-shadow(0 0 8px var(--orbGlow))}
+.sess .ring-comet{fill:#fff;filter:drop-shadow(0 0 8px var(--orbA)) drop-shadow(0 0 3px #fff)}
+body.ph-ready .sess .ring-comet{opacity:0}
+.sess .orb-stage.beat{animation:beat .35s cubic-bezier(.16,1,.3,1)}
+.sess .elv-bars{display:flex;gap:8px;justify-content:center;align-items:center;height:18px;margin:-2px 0 0}
+.sess .elv-bars i{width:34px;height:6px;border-radius:999px;background:rgba(255,255,255,.12);transition:background .25s,transform .25s,box-shadow .25s}
+.sess .elv-bars i.on{background:var(--orbA);transform:scaleY(1.3);box-shadow:0 0 12px var(--orbGlow)}
+.sess .anat-card{position:relative;border-radius:20px;padding:10px 14px 8px;background:linear-gradient(180deg,rgba(13,41,66,.55) 0%,rgba(5,19,34,.75) 100%);border:1px solid rgba(255,255,255,.10);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 26px -14px rgba(0,0,0,.6);overflow:hidden;width:100%;max-width:720px;margin:0 auto;box-sizing:border-box}
+.sess .anat-head{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:#8BB2C9;margin-bottom:2px}
+.sess .anat-head b{color:var(--orbA);font-variant-numeric:tabular-nums;font-size:12px}
+.sess .anat-svg{width:100%;height:106px;display:block;overflow:visible;direction:ltr}
+.sess .anat-svg .atx{fill:rgba(148,163,184,.65);font-size:9.5px;font-family:inherit}
+.sess .anat-svg .lv-glow{stroke:var(--orbA)}
+.sess .anat-meter{height:4px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:4px}
+.sess .anat-meter i{display:block;height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--orbB),var(--orbA));box-shadow:0 0 10px var(--orbGlow);transition:width .08s linear}
+.sess .med-stage{margin:4px 0 0;border-radius:12px}
+.sess .guide-box{text-align:center;margin:2px 0}
+.sess .phase{font-size:24px;font-weight:800;margin:0;color:#fff!important}
+.sess .hint{font-size:13.5px;color:#8BB2C9;margin:4px 8px 0;min-height:38px;line-height:1.5}
+.sess .next-pill{display:inline-flex;visibility:visible;opacity:1;align-items:center;gap:6px;margin-top:4px;padding:5px 14px;border-radius:999px;font-size:12px;font-weight:600;background:rgba(255,255,255,.055);color:#CBD5E1;border:1px solid rgba(255,255,255,.10);transition:all .25s ease;min-height:0}
+.sess .next-pill.soon{background:rgba(34,211,238,.18);color:#CCFBF1;border-color:rgba(34,211,238,.45);box-shadow:0 0 16px rgba(34,211,238,.22)}
+.sess .dots{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:2px 0}
+.sess .dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .25s ease}
+.sess .dots i.on{background:var(--orbB)}.sess .dots i.cur{background:var(--orbA);transform:scale(1.35);box-shadow:0 0 10px var(--orbGlow)}
+.sess .pbar{height:6px;border-radius:999px;background:rgba(255,255,255,.10);overflow:hidden;margin:8px 0 0}
+.sess .pbar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--orbB),var(--orbA));transition:width .15s linear}
+.sess .controls{display:grid;grid-template-columns:1.35fr 1fr;gap:10px;margin-top:4px}
+.sess .btn{min-height:52px;border-radius:16px;font-weight:700;font-size:15.5px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:10px}
+.sess .btn:active{transform:scale(.97)}
+.sess .btn.primary{background:#F0F9FF;color:#051829;box-shadow:0 8px 22px -8px rgba(240,249,255,.35)}
+.sess .btn.ghost{background:rgba(255,255,255,.055);color:#F0F9FF;border:1px solid rgba(255,255,255,.10)}
+.sess .pocket-tip{text-align:center;font-size:12px;color:#8BB2C9;margin:2px 0 0;opacity:.85}
+@media (max-height:700px){.sess .orb-stage{transform:scale(.86);margin:-14px auto}.sess .hint{min-height:0}}
+@media (prefers-reduced-motion:reduce){.sess .count.pop,.sess .orb-aura,.sess .anat-meter i,.sess .orb-stage.beat{animation:none!important;transition:none!important}}
 /* الشاشات العريضة: شريط جانبي */
 @media (min-width:900px){
  body.wide-nav #app{max-width:none;margin:0;margin-inline-start:248px;padding-inline:28px;padding-bottom:40px}
@@ -1943,7 +2013,7 @@ function enterStep(){
     else if(st.d>=2) speak(st.t==='rl'?'استرخِ':st.t==='sq'&&st.lbl==='hold'?'اضغط واثبت':curLabel(st)[0]);
   }
   R.lastSec=null; updateSession(true);
-  const rw=document.querySelector('.ring-wrap'); if(rw && st.t!=='ready'){ rw.classList.remove('beat'); void rw.offsetWidth; rw.classList.add('beat'); }
+  const rw=document.querySelector('.orb-stage'); if(rw && st.t!=='ready'){ rw.classList.remove('beat'); void rw.offsetWidth; rw.classList.add('beat'); }
 }
 function tick(){
   if(!R||R.paused) { if(R) R.last=performance.now(); return; }
@@ -1964,31 +2034,81 @@ function tick(){
   updateSession(false);
 }
 function drawSession(){
-  const C=2*Math.PI*96;
-  app.innerHTML=`
-  <div class="topbar"><button class="iconbtn" id="xBtn" aria-label="خروج">${ic('x')}</button>
-    <div class="center"><b id="sTitle" class="small">${R.s.title}</b><div class="small muted" id="repTxt"></div></div>
-    <div class="tbtns"><button class="iconbtn" id="dimBtn" aria-label="تعتيم الشاشة (وضع الجيب)">${ic('eye')}</button><button class="iconbtn" id="vBtn" aria-label="الصوت">${ic(S.voice?'volOn':'volOff')}</button></div></div>
-  <div class="ring-wrap orb" id="orb"><span class="orb-aura" aria-hidden="true"></span><svg width="240" height="240" viewBox="0 0 240 240" aria-hidden="true">
-    <defs><linearGradient id="orbGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="og-a"/><stop offset="1" class="og-b"/></linearGradient></defs>
-    <circle class="ring-ticks" cx="120" cy="120" r="110" fill="none"/>
-    <circle class="ring-bg" cx="120" cy="120" r="96" fill="none" stroke="var(--line)" stroke-width="10"/>
-    <circle id="ring" cx="120" cy="120" r="96" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}"/>
-    <circle class="ring-dot" id="ringDot" cx="216" cy="120" r="5.5"/></svg>
-    <div class="ring-center"><div class="count" id="cnt">3</div><div class="small muted">ثانية</div></div></div>
+  const C=2*Math.PI*103, breath=R.s.kind==='breath';
+  app.innerHTML=`<div class="sess">
+  <header class="topbar"><button class="iconbtn" id="xBtn" aria-label="خروج">${ic('x')}</button>
+    <div class="top-meta"><b id="sTitle">${R.s.title}</b><div class="sub" id="repTxt"></div></div>
+    <div class="top-actions"><button class="iconbtn" id="dimBtn" aria-label="تعتيم الشاشة (وضع الجيب)">${ic('eye')}</button><button class="iconbtn" id="vBtn" aria-label="الصوت">${ic(S.voice?'volOn':'volOff')}</button></div></header>
+  <section class="orb-stage" id="orb" aria-hidden="true"><div class="orb-aura"></div>
+    <svg class="orb-svg" viewBox="0 0 258 258"><defs><linearGradient id="orbGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="og-a"/><stop offset="1" class="og-b"/></linearGradient></defs>
+      <circle class="ring-ticks" cx="129" cy="129" r="118"/><circle class="ring-track" cx="129" cy="129" r="103"/>
+      <circle id="ring" cx="129" cy="129" r="103" transform="rotate(-90 129 129)" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${C.toFixed(2)}"/>
+      <g id="cometWrap"><circle class="ring-comet" cx="129" cy="26" r="6"/></g></svg>
+    <div class="dial-core"><span class="phase-chip" id="phChip">استعد</span><div class="count" id="cnt">3</div><div class="sec-lbl">ثانية</div></div></section>
   ${R.s.pattern==='elevator'?'<div class="elv-bars" id="elvBars" aria-hidden="true"><i></i><i></i><i></i></div>':''}
-  ${R.s.kind==='breath'?'':liveHammock()}
-  <div class="phase" id="ph" role="status" aria-live="polite" aria-atomic="true">استعد</div><p class="hint" id="hint"></p>
-  <div class="center"><span class="next-pill" id="nextPill" aria-hidden="true"></span></div>
-  <div class="dots" id="dots"></div>
-  <div class="pbar" style="margin:8px 0 16px"><i id="tot" style="width:0"></i></div>
-  <div class="row"><button class="btn" id="pBtn">${ic('pause')}إيقاف مؤقت</button><button class="btn ghost" id="sBtn">تخطّي الجلسة</button></div>
-  <p class="small muted center hrow" style="margin-top:14px;justify-content:center">${ic('bulb')} ضع الهاتف في جيبك: نبضة قوية = اضغط · نبضتان = استرخِ</p>`;
+  ${breath?'':`<section class="anat-card" aria-hidden="true"><div class="anat-head"><span>حركة عضلات قاع الحوض</span><b id="anatPct">استعداد</b></div>
+    ${isFem()?ANAT_SVG:`<div class="med-stage"><video id="medVideo" muted playsinline preload="auto" disablepictureinpicture disableremoteplayback tabindex="-1"><source src="img/kegel_m.mp4" type="video/mp4"></video></div>`}
+    <div class="anat-meter"><i id="anatBar"></i></div></section>`}
+  <section class="guide-box"><div class="phase" id="ph" role="status" aria-live="polite" aria-atomic="true">استعد</div><p class="hint" id="hint"></p>
+    <span class="next-pill" id="nextPill" aria-hidden="true"></span></section>
+  <div><div class="dots" id="dots"></div><div class="pbar"><i id="tot"></i></div></div>
+  <div class="controls"><button class="btn primary" id="pBtn">${ic('pause')}إيقاف مؤقت</button><button class="btn ghost" id="sBtn">تخطّي الجلسة</button></div>
+  <p class="pocket-tip">ضع الهاتف في جيبك: نبضة قوية = اضغط · نبضتان = استرخِ</p></div>`;
   $('#pBtn').onclick=togglePause;
   $('#xBtn').onclick=()=>askExit();
   $('#sBtn').onclick=()=>askExit(true);
   $('#vBtn').onclick=()=>{ S.voice=!S.voice; save(); $('#vBtn').innerHTML=ic(S.voice?'volOn':'volOff'); };
   $('#dimBtn').onclick=dimOn;
+  // الفيديو لا يعمل تلقائيًا ولا يعيد التشغيل: موضعه يتبع العدّاد فقط
+  const mv=$('#medVideo'); if(mv){ mv.muted=true; mv.defaultMuted=true; mv.loop=false; mv.autoplay=false; mv.pause();
+    mv.addEventListener('play',()=>mv.pause()); mv.addEventListener('loadedmetadata',()=>{ if(R) updateSession(false); });
+    medVideoBlob().then(u=>{ if(u&&mv.isConnected&&mv.src!==u){ mv.src=u; mv.load(); } }); }
+}
+/* التقديم الدقيق يحتاج ملفًا قابلًا للتقديم بالكامل: بعض الخوادم المحلية لا تدعم طلبات النطاق (Range)
+   فيبقى الفيديو عالقًا عند 0. نحمّل الملف (≈200 ك.ب) مرة واحدة إلى الذاكرة ونشغّله من رابط blob. */
+let _medBlob=null;
+function medVideoBlob(){ if(!_medBlob) _medBlob=fetch('img/kegel_m.mp4').then(r=>r.ok?r.blob():null).then(b=>b?URL.createObjectURL(b):null).catch(()=>null); return _medBlob; }
+/* الرسم التشريحي الزجاجي لقاع الحوض: ثلاث طبقات ألياف تتوهج وترتفع، وأسهم رفع، وعضو يرتفع (للنساء؛ وللرجال الفيديو الطبي) */
+const ANAT_SVG=`<svg class="anat-svg" viewBox="0 0 320 112"><defs>
+  <linearGradient id="slingGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0E7490"/><stop offset=".5" class="og-a"/><stop offset="1" stop-color="#0E7490"/></linearGradient>
+  <radialGradient id="organGrad" cx="50%" cy="35%" r="65%"><stop offset="0" stop-color="#38BDF8" stop-opacity=".30"/><stop offset="1" stop-color="#0C4A6E" stop-opacity=".08"/></radialGradient>
+  <filter id="muscleGlow" x="-25%" y="-40%" width="150%" height="180%"><feGaussianBlur stdDeviation="4.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <line x1="24" y1="92" x2="296" y2="92" stroke="rgba(255,255,255,.06)" stroke-dasharray="4 6"/><line x1="24" y1="54" x2="296" y2="54" stroke="rgba(255,255,255,.05)" stroke-dasharray="3 7"/>
+  <path d="M36 22 C24 44, 24 72, 46 88" fill="none" stroke="rgba(203,213,225,.28)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M284 22 C296 44, 296 72, 274 88" fill="none" stroke="rgba(203,213,225,.28)" stroke-width="8" stroke-linecap="round"/>
+  <text x="34" y="15" class="atx" text-anchor="middle">العانة</text><text x="286" y="15" class="atx" text-anchor="middle">العصعص</text>
+  <g id="lvO"><ellipse cx="160" cy="40" rx="46" ry="22" fill="url(#organGrad)" stroke="rgba(56,189,248,.35)" stroke-width="1.5"/><ellipse cx="160" cy="36" rx="28" ry="11" fill="rgba(255,255,255,.06)"/></g>
+  <path id="lvGlow" class="lv-glow" d="M46 62 Q160 104 274 62" fill="none" stroke-width="16" stroke-linecap="round" opacity="0" filter="url(#muscleGlow)"/>
+  <path id="lvH" d="M46 62 Q160 104 274 62" fill="none" stroke="url(#slingGrad)" stroke-width="9" stroke-linecap="round"/>
+  <path id="lvFiber1" d="M54 64 Q160 98 266 64" fill="none" stroke="rgba(224,249,255,.55)" stroke-width="1.6" stroke-dasharray="8 6" stroke-linecap="round"/>
+  <path id="lvFiber2" d="M62 67 Q160 108 258 67" fill="none" stroke="rgba(34,211,238,.35)" stroke-width="2" stroke-linecap="round"/>
+  <g id="liftArrows" opacity="0"><path d="M160 76 V52 M153 59 L160 51 L167 59" fill="none" stroke="#A5F3FC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M112 72 V56 M107 61 L112 55 L117 61" fill="none" stroke="#67E8F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".75"/>
+    <path d="M208 72 V56 M203 61 L208 55 L213 61" fill="none" stroke="#67E8F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".75"/></g></svg>`;
+const CONTRACT=['sq','hold','e1','e2','e3'];
+function updateAnat(fill,st){
+  const pct=Math.round(fill*100), contracting=CONTRACT.includes(st.t);
+  const lbl=st.t==='ready'?T('استعداد'):T(contracting?pct+'% شد ورفع':pct+'% إفلات');
+  const ap=document.getElementById('anatPct'); if(ap&&ap.textContent!==lbl) ap.textContent=lbl;
+  const ab=document.getElementById('anatBar'); if(ab) ab.style.width=pct+'%';
+  const H=document.getElementById('lvH'); if(!H) return;
+  const sag=104-fill*46, d=`M46 62 Q160 ${sag.toFixed(1)} 274 62`;
+  H.setAttribute('d',d); const G=document.getElementById('lvGlow'); G.setAttribute('d',d); G.setAttribute('opacity',(fill*0.65).toFixed(2));
+  document.getElementById('lvFiber1').setAttribute('d',`M54 64 Q160 ${(sag-5).toFixed(1)} 266 64`);
+  document.getElementById('lvFiber2').setAttribute('d',`M62 67 Q160 ${(sag+5).toFixed(1)} 258 67`);
+  document.getElementById('lvO').setAttribute('transform',`translate(0 ${(-fill*13).toFixed(1)})`);
+  const arr=document.getElementById('liftArrows'); arr.setAttribute('opacity',contracting?Math.min(1,fill*1.4).toFixed(2):'0'); arr.setAttribute('transform',`translate(0 ${(-fill*10).toFixed(1)})`);
+}
+// شارة المرحلة داخل القرص
+const PH_CHIP={ready:'استعد',sq:'انقباض',hold:'ثبات',rl:'إفلات',e1:'33% شد',e2:'66% شد',e3:'100% شد',in:'شهيق',out:'زفير'};
+/* موضع الفيديو الطبي = fill (0 استرخاء كامل ← 1 انقباض ورفع كامل) في كل الأنماط: الكلاسيكي والمصعد والثبات الطويل */
+function syncMedVideo(fill){
+  const video=document.getElementById('medVideo'); if(!video) return;
+  const duration=Number.isFinite(video.duration)&&video.duration>0?video.duration:4;
+  const t=Math.max(0,Math.min(duration-0.001,fill*duration));
+  // لا نطلب موضعًا جديدًا إلا إذا تغيّر بأكثر من ربع إطار (15 إطارًا/ث) — يمنع تراكم طلبات التقديم على WebView
+  if(video.readyState>=1&&Math.abs(video.currentTime-t)>0.016) video.currentTime=t;
+  if(!video.paused) video.pause();
 }
 /* وضع الجيب: شاشة سوداء تقريبًا (خصوصية + توفير بطارية OLED) والصوت والاهتزاز مستمران؛ لمسة واحدة للعودة */
 function dimOn(){ if(document.getElementById('dimV')) return;
@@ -2000,32 +2120,31 @@ function dimOn(){ if(document.getElementById('dimV')) return;
 const dimOff=()=>{ const v=document.getElementById('dimV'); if(v) v.remove(); };
 const PH_CLS=['ph-ready','ph-sq','ph-rl','ph-hold','ph-in','ph-out','ph-e1','ph-e2','ph-e3'];
 function updateSession(full){
-  const st=R.s.steps[R.i], C=2*Math.PI*96;
+  const st=R.s.steps[R.i], C=2*Math.PI*103;
   let frac=Math.min(1,R.e/st.d);
   let fill = st.t==='out' ? 1-frac : st.t==='in' ? frac : st.t==='rl' ? 1-frac : st.t==='ready' ? 0 :
              st.t==='e1' ? frac/3 : st.t==='e2' ? 1/3+frac/3 : st.t==='e3' ? 2/3+frac/3 : frac;
   const ring=$('#ring'); if(!ring) return;
-  ring.setAttribute('stroke-dashoffset', C*(1-fill));
-  ring.setAttribute('stroke', st.t==='rl'||st.t==='out'?'var(--relax)':'var(--accent)');
+  syncMedVideo(fill); updateAnat(fill,st);
+  ring.setAttribute('stroke-dashoffset', (C*(1-fill)).toFixed(2));
   const secs=Math.max(1,Math.ceil(st.d-R.e)), cnt=$('#cnt');
   if(cnt.textContent!==String(secs)){ cnt.textContent=secs; if(!full){ cnt.classList.remove('pop'); void cnt.offsetWidth; cnt.classList.add('pop'); } }
   // الهالة تتنفس مع المرحلة، والنقطة الضوئية تدور على طرف القوس
-  const orb=$('#orb'); if(orb) orb.style.setProperty('--orbScale',(0.78+fill*0.34).toFixed(3));
-  const dot=$('#ringDot'); if(dot) dot.setAttribute('transform',`rotate(${(fill*360).toFixed(1)} 120 120)`);
+  const orb=$('#orb'); if(orb) orb.style.setProperty('--orbScale',(0.86+fill*0.20).toFixed(3));
+  const cw=$('#cometWrap'); if(cw) cw.setAttribute('transform',`rotate(${(fill*360).toFixed(2)} 129 129)`);
+  // شارة «القادم» ظاهرة دائمًا، وتتوهج قبل نهاية المرحلة بثانيتين
   const np=$('#nextPill'), nx=R.s.steps[R.i+1], left=st.d-R.e;
-  if(np){ if(nx&&st.t!=='ready'&&st.d>2&&left<=3){ const t=T('القادم: '+curLabel(nx)[0]+' ('+Math.round(nx.d)+' ث)'); if(np.textContent!==t) np.textContent=t; np.classList.add('show'); np.classList.toggle('soon',left<=2); }
-    else np.classList.remove('show','soon'); }
+  if(np){ const t=nx?T('القادم: '+T(curLabel(nx)[0])+' · '+Math.round(nx.d)+' ث'):T('المرحلة الأخيرة — أحسنت!');
+    if(np.textContent!==t) np.textContent=t; np.classList.toggle('soon',!nx||(st.d>2&&left<=2&&st.t!=='ready')); }
   const dn=document.getElementById('dimN'); if(dn){ dn.textContent=secs; const dp=document.getElementById('dimP'); if(dp) dp.textContent=$('#ph').textContent; }
-  const sag=Math.round(84-fill*52), H=$('#lvH'), O=$('#lvO');
-  if(H){ const d=`M36 44 Q130 ${sag} 224 44`; H.setAttribute('d',d); H.style.d=`path("${d}")`; H.setAttribute('stroke',st.t==='rl'||st.t==='ready'?'var(--relax)':'var(--accent)'); }
-  if(O) O.style.transform=`translateY(${(-fill*14).toFixed(1)}px)`;
   $('#tot').style.width=(R.elapsed/R.s.total*100)+'%';
   if(full){
     const pc=st.t==='sq'&&st.lbl==='hold'?'ph-hold':'ph-'+st.t;
     if(!document.body.classList.contains(pc)){ document.body.classList.remove(...PH_CLS); document.body.classList.add(pc); }
     const eb=$('#elvBars'); if(eb){ const lv=st.t==='e1'?1:st.t==='e2'?2:st.t==='e3'?3:0; eb.querySelectorAll('i').forEach((b,k)=>b.classList.toggle('on',k<lv)); }
     const L=curLabel(st);
-    $('#ph').textContent=L[0]; $('#ph').style.color=st.t==='rl'?'var(--muted)':'var(--accent)';
+    $('#ph').textContent=L[0];
+    const chip=$('#phChip'); if(chip) chip.textContent=T(st.t==='ready'&&R.s.pos?POS[R.s.pos][0]:PH_CHIP[pc.slice(3)]||'');
     $('#hint').textContent=L[1];
     const rep=st.rep||0, n=R.s.reps;
     $('#repTxt').textContent= rep? `${R.s.kind==='breath'?'نَفَس':'تكرار'} ${rep} من ${n}` : '';

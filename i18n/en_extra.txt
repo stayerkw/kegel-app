@@ -846,3 +846,14 @@ NIH — Clinical Methods: Impotence (الانتصاب الصباحي في الت
 اليد على الأرداف: يجب أن تبقى ليّنة|Hand on the buttocks: they should stay soft
 شدة الشد: 3 من 10|Squeeze strength: 3 out of 10
 المدة التي توصي الإرشادات بتقييم نتيجة التمارين عندها.|The point at which guidelines recommend assessing your results.
+شدّ|Squeeze
+ثبات|Hold
+إرخاء|Release
+الطابق 1|Floor 1
+قوة الشد|Squeeze strength
+حركة عضلات قاع الحوض|Pelvic floor movement
+استعداد|Get ready
+العانة|Pubic bone
+انقباض|Contract
+إفلات|Release
+المرحلة الأخيرة — أحسنت!|Last phase — well done!
