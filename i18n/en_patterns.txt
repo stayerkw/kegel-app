@@ -113,3 +113,12 @@ ADA — Standards of Care in Diabetes {n}، القسم {n}|ADA — Standards of 
 {s}. واحد|{s}. One
 {s} — {s}|{s} — {s}
 القادم: {s} ({n} ث)|Next: {s} ({n} s)
+أنت هنا · الأسبوع {n}|You are here · week {n}
+ملاحظات من أسابيعك أنت ({n} أسابيع)، وليست سببًا مؤكدًا.|Observations from your own weeks ({n} weeks), not a proven cause.
+نعرض ملاحظات تربط الانتصاب الصباحي بنومك وعاداتك بعد 4 أسابيع من الإجابات على الأقل (لديك {n}).|We show observations linking morning erections to your sleep and habits after at least 4 weeks of answers (you have {n}).
+اخترت {n} — تظهر في تقرير الطبيب.|You chose {n} — they appear in your doctor report.
+الالتزام هذا الأسبوع {n}% — الانتظام اليومي هو العامل الأهم، فابدأ بجلسة الدقيقة في الأيام المزدحمة.|Consistency this week is {n}% — daily regularity matters most, so use the one-minute session on busy days.
+أنت في الأسبوع {n}. التحسن يُقاس عادة بعد 12 أسبوعًا من الالتزام، فاستمر قبل الحكم.|You're in week {n}. Improvement is usually measured after 12 weeks of consistency, so keep going before judging.
+جولة {n} من 3|Round {n} of 3
+{s} ث|{s} s
+{s} · الأيام {n}–{n}|{s} · days {n}–{n}
