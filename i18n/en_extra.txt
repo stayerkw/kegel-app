@@ -934,3 +934,8 @@ NIH — Clinical Methods: Impotence (الانتصاب الصباحي في الت
 امشِ واشدّ|Walk and squeeze
 تقدّم|Advance
 الأسبوع|This week
+لم تصلك التذكيرات؟ تأكد أن إشعارات Vigoris مسموحة. (التذكيرات قد تتأخر دقائق قليلة لتوفير البطارية.)|Not getting reminders? Make sure Vigoris notifications are allowed. (Reminders may arrive a few minutes late to save battery.)
+فحص الإذن|Check permission
+الإشعارات مسموحة — أُعيدت جدولة تذكيراتك|Notifications are allowed — your reminders were rescheduled
+الإشعارات مرفوضة: افتح إعدادات الجوال ← التطبيقات ← Vigoris ← الإشعارات، وفعّلها|Notifications are blocked: open phone Settings → Apps → Vigoris → Notifications and turn them on
+تعذّر فحص الإذن على هذا الجهاز|Couldn't check the permission on this device
