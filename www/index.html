@@ -903,6 +903,8 @@ function streakDates(){
   const byDate={};
   S.logs.forEach(l=>{ if(l.skipped) return; (byDate[l.date]=byDate[l.date]||[]).push(l); });
   Object.keys(byDate).forEach(d=>{ const L=byDate[d]; if(L.some(l=>l.kind==='quick'||l.kind==='rapidq') || L.some(l=>l.dayComplete)) set.add(d); });
+  // أيام التمرين قبل التطبيق (أدخلها المستخدم): أيام متتالية تنتهي في آخر يوم تمرّن فيه
+  const pr=S.prior; if(pr&&pr.days>0&&pr.until) for(let i=0;i<pr.days;i++) set.add(addDays(pr.until,-i));
   return set;
 }
 function streak(){
@@ -1233,7 +1235,9 @@ function startL10n(){
   document.title=trText(document.title); l10n(document.body);
   new MutationObserver(ms=>{ for(const m of ms){ if(m.type==='characterData') l10n(m.target); else m.addedNodes.forEach(nd=>l10n(nd)); } }).observe(document.body,{childList:true,subtree:true,characterData:true});
 }
-function wrapLN(ln){ if(!ln) return ln; const tr=n=>Object.assign({},n,{title:T(n.title),body:T(n.body)});
+/* كل التذكيرات غير دقيقة (isExactNotification:false): مكتبة الإشعارات 8 تعتبرها دقيقة افتراضيًا فتفتح شاشة
+   «المنبهات والتذكيرات» عند كل جدولة، وهذا الإذن أُزيل لأن Google Play يقيّده — فتعلق الشاشة. غير الدقيقة تصل بتأخير دقائق قليلة فقط. */
+function wrapLN(ln){ if(!ln) return ln; const tr=n=>Object.assign({},n,{title:T(n.title),body:T(n.body),isExactNotification:false,isExactMandatory:false});
   return new Proxy(ln,{get(t,k){ const f=t[k];
     if(k==='schedule') return o=>f.call(t,Object.assign({},o,{notifications:(o.notifications||[]).map(tr)}));
     if(k==='createChannel') return o=>f.call(t,Object.assign({},o,{name:T(o.name)}));
@@ -2361,10 +2365,10 @@ function renderProg(){
   <div class="card"><h3>المرحلة الحالية: ${plan.phase.name}</h3><p class="small muted">${plan.phase.goal} · الأيام ${plan.phase.from}–${plan.phase.to}</p>
   <div class="pbar"><i style="width:${(S.progDay-plan.phase.from+1)/(plan.phase.to-plan.phase.from+1)*100}%"></i></div>
   <div class="row small muted" style="margin-top:10px"><span>أفضل سلسلة: ${bestStreak()} يوم</span></div></div>
-  <h2>الإنجازات</h2><div class="grid3">${ACH.map(([k,e,n])=>`<div class="ach ${S.ach[k]?'':'off'}"><span class="e">${achIc(e)}</span>${n}</div>`).join('')}</div>
+  <div class="sec"><h2>الإنجازات</h2><button class="linkbtn" id="priorP" style="width:auto;margin:0">${S.prior&&S.prior.days?'تمارينك السابقة: '+S.prior.days+' يومًا':'+ أضف تمارينك السابقة'}</button></div><div class="grid3">${ACH.map(([k,e,n])=>`<div class="ach ${S.ach[k]?'':'off'}"><span class="e">${achIc(e)}</span>${n}</div>`).join('')}</div>
   <h2>خريطة البرنامج</h2>${PHASES.map(p=>`<div class="card" style="padding:12px 14px;${p.n===plan.phase.n?'border-color:var(--accent)':''}"><div class="row" style="justify-content:space-between"><b>${p.n}. ${p.name}</b><span class="small muted" style="text-align:left">${p.from}–${p.to}</span></div><p class="small muted" style="margin:0">${p.goal}</p></div>`).join('')}`;
   const pT=$('#pT'); if(pT) pT.onclick=()=>startTest();
-  const wg=$('#wkGo'); if(wg) wg.onclick=wkSheet; bindWalk();
+  const wg=$('#wkGo'); if(wg) wg.onclick=wkSheet; bindWalk(); const pp=$('#priorP'); if(pp) pp.onclick=priorSheet;
 }
 
 /* ============ الدفعة الأولى: الفحص الأسبوعي، جدول التوقعات، الحركة الذكية، عصرة ما بعد التبول، عوامل الانتصاب ============
@@ -2730,6 +2734,30 @@ function prepSheet(){
     m.querySelector('#ppX').onclick=close; m.querySelector('#ppGo').onclick=()=>{ close(); startSession('relax',{min:3}); }; });
 }
 
+/* تمارين قبل التطبيق: تدخل في السلسلة وإنجازات الأيام، ويمكن نقل المستخدم لليوم المناسب في البرنامج.
+   لا تُضاف جلسات أو تكرارات وهمية: التقارير والدقائق تبقى من التسجيل الفعلي فقط. */
+function priorSheet(){
+  const pr=S.prior||{days:0,until:addDays(today(),-1)};
+  modal(`<form id="prF" novalidate aria-labelledby="prH"><h3 id="prH">تمارينك قبل التطبيق</h3>
+    <p class="small muted" style="margin-top:-4px">إن كنت تتمرّن قبل تثبيت Vigoris، أدخل عدد الأيام وآخر يوم تمرّنت فيه.</p>
+    <div class="set"><label for="prD">عدد الأيام المتتالية</label><input type="number" id="prD" min="0" max="365" inputmode="numeric" value="${pr.days||''}" placeholder="مثال: 30"></div>
+    <div class="set"><label for="prU">آخر يوم تمرّنت فيه</label><input type="date" id="prU" max="${today()}" value="${pr.until}"></div>
+    <label class="chk"><input type="checkbox" id="prJ" ${S.progDay<=1||!S.prior?'checked':''}> انقلني في البرنامج إلى اليوم المناسب</label>
+    <p class="small muted">تُحسب هذه الأيام في السلسلة وإنجازات الأيام. أما عدد الجلسات والتكرارات وتقرير الطبيب فتبقى من تسجيلك الفعلي فقط. إن انتقلت في البرنامج، أجرِ اختبار القوة لنضبط الشدة على قوتك الحالية.</p>
+    <div class="btnrow"><button class="btn accent" type="submit">حفظ</button>${S.prior&&S.prior.days?'<button class="btn ghost" type="button" id="prDel">حذف</button>':'<button class="btn ghost" type="button" id="prX">إلغاء</button>'}</div></form>`,(m,close)=>{
+    const x=m.querySelector('#prX'); if(x) x.onclick=close;
+    const del=m.querySelector('#prDel'); if(del) del.onclick=()=>{ S.prior=null; save(); close(); toast('حُذفت التمارين السابقة'); render(); };
+    m.querySelector('#prF').onsubmit=e=>{ e.preventDefault();
+      const days=Math.max(0,Math.min(365,parseInt(m.querySelector('#prD').value,10)||0)), until=m.querySelector('#prU').value||addDays(today(),-1);
+      if(!days){ toast('أدخل عدد الأيام'); return; } if(until>today()){ toast('آخر يوم لا يكون في المستقبل'); return; }
+      S.prior={days,until,set:today()};
+      let moved='';
+      if(m.querySelector('#prJ').checked){ const target=Math.min(180,days+1); if(target>S.progDay){ S.progDay=target; moved=' وانتقلت إلى اليوم '+target; } }
+      const fresh=checkAch(); save(); close(); updateWidget(); reschedule();
+      toast('حُفظت '+days+' يومًا'+moved+(fresh.length?' — إنجازات جديدة: '+fresh.map(f=>f[1]).join('، '):'')); render(); };
+  });
+}
+
 /* ============ التعليم ============ */
 const ARTICLES=[
   ['اعثر على عضلاتك',`${IMG('anatomy')}<div class="pair"><figure>${IMG('squeeze')}<figcaption>انقباض</figcaption></figure><figure>${IMG('relax')}<figcaption>استرخاء</figcaption></figure></div><p>عضلات قاع الحوض عضلات لا تراها، لكنك تستخدمها يوميًا. تمتد كالأرجوحة من عظم العانة في الأمام إلى عظم العصعص في الخلف، وتحمل المثانة والأمعاء.</p><p><b>لتجدها:</b> أثناء التبول حاول إيقاف التدفق في منتصفه — العضلات التي تشدّها هي المطلوبة. هذه الطريقة للتعرف فقط؛ لا تمارس التمرين أثناء التبول بانتظام. طريقة أخرى: تخيّل أنك تمنع خروج الغازات واضغط العضلات المسؤولة عن ذلك.</p>${IMG('posture','sm')}<p><b>للتأكد:</b> تنفّس بحرية، ولا تشدّ بطنك أو فخذيك أو أردافك. إن انقبضت هذه العضلات فأنت تضغط خطأ.</p>`],
@@ -2853,6 +2881,7 @@ function renderSettings(){
    <div class="set"><label for="fsz">حجم الخط</label><select id="fsz">${[['n','عادي'],['l','كبير'],['x','كبير جدًا']].map(([k,n])=>`<option value="${k}" ${(S.fs||'n')===k?'selected':''}>${n}</option>`).join('')}</select></div></div>
   <h2>البرنامج</h2><div class="card">
    <div class="set"><span>اليوم الحالي</span><b>${S.progDay} / 180</b></div>
+   <div class="set"><span>تمارينك قبل التطبيق<br><span class="small muted">${S.prior&&S.prior.days?S.prior.days+' يومًا حتى '+S.prior.until+' — محسوبة في السلسلة والإنجازات':'أضف الأيام التي تمرّنت فيها قبل تثبيت Vigoris'}</span></span><button class="btn ghost sm" id="priorGo">${S.prior&&S.prior.days?'تعديل':'إضافة'}</button></div>
    <div class="set"><span>العودة يومًا للخلف</span><button class="btn ghost sm" id="back1">−1 يوم</button></div>
   </div>
   <h2>الخصوصية</h2><div class="card">
@@ -2898,7 +2927,7 @@ function renderSettings(){
   $('#fsz').onchange=e=>{ S.fs=e.target.value; save(); render(); };
   on('#hcS',async()=>{ if(S.hc.on){ await hcSync(true); toast('تم التحديث'); render(); } else hcConnect(); });
   on('#hcSet',()=>{ HCP.openHealthConnectSettings().catch(()=>{}); });
-  on('#ancGo',anchorsSheet); on('#mwOn',()=>{ S.mealWalk=!S.mealWalk; save(); reschedule(); render(); });
+  on('#ancGo',anchorsSheet); on('#priorGo',priorSheet); on('#mwOn',()=>{ S.mealWalk=!S.mealWalk; save(); reschedule(); render(); });
   on('#edOn',()=>{ S.edOpt=S.edOpt===true?false:true; if(S.edOpt===false) wkList().forEach(x=>{ x.ehs=null; x.morn=null; }); save(); toast(S.edOpt?'فُعّلت الأسئلة':'أُوقفت الأسئلة وحُذفت إجاباتها'); render(); });
   on('#wdOn',()=>{ S.wDiscreet=!S.wDiscreet; save(); updateWidget(); render(); });
   on('#lkOn',toggleLock); on('#bkE',exportBackup); on('#ppol',privacySheet);
@@ -3289,6 +3318,7 @@ function reportText(days,doctor){
   let w=0,wc=0; for(let i=0;i<days;i++){ const v=S.waterLog[addDays(today(),-i)]; if(v!==undefined){ w+=v; wc++; } }
   const L1=[`تقرير «Vigoris» ${doctor?'للطبيب':'الأسبوعي'}${nm()?' — '+nm():''}`,`الفترة: ${from} إلى ${today()} (${days} يومًا)`,...(doctor?profSummary():[]),''];
   L1.push(`• تمارين قاع الحوض: ${kg.length} جلسة، ${Math.round(kg.reduce((a,l)=>a+(l.dur||0),0)/60)} دقيقة. المستوى: ${LV_NAME[curLevel()]}${S.test?` (آخر اختبار ${S.test.date}: ثبات ${S.test.hold} ث، ${S.test.flicks} انقباضة سريعة)`:''}.`);
+  if(S.prior&&S.prior.days) L1.push(T('• تمارين قبل التطبيق (أدخلها المستخدم):')+' '+S.prior.days+' '+T('يومًا حتى')+' '+S.prior.until+'.');
   if(S.diabetes){
     L1.push(g?`• السكر: ${g.n} قراءة، المتوسط ${gfmt(g.avg)} ${GU()}، ضمن ${gfmt(70)}–${gfmt(180)}: ${Math.round(g.tir*100)}%، انخفاضات أقل من ${gfmt(70)}: ${g.low}، أعلى من ${gfmt(250)}: ${g.high}.`:'• السكر: لا قراءات مسجلة في الفترة.');
     if(a1) L1.push(`• التراكمي HbA1c: ${a1.v}% بتاريخ ${a1.date}${S.a1c.length>1?` (السابق ${S.a1c[S.a1c.length-2].v}%)`:''}.`);

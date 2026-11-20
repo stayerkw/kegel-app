@@ -81,6 +81,10 @@ async def main():
         r = await pg.evaluate("(async()=>{ window.__pendW=[]; return await pullWidgetWater(); })()")
         check('الويدجت: لا شيء معلّق = لا تغيير', r is False, r)
 
+        # الإشعارات: كلها غير دقيقة حتى لا تفتح مكتبة الإشعارات شاشة «المنبهات والتذكيرات» (الإذن مُزال)
+        r = await pg.evaluate("(async()=>{ S.remindersOn=true; S.water.on=true; S.knackOn=true; await scheduleReminders(); const L=window.__sched; return [L.length, L.every(n=>n.isExactNotification===false&&n.isExactMandatory===false)]; })()")
+        check('الإشعارات: كل التذكيرات غير دقيقة (لا تطلب إذن المنبهات)', r[0] > 10 and r[1], r)
+
         # 9) لا حيلة تعليقات HTML في القوالب
         r = await pg.evaluate("document.documentElement.outerHTML.includes(\"'<!--'\")")
         check('تنظيف: لا إخفاء بالتعليقات', not r)
