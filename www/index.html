@@ -1235,7 +1235,9 @@ function startL10n(){
   document.title=trText(document.title); l10n(document.body);
   new MutationObserver(ms=>{ for(const m of ms){ if(m.type==='characterData') l10n(m.target); else m.addedNodes.forEach(nd=>l10n(nd)); } }).observe(document.body,{childList:true,subtree:true,characterData:true});
 }
-function wrapLN(ln){ if(!ln) return ln; const tr=n=>Object.assign({},n,{title:T(n.title),body:T(n.body)});
+/* كل التذكيرات غير دقيقة (isExactNotification:false): مكتبة الإشعارات 8 تعتبرها دقيقة افتراضيًا فتفتح شاشة
+   «المنبهات والتذكيرات» عند كل جدولة، وهذا الإذن أُزيل لأن Google Play يقيّده — فتعلق الشاشة. غير الدقيقة تصل بتأخير دقائق قليلة فقط. */
+function wrapLN(ln){ if(!ln) return ln; const tr=n=>Object.assign({},n,{title:T(n.title),body:T(n.body),isExactNotification:false,isExactMandatory:false});
   return new Proxy(ln,{get(t,k){ const f=t[k];
     if(k==='schedule') return o=>f.call(t,Object.assign({},o,{notifications:(o.notifications||[]).map(tr)}));
     if(k==='createChannel') return o=>f.call(t,Object.assign({},o,{name:T(o.name)}));
