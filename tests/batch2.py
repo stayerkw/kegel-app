@@ -88,6 +88,16 @@ async def main():
         # نافذة التمارين الأخرى
         await pg.evaluate("tab='home';render()"); await pg.click('#qMore'); await pg.wait_for_timeout(200)
         check('التمارين الأخرى: الدقيقة والصوتية والإرخاء والعادات', await pg.evaluate("['#q1','#qA','#qR','#qH','#qC','#q2','#qB'].every(i=>document.querySelector(i))"))
+        # تمارين قبل التطبيق: تدخل في السلسلة والإنجازات وتنقل لليوم المناسب، بلا جلسات وهمية
+        await pg.evaluate("document.querySelectorAll('dialog[open]').forEach(d=>d.close()); S.logs=[]; S.ach={}; S.progDay=1; S.prior=null; tab='set'; render()")
+        await pg.click('#priorGo'); await pg.wait_for_timeout(200)
+        await pg.fill('#prD', '30'); await pg.evaluate("document.querySelector('#prU').value=addDays(today(),-1)")
+        await pg.click('#prF button[type=submit]'); await pg.wait_for_timeout(300)
+        r = await pg.evaluate("[streak(), bestStreak(), !!S.ach.s30, S.progDay, totalSessions()]")
+        check('تمارين سابقة: 30 يومًا ← سلسلة 30 + إنجاز 30 يومًا + اليوم 31 + بلا جلسات وهمية', r == [30, 30, True, 31, 0], r)
+        check('تمارين سابقة: تظهر في تقرير الطبيب كبيانات أدخلها المستخدم', 'أدخلها المستخدم' in await pg.evaluate("reportText(30,true)"))
+        await pg.evaluate("tab='prog';render()"); await pg.click('#priorP'); await pg.wait_for_timeout(200); await pg.click('#prDel'); await pg.wait_for_timeout(200)
+        check('تمارين سابقة: الحذف يلغيها من السلسلة', await pg.evaluate("S.prior===null&&streak()===0"))
         check('بلا أخطاء', not pg.errs, pg.errs)
         await pg.close(); await b.close()
     bad = [n for n, ok in results if not ok]

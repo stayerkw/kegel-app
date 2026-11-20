@@ -130,3 +130,9 @@ ADA — Standards of Care in Diabetes {n}، القسم {n}|ADA — Standards of 
 {s}: جلسة الدقيقة|{s}: one-minute session
 رجعنا من اليوم {n} إلى اليوم {n} لأن الجلسات كانت صعبة|Moved back from day {n} to day {n} because sessions were hard
 تقدّمت إلى اليوم {n}: جلساتك سهلة، والتزامك جيد، ولا ألم|Advanced to day {n}: easy sessions, good consistency, no pain
+{n} يومًا حتى {n}-{n}-{n} — محسوبة في السلسلة والإنجازات|{n} days until {n}-{n}-{n} — counted in your streak and achievements
+تمارينك السابقة: {n} يومًا|Past training: {n} days
+حُفظت {n} يومًا|Saved {n} days
+حُفظت {n} يومًا وانتقلت إلى اليوم {n}|Saved {n} days and moved to day {n}
+حُفظت {n} يومًا — إنجازات جديدة: {s}|Saved {n} days — new achievements: {s}
+حُفظت {n} يومًا وانتقلت إلى اليوم {n} — إنجازات جديدة: {s}|Saved {n} days and moved to day {n} — new achievements: {s}

@@ -939,3 +939,18 @@ NIH — Clinical Methods: Impotence (الانتصاب الصباحي في الت
 الإشعارات مسموحة — أُعيدت جدولة تذكيراتك|Notifications are allowed — your reminders were rescheduled
 الإشعارات مرفوضة: افتح إعدادات الجوال ← التطبيقات ← Vigoris ← الإشعارات، وفعّلها|Notifications are blocked: open phone Settings → Apps → Vigoris → Notifications and turn them on
 تعذّر فحص الإذن على هذا الجهاز|Couldn't check the permission on this device
+تمارينك قبل التطبيق|Your training before the app
+أضف الأيام التي تمرّنت فيها قبل تثبيت Vigoris|Add the days you trained before installing Vigoris
+إضافة|Add
++ أضف تمارينك السابقة|+ Add your past training
+إن كنت تتمرّن قبل تثبيت Vigoris، أدخل عدد الأيام وآخر يوم تمرّنت فيه.|If you trained before installing Vigoris, enter the number of days and your last training day.
+عدد الأيام المتتالية|Number of consecutive days
+آخر يوم تمرّنت فيه|Your last training day
+انقلني في البرنامج إلى اليوم المناسب|Move me to the matching day in the program
+تُحسب هذه الأيام في السلسلة وإنجازات الأيام. أما عدد الجلسات والتكرارات وتقرير الطبيب فتبقى من تسجيلك الفعلي فقط. إن انتقلت في البرنامج، أجرِ اختبار القوة لنضبط الشدة على قوتك الحالية.|These days count toward your streak and day achievements. Session and rep counts and the doctor report stay based on what you actually log. If you move ahead in the program, take the strength test so we match the intensity to your current strength.
+حذف|Delete
+حُذفت التمارين السابقة|Past training removed
+أدخل عدد الأيام|Enter the number of days
+آخر يوم لا يكون في المستقبل|The last day can't be in the future
+• تمارين قبل التطبيق (أدخلها المستخدم):|• Training before the app (entered by the user):
+يومًا حتى|days until
