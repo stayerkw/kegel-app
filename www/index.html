@@ -853,17 +853,19 @@ function planFor(day){
 const PAT_NAME={minute:'جلسة الدقيقة',walk:'امشِ واشدّ',relax:'الإرخاء',control:'التحكم',breath:'التنفّس',classic:'كلاسيكي',steps:'السلّم',rapid:'النيران السريعة',hold:'الثبات الطويل',elevator:'المصعد'};
 
 /* بناء الجدول الزمني للجلسة */
+/* مدة الثبات في الجلسات الإضافية لا تتجاوز ما يناسب ثباتك الفعلي إن كان أقل من 3 ث */
+const holdCap=def=>{ const pl=planFor(S.progDay); return pl.weak?Math.min(def,pl.sq+1):def; };
 function buildSession(kind,plan,idx){
   const steps=[]; let reps, title, pattern;
   const add=(t,d,rep,lbl)=>steps.push({t,d,rep,lbl});
   if(kind==='control'){ pattern='control'; reps=4; title='تمرين التحكم — دقيقتان';
-    for(let r=1;r<=reps;r++){ for(let q=0;q<5;q++){add('sq',1,r);add('rl',1,r);} add('sq',10,r,'hold'); add('rl',10,r); } }
+    for(let r=1;r<=reps;r++){ for(let q=0;q<5;q++){add('sq',1,r);add('rl',1,r);} add('sq',holdCap(10),r,'hold'); add('rl',Math.max(4,holdCap(10)),r); } }
   else if(kind==='breath'){ pattern='breath'; const b=breathPlan(); reps=b.reps; title='تنفّس القلب — '+S.br.min+' دقائق · '+S.br.bpm+' نَفَس/د';
     for(let r=1;r<=reps;r++){add('in',b.ti,r);add('out',b.te,r);} }
-  else if(kind==='quick'){ pattern='classic'; reps=6; title='جلسة سريعة — دقيقة واحدة';
-    for(let r=1;r<=reps;r++){add('sq',5,r);add('rl',5,r);} }
+  else if(kind==='quick'){ pattern='classic'; reps=6; title='جلسة سريعة — دقيقة واحدة'; const qh=holdCap(5);
+    for(let r=1;r<=reps;r++){add('sq',qh,r);add('rl',Math.max(4,qh),r);} }
   else if(kind==='minute'){ pattern='minute'; reps=4; title='جلسة الدقيقة';
-    for(let r=1;r<=reps;r++){ for(let q=0;q<3;q++){add('sq',1,r);add('rl',1,r);} add('sq',5,r,'hold'); add('rl',5,r); } }
+    for(let r=1;r<=reps;r++){ for(let q=0;q<3;q++){add('sq',1,r);add('rl',1,r);} add('sq',holdCap(5),r,'hold'); add('rl',Math.max(4,holdCap(5)),r); } }
   else if(kind==='walk'){ pattern='walk'; reps=20; title='امشِ واشدّ — 4 دقائق';
     for(let r=1;r<=reps;r++){add('sq',3,r,'walk');add('rl',9,r);} }
   else if(kind==='relax'){ pattern='relax'; const mins=(plan&&plan.min)||4; reps=mins*6; title='جلسة الإرخاء — '+mins+' دقائق';
@@ -2955,12 +2957,19 @@ const testDue=()=>!S.test||dayDiff(S.test.date,today())>=14;
 function prescribe(p,t){
   const lv=curLevel(); p.lv=lv; p.flicks=30; p.pos=posFor(lv);
   if(S.test){
-    const h=Math.max(3,Math.min(10,Math.round(S.test.hold)));
-    p.sq=p.light?Math.max(3,h-2):h; p.rl=Math.max(4,p.sq); p.reps=p.light?8:Math.round(8+4*t); p.n=3;
-    p.flicks=Math.max(6,Math.min(30,Math.round(S.test.flicks))); p.holdSec=Math.max(8,Math.min(30,Math.round(S.test.hold*1.5)));
+    // مدة الشد تبدأ من ثباتك الفعلي في الاختبار حتى لو كان ثانية واحدة — لا حد أدنى يفرض التعويض بالأرداف أو حبس النفس
+    const raw=Math.max(1,Math.min(10,Math.round(S.test.hold)));
+    // من ثباته أقل من 3 ث: تزيد ثانية كل أسبوع منذ الاختبار حتى 3 ث (ثم يرفعها الاختبار التالي)
+    const wks=Math.max(0,Math.floor(dayDiff(S.test.date,today())/7)), h=raw<3?Math.min(3,raw+wks):raw;
+    p.weak=raw<3;
+    p.sq=p.light?Math.max(1,h-(h>=5?2:1)):h; p.rl=Math.max(4,p.sq); p.reps=p.light?8:Math.round(8+4*t); p.n=3;
+    p.flicks=Math.max(6,Math.min(30,Math.round(S.test.flicks)));
+    p.holdSec=Math.max(p.weak?2:8,Math.min(30,Math.round(S.test.hold*1.5)));
     if(p.patterns.length<3) p.patterns=['classic','rapid','classic'];
+    // الأنماط الطويلة (المصعد 9 ث، الثبات الطويل، السلّم حتى 3 ث) لا تناسب ثباتًا أقل من 3 ث: كلاسيكي قصير وانقباضات سريعة
+    if(p.weak) p.patterns=p.patterns.map(x=>x==='elevator'||x==='hold'||x==='steps'?'classic':x);
     // التركيز على النوع الأضعف في اختبار القوة
-    const w=weakType(); if(w&&p.n===3&&!p.patterns.includes(w)){ p.patterns=p.patterns.slice(); p.patterns[1]=w; p.focus=w; }
+    const w=weakType(); if(w&&!(p.weak&&w==='hold')&&p.n===3&&!p.patterns.includes(w)){ p.patterns=p.patterns.slice(); p.patterns[1]=w; p.focus=w; }
   }
   if(p.n===2) p.pos=[p.pos[0],p.pos[2]];
   return p;
