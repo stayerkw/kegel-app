@@ -85,6 +85,14 @@ async def main():
         r = await pg.evaluate("(async()=>{ S.remindersOn=true; S.water.on=true; S.knackOn=true; await scheduleReminders(); const L=window.__sched; return [L.length, L.every(n=>n.isExactNotification===false&&n.isExactMandatory===false)]; })()")
         check('الإشعارات: كل التذكيرات غير دقيقة (لا تطلب إذن المنبهات)', r[0] > 10 and r[1], r)
 
+        # ثبات ضعيف (ثانية): الخطة تبدأ من ثباته الفعلي وتزيد ثانية أسبوعيًا حتى 3، بلا أنماط طويلة
+        r = await pg.evaluate("""(()=>{ const o=[]; S.progDay=120;
+          S.test={date:today(),hold:1,flicks:8}; let pl=planFor(S.progDay); o.push(pl.sq, pl.patterns.some(x=>['elevator','hold','steps'].includes(x)), buildSession('control').steps.find(x=>x.lbl==='hold').d);
+          S.test={date:addDays(today(),-8),hold:1,flicks:8}; o.push(planFor(S.progDay).sq);
+          S.test={date:addDays(today(),-30),hold:1,flicks:8}; o.push(planFor(S.progDay).sq);
+          S.test={date:today(),hold:8,flicks:14}; o.push(planFor(S.progDay).sq); S.test=null; S.progDay=10; return o; })()""")
+        check('ثبات ثانية: 1 ث ← 2 بعد أسبوع ← 3 حدًا، بلا أنماط طويلة، والقوي كما هو', r == [1, False, 2, 2, 3, 8], r)
+
         # 9) لا حيلة تعليقات HTML في القوالب
         r = await pg.evaluate("document.documentElement.outerHTML.includes(\"'<!--'\")")
         check('تنظيف: لا إخفاء بالتعليقات', not r)
