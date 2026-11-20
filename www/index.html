@@ -2775,7 +2775,7 @@ function renderSettings(){
    <div class="set"><span>التذكير الذكي<br><span class="small muted">يتعلّم أوقات تمرينك الفعلية ويذكّرك قبلها</span></span>${sw('smartRem',S.smartRem)}</div>
    ${S.smartRem?`<div class="set"><span class="small muted">المواعيد المستخدمة الآن</span><span class="small">${effectiveTimes().map(x=>x.t+(x.learned?'<span class="tag">متعلَّم</span>':'')).join('<br>')}</span></div>`:''}
    <div class="set"><span class="small muted">${isNative?'تُجدول على جوالك وتصلك حتى والتطبيق مغلق.':'الإشعارات تعمل في نسخة تطبيق الجوال.'}</span>${isNative?'<button class="btn ghost sm" id="testN">تجربة إشعار</button>':''}</div>
-   ${isNative?'<div class="set"><span class="small muted">إن تأخرت الإشعارات: اسمح بـ«المنبهات والتذكيرات» للتطبيق.</span><button class="btn ghost sm" id="exact">فتح الإذن</button></div>':''}
+   ${isNative?'<div class="set"><span class="small muted">لم تصلك التذكيرات؟ تأكد أن إشعارات Vigoris مسموحة. (التذكيرات قد تتأخر دقائق قليلة لتوفير البطارية.)</span><button class="btn ghost sm" id="exact">فحص الإذن</button></div>':''}
   </div>
   <h2>شرب الماء</h2><div class="card">
    <div class="set"><span>تذكير شرب الماء</span><button class="sw ${S.water.on?'on':''}" id="wOn" aria-pressed="${S.water.on}"></button></div>
@@ -2905,7 +2905,10 @@ function renderSettings(){
   $('#bkF').onchange=e=>{ importBackup(e.target.files[0]); e.target.value=''; };
   $('#back1').onclick=()=>{ if(S.progDay>1){ S.progDay--; S.dayDoneOn=null; save(); render(); } };
   const tn=$('#testN'); if(tn) tn.onclick=async()=>{ await notifPermission(); try{ await LN.createChannel({id:'training',name:'تذكير التمارين',importance:5,vibration:true}); }catch(e){} await LN.schedule({notifications:[{id:9,title:'تجربة إشعار',body:'هكذا ستصلك تذكيرات التمرين.',schedule:{at:new Date(Date.now()+5000),allowWhileIdle:true},channelId:'training',smallIcon:'ic_stat_notify'}]}); toast('سيصلك إشعار تجريبي بعد 5 ثوانٍ'); };
-  const ex=$('#exact'); if(ex) ex.onclick=async()=>{ try{ await LN.changeExactNotificationSetting(); }catch(e){ toast('غير متاح على هذا الجهاز'); } };
+  // إذن الإشعارات الفعلي (لا المنبّهات الدقيقة: أُزيلت لأن Google Play يقيّدها والتذكيرات تعمل بدونها)
+  const ex=$('#exact'); if(ex) ex.onclick=async()=>{ try{ let p=await LN.checkPermissions(); if(p.display!=='granted') p=await LN.requestPermissions();
+    if(p.display==='granted'){ await scheduleReminders(); toast('الإشعارات مسموحة — أُعيدت جدولة تذكيراتك'); }
+    else toast('الإشعارات مرفوضة: افتح إعدادات الجوال ← التطبيقات ← Vigoris ← الإشعارات، وفعّلها'); }catch(e){ toast('تعذّر فحص الإذن على هذا الجهاز'); } };
   $('#wipe').onclick=()=>modal(`<h3>حذف كل البيانات؟</h3><p class="muted small">سيُحذف تقدّمك وإنجازاتك وسجلّك نهائيًا من هذا الجهاز.</p><button class="btn" id="yes" style="background:var(--danger);color:#fff">نعم، احذف</button><div style="height:8px"></div><button class="btn ghost" id="no">إلغاء</button>`,
     (m,close)=>{ m.querySelector('#no').onclick=close; m.querySelector('#yes').onclick=async()=>{ close(); S=Object.assign({},DEF,{logs:[],ach:{},reminders:['07:00','13:00','21:00'],water:defWater(),waterLog:{},heart:defHeart(),heartLog:{},smoke:defSmoke(),smokeLog:{},smokeManual:null}); ob={step:0,goals:new Set(),q:[null,null,null],flip:{}}; save(); if(LN){ try{const p=await LN.getPending(); if(p.notifications.length) await LN.cancel({notifications:p.notifications.map(n=>({id:n.id}))});}catch(e){} } render(); }; });
 }
