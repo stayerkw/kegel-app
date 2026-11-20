@@ -497,9 +497,8 @@ body.immersive.ph-sq #lvH,body.immersive.ph-hold #lvH,body.immersive.ph-e3 #lvH{
 .dim-veil small{font-size:12px;color:#253246;margin-top:24px}
 .dim-veil:focus{outline:none}
 /* الفيديو الطبي في شاشة التمرين */
-.med-stage{background:#071A2E;width:100%;max-width:720px;margin:2px auto 0;aspect-ratio:720/412;border-radius:18px;overflow:hidden;position:relative}
-.med-stage video{display:block;width:100%;height:100%;object-fit:contain;background:#071A2E;pointer-events:none}
-.med-stage video::-webkit-media-controls{display:none!important}
+.med-stage{background:#071A2E;width:100%;max-width:720px;margin:2px auto 0;aspect-ratio:480/274;border-radius:18px;overflow:hidden;position:relative}
+.med-stage canvas{display:block;width:100%;height:100%;object-fit:contain;background:#071A2E}
 /* هالة بيضاء خافتة جدًا خلف العدّاد حتى يبقى الرقم و«ثانية» واضحين */
 
 body.immersive .count{text-shadow:0 2px 10px rgba(0,0,0,.45)}
@@ -616,8 +615,8 @@ body.ph-ready .sess .ring-comet{opacity:0}
 .sess .btn.ghost{background:rgba(255,255,255,.055);color:#F0F9FF;border:1px solid rgba(255,255,255,.10)}
 .sess .pocket-tip{text-align:center;font-size:12px;color:#8BB2C9;margin:2px 0 0;opacity:.85}
 /* الشاشات القصيرة: كل عناصر التمرين في شاشة واحدة بلا تمرير */
-@media (max-height:800px){.sess{gap:4px}.sess .orb-stage{--orb:224px}.sess .hint{min-height:0;font-size:13px}.sess .med-stage{aspect-ratio:auto}.sess .med-stage video{max-height:150px}.sess .anat-svg{height:88px}}
-@media (max-height:700px){.sess .orb-stage{--orb:190px}.sess .pocket-tip{display:none}.sess .med-stage{aspect-ratio:auto}.sess .med-stage video{max-height:112px}.sess .anat-svg{height:70px}.sess .anat-card{padding:8px 12px 6px}.sess .phase{font-size:21px}.sess .btn{min-height:46px}.sess .next-pill{margin-top:2px}.sess .topbar .top-meta b{font-size:13px}}
+@media (max-height:800px){.sess{gap:4px}.sess .orb-stage{--orb:224px}.sess .hint{min-height:0;font-size:13px}.sess .med-stage{aspect-ratio:auto}.sess .med-stage canvas{max-height:150px}.sess .anat-svg{height:88px}}
+@media (max-height:700px){.sess .orb-stage{--orb:190px}.sess .pocket-tip{display:none}.sess .med-stage{aspect-ratio:auto}.sess .med-stage canvas{max-height:112px}.sess .anat-svg{height:70px}.sess .anat-card{padding:8px 12px 6px}.sess .phase{font-size:21px}.sess .btn{min-height:46px}.sess .next-pill{margin-top:2px}.sess .topbar .top-meta b{font-size:13px}}
 @media (max-height:600px){.sess .orb-stage{--orb:160px}.sess .phase-chip{display:none}.sess .anat-card{display:none}}
 @media (max-height:760px){body.immersive .art.sm{max-height:104px;width:auto;margin:0 auto;display:block}body.immersive h1.center{font-size:22px;margin:6px 0}}
 @media (prefers-reduced-motion:reduce){.sess .count.pop,.sess .orb-aura,.sess .anat-meter i,.sess .orb-stage.beat{animation:none!important;transition:none!important}}
@@ -2075,7 +2074,7 @@ function drawSession(){
     <div class="dial-core"><span class="phase-chip" id="phChip">استعد</span><div class="count" id="cnt">3</div><div class="sec-lbl">ثانية</div></div></section>
   ${R.s.pattern==='elevator'?'<div class="elv-bars" id="elvBars" aria-hidden="true"><i></i><i></i><i></i></div>':''}
   ${breath?'':`<section class="anat-card" aria-hidden="true"><div class="anat-head"><span>حركة عضلات قاع الحوض</span><b id="anatPct">استعداد</b></div>
-    ${isFem()?ANAT_SVG:`<div class="med-stage"><video id="medVideo" muted playsinline preload="auto" disablepictureinpicture disableremoteplayback tabindex="-1"><source src="img/kegel_m.mp4" type="video/mp4"></video></div>`}
+    ${isFem()?ANAT_SVG:`<div class="med-stage"><canvas id="medCanvas" width="${MED.w}" height="${MED.h}"></canvas></div>`}
     <div class="anat-meter"><i id="anatBar"></i></div></section>`}
   <section class="guide-box"><div class="phase" id="ph" role="status" aria-live="polite" aria-atomic="true">استعد</div><p class="hint" id="hint"></p>
     <span class="next-pill" id="nextPill" aria-hidden="true"></span></section>
@@ -2087,15 +2086,8 @@ function drawSession(){
   $('#sBtn').onclick=()=>askExit(true);
   $('#vBtn').onclick=()=>{ S.voice=!S.voice; save(); $('#vBtn').innerHTML=ic(S.voice?'volOn':'volOff'); };
   $('#dimBtn').onclick=dimOn;
-  // الفيديو لا يعمل تلقائيًا ولا يعيد التشغيل: موضعه يتبع العدّاد فقط
-  const mv=$('#medVideo'); if(mv){ mv.muted=true; mv.defaultMuted=true; mv.loop=false; mv.autoplay=false; mv.pause();
-    mv.addEventListener('play',()=>mv.pause()); mv.addEventListener('loadedmetadata',()=>{ if(R) updateSession(false); });
-    medVideoBlob().then(u=>{ if(u&&mv.isConnected&&mv.src!==u){ mv.src=u; mv.load(); } }); }
+  medLoad().then(()=>{ if(R) updateSession(false); });
 }
-/* التقديم الدقيق يحتاج ملفًا قابلًا للتقديم بالكامل: بعض الخوادم المحلية لا تدعم طلبات النطاق (Range)
-   فيبقى الفيديو عالقًا عند 0. نحمّل الملف (≈200 ك.ب) مرة واحدة إلى الذاكرة ونشغّله من رابط blob. */
-let _medBlob=null;
-function medVideoBlob(){ if(!_medBlob) _medBlob=fetch('img/kegel_m.mp4').then(r=>r.ok?r.blob():null).then(b=>b?URL.createObjectURL(b):null).catch(()=>null); return _medBlob; }
 /* الرسم التشريحي الزجاجي لقاع الحوض: ثلاث طبقات ألياف تتوهج وترتفع، وأسهم رفع، وعضو يرتفع (للنساء؛ وللرجال الفيديو الطبي) */
 const ANAT_SVG=`<svg class="anat-svg" viewBox="0 0 320 112"><defs>
   <linearGradient id="slingGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0E7490"/><stop offset=".5" class="og-a"/><stop offset="1" stop-color="#0E7490"/></linearGradient>
@@ -2129,14 +2121,18 @@ function updateAnat(fill,st){
 }
 // شارة المرحلة داخل القرص
 const PH_CHIP={ready:'استعد',sq:'انقباض',hold:'ثبات',rl:'إفلات',e1:'33% شد',e2:'66% شد',e3:'100% شد',in:'شهيق',out:'زفير'};
-/* موضع الفيديو الطبي = fill (0 استرخاء كامل ← 1 انقباض ورفع كامل) في كل الأنماط: الكلاسيكي والمصعد والثبات الطويل */
+/* الرسم الطبي المتحرك للرجال: 30 إطارًا من الفيديو في صورة واحدة (مستخرجة من kegel_m.mp4).
+   مشغّل الفيديو في أندرويد لا يرسم إطارًا وهو متوقف ولا يقدّم بدقة على كل الأجهزة، فنرسم الإطار بأنفسنا:
+   الإطار = fill × 29، مع مزج ناعم بين الإطارين المتجاورين — تزامن دقيق مع العدّاد في كل الأنماط. */
+const MED={src:'img/kegel_m_frames.webp',n:30,cols:5,w:480,h:274,img:null,p:null,f:-1};
+function medLoad(){ if(!MED.p) MED.p=new Promise(res=>{ const im=new Image(); im.decoding='async'; im.onload=()=>{ MED.img=im; res(im); }; im.onerror=()=>{ MED.p=null; res(null); }; im.src=MED.src; }); return MED.p; }
 function syncMedVideo(fill){
-  const video=document.getElementById('medVideo'); if(!video) return;
-  const duration=Number.isFinite(video.duration)&&video.duration>0?video.duration:4;
-  const t=Math.max(0,Math.min(duration-0.001,fill*duration));
-  // لا نطلب موضعًا جديدًا إلا إذا تغيّر بأكثر من ربع إطار (15 إطارًا/ث) — يمنع تراكم طلبات التقديم على WebView
-  if(video.readyState>=1&&Math.abs(video.currentTime-t)>0.016) video.currentTime=t;
-  if(!video.paused) video.pause();
+  const c=document.getElementById('medCanvas'); if(!c||!MED.img) return;
+  const x=Math.max(0,Math.min(1,fill))*(MED.n-1), i=Math.floor(x), a=x-i, key=Math.round(x*20);
+  if(c._k===key) return; c._k=key; c.dataset.f=x.toFixed(3);
+  const g=c.getContext('2d'), fr=k=>[(k%MED.cols)*MED.w,Math.floor(k/MED.cols)*MED.h];
+  g.globalAlpha=1; let [sx,sy]=fr(i); g.drawImage(MED.img,sx,sy,MED.w,MED.h,0,0,MED.w,MED.h);
+  if(a>0.02&&i+1<MED.n){ [sx,sy]=fr(i+1); g.globalAlpha=a; g.drawImage(MED.img,sx,sy,MED.w,MED.h,0,0,MED.w,MED.h); g.globalAlpha=1; }
 }
 /* وضع الجيب: شاشة سوداء تقريبًا (خصوصية + توفير بطارية OLED) والصوت والاهتزاز مستمران؛ لمسة واحدة للعودة */
 function dimOn(){ if(document.getElementById('dimV')) return;
